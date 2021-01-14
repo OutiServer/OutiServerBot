@@ -42,8 +42,7 @@ cron.schedule('0 0 0 * * *', () => {
   }
 })
 cron.schedule('* * * * *', () =>{
-  
-   client.channels.cache.get('798385215855656960').send(`うんこ鯖Botは正常に稼働しています`)
+  client.channels.cache.get('798385215855656960').send(`うんこ鯖Botは正常に稼働しています`);
 });
 
 async function textToSpeechReadableStream(text) {

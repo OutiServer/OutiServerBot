@@ -51,6 +51,9 @@ module.exports = async (client, message) => {
     client.setMoney.run(usermoneydata);
     client.setDebt.run(userdebtdata);
     client.setDaily.run(userdailydata);
+    if(message.channel.id === '798157114555105330' || message.channel.id === '798176065562476604' || message.channel.id === '798198069849227294' || message.channel.id === '798570749136601158' || message.channel.id === '798486503255834664' || message.channel.id === '798186469516116028' || message.channel.id === '798571746730049597' || message.channel.id === '798191278369931265' || message.channel.id === '798500844579586048'){
+      message.member.roles.add('798533393448960020');
+    }
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
     let result;
     while ((result = URL_PATTERN.exec(message.content)) !== null) {
