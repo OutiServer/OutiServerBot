@@ -33,10 +33,6 @@ module.exports = {
         if (!usermoneydata) {
             usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0 }
         } 
-        let usercointosssettingsdata = client.getCointosssettings.get(message.author.id, message.guild.id);
-        if (!usercointosssettingsdata) {
-            usercointosssettingsdata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, magnification: 2, dividend: 2 }
-        } 
         let cointossMenu = new Menu(message.channel, message.author.id, [
             {
                 name: 'main',
@@ -72,44 +68,36 @@ module.exports = {
         ], 60000)
         cointossMenu.start()
         cointossMenu.on('pageChange', async destination => {
-          let coin = Math.ceil( Math.random() * usercointosssettingsdata.magnification);
-          let Win = Stake * usercointosssettingsdata.dividend;
+          const emojis = ['<:swordthonk:798179606166634516>', '<:swordthinkblue:798179591582908446>'];
+          let coin = Math.ceil( Math.random() * emojis.length);
+          let Win = Stake * 3;
           let Lose = Stake * 4;
           const embed = new MessageEmbed()
           .setTitle('コイントスの結果')
           .setColor('RAMDOM')
           .setTimestamp();
           if (destination.name === "front") {
-              if(coin === 1){
+              if(coin === 0){
                   usermoneydata.money += Win;
-                  usercointosssettingsdata.dividend += 2;
-                  usercointosssettingsdata.magnification = usercointosssettingsdata.magnification * 2;
                   embed.setDescription(`表 <:swordthonk:798179606166634516> 当たり！\n${Win}うんコイン獲得！`);
              }
              else{
                 usermoneydata.money -= Lose;
-                usercointosssettingsdata.dividend  = 2;
-                usercointosssettingsdata.magnification = 2;
                 embed.setDescription(`裏 <:swordthinkblue:798179591582908446> ハズレ\n${Lose}うんコイン消失！`);
              }
           }
           else if (destination.name === "back") {
             if(coin === 1){
                 usermoneydata.money += Win;
-                usercointosssettingsdata.dividend += 2;
-                usercointosssettingsdata.magnification = usercointosssettingsdata.magnification * 2;
                 embed.setDescription(`裏 <:swordthinkblue:798179591582908446> 当たり！\n${Win}うんコイン獲得！`);
             }
             else{
                 usermoneydata.money -= Lose;
-                usercointosssettingsdata.dividend  = 2;
-                usercointosssettingsdata.magnification = 2;
               embed.setDescription(`表 <:swordthonk:798179606166634516> ハズレ\n${Lose}うんコイン消失！`);
             }
         　 }
         message.channel.send(embed);
         client.setMoney.run(usermoneydata);
-        client.setCointosssettings.run(usercointosssettingsdata);
         })
     }, 
 };

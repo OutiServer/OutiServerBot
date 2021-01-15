@@ -7,7 +7,7 @@ const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
  */
 
 module.exports = async (client, message) => {
-    if(message.author.bot || !message.guild) return;
+    if(message.author.bot || !message.guild || message.system) return;
     let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
     if (!usermoneydata) {
       usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0 }

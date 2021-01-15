@@ -104,7 +104,7 @@ async function textToSpeechReadableStream(text) {
       const currentConnection = discordClient.voice.connections.get(process.env.DISCORD_GUILD_ID);
       const shouldMove = !currentConnection || currentConnection.channel.id !== channel.id;
       const conn = shouldMove ? await channel.join() : currentConnection;
-      conn.play(textToSpeechReadableStream(text), {highWaterMark: 6, bitrate: 'auto'})
+      conn.play(await textToSpeechReadableStream(text), {highWaterMark: 6, bitrate: 'auto'})
     });
     discordClient.once('ready', () => {
       console.log('[INFO] Connected to Discord successfully!');
