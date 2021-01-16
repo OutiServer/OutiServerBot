@@ -27,7 +27,7 @@ module.exports = {
             emojis[number] = new Littlewaremojis(data);
             number++;
           }
-          let Littlewar1Menu = new Menu(message.channel, message.author.id, [
+          let LittlewarMenu = new Menu(message.channel, message.author.id, [
             {
                 name: 'main',
                 content: new MessageEmbed()
@@ -71,8 +71,8 @@ module.exports = {
                 }
             }
         ], 60000)
-        Littlewar1Menu.start()
-        Littlewar1Menu.on('pageChange', destination => {
+        LittlewarMenu.start()
+        LittlewarMenu.on('pageChange', destination => {
             if (destination.name === 'emoji1') {
                 userdata[message.guild.id] = {
                     userid: message.author.id,
@@ -138,7 +138,7 @@ module.exports = {
                     }
                 }
             ], 60000)
-            Littlewar1Menu.start()
+            LittlewarMenu.start()
             LittlewarMenu.on('pageChange', destination => {
                 let playeremojidata = 1;
                 if (destination.name === 'emoji1'){

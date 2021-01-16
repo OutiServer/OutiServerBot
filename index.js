@@ -40,9 +40,6 @@ cron.schedule('0 0 0 * * *', () => {
     sql.pragma("synchronous = 1");
     sql.pragma("journal_mode = wal");
   }
-})
-cron.schedule('* * * * *', () =>{
-  client.channels.cache.get('798385215855656960').send(`うんこ鯖Botは正常に稼働しています`);
 });
 
 async function textToSpeechReadableStream(text) {
