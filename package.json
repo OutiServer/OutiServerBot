@@ -1,6 +1,9 @@
 {
   "name": "unkosaba",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  },
   "description": "うんこ鯖専属Bot",
   "main": "index.js",
   "scripts": {
