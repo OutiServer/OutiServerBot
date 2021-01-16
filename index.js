@@ -30,8 +30,8 @@ readdir("./commands/", (err, files) => {
     });
 });
 
-cron.schedule('0 0 0,4,8,12,16,20 * * *', () => client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\nGuildedサーバーにもぜひ参加してください！\nhttps://guilded.gg/Unkoserver`));
-cron.schedule('0 0 0 * * *', () => {
+cron.schedule('0 0 1,5,9,13,17,21 * * *', () => client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\nGuildedサーバーにもぜひ参加してください！\nhttps://guilded.gg/Unkoserver`));
+cron.schedule('0 0 13 * * *', () => {
   sql.prepare("DROP TABLE dailys;").run();
   const testtable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();
   if (!testtable['count(*)']) {

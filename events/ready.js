@@ -65,6 +65,15 @@ module.exports = async (client) => {
   }
   client.getKeibasettings = sql.prepare("SELECT * FROM keibasettings WHERE guild = ?");
   client.setKeibasettings = sql.prepare("INSERT OR REPLACE INTO keibasettings (id, guild, horselength, horseentry, participant) VALUES (@id, @guild, @horselength, @horseentry, @participant);");
+  const Littlewartable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'littlewar';").get();
+  if (!Littlewartable['count(*)']) {
+    sql.prepare("CREATE TABLE littlewar (id TEXT PRIMARY KEY, user TEXT, guild TEXT, emoji1 INTEGER, emoji2 INTEGER, emoji3 INTEGER, number INTEGER);").run();
+    sql.prepare("CREATE UNIQUE INDEX idx_littlewar_id ON littlewar (id);").run();
+    sql.pragma("synchronous = 1");
+    sql.pragma("journal_mode = wal");
+  }
+  client.getLittlewar = sql.prepare("SELECT * FROM littlewar WHERE guild = ?");
+  client.setLittlewar = sql.prepare("INSERT OR REPLACE INTO littlewar (id, user, guild, emoji1, emoji2, emoji3, number) VALUES (@id, @user, @guild, @emoji1, @emoji2, @emoji3, number);");
   const handleReaction = async (channelID, messageID, callback) => {
     const channel = await client.channels.fetch(channelID);
     const message = await channel.messages.fetch(messageID);

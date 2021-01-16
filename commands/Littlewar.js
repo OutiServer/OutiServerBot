@@ -1,10 +1,9 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { Menu } = require('discord.js-menu');
-const Littlewaremojis = require('../classs/Littlewaremojis');
+const SQLite = require("better-sqlite3");
+const sql = new SQLite('./unkoserver.db');
 
 const emojidata = ['<:unkooo:790538555407597590>', '<:emoji_105:790546312679391243>', '<:emoji_104:790546297521307668>'];
-let emojis = {};
-let userdata = {};
 
 module.exports = {
     info: {
@@ -20,13 +19,14 @@ module.exports = {
  * @param {Client} client
  */
     run: async function(client, message, args) {
-      　if(!userdata[message.guild.id]){
-        console.log('通った1');
-          let number = 1;
-          for(const data of emojidata){
-            emojis[number] = new Littlewaremojis(data);
-            number++;
-          }
+        let littlewardata = client.getLittlewar.get(message.guild.id);
+        if (!littlewardata) {
+            littlewardata = { id: message.guild.id, user: message.author.id, guild: message.guild.id, emoji1: 1, emoji2: 1, emoji3: 1, number: 0 }
+        } 
+      　if(littlewardata.number === 0){
+          littlewardata.emoji1 = Math.ceil( Math.random()*13 );
+          littlewardata.emoji2 = Math.ceil( Math.random()*13 );
+          littlewardata.emoji3 = Math.ceil( Math.random()*13 );
           let LittlewarMenu = new Menu(message.channel, message.author.id, [
             {
                 name: 'main',
@@ -74,23 +74,15 @@ module.exports = {
         LittlewarMenu.start()
         LittlewarMenu.on('pageChange', destination => {
             if (destination.name === 'emoji1') {
-                userdata[message.guild.id] = {
-                    userid: message.author.id,
-                    number: emojis[1].number
-                };
+                littlewardata.number = littlewardata.emoji1;
             }
             else if (destination.name === 'emoji2') {
-                userdata[message.guild.id] = {
-                    userid: message.author.id,
-                    number: emojis[2].number
-                };
+                littlewardata.number = littlewardata.emoji2;
             }
             else if (destination.name === 'emoji3') {
-                userdata[message.guild.id] = {
-                    userid: message.author.id,
-                    number: emojis[1].number
-                };
+                littlewardata.number = littlewardata.emoji3;
             }
+            client.setLittlewar.run(littlewardata);
           })
         }
         else{
@@ -142,38 +134,39 @@ module.exports = {
             LittlewarMenu.on('pageChange', destination => {
                 let playeremojidata = 1;
                 if (destination.name === 'emoji1'){
-                    playeremojidata = emojis[1].number;
+                    playeremojidata = littlewardata.emoji1;
                 }
                 else if (destination.name === 'emoji2'){
-                    playeremojidata = emojis[2].number;
+                    playeremojidata = littlewardata.emoji2;
                 }
                 else if (destination.name === 'emoji3'){
-                    playeremojidata = emojis[3].number;
+                    playeremojidata = littlewardata.emoji3;
                 }
-                if(playeremojidata > userdata[message.guild.id].number){
-                    message.channel.send(`<@${userdata[message.guild.id].userid}>`,
+                if(playeremojidata > littlewardata.number){
+                    message.channel.send(`<@${littlewardata.user}>`,
                         new MessageEmbed()
                         .setDescription(`今回の勝負\n${message.author}の勝ち！`)
                         .setColor('RANDOM')
                         .setTimestamp()
                     );
                 }
-                else if(playeremojidata < userdata[message.guild.id].number){
-                    message.channel.send(`<@${userdata[message.guild.id].userid}>`,
+                else if(playeremojidata < littlewardata.number){
+                    message.channel.send(`<@${littlewardata.user}>`,
                         new MessageEmbed()
-                        .setDescription(`今回の勝負\n<@${userdata[message.guild.id].userid}>の勝ち！`)
+                        .setDescription(`今回の勝負\n<@${littlewardata.user}>の勝ち！`)
                         .setColor('RANDOM')
                         .setTimestamp()
                     );
                 }
                 else{
-                    message.channel.send(`<@${userdata[message.guild.id].userid}>`,
+                    message.channel.send(`<@${littlewardata.user}>`,
                         new MessageEmbed()
                         .setDescription(`今回の勝負\n引き分け！`)
                         .setColor('RANDOM')
                         .setTimestamp()
                     );
                 }
+                sql.prepare(`DELETE FROM littlewar WHERE guild = '${message.guild.id}'`).run();
             })
         }
     },
