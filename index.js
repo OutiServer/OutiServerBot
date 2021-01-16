@@ -116,7 +116,7 @@ process.on('unhandledRejection', error => {
       .setColor('RANDOM')
       .setTimestamp()
     );
-    console.log(`[ERROR!]\n${error}`);
+    console.error(`[ERROR!]\n${error}`);
 });
   
 client.login(process.env.DISCORD_BOT_TOKEN);
