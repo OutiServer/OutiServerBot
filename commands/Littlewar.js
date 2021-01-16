@@ -93,9 +93,11 @@ module.exports = {
         }
         else{
             if(littlewardata.user === message.author.id){
+                message.delete();
                 message.reply('自分を相手にするなや＾＾；').then( msg => {
                     msg.delete({ timeout: 5000 });
                 });
+                return;
             }
             let LittlewarMenu = new Menu(message.channel, message.author.id, [
                 {
