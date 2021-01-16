@@ -8,7 +8,7 @@ const emojidata = ['<:unkooo:790538555407597590>', '<:emoji_105:7905463126793912
 module.exports = {
     info: {
         name: "Littlewar",
-        description: "対戦型ゲーム",
+        description: "小戦争",
         usage: "",
         aliases: [""],
         botownercommand: false,
@@ -162,6 +162,8 @@ module.exports = {
                     playeremojidata = littlewardata.emoji3;
                 }
                 if(playeremojidata > littlewardata.number){
+                    usermoneydata.money += 10000;
+                    playermoneydata.money -= 10000;
                     message.channel.send(`<@${littlewardata.user}>`,
                         new MessageEmbed()
                         .setDescription(`今回の勝負\n${message.author}の勝ち！`)
@@ -170,6 +172,8 @@ module.exports = {
                     );
                 }
                 else if(playeremojidata < littlewardata.number){
+                    usermoneydata.money -= 10000;
+                    playermoneydata.money += 10000;
                     message.channel.send(`<@${littlewardata.user}>`,
                         new MessageEmbed()
                         .setDescription(`今回の勝負\n<@${littlewardata.user}>の勝ち！`)
