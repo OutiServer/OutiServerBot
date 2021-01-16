@@ -73,7 +73,7 @@ module.exports = async (client) => {
     sql.pragma("journal_mode = wal");
   }
   client.getLittlewar = sql.prepare("SELECT * FROM littlewar WHERE guild = ?");
-  client.setLittlewar = sql.prepare("INSERT OR REPLACE INTO littlewar (id, user, guild, emoji1, emoji2, emoji3, number) VALUES (@id, @user, @guild, @emoji1, @emoji2, @emoji3, number);");
+  client.setLittlewar = sql.prepare("INSERT OR REPLACE INTO littlewar (id, user, guild, emoji1, emoji2, emoji3, number) VALUES (@id, @user, @guild, @emoji1, @emoji2, @emoji3, @number);");
   const handleReaction = async (channelID, messageID, callback) => {
     const channel = await client.channels.fetch(channelID);
     const message = await channel.messages.fetch(messageID);
