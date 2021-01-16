@@ -92,6 +92,11 @@ module.exports = {
           })
         }
         else{
+            if(littlewardata.user === message.author.id){
+                message.reply('自分を相手にするなや＾＾；').then( msg => {
+                    msg.delete({ timeout: 5000 });
+                });
+            }
             let LittlewarMenu = new Menu(message.channel, message.author.id, [
                 {
                     name: 'main',
@@ -138,6 +143,14 @@ module.exports = {
             ], 60000)
             LittlewarMenu.start()
             LittlewarMenu.on('pageChange', destination => {
+                let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
+                if (!usermoneydata) {
+                  usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0 }
+                }
+                let playermoneydata = client.getMoney.get(littlewardata.user, message.guild.id);
+                if (!playermoneydata) {
+                   playermoneydata　= { id: `${littlewardata.user}-${message.author.id}`, user: littlewardata.user, guild: message.guild.id, money: 0, dailylogin: 0 }
+                }
                 let playeremojidata = 1;
                 if (destination.name === 'emoji1'){
                     playeremojidata = littlewardata.emoji1;
@@ -173,6 +186,8 @@ module.exports = {
                     );
                 }
                 sql.prepare(`DELETE FROM littlewar WHERE guild = '${message.guild.id}'`).run();
+                client.setMoney.run(usermoneydata);
+                client.setMoney.run(playermoneydata);
             })
         }
     },
