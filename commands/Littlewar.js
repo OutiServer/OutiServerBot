@@ -21,12 +21,13 @@ module.exports = {
  */
     run: async function(client, message, args) {
       　if(!userdata[message.guild.id]){
+        console.log('通った1');
           let number = 1;
           for(const data of emojidata){
             emojis[number] = new Littlewaremojis(data);
             number++;
           }
-          let LittlewarMenu = new Menu(message.channel, message.author.id, [
+          let Littlewar1Menu = new Menu(message.channel, message.author.id, [
             {
                 name: 'main',
                 content: new MessageEmbed()
@@ -70,8 +71,8 @@ module.exports = {
                 }
             }
         ], 60000)
-        LittlewarMenu.start()
-        LittlewarMenu.on('pageChange', destination => {
+        Littlewar1Menu.start()
+        Littlewar1Menu.on('pageChange', destination => {
             if (destination.name === 'emoji1') {
                 userdata[message.guild.id] = {
                     userid: message.author.id,
@@ -137,6 +138,7 @@ module.exports = {
                     }
                 }
             ], 60000)
+            Littlewar1Menu.start()
             LittlewarMenu.on('pageChange', destination => {
                 let playeremojidata = 1;
                 if (destination.name === 'emoji1'){
