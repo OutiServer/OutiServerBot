@@ -196,7 +196,7 @@ module.exports = async (client) => {
           .addField('ポート', result.port)
           .addField('サーバーのバージョン', result.version)
           .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-          .attachFiles('../images/UnkoServerkoiyo.png')
+          .setImage('attachment://UnkoServerkoiyo.png')
           .setColor('RANDOM')
           .setTimestamp()
         );
@@ -204,9 +204,9 @@ module.exports = async (client) => {
     .catch((error) => {
       unkoserverstatus.edit(
         new MessageEmbed()
-        .setTitle('うんこサーバーの現在の状態')
+        .setTitle('💩うんこサーバーの現在の状態💩')
         .setDescription('うんこサーバーは現在落ちてます')
-        .attachFiles('../images/setumeisitekudasai.jpg')
+        .setImage('attachment://setumeisitekudasai.jpg')
         .setColor('RANDOM')
         .setTimestamp()
       );
@@ -262,7 +262,7 @@ module.exports = async (client) => {
           .addField('ポート', result.port)
           .addField('サーバーのバージョン', result.version)
           .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-          .attachFiles('../images/UnkoServerkoiyo.png')
+          .setImage('attachment://UnkoServerkoiyo.png')
           .setColor('RANDOM')
           .setTimestamp()
         );
@@ -272,7 +272,7 @@ module.exports = async (client) => {
         new MessageEmbed()
         .setTitle('💩うんこサーバーの現在の状態💩')
         .setDescription('うんこサーバーは現在落ちてます')
-        .attachFiles('../images/setumeisitekudasai.jpg')
+        .setImage('attachment://setumeisitekudasai.jpg')
         .setColor('RANDOM')
         .setTimestamp()
       );
