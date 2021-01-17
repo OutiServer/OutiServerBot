@@ -47,24 +47,6 @@ module.exports = async (client) => {
   }
   client.getDaily = sql.prepare("SELECT * FROM dailys WHERE user = ? AND guild = ?");
   client.setDaily = sql.prepare("INSERT OR REPLACE INTO dailys (id, user, guild, login) VALUES (@id, @user, @guild, @login);");
-  const Keibahorsetable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'keibahorses';").get();
-  if (!Keibahorsetable['count(*)']) {
-    sql.prepare("CREATE TABLE keibahorses (id TEXT PRIMARY KEY, user TEXT, guild TEXT, name TEXT, image TEXT, number INTEGER);").run();
-    sql.prepare("CREATE UNIQUE INDEX idx_keibahorses_id ON keibahorses (id);").run();
-    sql.pragma("synchronous = 1");
-    sql.pragma("journal_mode = wal");
-  }
-  client.getKeibahorse = sql.prepare("SELECT * FROM keibahorses WHERE user = ? AND guild = ?");
-  client.setKeibahorse = sql.prepare("INSERT OR REPLACE INTO keibahorses (id, user, guild, name, image, number) VALUES (@id, @user, @guild, @name, @image, @number);");
-  const Keibasettingstable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'keibasettings';").get();
-  if (!Keibasettingstable['count(*)']) {
-    sql.prepare("CREATE TABLE keibasettings (id TEXT PRIMARY KEY, guild TEXT, horselength INTEGER, horseentry INTEGER, participant TEXT);").run();
-    sql.prepare("CREATE UNIQUE INDEX idx_keibasettings_id ON keibasettings (id);").run();
-    sql.pragma("synchronous = 1");
-    sql.pragma("journal_mode = wal");
-  }
-  client.getKeibasettings = sql.prepare("SELECT * FROM keibasettings WHERE guild = ?");
-  client.setKeibasettings = sql.prepare("INSERT OR REPLACE INTO keibasettings (id, guild, horselength, horseentry, participant) VALUES (@id, @guild, @horselength, @horseentry, @participant);");
   const Littlewartable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'littlewar';").get();
   if (!Littlewartable['count(*)']) {
     sql.prepare("CREATE TABLE littlewar (id TEXT PRIMARY KEY, user TEXT, guild TEXT, emoji1 INTEGER, emoji2 INTEGER, emoji3 INTEGER, number INTEGER);").run();
@@ -143,20 +125,13 @@ module.exports = async (client) => {
     slotsettingsdata　= { id: `706452606918066237`, guild: '706452606918066237', Jackpotprobability: 10, Jackpot: 100000 }
   }
   client.setSlotsettings.run(slotsettingsdata);
-  let keibasettingsdata = client.getKeibasettings.get('706452606918066237');
-  if (!keibasettingsdata) {
-    keibasettingsdata　= { id: `706452606918066237`, guild: '706452606918066237', horselength: 0, horseentry: 0, participant: null }
-  }
-  client.setKeibasettings.run(keibasettingsdata);
   let Win = slotsettingsdata.Jackpot;
   let embed = new MessageEmbed()
   .setDescription(`現在のジャックポット: ${Win}うんコイン`)
   .setColor('RANDOM')
   .setTimestamp();
   let top10 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC LIMIT 10;").all('706452606918066237');
-  let allhorse = sql.prepare("SELECT * FROM keibahorses WHERE guild = ? ORDER BY number DESC;").all('706452606918066237');
   let rank = 1;
-  let allusers = '';
   for(const data of top10){
     const user = client.guilds.cache.get('706452606918066237').member(data.user);
     let usertag = ''
@@ -169,24 +144,7 @@ module.exports = async (client) => {
     embed.addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
     rank++;
   }
-  if(keibasettingsdata.participant !== null){
-    for(const data of keibasettingsdata.participant.split(/\s+/)){
-      const user = client.guilds.cache.get('706452606918066237').member(data);
-    if(user){
-      allusers += user.user.tag+'\n';
-    }
-    }
-  }
-  let keibaembed = new MessageEmbed()
-  .setTitle('うんこ競馬情報')
-  .setDescription('競馬参加者\n'+allusers)
-  .setColor('RANDOM')
-  .setTimestamp();
-  for(const data of allhorse){
-    keibaembed.addFields({ name: `エントリーNO.${data.number}`, value: `${data.name}` })
-  }
   casinomessage.edit(embed);
-  keibamessage.edit(keibaembed);
   util.statusBedrock('126.235.33.140')
     .then((result) => {
         unkoserverstatus.edit(
@@ -214,7 +172,6 @@ module.exports = async (client) => {
     });
   setInterval(() => {
     Win = client.getSlotsettings.get('706452606918066237').Jackpot;
-    allhorse = sql.prepare("SELECT * FROM keibahorses WHERE guild = ? ORDER BY number DESC LIMIT 8;").all('706452606918066237');
     embed = new MessageEmbed()
     .setDescription(`現在のジャックポット: ${Win}うんコイン`)
     .setColor('RANDOM')
@@ -233,26 +190,7 @@ module.exports = async (client) => {
       embed.addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
       rank++;
     }
-    allusers = '';
-    keibasettingsdata = client.getKeibasettings.get('706452606918066237');
-    if(keibasettingsdata.participant !== null){
-    for(const data of keibasettingsdata.participant.split(/\s+/)){
-      const user = client.guilds.cache.get('706452606918066237').member(data);
-      if(user){
-        allusers += user.user.tag+'\n';
-      }
-    }
-  }
-    keibaembed = new MessageEmbed()
-    .setTitle('うんこ競馬情報')
-    .setDescription('競馬参加者\n'+allusers)
-    .setColor('RANDOM')
-    .setTimestamp();
-    for(const data of allhorse){
-      keibaembed.addFields({ name: `エントリーNO.${data.number}`, value: `${data.name}` })
-    }
     casinomessage.edit(embed);
-    keibamessage.edit(keibaembed);
     util.statusBedrock('126.235.33.140')
     .then((result) => {
         unkoserverstatus.edit(
