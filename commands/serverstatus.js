@@ -1,12 +1,12 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
 
 module.exports = {
     info: {
-        name: "ping",
+        name: "serverstatus",
         description: "BotのPing値とメモリ使用率を表示",
         usage: "",
-        aliases: [""],
+        aliases: ["ss"],
         botownercommand: false,
         botadmincommand: false
     },
