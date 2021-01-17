@@ -10,6 +10,7 @@ const sql = new SQLite('./unkoserver.db');
 module.exports = async (client) => {
   const keibamessage = await client.channels.cache.get('799246313341976616').messages.fetch('799635532195299358');
   const casinomessage = await client.channels.cache.get('798479605764718592').messages.fetch('799635530882744372');
+  const unkoserverstatus = await client.channels.cache.get('780012050163302420').messages.fetch('800279738509426728');
   const Moneytable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'moneys';").get();
   if (!Moneytable['count(*)']) {
     sql.prepare("CREATE TABLE moneys (id TEXT PRIMARY KEY, user TEXT, guild TEXT, money INTEGER, dailylogin INTEGER);").run();
@@ -188,21 +189,26 @@ module.exports = async (client) => {
   keibamessage.edit(keibaembed);
   util.statusBedrock('126.235.33.140')
     .then((result) => {
-        client.channels.cache.get('780012050163302420').send(
+        unkoserverstatus.edit(
           new MessageEmbed()
-          .setTitle('うんこサーバーの現在の状態')
+          .setTitle('💩うんこサーバーの現在の状態💩')
           .addField('IPアドレス', result.host)
           .addField('ポート', result.port)
           .addField('サーバーのバージョン', result.version)
-          .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}`)
+          .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
+          .attachFiles('../images/UnkoServerkoiyo.png')
+          .setColor('RANDOM')
+          .setTimestamp()
         );
-        console.log(result);
     })
     .catch((error) => {
-      client.channels.cache.get('780012050163302420').send(
+      unkoserverstatus.edit(
         new MessageEmbed()
         .setTitle('うんこサーバーの現在の状態')
         .setDescription('うんこサーバーは現在落ちてます')
+        .attachFiles('../images/setumeisitekudasai.jpg')
+        .setColor('RANDOM')
+        .setTimestamp()
       );
       console.error(error)
     });
@@ -247,5 +253,30 @@ module.exports = async (client) => {
     }
     casinomessage.edit(embed);
     keibamessage.edit(keibaembed);
+    util.statusBedrock('126.235.33.140')
+    .then((result) => {
+        unkoserverstatus.edit(
+          new MessageEmbed()
+          .setTitle('💩うんこサーバーの現在の状態💩')
+          .addField('IPアドレス', result.host)
+          .addField('ポート', result.port)
+          .addField('サーバーのバージョン', result.version)
+          .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
+          .attachFiles('../images/UnkoServerkoiyo.png')
+          .setColor('RANDOM')
+          .setTimestamp()
+        );
+    })
+    .catch((error) => {
+      unkoserverstatus.edit(
+        new MessageEmbed()
+        .setTitle('💩うんこサーバーの現在の状態💩')
+        .setDescription('うんこサーバーは現在落ちてます')
+        .attachFiles('../images/setumeisitekudasai.jpg')
+        .setColor('RANDOM')
+        .setTimestamp()
+      );
+      console.error(error)
+    });
   }, 60000);
 }
