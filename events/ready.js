@@ -1,6 +1,5 @@
-var start_ms = new Date().getTime();
-require('dotenv').config();
 const { Client, MessageEmbed } = require('discord.js');
+const util = require('minecraft-server-util');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('./unkoserver.db');
 
@@ -80,9 +79,6 @@ module.exports = async (client) => {
     const collector = message.createReactionCollector(() => true);
     collector.on('collect', (reaction, user) => callback(reaction, user));
   }
-  var elapsed_ms = new Date().getTime() - start_ms;
-  console.log(`[INFO] Logged in as ${client.user.tag}\n再起動にかかった時間: ${Math.floor(elapsed_ms / 1000)}秒`);
-  client.user.setPresence({ activity: { name: `${process.env.PREFIX}help うんこ鯖` }, status: 'online' });
   handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
     if (reaction.emoji.id === '790538555407597590') {
       if(reaction.message.guild.member(user).roles.cache.has('717326376516190221')){
@@ -139,6 +135,8 @@ module.exports = async (client) => {
       }
     }
   })
+  console.log(`[INFO] Logged in as ${client.user.tag}`);
+  client.user.setPresence({ activity: { name: `${process.env.PREFIX}help うんこ鯖` }, status: 'online' });
   let slotsettingsdata = client.getSlotsettings.get('706452606918066237');
   if (!slotsettingsdata) {
     slotsettingsdata　= { id: `706452606918066237`, guild: '706452606918066237', Jackpotprobability: 10, Jackpot: 100000 }
@@ -186,9 +184,28 @@ module.exports = async (client) => {
   for(const data of allhorse){
     keibaembed.addFields({ name: `エントリーNO.${data.number}`, value: `${data.name}` })
   }
-  
   casinomessage.edit(embed);
   keibamessage.edit(keibaembed);
+  util.statusBedrock('126.235.33.140')
+    .then((result) => {
+        client.channels.cache.get('780012050163302420').send(
+          new MessageEmbed()
+          .setTitle('うんこサーバーの現在の状態')
+          .addField('IPアドレス', result.host)
+          .addField('ポート', result.port)
+          .addField('サーバーのバージョン', result.version)
+          .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}`)
+        );
+        console.log(result);
+    })
+    .catch((error) => {
+      client.channels.cache.get('780012050163302420').send(
+        new MessageEmbed()
+        .setTitle('うんこサーバーの現在の状態')
+        .setDescription('うんこサーバーは現在落ちてます')
+      );
+      console.error(error)
+    });
   setInterval(() => {
     Win = client.getSlotsettings.get('706452606918066237').Jackpot;
     allhorse = sql.prepare("SELECT * FROM keibahorses WHERE guild = ? ORDER BY number DESC LIMIT 8;").all('706452606918066237');
