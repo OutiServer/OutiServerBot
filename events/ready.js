@@ -196,7 +196,7 @@ module.exports = async (client) => {
           .addField('ポート', result.port)
           .addField('サーバーのバージョン', result.version)
           .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-          .setImage('attachment://UnkoServerkoiyo.png')
+          .setImage('https://media.discordapp.net/attachments/800317829962399795/800317877168373760/UnkoServerkoiyo.png')
           .setColor('RANDOM')
           .setTimestamp()
         );
@@ -206,7 +206,7 @@ module.exports = async (client) => {
         new MessageEmbed()
         .setTitle('💩うんこサーバーの現在の状態💩')
         .setDescription('うんこサーバーは現在落ちてます')
-        .setImage('attachment://setumeisitekudasai.jpg')
+        .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
         .setColor('RANDOM')
         .setTimestamp()
       );
@@ -262,7 +262,7 @@ module.exports = async (client) => {
           .addField('ポート', result.port)
           .addField('サーバーのバージョン', result.version)
           .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-          .setImage('attachment://UnkoServerkoiyo.png')
+          .setImage('https://media.discordapp.net/attachments/800317829962399795/800317877168373760/UnkoServerkoiyo.png')
           .setColor('RANDOM')
           .setTimestamp()
         );
@@ -272,7 +272,7 @@ module.exports = async (client) => {
         new MessageEmbed()
         .setTitle('💩うんこサーバーの現在の状態💩')
         .setDescription('うんこサーバーは現在落ちてます')
-        .setImage('attachment://setumeisitekudasai.jpg')
+        .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
         .setColor('RANDOM')
         .setTimestamp()
       );
