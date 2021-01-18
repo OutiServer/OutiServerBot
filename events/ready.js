@@ -8,9 +8,9 @@ const sql = new SQLite('./unkoserver.db');
  */
 
 module.exports = async (client) => {
-  const keibamessage = await client.channels.cache.get('799246313341976616').messages.fetch('799635532195299358');
   const casinomessage = await client.channels.cache.get('798479605764718592').messages.fetch('799635530882744372');
   const unkoserverstatus = await client.channels.cache.get('780012050163302420').messages.fetch('800279738509426728');
+
   const Moneytable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'moneys';").get();
   if (!Moneytable['count(*)']) {
     sql.prepare("CREATE TABLE moneys (id TEXT PRIMARY KEY, user TEXT, guild TEXT, money INTEGER, dailylogin INTEGER);").run();
@@ -62,6 +62,7 @@ module.exports = async (client) => {
     const collector = message.createReactionCollector(() => true);
     collector.on('collect', (reaction, user) => callback(reaction, user));
   }
+
   handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
     if (reaction.emoji.id === '790538555407597590') {
       if(reaction.message.guild.member(user).roles.cache.has('717326376516190221')){
@@ -120,6 +121,7 @@ module.exports = async (client) => {
   })
   console.log(`[INFO] Logged in as ${client.user.tag}`);
   client.user.setPresence({ activity: { name: `${process.env.PREFIX}help うんこ鯖` }, status: 'online' });
+  
   let slotsettingsdata = client.getSlotsettings.get('706452606918066237');
   if (!slotsettingsdata) {
     slotsettingsdata　= { id: `706452606918066237`, guild: '706452606918066237', Jackpotprobability: 10, Jackpot: 100000 }
