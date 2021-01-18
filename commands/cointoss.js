@@ -70,8 +70,8 @@ module.exports = {
         cointossMenu.on('pageChange', async destination => {
           const emojis = ['<:swordthonk:798179606166634516>', '<:swordthinkblue:798179591582908446>'];
           let coin = Math.ceil( Math.random() * emojis.length);
-          let Win = Stake * 3;
-          let Lose = Stake * 4;
+          let Win = Stake * 2;
+          let Lose = Stake * 2;
           const embed = new MessageEmbed()
           .setTitle('コイントスの結果')
           .setColor('RAMDOM')
