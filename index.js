@@ -94,7 +94,7 @@ async function textToSpeechReadableStream(text) {
       const text = message
           .content
           .replace(/https?:\/\/\S+/g, 'URL省略')
-          .replace(/<a?:.*?:\d+>/g, '絵文字省略')   // カスタム絵文字を除去
+          .replace(/<a?:.*?:\d+>/g, '絵文字省略') 
           .replace(/<@!?.*?>/g, 'メンション省略')
           .replace(/<#.*?>/g, 'メンション省略')
           .replace(/<@&.*?>/g, 'メンション省略')
@@ -104,7 +104,7 @@ async function textToSpeechReadableStream(text) {
       const currentConnection = discordClient.voice.connections.get(process.env.DISCORD_GUILD_ID);
       const shouldMove = !currentConnection || currentConnection.channel.id !== channel.id;
       const conn = shouldMove ? await channel.join() : currentConnection;
-      conn.play(await textToSpeechReadableStream(text), {highWaterMark: 6, bitrate: 'auto'})
+      conn.play(await textToSpeechReadableStream(text).then(conn.play(await textToSpeechReadableStream(text))), {highWaterMark: 6, bitrate: 'auto'})
     });
     discordClient.once('ready', () => {
       console.log('[INFO] Connected to Discord successfully!');

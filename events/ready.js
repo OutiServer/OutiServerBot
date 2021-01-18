@@ -1,5 +1,4 @@
 const { Client, MessageEmbed } = require('discord.js');
-const util = require('minecraft-server-util');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('./unkoserver.db');
 
@@ -72,7 +71,6 @@ module.exports = async (client) => {
     const collector = message.createReactionCollector(() => true);
     collector.on('collect', (reaction, user) => callback(reaction, user));
   }
-
   handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
     if (reaction.emoji.id === '790538555407597590') {
       if(reaction.message.guild.member(user).roles.cache.has('717326376516190221')){
@@ -129,19 +127,12 @@ module.exports = async (client) => {
       }
     }
   })
+
   console.log(`[INFO] Logged in as ${client.user.tag}`);
   client.user.setPresence({ activity: { name: `${process.env.PREFIX}help うんこ鯖` }, status: 'online' });
   
   let slotsettingsdata = client.getSlotsettings.get('706452606918066237');
-  if (!slotsettingsdata) {
-    slotsettingsdata　= { id: `706452606918066237`, guild: '706452606918066237', Jackpotprobability: 10, Jackpot: 100000 }
-  }
-  client.setSlotsettings.run(slotsettingsdata);
   let timerdata = client.getTimer.get('706452606918066237');
-  if (!timerdata) {
-    timerdata　= { id: `706452606918066237`, guild: '706452606918066237', unkoserver: 400 }
-  }
-  client.setTimer.run(timerdata);
   let Win = slotsettingsdata.Jackpot;
   let embed = new MessageEmbed()
   .setDescription(`現在のジャックポット: ${Win}うんコイン`)
@@ -163,13 +154,14 @@ module.exports = async (client) => {
   }
   casinomessage.edit(embed);
   unkoserverstatus.edit(
-            new MessageEmbed()
-            .setTitle('💩うんこサーバーの現在の状態💩')
-            .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り'+timerdata.unkoserver+'日')
-            .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
-            .setColor('RANDOM')
-            .setTimestamp()
-        );
+    new MessageEmbed()
+    .setTitle('💩うんこサーバーの現在の状態💩')
+    .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り'+timerdata.unkoserver+'日')
+    .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
+    .setColor('RANDOM')
+    .setTimestamp()
+  );
+
   setInterval(() => {
     Win = client.getSlotsettings.get('706452606918066237').Jackpot;
     timerdata = client.getTimer.get('706452606918066237').unkoserver;
