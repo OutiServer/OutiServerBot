@@ -56,6 +56,16 @@ module.exports = async (client) => {
   }
   client.getLittlewar = sql.prepare("SELECT * FROM littlewar WHERE guild = ?");
   client.setLittlewar = sql.prepare("INSERT OR REPLACE INTO littlewar (id, user, guild, emoji1, emoji2, emoji3, number) VALUES (@id, @user, @guild, @emoji1, @emoji2, @emoji3, @number);");
+  const Timertable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'timer';").get();
+  if (!Timertable['count(*)']) {
+    sql.prepare("CREATE TABLE timer (id TEXT PRIMARY KEY, guild TEXT, unkoserver INTEGER);").run();
+    sql.prepare("CREATE UNIQUE INDEX idx_ltimer_id ON timer (id);").run();
+    sql.pragma("synchronous = 1");
+    sql.pragma("journal_mode = wal");
+  }
+  client.getTimer = sql.prepare("SELECT * FROM timer WHERE guild = ?");
+  client.setTimer = sql.prepare("INSERT OR REPLACE INTO timer (id, guild, unkoserver) VALUES (@id, @guild, @unkoserver);");
+
   const handleReaction = async (channelID, messageID, callback) => {
     const channel = await client.channels.fetch(channelID);
     const message = await channel.messages.fetch(messageID);
@@ -127,6 +137,11 @@ module.exports = async (client) => {
     slotsettingsdata　= { id: `706452606918066237`, guild: '706452606918066237', Jackpotprobability: 10, Jackpot: 100000 }
   }
   client.setSlotsettings.run(slotsettingsdata);
+  let timerdata = client.getTimer.get('706452606918066237');
+  if (!timerdata) {
+    timerdata　= { id: `706452606918066237`, guild: '706452606918066237', unkoserver: 400 }
+  }
+  client.setTimer.run(timerdata);
   let Win = slotsettingsdata.Jackpot;
   let embed = new MessageEmbed()
   .setDescription(`現在のジャックポット: ${Win}うんコイン`)
@@ -147,33 +162,17 @@ module.exports = async (client) => {
     rank++;
   }
   casinomessage.edit(embed);
-  util.statusBedrock('126.235.33.140')
-    .then((result) => {
-        unkoserverstatus.edit(
-          new MessageEmbed()
-          .setTitle('💩うんこサーバーの現在の状態💩')
-          .addField('IPアドレス', result.host)
-          .addField('ポート', result.port)
-          .addField('サーバーのバージョン', result.version)
-          .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-          .setImage('https://media.discordapp.net/attachments/800317829962399795/800317877168373760/UnkoServerkoiyo.png')
-          .setColor('RANDOM')
-          .setTimestamp()
+  unkoserverstatus.edit(
+            new MessageEmbed()
+            .setTitle('💩うんこサーバーの現在の状態💩')
+            .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り'+timerdata.unkoserver+'日')
+            .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
+            .setColor('RANDOM')
+            .setTimestamp()
         );
-    })
-    .catch((error) => {
-      unkoserverstatus.edit(
-        new MessageEmbed()
-        .setTitle('💩うんこサーバーの現在の状態💩')
-        .setDescription('うんこサーバーは現在落ちてます')
-        .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
-        .setColor('RANDOM')
-        .setTimestamp()
-      );
-      console.error(error)
-    });
   setInterval(() => {
     Win = client.getSlotsettings.get('706452606918066237').Jackpot;
+    timerdata = client.getTimer.get('706452606918066237').unkoserver;
     embed = new MessageEmbed()
     .setDescription(`現在のジャックポット: ${Win}うんコイン`)
     .setColor('RANDOM')
@@ -193,30 +192,13 @@ module.exports = async (client) => {
       rank++;
     }
     casinomessage.edit(embed);
-    util.statusBedrock('126.235.33.140')
-    .then((result) => {
-        unkoserverstatus.edit(
-          new MessageEmbed()
-          .setTitle('💩うんこサーバーの現在の状態💩')
-          .addField('IPアドレス', result.host)
-          .addField('ポート', result.port)
-          .addField('サーバーのバージョン', result.version)
-          .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-          .setImage('https://media.discordapp.net/attachments/800317829962399795/800317877168373760/UnkoServerkoiyo.png')
-          .setColor('RANDOM')
-          .setTimestamp()
-        );
-    })
-    .catch((error) => {
-      unkoserverstatus.edit(
-        new MessageEmbed()
-        .setTitle('💩うんこサーバーの現在の状態💩')
-        .setDescription('うんこサーバーは現在落ちてます')
-        .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
-        .setColor('RANDOM')
-        .setTimestamp()
-      );
-      console.error(error)
-    });
+    unkoserverstatus.edit(
+      new MessageEmbed()
+      .setTitle('💩うんこサーバーの現在の状態💩')
+      .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り'+timerdata+'日')
+      .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
+      .setColor('RANDOM')
+      .setTimestamp()
+    );
   }, 60000);
 }
