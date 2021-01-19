@@ -77,14 +77,12 @@ module.exports = async (client, message) => {
     const aliases = client.commands.find(x => x.info.aliases.includes(command))
     if(cmd){
       if(cmd.info.botownercommand && process.env.OWNERID !== message.author.id) {
-        message.delete();
         message.reply(`このコマンドは${client.users.cache.get(process.env.OWNERID).tag}しか使用できないで。😉`).then( msg => {
           msg.delete({ timeout: 5000 });
         });
         return;
       }
       if(cmd.info.botadmincommand && !message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has('771015602180587571')){
-        message.delete();
         message.reply(`そのコマンドは管理者権限を持っているか中間管理職を持っていないと使用できないで。😉`).then( msg => {
           msg.delete({ timeout: 5000 });
         })
@@ -93,14 +91,12 @@ module.exports = async (client, message) => {
       cmd.run(client, message, args);
     }else if(aliases){
       if(aliases.info.botownercommand && process.env.OWNERID !== message.author.id) {
-        message.delete();
         message.reply(`このコマンドは${client.users.cache.get(process.env.OWNERID).tag}しか使用できないで。😉`).then( msg => {
           msg.delete({ timeout: 5000 });
         })
         return;
       }
       if(aliases.info.botadmincommand && !message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has('771015602180587571')){
-        message.delete();
         message.reply(`そのコマンドは管理者権限を持っているか中間管理職を持っていないと使用できないで。😉`).then( msg => {
           msg.delete({ timeout: 5000 });
         })
@@ -108,7 +104,6 @@ module.exports = async (client, message) => {
       } 
       aliases.run(client, message, args);
     }else {
-      message.delete();
       message.reply('そんなコマンドないで。😉').then( msg => {
         msg.delete( { timeout: 5000 });
       });
