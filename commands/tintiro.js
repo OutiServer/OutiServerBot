@@ -5,7 +5,7 @@ module.exports = {
     name: "tintiro",
     description: "チンチロ",
     usage: "",
-    aliases: [""],
+    aliases: ["賭け金"],
     botownercommand: false,
     botadmincommand: false
   },
