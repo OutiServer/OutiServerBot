@@ -9,8 +9,8 @@ module.exports = {
     info: {
         name: "Littlewar",
         description: "小戦争",
-        usage: "",
-        aliases: [""],
+        usage: "[賭け金]",
+        aliases: ["war"],
         botownercommand: false,
         botadmincommand: false
     },
