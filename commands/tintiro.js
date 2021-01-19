@@ -26,7 +26,7 @@ module.exports = {
         return;
     }
     let Latch = Number(args[0]);
-    if(!Latch || Latch > 20000 || Latch < 100) return message.reply('第一引数に賭け金を100~20000の数値で入れてください！');
+    if(!Latch || Latch > 10000 || Latch < 500) return message.reply('第一引数に賭け金を100~20000の数値で入れてください！');
      const emojis = ['<:Dice1:800739696300654633>', '<:Dice2:800739696589668422>', '<:Dice3:800739696627679242>', '<:Dice4:800739696472358932>', '<:Dice5:800739696736600095>', '<:Dice6:800739696484548608>'];
      let Norole = Math.floor( Math.random() * emojis.length);
      if(Norole === 0){
