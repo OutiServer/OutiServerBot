@@ -33,7 +33,7 @@ module.exports = async (client, message) => {
         .setTimestamp()
       );
     }
-    if(usermoneydata.money < 10000 && userdebtdata.Tuna === 1){
+    if(usermoneydata.money < 10000 && userdebtdata.Tuna === 0){
       usermoneydata.money += message.content.length * 10;
     }
     if(usermoneydata.money < -99999 && userdebtdata.Tuna === 0){
