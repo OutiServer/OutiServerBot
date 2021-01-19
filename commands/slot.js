@@ -29,16 +29,13 @@ module.exports = {
     if(userdebtdata.Tuna === 0){
         if(message.channel.id !== '798157114555105330' && message.channel.id !== '798176065562476604' && message.channel.id !== '798198069849227294' && message.channel.id !== '798486503255834664' && message.channel.id !== '798570749136601158' && message.guild.id === '706452606918066237') {
             message.delete();
-            const reply = await message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>でしか使用できません<a:owoxgif:793460058250805259>');
-            reply.delete({ timeout: 5000 });
+            message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>でしか使用できません<a:owoxgif:793460058250805259>').then( msg => {
+                msg.delete({ timeout: 5000 });
+            });
             return;
         }
-        if(message.channel.id === '798486503255834664' || usermoneydata.money > 99999){
-            var Latch = 20000;
-        }
-        else{
-            var Latch = 2000;
-        }
+        let Latch = Number(args[0]);
+        if(!Latch || Latch > 20000 || Latch < 100) return message.reply('第一引数に賭け金を100~20000の数値で入れてください！');
         slotsettingsdata.Jackpot += Latch;
         var random = Math.round( Math.random()*slotsettingsdata.Jackpotprobability );
         if(random === 0){
