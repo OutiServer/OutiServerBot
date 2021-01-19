@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, WebhookClient } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js");
 
 module.exports = {
   info: {
@@ -55,68 +55,6 @@ module.exports = {
                   slotlength += 10;
                }
             }
-            const reply1 = await message.channel.send(
-                new MessageEmbed()
-                .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
-                .setColor('RANDOM')
-                .setTimestamp()
-              );
-            setTimeout( async () => {
-                await reply1.edit(
-                    new MessageEmbed()
-                    .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-            }, 100);
-            setTimeout( async () => {
-                await reply1.edit(
-                    new MessageEmbed()
-                    .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-            }, 200);
-            setTimeout( async () => {
-                await reply1.edit(
-                    new MessageEmbed()
-                    .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-            }, 300);
-            setTimeout( async () => {
-                await reply1.edit(
-                    new MessageEmbed()
-                    .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-            }, 400);
-            setTimeout( async() => {
-                await reply1.edit(
-                    new MessageEmbed()
-                    .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-            }, 500);
-            setTimeout( async () => {
-                await reply1.edit(
-                    new MessageEmbed()
-                    .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-            }, 600);
-            setTimeout( async () => {
-                await reply1.edit(
-                    new MessageEmbed()
-                    .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-            }, 700);
             if(slot[19] === slot[29] && slot[19] === slot[39]){
                 if(slot[19] === 0){
                     let Win = slotsettingsdata.Jackpot
@@ -128,245 +66,196 @@ module.exports = {
                         .setDescription(`<@${message.author.id}>がジャックポットを当て、${Win}うんコイン入手しました！`)
                         .setColor('RANDOM')
                         .setTimestamp());
-                        await message.channel.send(
+                        message.channel.send(
                             new MessageEmbed()
                             .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
                             .setColor('RANDOM')
                             .setTimestamp()
                         ).then( reply => {
-                            setTimeout( () => {
                                 reply.edit(
                                    new MessageEmbed()
                                    .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
                                    .setColor('RANDOM')
                                    .setTimestamp()
                                ).then( reply => {
-                                setTimeout( () => {
                                     reply.edit(
                                         new MessageEmbed()
                                         .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
                                         .setColor('RANDOM')
                                         .setTimestamp()
                                     ).then( reply => {
-                                        setTimeout( () => {
                                             reply.edit(
                                                 new MessageEmbed()
                                                 .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
                                                 .setColor('RANDOM')
                                                 .setTimestamp()
                                             ).then( reply => {
-                                                setTimeout( () => {
                                                     reply.edit(
                                                         new MessageEmbed()
                                                         .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
                                                         .setColor('RANDOM')
                                                         .setTimestamp()
                                                     ).then( reply => {
-                                                        setTimeout( () => {
                                                             reply.edit(
                                                                 new MessageEmbed()
                                                                 .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
                                                                 .setColor('RANDOM')
                                                                 .setTimestamp()
                                                             ).then( reply => {
-                                                                setTimeout( () => {
                                                                     reply.edit(
                                                                         new MessageEmbed()
                                                                         .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
                                                                         .setColor('RANDOM')
                                                                         .setTimestamp()
                                                                     ).then( reply => {
-                                                                        setTimeout( () => {
                                                                             reply.edit(
                                                                                 new MessageEmbed()
                                                                                 .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
                                                                                 .setColor('RANDOM')
                                                                                 .setTimestamp()
                                                                             ).then( reply => {
-                                                                                setTimeout( () => {
                                                                                     reply.edit(`${message.author}`,
                                                                                     new MessageEmbed()
                                                                                     .setDescription(`${emojis[slot[19]]}-${emojis[slot[29]]}-${emojis[slot[39]]}\n\nジャックポット当選、おめでとう！\n${Win}うんコイン獲得！\nあなたのうんコイン: ${usermoneydata.money}枚`)
                                                                                     .setColor('RANDOM')
                                                                                     .setTimestamp());
-                                                                                }, 1000);
                                                                             })
-                                                                        }, 700)
                                                                     })
-                                                                }, 600)
                                                             })
-                                                        }, 500)
                                                     })
-                                                }, 400)
                                             })
-                                        }, 300)
                                     })
-                                }, 200)
                                })
-                            }, 100)
                         })
                 }
                 else{
                     let Win = Latch * 10
                     usermoneydata.money += Win;
-                    await message.channel.send(
+                    message.channel.send(
                         new MessageEmbed()
                         .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
                         .setColor('RANDOM')
                         .setTimestamp()
                     ).then( reply => {
-                        setTimeout( () => {
                             reply.edit(
                                new MessageEmbed()
                                .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
                                .setColor('RANDOM')
                                .setTimestamp()
                            ).then( reply => {
-                            setTimeout( () => {
                                 reply.edit(
                                     new MessageEmbed()
                                     .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
                                     .setColor('RANDOM')
                                     .setTimestamp()
                                 ).then( reply => {
-                                    setTimeout( () => {
                                         reply.edit(
                                             new MessageEmbed()
                                             .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
                                             .setColor('RANDOM')
                                             .setTimestamp()
                                         ).then( reply => {
-                                            setTimeout( () => {
                                                 reply.edit(
                                                     new MessageEmbed()
                                                     .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
                                                     .setColor('RANDOM')
                                                     .setTimestamp()
                                                 ).then( reply => {
-                                                    setTimeout( () => {
                                                         reply.edit(
                                                             new MessageEmbed()
                                                             .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
                                                             .setColor('RANDOM')
                                                             .setTimestamp()
                                                         ).then( reply => {
-                                                            setTimeout( () => {
                                                                 reply.edit(
                                                                     new MessageEmbed()
                                                                     .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
                                                                     .setColor('RANDOM')
                                                                     .setTimestamp()
                                                                 ).then( reply => {
-                                                                    setTimeout( () => {
                                                                         reply.edit(
                                                                             new MessageEmbed()
                                                                             .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
                                                                             .setColor('RANDOM')
                                                                             .setTimestamp()
                                                                         ).then( reply => {
-                                                                            setTimeout( () => {
                                                                                reply.edit(`${message.author}`,
                                                                                 new MessageEmbed()
                                                                                 .setDescription(`${emojis[slot[19]]}-${emojis[slot[29]]}-${emojis[slot[39]]}\n\n大当たり、おめでとう！\n${Win}}うんコイン獲得！\nあなたのうんコイン: ${usermoneydata.money}枚`)
                                                                                 .setColor('RANDOM')
                                                                                 .setTimestamp());
-                                                                            }, 1000);
                                                                         })
-                                                                    }, 700)
                                                                 })
-                                                            }, 600)
                                                         })
-                                                    }, 500)
                                                 })
-                                            }, 400)
                                         })
-                                    }, 300)
                                 })
-                            }, 200)
                            })
-                        }, 100)
-                    })
+                    });
                 } 
             }
             else{
             usermoneydata.money -= Latch;
-            await message.channel.send(
+            message.channel.send(
                 new MessageEmbed()
                 .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
                 .setColor('RANDOM')
                 .setTimestamp()
             ).then( reply => {
-                setTimeout( () => {
                     reply.edit(
                        new MessageEmbed()
                        .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
                        .setColor('RANDOM')
                        .setTimestamp()
                    ).then( reply => {
-                    setTimeout( () => {
                         reply.edit(
                             new MessageEmbed()
                             .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
                             .setColor('RANDOM')
                             .setTimestamp()
                         ).then( reply => {
-                            setTimeout( () => {
                                 reply.edit(
                                     new MessageEmbed()
                                     .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
                                     .setColor('RANDOM')
                                     .setTimestamp()
                                 ).then( reply => {
-                                    setTimeout( () => {
                                         reply.edit(
                                             new MessageEmbed()
                                             .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
                                             .setColor('RANDOM')
                                             .setTimestamp()
                                         ).then( reply => {
-                                            setTimeout( () => {
                                                 reply.edit(
                                                     new MessageEmbed()
                                                     .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
                                                     .setColor('RANDOM')
                                                     .setTimestamp()
                                                 ).then( reply => {
-                                                    setTimeout( () => {
                                                         reply.edit(
                                                             new MessageEmbed()
                                                             .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
                                                             .setColor('RANDOM')
                                                             .setTimestamp()
-                                                        ).then( reply => {
-                                                            setTimeout( () => {
-                                                                reply.edit(
+                                                        ).then( reply => {                                                               reply.edit(
                                                                     new MessageEmbed()
                                                                     .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
                                                                     .setColor('RANDOM')
                                                                     .setTimestamp()
                                                                 ).then( reply => {
-                                                                    setTimeout( () => {
                                                                       reply.edit(
                                                                         new MessageEmbed()
                                                                         .setDescription(`${emojis[slot[19]]}-${emojis[slot[29]]}-${emojis[slot[39]]}\n\nハズレ 次は当たるといいな＾＾\n${Latch}うんコイン消失\nあなたのうんコイン: ${usermoneydata.money}枚`)
                                                                         .setColor('RANDOM')
                                                                         .setTimestamp()
                                                                           );
-                                                                    }, 1000);
                                                                 })
-                                                            }, 700)
                                                         })
-                                                    }, 600)
-                                                })
-                                            }, 500)
+                                                    })
                                         })
-                                    }, 400)
                                 })
-                            }, 300)
                         })
-                    }, 200)
                    })
-                }, 100)
             });    
             }
         }
@@ -396,165 +285,132 @@ module.exports = {
                 Win = Latch * 3;
             }
             usermoneydata.money += Win;
-            await message.channel.send(
+            message.channel.send(
                 new MessageEmbed()
                 .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
                 .setColor('RANDOM')
                 .setTimestamp()
             ).then( reply => {
-                setTimeout( () => {
                     reply.edit(
                        new MessageEmbed()
                        .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
                        .setColor('RANDOM')
                        .setTimestamp()
                    ).then( reply => {
-                    setTimeout( () => {
                         reply.edit(
                             new MessageEmbed()
                             .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
                             .setColor('RANDOM')
                             .setTimestamp()
                         ).then( reply => {
-                            setTimeout( () => {
                                 reply.edit(
                                     new MessageEmbed()
                                     .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
                                     .setColor('RANDOM')
                                     .setTimestamp()
                                 ).then( reply => {
-                                    setTimeout( () => {
                                         reply.edit(
                                             new MessageEmbed()
                                             .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
                                             .setColor('RANDOM')
                                             .setTimestamp()
                                         ).then( reply => {
-                                            setTimeout( () => {
                                                 reply.edit(
                                                     new MessageEmbed()
                                                     .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
                                                     .setColor('RANDOM')
                                                     .setTimestamp()
                                                 ).then( reply => {
-                                                    setTimeout( () => {
                                                         reply.edit(
                                                             new MessageEmbed()
                                                             .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
                                                             .setColor('RANDOM')
                                                             .setTimestamp()
                                                         ).then( reply => {
-                                                            setTimeout( () => {
                                                                 reply.edit(
                                                                     new MessageEmbed()
                                                                     .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
                                                                     .setColor('RANDOM')
                                                                     .setTimestamp()
                                                                 ).then( reply => {
-                                                                    setTimeout( () => {
                                                                         reply.edit(`${message.author}`,
                                                                         new MessageEmbed()
                                                                         .setDescription(`${emojis[slot[19]]}-${emojis[slot[29]]}-${emojis[slot[39]]}\n\nおおあたり おめでとう！\n${Win}うんコイン獲得！\nあなたのうんコイン: ${usermoneydata.money}枚`)
                                                                         .setColor('RANDOM')
                                                                         .setTimestamp()
                                                                         );
-                                                                    }, 1000);
                                                                 })
-                                                            }, 700)
                                                         })
-                                                    }, 600)
                                                 })
-                                            }, 500)
                                         })
-                                    }, 400)
                                 })
-                            }, 300)
                         })
-                    }, 200)
                    })
-                }, 100)
-            })
-            
+            });
         }
         else{
            usermoneydata.money -= Latch;
-        await message.channel.send(
+        message.channel.send(
             new MessageEmbed()
             .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
             .setColor('RANDOM')
             .setTimestamp()
         ).then( reply => {
-            setTimeout( () => {
                 reply.edit(
                    new MessageEmbed()
                    .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
                    .setColor('RANDOM')
                    .setTimestamp()
                ).then( reply => {
-                setTimeout( () => {
                     reply.edit(
                         new MessageEmbed()
                         .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
                         .setColor('RANDOM')
                         .setTimestamp()
                     ).then( reply => {
-                        setTimeout( () => {
                             reply.edit(
                                 new MessageEmbed()
                                 .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
                                 .setColor('RANDOM')
                                 .setTimestamp()
                             ).then( reply => {
-                                setTimeout( () => {
                                     reply.edit(
                                         new MessageEmbed()
                                         .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
                                         .setColor('RANDOM')
                                         .setTimestamp()
                                     ).then( reply => {
-                                        setTimeout( () => {
                                             reply.edit(
                                                 new MessageEmbed()
                                                 .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
                                                 .setColor('RANDOM')
                                                 .setTimestamp()
                                             ).then( reply => {
-                                                setTimeout( () => {
                                                     reply.edit(
                                                         new MessageEmbed()
                                                         .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
                                                         .setColor('RANDOM')
                                                         .setTimestamp()
                                                     ).then( reply => {
-                                                        setTimeout( () => {
                                                             reply.edit(
                                                                 new MessageEmbed()
                                                                 .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
                                                                 .setColor('RANDOM')
                                                                 .setTimestamp()
                                                             ).then( reply => {
-                                                                setTimeout( () => {
                                                                   reply.edit(
                                                                     new MessageEmbed()
                                                                     .setDescription(`${emojis[slot[19]]}-${emojis[slot[29]]}-${emojis[slot[39]]}\n\nハズレ 次は当たるといいな＾＾\n${Latch}うんコイン消失\nあなたのうんコイン: ${usermoneydata.money}枚`)
                                                                     .setColor('RANDOM')
                                                                     .setTimestamp()
                                                                       );
-                                                                }, 1000);
                                                             })
-                                                        }, 700)
                                                     })
-                                                }, 600)
                                             })
-                                        }, 500)
                                     })
-                                }, 400)
-                            })
-                        }, 300)
+                                })
                     })
-                }, 200)
                })
-            }, 100)
         });    
         }
        }
@@ -562,8 +418,9 @@ module.exports = {
     else{
         if(message.channel.id !== '798571746730049597' && message.guild.id === '706452606918066237') {
             message.delete();
-            const reply = await message.reply('そのコマンドは<#798571746730049597>でしか使用できません<a:owoxgif:793460058250805259>');
-            reply.delete({ timeout: 5000 });
+            message.reply('そのコマンドは<#798571746730049597>でしか使用できません<a:owoxgif:793460058250805259>').then( msg => {
+                msg.delete({ timeout: 5000 });
+            })
             return;
         }
         const emojis = ['<:maguro:798234419659800616>',  '<:image0:798159753611575296>', '<:swordthonk:798179606166634516>', '<:swordthonk:798179606166634516>'];
@@ -581,161 +438,129 @@ module.exports = {
         }
          if(slot[19] === slot[29] && slot[19] === slot[39] && slot[19] === 0){
                 usermoneydata.money += 100000;
-                await message.channel.send(
+                message.channel.send(
                     new MessageEmbed()
                     .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
                     .setColor('RANDOM')
                     .setTimestamp()
                 ).then( reply => {
-                    setTimeout( () => {
                         reply.edit(
                            new MessageEmbed()
                            .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
                            .setColor('RANDOM')
                            .setTimestamp()
                        ).then( reply => {
-                        setTimeout( () => {
                             reply.edit(
                                 new MessageEmbed()
                                 .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
                                 .setColor('RANDOM')
                                 .setTimestamp()
                             ).then( reply => {
-                                setTimeout( () => {
                                     reply.edit(
                                         new MessageEmbed()
                                         .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
                                         .setColor('RANDOM')
                                         .setTimestamp()
                                     ).then( reply => {
-                                        setTimeout( () => {
                                             reply.edit(
                                                 new MessageEmbed()
                                                 .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
                                                 .setColor('RANDOM')
                                                 .setTimestamp()
                                             ).then( reply => {
-                                                setTimeout( () => {
                                                     reply.edit(
                                                         new MessageEmbed()
                                                         .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
                                                         .setColor('RANDOM')
                                                         .setTimestamp()
                                                     ).then( reply => {
-                                                        setTimeout( () => {
                                                             reply.edit(
                                                                 new MessageEmbed()
                                                                 .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
                                                                 .setColor('RANDOM')
                                                                 .setTimestamp()
                                                             ).then( reply => {
-                                                                setTimeout( () => {
                                                                     reply.edit(
                                                                         new MessageEmbed()
                                                                         .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
                                                                         .setColor('RANDOM')
                                                                         .setTimestamp()
                                                                     ).then( reply => {
-                                                                        setTimeout( () => {
                                                                             reply.edit(`${message.author}`,
                                                                             new MessageEmbed()
                                                                             .setDescription(`${emojis[slot[19]]}-${emojis[slot[29]]}-${emojis[slot[39]]}\n\nマグロを釣った！\nあなたの残りの借金: ${usermoneydata.money * -1}うんコイン`)
                                                                             .setColor('RANDOM')
                                                                             .setTimestamp() );
-                                                                        }, 1000);
                                                                     })
-                                                                }, 700)
                                                             })
-                                                        }, 600)
                                                     })
-                                                }, 500)
                                             })
-                                        }, 400)
                                     })
-                                }, 300)
                             })
-                        }, 200)
                        })
-                    }, 100)
                 })
          }
          else{
-            await message.channel.send(
+            message.channel.send(
                 new MessageEmbed()
                 .setDescription(`${emojis[slot[11]]}-${emojis[slot[21]]}-${emojis[slot[31]]}\n\nうんこ抽選中...`)
                 .setColor('RANDOM')
                 .setTimestamp()
             ).then( reply => {
-                setTimeout( () => {
                     reply.edit(
                        new MessageEmbed()
                        .setDescription(`${emojis[slot[12]]}-${emojis[slot[22]]}-${emojis[slot[32]]}\n\nうんこ抽選中...`)
                        .setColor('RANDOM')
                        .setTimestamp()
                    ).then( reply => {
-                    setTimeout( () => {
                         reply.edit(
                             new MessageEmbed()
                             .setDescription(`${emojis[slot[13]]}-${emojis[slot[23]]}-${emojis[slot[33]]}\n\nうんこ抽選中...`)
                             .setColor('RANDOM')
                             .setTimestamp()
                         ).then( reply => {
-                            setTimeout( () => {
                                 reply.edit(
                                     new MessageEmbed()
                                     .setDescription(`${emojis[slot[14]]}-${emojis[slot[24]]}-${emojis[slot[34]]}\n\nうんこ抽選中...`)
                                     .setColor('RANDOM')
                                     .setTimestamp()
                                 ).then( reply => {
-                                    setTimeout( () => {
                                         reply.edit(
                                             new MessageEmbed()
                                             .setDescription(`${emojis[slot[15]]}-${emojis[slot[25]]}-${emojis[slot[35]]}\n\nうんこ抽選中...`)
                                             .setColor('RANDOM')
                                             .setTimestamp()
                                         ).then( reply => {
-                                            setTimeout( () => {
                                                 reply.edit(
                                                     new MessageEmbed()
                                                     .setDescription(`${emojis[slot[16]]}-${emojis[slot[26]]}-${emojis[slot[36]]}\n\nうんこ抽選中...`)
                                                     .setColor('RANDOM')
                                                     .setTimestamp()
                                                 ).then( reply => {
-                                                    setTimeout( () => {
                                                         reply.edit(
                                                             new MessageEmbed()
                                                             .setDescription(`${emojis[slot[17]]}-${emojis[slot[27]]}-${emojis[slot[37]]}\n\nうんこ抽選中...`)
                                                             .setColor('RANDOM')
                                                             .setTimestamp()
                                                         ).then( reply => {
-                                                            setTimeout( () => {
                                                                 reply.edit(
                                                                     new MessageEmbed()
                                                                     .setDescription(`${emojis[slot[18]]}-${emojis[slot[28]]}-${emojis[slot[38]]}\n\nうんこ抽選中...`)
                                                                     .setColor('RANDOM')
                                                                     .setTimestamp()
                                                                 ).then( reply => {
-                                                                    setTimeout( () => {
                                                                         reply.edit(
                                                                         new MessageEmbed()
                                                                         .setDescription(`${emojis[slot[19]]}-${emojis[slot[29]]}-${emojis[slot[39]]}\n\nハズレ 次は釣れるといいな＾＾\n残りの借金: ${usermoneydata.money * -1}うんコイン`)
                                                                         .setColor('RANDOM')
                                                                         .setTimestamp());
-                                                                    }, 1000);
                                                                 })
-                                                            }, 700)
                                                         })
-                                                    }, 600)
                                                 })
-                                            }, 500)
                                         })
-                                    }, 400)
                                 })
-                            }, 300)
                         })
-                    }, 200)
                    })
-                }, 100)
             })  
          }
     }
