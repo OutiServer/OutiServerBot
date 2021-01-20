@@ -21,12 +21,20 @@ module.exports = {
         if (choices.length < 2 || choices.length > emojis.length){
           return message.channel.send(`選択肢は2から${emojis.length}つを指定してください`)
         }
-        const poll = await message.channel.send(`${message.author.tag}が作成した投票です`,
+        const poll = await message.channel.send(
+          new MessageEmbed()
+          .setDescription('投票作成中')
+          .setColor('RANDOM')
+          .setTimestamp()
+        );
+        emojis.slice(0, choices.length).forEach(emoji => poll.react(emoji))
+        poll.edit(`${message.author.tag}が作成した投票です`,
           new MessageEmbed()
           .setTitle(title)
           .setDescription(choices.map((c, i) => `${emojis[i]} ${c}`).join('\n'))
+          .setFooter(`${process.env.PREFIX}sumpoll ${poll.id} で集計します`)
           .setColor('RANDOM')
         )
-        emojis.slice(0, choices.length).forEach(emoji => poll.react(emoji))
+        
     },
 };
