@@ -22,13 +22,18 @@ module.exports = {
         catch(e){
             return message.channel.send('投票が見つかりませんでした');
         }
-        const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name+reactions.count+'票');
-            const reaction = allreacionname.join('\n');
-            message.channel.send(
-              new MessageEmbed()
-              .setDescription(reaction)
-              .setColor('RANDOM')
-              .setTimestamp()
-            );
+        const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name);
+        const allreacioncount = msg.reactions.cache.map(reactions => reactions.count);
+        let count = 0;
+        let msgcontent = '';
+        for(const data of allreacioncount){
+            msgcontent += `${allreacionname[count]} ${data - 1}票\n`
+        }
+        message.channel.send(
+            new MessageEmbed()
+            .setDescription(msgcontent)
+            .setColor('RANDOM')
+            .setTimestamp()
+        );
     },
 };
