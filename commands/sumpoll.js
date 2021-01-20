@@ -4,7 +4,7 @@ module.exports = {
     info: {
         name: "sumpoll",
         description: "投票集計コマンド",
-        usage: "",
+        usage: "[メッセージID]",
         aliases: [""],
         botownercommand: false,
         botadmincommand: false
