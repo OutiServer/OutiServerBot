@@ -22,7 +22,7 @@ module.exports = {
         catch(e){
             return message.channel.send('投票が見つかりませんでした');
         }
-        const allreacionname = msg.reactions.cache.map(reactions => '<:'+reactions.emoji.name+':'+reactions.emoji.id+'>'+reactions.count+'票');
+        const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name+reactions.count+'票');
             const reaction = allreacionname.join('\n');
             message.channel.send(
               new MessageEmbed()
