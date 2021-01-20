@@ -21,7 +21,7 @@ module.exports = {
       .addPages([
         new MessageEmbed()
         .setTitle(`${client.user.tag} help1ページ目(メインコマンド)`)
-        .setDescription('```'+`${process.env.PREFIX}ping: BotのPing値とメモリ使用率を表示\n${process.env.PREFIX}poll [タイトル] [選択肢1] [選択肢2] etc...: 投票を作るコマンド\n${process.env.PREFIX}translate [元の言語] [翻訳先の言語] [翻訳する言葉]: 翻訳\n${process.env.PREFIX}youtube [検索する単語]: YouTubeで動画を検索\n${process.env.PREFIX}eval [プログラム]: jsのプログラムを実行できる便利コマンド`+'```')
+        .setDescription('```'+`${process.env.PREFIX}ping: BotのPing値とメモリ使用率を表示\n${process.env.PREFIX}poll [タイトル] [選択肢1] [選択肢2] etc...: 投票を作るコマンド\n${process.env.PREFIX}sumpoll [メッセージID]: 投票集計\n${process.env.PREFIX}translate [元の言語] [翻訳先の言語] [翻訳する言葉]: 翻訳\n${process.env.PREFIX}youtube [検索する単語]: YouTubeで動画を検索\n${process.env.PREFIX}eval [プログラム]: jsのプログラムを実行できる便利コマンド`+'```')
         .setColor('RANDOM')
         .setFooter(`${process.env.PREFIX}help [command] で各コマンドの詳細を表示します。`, client.user.avatarURL())
         .setTimestamp(),
@@ -33,7 +33,7 @@ module.exports = {
         .setTimestamp(),
         new MessageEmbed()
         .setTitle(`${client.user.tag} help3ページ目(カジノコマンド)`)
-        .setDescription('```'+`${process.env.PREFIX}slot: スロットをする、借金返済中の人は強制的にマグロスロットになります\n${process.env.PREFIX}cointoss [賭け金]: コイントスをするコマンド\n${process.env.PREFIX}Littlewar [賭け金]: 小戦争\n${process.env.PREFIX}tintiro [賭け金]: チンチロ\n${process.env.PREFIX}slotsettings [設定する名前] [設定する内容]: slotの各種設定`)
+        .setDescription('```'+`${process.env.PREFIX}slot: スロットをする、借金返済中の人は強制的にマグロスロットになります\n${process.env.PREFIX}cointoss [賭け金]: コイントスをするコマンド\n${process.env.PREFIX}Littlewar [賭け金]: 小戦争\n${process.env.PREFIX}tintiro [賭け金]: チンチロ\n${process.env.PREFIX}slotsettings [設定する名前] [設定する内容]: slotの各種設定`+'```')
         .setColor('RANDOM')
         .setFooter(`${process.env.PREFIX}help [command] で各コマンドの詳細を表示します。`, client.user.avatarURL())
         .setTimestamp()
