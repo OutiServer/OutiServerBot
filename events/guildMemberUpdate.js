@@ -42,6 +42,12 @@ module.exports = async (client, oldMember, newMember) => {
   else if(!oldMember.roles.cache.has('794806814909661255') && newMember.roles.cache.has('794806814909661255')){
     Trust = 0;
   }
+  else if(!oldMember.roles.cache.has('795891996656402482') && newMember.roles.cache.has('795891996656402482')){
+    Trust = -100;
+  }
+  else if(!oldMember.roles.cache.has('800265733523243028') && newMember.roles.cache.has('800265733523243028')){
+    Trust = -100000000000000000000000000000000000000000000000000000000000000000000000;
+  }
   else{
     return;
   }
