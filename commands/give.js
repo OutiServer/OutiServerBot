@@ -24,12 +24,12 @@ module.exports = {
             }
             let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
             if (!usermoneydata) {
-              usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0 }
+              usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
             }
             if(usermoneydata.money < moneysToAdd) return message.reply('自分の所持金以上の金を付与することはできません＾＾；');
             let giveusermoneydata = client.getMoney.get(user.id, message.guild.id);
             if (!giveusermoneydata) {
-              giveusermoneydata　= { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0}
+              giveusermoneydata　= { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
             }
             giveusermoneydata.money += moneysToAdd;
             usermoneydata.money -= moneysToAdd;

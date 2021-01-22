@@ -20,7 +20,7 @@ module.exports = {
     }
     let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
     if (!usermoneydata) {
-        usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0 }
+        usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
     }
     let slotsettingsdata = client.getSlotsettings.get(message.guild.id);
     if (!slotsettingsdata) {

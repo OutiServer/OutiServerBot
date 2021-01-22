@@ -31,7 +31,7 @@ module.exports = {
         if(!Stake || Stake < 50000 || Stake > 100000) return message.reply('第一引数に賭け金を50000から100000の数値で入れてください！');
         let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
         if (!usermoneydata) {
-            usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0 }
+            usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
         } 
         let cointossMenu = new Menu(message.channel, message.author.id, [
             {

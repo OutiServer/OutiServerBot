@@ -28,6 +28,7 @@ module.exports = {
         let msgcontent = '';
         for(const data of allreacioncount){
             msgcontent += `${allreacionname[count]} ${data - 1}票\n`
+            count++;
         }
         message.channel.send(
             new MessageEmbed()

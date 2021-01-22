@@ -24,7 +24,7 @@ module.exports = {
             }
             let giveusermoneydata = client.getMoney.get(user.id, message.guild.id);
             if (!giveusermoneydata) {
-              giveusermoneydata　= { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0 }
+              giveusermoneydata　= { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
             }
             giveusermoneydata.money += moneysToAdd;
             client.setMoney.run(giveusermoneydata);

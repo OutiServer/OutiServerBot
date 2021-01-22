@@ -1,4 +1,7 @@
 const { Client, Message } = require('discord.js');
+const SQLite = require("better-sqlite3");
+const sql = new SQLite('./unkoserver.db');
+
 
 module.exports = {
     info: {
@@ -18,12 +21,10 @@ module.exports = {
           if(!user || user.bot) {
           return message.reply("あなたは誰かに言及するか、彼らのIDを与える必要があります！");  
         }
-        let usermoneydata = client.getMoney.get(user.id, message.guild.id);
-          if (!usermoneydata) {
-            usermoneydata　= { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0 }
-          }
-          usermoneydata.money = 0;
-          client.setMoney.run(usermoneydata);
-          message.channel.send(`${user}のデータをリセットしました`);
+        sql.prepare(`DELETE FROM moneys WHERE user = ${user.id} AND guild = ${message.guild.id}`).run();
+        sql.prepare(`DELETE FROM debts WHERE user = ${user.id} AND guild = ${message.guild.id}`).run();
+        sql.prepare(`DELETE FROM dailys WHERE user = ${user.id} AND guild = ${message.guild.id}`).run();
+        sql.prepare(`DELETE FROM littlewar WHERE user = ${user.id} AND guild = ${message.guild.id}`).run();
+        message.channel.send(`${user}の全データをリセットしました`);
     },
 };

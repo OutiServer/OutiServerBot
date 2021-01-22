@@ -18,7 +18,7 @@ module.exports = {
        if(!user){
         let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
         if (!usermoneydata) {
-           usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0 }
+           usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
         }
         message.channel.send(
             new MessageEmbed()
@@ -29,7 +29,7 @@ module.exports = {
        else{
         let usermoneydata = client.getMoney.get(user.id, message.guild.id);
         if (!usermoneydata) {
-           usermoneydata　= { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0 }
+           usermoneydata　= { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
         }
         message.channel.send(
             new MessageEmbed()
