@@ -49,16 +49,15 @@ module.exports = {
                     .setImage('https://media.discordapp.net/attachments/800317829962399795/802521531704016896/capsule_close1_red.png')
                     .setColor('RANDOM')
                     .setTimestamp()
-                )
-        }).then( msg => {
-                msg.edit(
-                    new MessageEmbed()
-                    .setTitle('うんこガチャ')
-                    .setImage('https://media.discordapp.net/attachments/800317829962399795/802521536040402944/capsule_open1_red.png')
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
-        }).then( msg => {
+                ).then( msg => {
+                    msg.edit(
+                        new MessageEmbed()
+                        .setTitle('うんこガチャ')
+                        .setImage('https://media.discordapp.net/attachments/800317829962399795/802521536040402944/capsule_open1_red.png')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                    );
+            }).then( msg => {
                 msg.edit(
                     new MessageEmbed()
                     .setTitle('うんこガチャ')
@@ -66,6 +65,7 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 );
+            })
         })
     },
 };
