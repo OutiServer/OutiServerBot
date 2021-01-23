@@ -16,6 +16,17 @@ module.exports = {
  * @param {Client} client
  */
     run: async function(client, message, args) {
+        let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
+        if (!usermoneydata) {
+           usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
+        }
+        if(usermoneydata.ticket === 0){
+            message.reply('お前チケット1枚も持ってないやん！').then( msg => {
+                msg.delete({ timeout: 5000 });
+            });
+            return;
+        }
+        usermoneydata.ticket -= 1;
         var random = Math.ceil( Math.random()*10 );
         let content = '';
         if(random === 1){
@@ -72,6 +83,7 @@ module.exports = {
                     }, 1000);
             })
             }, 1000);
-        })
+        });
+        client.setMoney.run(usermoneydata);
     },
 };

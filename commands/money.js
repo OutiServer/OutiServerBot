@@ -15,14 +15,16 @@ module.exports = {
  */
     run: async function(client, message, args) {
        const user = message.mentions.users.first() || client.users.cache.get(args[0]);
-       if(!user){
+       if(!user || user.bot){
         let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
         if (!usermoneydata) {
            usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
         }
         message.channel.send(
             new MessageEmbed()
-            .setDescription(`<@${message.author.id}>のうんコイン\n<:image0:798159753611575296>: ${usermoneydata.money}`)
+            .setDescription(`<@${message.author.id}>のうんコイン\n<:image0:798159753611575296>: ${usermoneydata.money}\nうんこチケット: ${usermoneydata.ticket}枚`)
+            .setColor('RANDOM')
+            .setTimestamp()
         );
         client.setMoney.run(usermoneydata);
        }
@@ -33,7 +35,9 @@ module.exports = {
         }
         message.channel.send(
             new MessageEmbed()
-            .setDescription(`<@${user.id}>のうんコイン\n<:image0:798159753611575296>: ${usermoneydata.money}`)
+            .setDescription(`<@${user.id}>のうんコイン\n<:image0:798159753611575296>: ${usermoneydata.money}\nうんこチケット: ${usermoneydata.ticket}枚`)
+            .setColor('RANDOM')
+            .setTimestamp()
         );
         client.setMoney.run(usermoneydata);
        }
