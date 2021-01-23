@@ -33,7 +33,7 @@ module.exports = {
         .setTimestamp(),
         new MessageEmbed()
         .setTitle(`${client.user.tag} help3ページ目(カジノコマンド)`)
-        .setDescription('```'+`${process.env.PREFIX}slot: スロットをする、借金返済中の人は強制的にマグロスロットになります\n${process.env.PREFIX}cointoss [賭け金]: コイントスをするコマンド\n${process.env.PREFIX}Littlewar [賭け金]: 小戦争\n${process.env.PREFIX}tintiro [賭け金]: チンチロ\n${process.env.PREFIX}slotsettings [設定する名前] [設定する内容]: slotの各種設定`+'```')
+        .setDescription('```'+`${process.env.PREFIX}slot: スロットをする、借金返済中の人は強制的にマグロスロットになります\n${process.env.PREFIX}cointoss [賭け金]: コイントスをするコマンド\n${process.env.PREFIX}Littlewar [賭け金]: 小戦争\n${process.env.PREFIX}tintiro [賭け金]: チンチロ\n${process.env.PREFIX}gacha: チケットを1枚使ってガチャを引く\n${process.env.PREFIX}slotsettings [設定する名前] [設定する内容]: slotの各種設定`+'```')
         .setColor('RANDOM')
         .setFooter(`${process.env.PREFIX}help [command] で各コマンドの詳細を表示します。`, client.user.avatarURL())
         .setTimestamp()
