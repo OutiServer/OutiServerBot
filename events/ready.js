@@ -112,21 +112,6 @@ module.exports = async (client) => {
         }, 600000)
       }
     }
-    else if (reaction.emoji.id === '799263454212259850') {
-      if(reaction.message.guild.member(user).roles.cache.has('799253498830258208')){
-        reaction.message.guild.member(user).roles.remove('799253498830258208');
-        const reply = await client.channels.cache.get('774594290679545886').send(`${user} 競馬お知らせを剥奪しました`);
-        reply.delete({ timeout: 5000 });
-      }
-      else{
-        reaction.message.guild.member(user).roles.add('799253498830258208');
-        const reply = await client.channels.cache.get('774594290679545886').send(`${user} 競馬お知らせを付与しました\n10分後自動で剥奪します`);
-        reply.delete({ timeout: 5000 });
-        setTimeout(() => {
-          reaction.message.guild.member(user).roles.remove('799253498830258208');
-        }, 600000)
-      }
-    }
   });
   handleReaction('802079467739676692', '802115362526330930', async (reaction, user) => {
     let usermoneydata = client.getMoney.get(user.id, '706452606918066237');
