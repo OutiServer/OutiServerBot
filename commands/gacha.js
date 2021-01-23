@@ -43,6 +43,7 @@ module.exports = {
             .setColor('RANDOM')
             .setTimestamp()
         ).then( msg => {
+            setTimeout(() => {
                 msg.edit(
                     new MessageEmbed()
                     .setTitle('うんこガチャ')
@@ -50,22 +51,27 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 ).then( msg => {
-                    msg.edit(
-                        new MessageEmbed()
-                        .setTitle('うんこガチャ')
-                        .setImage('https://media.discordapp.net/attachments/800317829962399795/802521536040402944/capsule_open1_red.png')
-                        .setColor('RANDOM')
-                        .setTimestamp()
-                    );
-            }).then( msg => {
-                msg.edit(
-                    new MessageEmbed()
-                    .setTitle('うんこガチャ')
-                    .setDescription(`うんこガチャの結果\n${content}`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-                );
+                    setTimeout(() => {
+                        msg.edit(
+                            new MessageEmbed()
+                            .setTitle('うんこガチャ')
+                            .setImage('https://media.discordapp.net/attachments/800317829962399795/802521536040402944/capsule_open1_red.png')
+                            .setColor('RANDOM')
+                            .setTimestamp()
+                        ).then( msg => {
+                            setTimeout(() => {
+                                msg.edit(
+                                    new MessageEmbed()
+                                    .setTitle('うんこガチャ')
+                                    .setDescription(`うんこガチャの結果\n${content}`)
+                                    .setColor('RANDOM')
+                                    .setTimestamp()
+                                );
+                            }, 1000); 
+                        })
+                    }, 1000);
             })
+            }, 1000);
         })
     },
 };
