@@ -16,11 +16,11 @@ module.exports = {
  * @param {Client} client
  */
     run: async function(client, message, args) {
-        var random = Math.ceil( Math.random()*5 );
+        var random = Math.ceil( Math.random()*10 );
         let content = '';
         if(random === 1){
             let roleid = '';
-            let rarerandom = Math.ceil( Math.random()*20 );
+            let rarerandom = Math.ceil( Math.random()*30 );
             if(rarerandom === 1){
                 let rare = Math.floor( Math.random() * raredata.length);
                 content = `当たり！\nレア枠: ${raredata[rare].name}を入手した`;
