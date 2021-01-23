@@ -43,7 +43,6 @@ module.exports = {
             .setColor('RANDOM')
             .setTimestamp()
         ).then( msg => {
-            setTimeout(() => {
                 msg.edit(
                     new MessageEmbed()
                     .setTitle('うんこガチャ')
@@ -51,9 +50,7 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 )
-            }, 1000);
         }).then( msg => {
-            setTimeout(() => {
                 msg.edit(
                     new MessageEmbed()
                     .setTitle('うんこガチャ')
@@ -61,9 +58,7 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 );
-            }, 1000);
         }).then( msg => {
-            setTimeout(() => {
                 msg.edit(
                     new MessageEmbed()
                     .setTitle('うんこガチャ')
@@ -71,7 +66,6 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 );
-            }, 1000);
         })
     },
 };
