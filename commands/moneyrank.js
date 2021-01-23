@@ -1,8 +1,7 @@
-const { Client, Message } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 const { ReactionController } = require('discord.js-reaction-controller');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('./unkoserver.db');
-const moneysembeds = require('../class/moneysembeds');
 
 module.exports = {
     info: {
@@ -20,13 +19,19 @@ module.exports = {
     run: async function(client, message, args) {
       let rank = 1
       let embed = {};
-      embed[0] = new moneysembeds(message, '1', '10');
-      embed[1] = new moneysembeds(message, '11', '20');
-      embed[2] = new moneysembeds(message, '21', '30');
-      embed[3] = new moneysembeds(message, '31', '40');
-      embed[4] = new moneysembeds(message, '41', '50');
-      const top50 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC LIMIT 50;").all(message.guild.id);
-      for(const data of top50){
+      let embednumber = 0;
+      let args1 = 1;
+      while(embednumber < 10){
+        embed[embednumber] = new MessageEmbed()
+        .setTitle(`うんこ鯖所持金ランキング${args1}〜${embednumber * 10}位`)
+        .setFooter(`コマンド実行者 ${message.author.tag}`, message.author.avatarURL())
+        .setColor('RANDOM')
+        .setTimestamp();
+        embednumber++;
+        args1 += 10;
+      }
+      const top100 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC LIMIT 100;").all(message.guild.id);
+      for(const data of top100){
         const user = message.guild.member(data.user);
         let usertag = ''
         if(!user){
@@ -36,30 +41,50 @@ module.exports = {
           usertag = user.user.tag;
         }
         if(rank < 11){
-          embed[0].embeds.addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+          embed[0].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
         }
         else if(rank < 21){
-          embed[1].embeds.addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+          embed[1].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
         }
         else if(rank < 31){
-          embed[2].embeds.addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+          embed[2].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
         }
         else if(rank < 41){
-          embed[3].embeds.addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+          embed[3].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
         }
         else if(rank < 51){
-          embed[4].embeds.addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+          embed[4].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+        }
+        else if(rank < 61){
+          embed[5].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+        }
+        else if(rank < 71){
+          embed[6].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+        }
+        else if(rank < 81){
+          embed[7].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+        }
+        else if(rank < 91){
+          embed[8].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
+        }
+        else if(rank < 101){
+          embed[9].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
         }
         rank++;
       }
      const controller = new ReactionController(client);
      controller
      .addPages([
-       embed[0].embeds,
-       embed[1].embeds,
-       embed[2].embeds,
-       embed[3].embeds,
-       embed[4].embeds
+       embed[0],
+       embed[1],
+       embed[2],
+       embed[3],
+       embed[4],
+       embed[5],
+       embed[6],
+       embed[7],
+       embed[8],
+       embed[9],
      ])
    controller.send(message)
      .catch(console.error)

@@ -7,7 +7,7 @@ const emojidata = ['<:unkooo:790538555407597590>', '<:emoji_105:7905463126793912
 
 module.exports = {
     info: {
-        name: "Littlewar",
+        name: "littlewar",
         description: "小戦争",
         usage: "[賭け金]",
         aliases: ["war"],
