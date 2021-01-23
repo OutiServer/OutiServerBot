@@ -51,7 +51,7 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 )
-            }, 3000);
+            }, 1000);
         }).then( msg => {
             setTimeout(() => {
                 msg.edit(
@@ -61,7 +61,7 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 );
-            }, 3000);
+            }, 1000);
         }).then( msg => {
             setTimeout(() => {
                 msg.edit(
@@ -71,7 +71,7 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTimestamp()
                 );
-            }, 3000);
+            }, 1000);
         })
     },
 };
