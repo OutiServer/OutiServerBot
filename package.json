@@ -20,12 +20,9 @@
     "discord.js-menu": "^2.3.1",
     "discord.js-reaction-controller": "^1.1.1",
     "dotenv": "^8.2.0",
-    "minecraft-server-util": "^3.4.2",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.1",
-    "node-gyp": "^7.1.2",
     "opusscript": "0.0.7",
-    "sqlite3": "^5.0.1",
     "yt-search": "^2.5.2"
   }
 }
