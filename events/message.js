@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
 
 /**
@@ -21,20 +20,21 @@ module.exports = async (client, message) => {
       userdailydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, login: 0 }
     }
     if(userdailydata.login === 0 && userdebtdata.Tuna === 0 && message.guild.id === '706452606918066237'){
-      let dailymoney = Math.ceil(usermoneydata.money * 0.15);
-      usermoneydata.money -= dailymoney;
-      usermoneydata.money += 10000;
       userdailydata.login = 1;
       usermoneydata.dailylogin += 1;
+      usermoneydata.money += 10000 * usermoneydata.dailylogin;
       message.channel.send(
         new MessageEmbed()
-        .setDescription(`<@${message.author.id}>、あなたは現在うんこ鯖に${usermoneydata.dailylogin}日ログインしています！\nデイリーボーナスとして1万うんコイン獲得しました！`)
+        .setDescription(`<@${message.author.id}>、あなたは現在うんこ鯖に${usermoneydata.dailylogin}日ログインしています！\nデイリーボーナスとして${10000 * usermoneydata.dailylogin}うんコイン獲得しました！`)
         .setColor('RANDOM')
         .setTimestamp()
       );
     }
     if(usermoneydata.money < 10000 && userdebtdata.Tuna === 0){
       usermoneydata.money += message.content.length * 10;
+      if(usermoneydata.money > 9999){
+        usermoneydata.money = 10000;
+      }
     }
     if(usermoneydata.money < -99999 && userdebtdata.Tuna === 0){
       message.member.roles.add('798570033235755029');
@@ -74,42 +74,13 @@ module.exports = async (client, message) => {
         );
     }
     if (!message.content.startsWith(process.env.PREFIX)) return;
-    const [command, ...args] = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
-    if(!command) return;
-    const cmd = client.commands.get(command);
-    const aliases = client.commands.find(x => x.info.aliases.includes(command))
-    if(cmd){
-      if(cmd.info.botownercommand && process.env.OWNERID !== message.author.id) {
-        message.reply(`このコマンドは${client.users.cache.get(process.env.OWNERID).tag}しか使用できないで。😉`).then( msg => {
-          msg.delete({ timeout: 5000 });
-        });
-        return;
-      }
-      if(cmd.info.botadmincommand && !message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has('771015602180587571')){
-        message.reply(`そのコマンドは管理者権限を持っているか中間管理職を持っていないと使用できないで。😉`).then( msg => {
-          msg.delete({ timeout: 5000 });
-        })
-        return;
-      }
-      cmd.run(client, message, args);
-    }else if(aliases){
-      if(aliases.info.botownercommand && process.env.OWNERID !== message.author.id) {
-        message.reply(`このコマンドは${client.users.cache.get(process.env.OWNERID).tag}しか使用できないで。😉`).then( msg => {
-          msg.delete({ timeout: 5000 });
-        })
-        return;
-      }
-      if(aliases.info.botadmincommand && !message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has('771015602180587571')){
-        message.reply(`そのコマンドは管理者権限を持っているか中間管理職を持っていないと使用できないで。😉`).then( msg => {
-          msg.delete({ timeout: 5000 });
-        })
-        return;
-      } 
-      aliases.run(client, message, args);
-    }else {
+    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+    const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command));
+    if (!cmd){
       message.reply('そんなコマンドないで。😉').then( msg => {
-        msg.delete( { timeout: 5000 });
+        msg.delete({ timeout: 5000 });
       });
-      return;
     }
+    cmd.run(client, message, args);
   };
