@@ -81,6 +81,7 @@ module.exports = async (client, message) => {
       message.reply('そんなコマンドないで。😉').then( msg => {
         msg.delete({ timeout: 5000 });
       });
+      return;
     }
     cmd.run(client, message, args);
   };
