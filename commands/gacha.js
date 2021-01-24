@@ -1,6 +1,45 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-const normaldata = require('../dat/gacha.json');
-const raredata = require('../dat/raregacha.json');
+
+const normaldata = [
+    {
+        "name":"下級国民",
+        "id":"802512106272325643"
+    },
+    {
+        "name":"UNKO",
+        "id":"802512348555247616"
+    },
+    {
+        "name":"茶のうんこ",
+        "id":"802511954030886942"
+    },
+    {
+        "name":"金のうんこ",
+        "id":"802512546057682964"
+    },
+    {
+        "name":"緑のうんこ",
+        "id":"802512911889072128"
+    },
+    {
+        "name":"丸いうんこ",
+        "id":"802513093473075220"
+    },
+    {
+        "name":"四角いうんこ",
+        "id":"802513182136074261"
+    }
+];
+const raredata = [
+    {
+        "name":"チョコボール",
+        "id":"802513495848386591"
+    },
+    {
+        "name":"プラチナうんこ",
+        "id":"802513730276950016"
+    }
+];
 
 module.exports = {
     info: {
