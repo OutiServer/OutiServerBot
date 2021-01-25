@@ -156,7 +156,7 @@ module.exports = {
                         })
                 })
            })
-    });
+       });
      }
     client.setMoney.run(usermoneydata);
     client.setDebt.run(userdebtdata);
