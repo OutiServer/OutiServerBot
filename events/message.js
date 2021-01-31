@@ -77,6 +77,7 @@ module.exports = async (client, message) => {
     }
     if (!message.content.startsWith(process.env.PREFIX)) return;
     const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
+    if(!args) return;
     const command = args.shift().toLowerCase();
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
     if (!cmd || cmd.info.botownercommand && process.env.OWNERID !== message.author.id || cmd.info.botadmincommand && !message.member.roles.cache.has('771015602180587571') && message.guild.id === '706452606918066237'){

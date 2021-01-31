@@ -6,7 +6,7 @@ const { Readable } = require('stream');
 const cron = require('node-cron');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('./unkoserver.db');
-const client = new Client({ ws: { intents: Intents.ALL } });
+const client = new Client({ ws: { intents: Intents.ALL  }, messageCacheMaxSize: -1 });
 client.commands = new Collection();
 
 readdir(__dirname + "/events/", (err, files) => {
