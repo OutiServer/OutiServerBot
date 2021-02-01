@@ -30,7 +30,7 @@ readdir("./commands/", (err, files) => {
     });
 });
 
-cron.schedule('0 0 3,7,11,15,19,23 * * *', () => client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\nGuildedサーバーにもぜひ参加してください！\nhttps://guilded.gg/Unkoserver`));
+cron.schedule('0 0 3,7,11,15,19,23 * * *', () => client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit`));
 cron.schedule('0 0 15 * * *', () => {
   let timerdata = client.getTimer.get('706452606918066237');
   timerdata.unkoserver -= 1;
