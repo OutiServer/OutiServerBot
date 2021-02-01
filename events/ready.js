@@ -9,7 +9,6 @@ const sql = new SQLite('./unkoserver.db');
 module.exports = async (client) => {
   const casinomessage = await client.channels.cache.get('798479605764718592').messages.fetch('799635530882744372');
   const unkoserverstatus = await client.channels.cache.get('780012050163302420').messages.fetch('800279738509426728');
-  const shop = await client.channels.cache.get('802079467739676692').messages.fetch('802115362526330930');
 
   const Moneytable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'moneys';").get();
   if (!Moneytable['count(*)']) {
@@ -113,7 +112,7 @@ module.exports = async (client) => {
       }
     }
   });
-  handleReaction('802079467739676692', '802115362526330930', async (reaction, user) => {
+  handleReaction('802115362526330930', '802115362526330930', async (reaction, user) => {
     let usermoneydata = client.getMoney.get(user.id, '706452606918066237');
     　 if (!usermoneydata) {
         usermoneydata　= { id: `706452606918066237-${user.id}`, user: user.id, guild: '706452606918066237', money: 0, dailylogin: 0, ticket: 0 }
@@ -123,14 +122,14 @@ module.exports = async (client) => {
         userdebtdata　= { id: `706452606918066237-${user.id}`, user: user.id, guild: '706452606918066237', Tuna: 0, Shoulder: null }
       }
       if(userdebtdata.Tuna === 1){
-        const reply = await client.channels.cache.get('802079467739676692').send(`${user}、お前借金返済中やん！`);
+        const reply = await client.channels.cache.get('802115362526330930').send(`${user}、お前借金返済中やん！`);
         reply.delete({ timeout: 5000 });
         return; 
       }
       if (reaction.emoji.name === '0️⃣') {
          usermoneydata.ticket++;
          usermoneydata.money -= 5000;
-         const reply = await client.channels.cache.get('802079467739676692').send(`${user}、うんこチケットを5000円で購入しました。`);
+         const reply = await client.channels.cache.get('802115362526330930').send(`${user}、うんこチケットを5000円で購入しました。`);
          reply.delete({ timeout: 5000 });
       }
       client.setMoney.run(usermoneydata);
