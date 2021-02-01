@@ -24,7 +24,7 @@ module.exports = async (client, message) => {
       usermoneydata.dailylogin += 1;
       usermoneydata.money += 10000 * usermoneydata.dailylogin;
       let zeikin = Math.ceil( usermoneydata.money / 0.15 );
-      usermoneydata.zeikin -= zeikin;
+      usermoneydata.money -= zeikin;
       message.channel.send(
         new MessageEmbed()
         .setDescription(`<@${message.author.id}>、あなたは現在うんこ鯖に${usermoneydata.dailylogin}日ログインしています！\nデイリーボーナスとして${10000 * usermoneydata.dailylogin}うんコイン獲得しました！`)
