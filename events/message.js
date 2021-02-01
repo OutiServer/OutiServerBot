@@ -23,7 +23,7 @@ module.exports = async (client, message) => {
       userdailydata.login = 1;
       usermoneydata.dailylogin += 1;
       usermoneydata.money += 10000 * usermoneydata.dailylogin;
-      let zeikin = Math.ceil( usermoneydata.money / 0.15 );
+      let zeikin = Math.ceil( usermoneydata.money / 1.15 );
       usermoneydata.money -= zeikin;
       message.channel.send(
         new MessageEmbed()

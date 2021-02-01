@@ -59,7 +59,7 @@ module.exports = {
         if (!usermoneydata) {
            usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
         }
-        if(usermoneydata.ticket === 0){
+        if(usermoneydata.ticket < 1){
             message.reply('お前チケット1枚も持ってないやん！').then( msg => {
                 msg.delete({ timeout: 5000 });
             });
