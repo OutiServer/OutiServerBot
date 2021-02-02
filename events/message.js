@@ -22,9 +22,9 @@ module.exports = async (client, message) => {
     if(userdailydata.login === 0 && userdebtdata.Tuna === 0 && message.guild.id === '706452606918066237'){
       userdailydata.login = 1;
       usermoneydata.dailylogin += 1;
-      usermoneydata.money += 10000 * usermoneydata.dailylogin;
       let zeikin = Math.ceil( usermoneydata.money / 1.15 );
       usermoneydata.money -= zeikin;
+      usermoneydata.money += 10000 * usermoneydata.dailylogin;
       message.channel.send(
         new MessageEmbed()
         .setDescription(`<@${message.author.id}>、あなたは現在うんこ鯖に${usermoneydata.dailylogin}日ログインしています！\nデイリーボーナスとして${10000 * usermoneydata.dailylogin}うんコイン獲得しました！`)
@@ -77,8 +77,8 @@ module.exports = async (client, message) => {
     }
     if (!message.content.startsWith(process.env.PREFIX)) return;
     const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
-    if(!args) return;
     const command = args.shift().toLowerCase();
+    if (!command) return;
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
     if (!cmd || cmd.info.botownercommand && process.env.OWNERID !== message.author.id || cmd.info.botadmincommand && !message.member.roles.cache.has('771015602180587571') && message.guild.id === '706452606918066237'){
       message.reply('そんなコマンドないで。😉').then( msg => {

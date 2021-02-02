@@ -5,8 +5,9 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const cron = require('node-cron');
 const SQLite = require("better-sqlite3");
+const sns = require('./commands/sns');
 const sql = new SQLite('./unkoserver.db');
-const client = new Client({ ws: { intents: Intents.ALL  }, messageCacheMaxSize: -1 });
+const client = new Client({ ws: { intents: Intents.ALL  } });
 client.commands = new Collection();
 
 readdir(__dirname + "/events/", (err, files) => {
@@ -30,7 +31,17 @@ readdir("./commands/", (err, files) => {
     });
 });
 
-cron.schedule('0 0 3,7,11,15,19,23 * * *', () => client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit`));
+cron.schedule('0 0 15,23,7 * * *', () => {
+  const sns10 = sql.prepare("SELECT * FROM snss WHERE guild = ? ORDER BY user DESC LIMIT 10;").all('706452606918066237');
+  let content = ''
+  for (const data of sns10) {
+    content += `[${data.title}](${data.url})`;
+    let usersnsdata = client.getSns.get(data.user, data.guild);
+    usersnsdata.count++;
+    client.setSns.run(usersnsdata);
+  }
+  client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\n${content}`);
+})
 cron.schedule('0 0 15 * * *', () => {
   let timerdata = client.getTimer.get('706452606918066237');
   timerdata.unkoserver -= 1;
