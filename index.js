@@ -55,7 +55,7 @@ cron.schedule('0 0 15 * * *', () => {
   timerdata.unkoserver -= 1;
   client.setTimer.run(timerdata);
   if(timerdata.unkoserver < 1){
-     for (let i = 0; i < 100; i++) {
+     for (let i = 0; i < 10; i++) {
         client.channels.cache.get('706469264638345227').send('@everyone うんこ鯖復活！');
      }
   }
