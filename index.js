@@ -56,7 +56,7 @@ cron.schedule('0 0 15 * * *', () => {
   client.setTimer.run(timerdata);
   if(timerdata.unkoserver < 1){
      for (let i = 0; i < 100; i++) {
-        client.channels.cache.get().send('@everyone')
+        client.channels.cache.get('706469264638345227').send('@everyone うんこ鯖復活！');
      }
   }
 });
