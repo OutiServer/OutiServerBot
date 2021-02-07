@@ -43,9 +43,6 @@ cron.schedule('0 0 15,23,7 * * *', () => {
   client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\n${content}`);
 })
 cron.schedule('0 0 15 * * *', () => {
-  let timerdata = client.getTimer.get('706452606918066237');
-  timerdata.unkoserver -= 1;
-  client.setTimer.run(timerdata);
   sql.prepare("DROP TABLE dailys;").run();
   const testtable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();
   if (!testtable['count(*)']) {
@@ -53,6 +50,14 @@ cron.schedule('0 0 15 * * *', () => {
     sql.prepare("CREATE UNIQUE INDEX idx_dailys_id ON dailys (id);").run();
     sql.pragma("synchronous = 1");
     sql.pragma("journal_mode = wal");
+  }
+  let timerdata = client.getTimer.get('706452606918066237');
+  timerdata.unkoserver -= 1;
+  client.setTimer.run(timerdata);
+  if(timerdata.unkoserver < 1){
+     for (let i = 0; i < 100; i++) {
+        client.channels.cache.get().send('@everyone')
+     }
   }
 });
 

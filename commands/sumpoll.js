@@ -32,9 +32,11 @@ module.exports = {
         }
         message.channel.send(
             new MessageEmbed()
+            .setTitle(msg.embeds[0].title + 'の投票結果')
             .setDescription(msgcontent)
-            .setColor('RANDOM')
-            .setTimestamp()
+            .setURL(`https://discord.com/channels/${message.guild.id}/${message.channel.id}/${messageid}`)
+            .setColor(msg.embeds[0].color)
+            .setTimestamp(msg.embeds[0].timestamp)
         );
     },
 };
