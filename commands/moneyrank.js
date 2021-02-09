@@ -30,7 +30,7 @@ module.exports = {
         embednumber++;
         args1 += 10;
       }
-      const top100 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC LIMIT 100;").all(message.guild.id);
+      const top100 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC;").all(message.guild.id);
       for(const data of top100){
         const user = message.guild.member(data.user);
         let usertag = ''

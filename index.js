@@ -5,7 +5,7 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const cron = require('node-cron');
 const SQLite = require("better-sqlite3");
-const sns = require('./commands/sns');
+const { kill } = require('process');
 const sql = new SQLite('./unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL  } });
 client.commands = new Collection();
@@ -34,7 +34,7 @@ readdir("./commands/", (err, files) => {
 cron.schedule('0 0 15,23,7 * * *', () => {
   const sns10 = sql.prepare("SELECT * FROM snss WHERE guild = ? ORDER BY user DESC LIMIT 10;").all('706452606918066237');
   let content = ''
-  for (const data of sns10) {
+  for (let data of sns10) {
     content += `[${data.title}](${data.url})`;
     let usersnsdata = client.getSns.get(data.user, data.guild);
     usersnsdata.count++;
@@ -136,6 +136,10 @@ process.on('unhandledRejection', error => {
       .setTimestamp()
     );
     console.error(`[ERROR!]\n${error}`);
+});
+
+process.on('exit', (code) => {
+  client.users.cache.get('714455926970777602').send(`nodeプロセスは${code}で終了しました`);
 });
   
 client.login(process.env.DISCORD_BOT_TOKEN);
