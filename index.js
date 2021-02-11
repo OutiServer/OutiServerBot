@@ -36,11 +36,15 @@ cron.schedule('0 0 15,23,7 * * *', () => {
   let content = ''
   for (let data of sns10) {
     content += `[${data.title}](${data.url})`;
-    let usersnsdata = client.getSns.get(data.user, data.guild);
-    usersnsdata.count++;
-    client.setSns.run(usersnsdata);
+    data.count++;
+    client.setSns.run(data);
+    if(data.count > 8)
+    {
+      sql.prepare(`DELETE FROM moneys WHERE user = ${data.user} AND guild = ${data.guild}`).run();
+    }
   }
   client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\n${content}`);
+  
 })
 cron.schedule('0 0 15 * * *', () => {
   sql.prepare("DROP TABLE dailys;").run();
@@ -54,10 +58,16 @@ cron.schedule('0 0 15 * * *', () => {
   let timerdata = client.getTimer.get('706452606918066237');
   timerdata.unkoserver -= 1;
   client.setTimer.run(timerdata);
-  if(timerdata.unkoserver < 1){
+  if(timerdata.unkoserver === 1){
      for (let i = 0; i < 10; i++) {
         client.channels.cache.get('706469264638345227').send('@everyone うんこ鯖復活！');
      }
+  }
+  const all = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC;").all('706452606918066237');
+  for (let data of all) {
+    let zeikin = Math.ceil( data.money / 1.15 );
+    data.money -= zeikin;
+    client.setMoney.run(data);
   }
 });
 

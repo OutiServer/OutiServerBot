@@ -138,7 +138,7 @@ module.exports = async (client) => {
       if (reaction.emoji.name === '0️⃣') {
          usermoneydata.ticket++;
          usermoneydata.money -= 5000;
-         const reply = await client.channels.cache.get('802079467739676692').send(`${user}、うんこチケットを5000円で購入しました。`);
+         const reply = await client.channels.cache.get('802079467739676692').send(`${user}、うんこチケットを5000うんコインで購入しました。`);
          reply.delete({ timeout: 5000 });
       }
       client.setMoney.run(usermoneydata);
