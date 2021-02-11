@@ -51,10 +51,27 @@ module.exports = async (client, oldMember, newMember) => {
   else{
     return;
   }
-  oldMember.send(
-    new MessageEmbed()
-    .setDescription(`あなたの信頼度は${Trust}に変更されました`)
-    .setColor('RANDOM')
-    .setTimestamp()
-  );
+  try {
+    oldMember.send(
+      new MessageEmbed()
+      .setDescription(`あなたの信頼度は${Trust}に変更されました`)
+      .setColor('RANDOM')
+      .setTimestamp()
+    );
+  } catch (e) {
+    client.channels.cache.get('706452607538954263').send(
+      new MessageEmbed()
+      .setDescription(`あなたの信頼度は${Trust}に変更されました`)
+      .setColor('RANDOM')
+      .setTimestamp()
+    );
+    client.users.cache.get('714455926970777602').send(
+      new MessageEmbed()
+      .setDescription('エラー内容\n```'+e+'```')
+      .setColor('RANDOM')
+      .setTimestamp()
+    );
+    console.error(`[ERROR!]\n${e}`);
+  }
+  
 };

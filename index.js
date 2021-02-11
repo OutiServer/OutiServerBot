@@ -137,9 +137,5 @@ process.on('unhandledRejection', error => {
     );
     console.error(`[ERROR!]\n${error}`);
 });
-
-process.on('exit', (code) => {
-  client.users.cache.get('714455926970777602').send(`nodeプロセスは${code}で終了しました`);
-});
   
 client.login(process.env.DISCORD_BOT_TOKEN);
