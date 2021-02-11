@@ -50,6 +50,10 @@ module.exports = async (client, message) => {
       webhook.send(`${message.author}、確かに借金は返してもらった、もう二度と借金すんじゃねえぞ。`);
       userdebtdata.Tuna = 0;
     }
+    if(usermoneydata.ticket === null)
+    {
+      usermoneydata.ticket = 0;
+    }
     client.setMoney.run(usermoneydata);
     client.setDebt.run(userdebtdata);
     client.setDaily.run(userdailydata);
