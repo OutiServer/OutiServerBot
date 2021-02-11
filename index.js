@@ -43,7 +43,7 @@ cron.schedule('0 0 15,23,7 * * *', () => {
       sql.prepare(`DELETE FROM moneys WHERE user = ${data.user} AND guild = ${data.guild}`).run();
     }
   }
-  client.channels.cache.get('706452607538954263').send(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\n${content}`);
+  client.channels.cache.get('706452607538954263').send('これは宣伝です！', `匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\n${content}`);
   
 })
 cron.schedule('0 0 15 * * *', () => {
