@@ -5,7 +5,6 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const cron = require('node-cron');
 const SQLite = require("better-sqlite3");
-const { kill } = require('process');
 const sql = new SQLite('./unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL  } });
 client.commands = new Collection();
@@ -32,7 +31,7 @@ readdir("./commands/", (err, files) => {
 });
 
 cron.schedule('0 0 15,23,7 * * *', () => {
-  const sns10 = sql.prepare("SELECT * FROM snss WHERE guild = ? ORDER BY user DESC LIMIT 10;").all('706452606918066237');
+  const sns10 = sql.prepare("SELECT * FROM snss WHERE guild = ? ORDER BY user DESC;").all('706452606918066237');
   let content = ''
   for (let data of sns10) {
     content += `[${data.title}](${data.url})`;
@@ -43,8 +42,12 @@ cron.schedule('0 0 15,23,7 * * *', () => {
       sql.prepare(`DELETE FROM moneys WHERE user = ${data.user} AND guild = ${data.guild}`).run();
     }
   }
-  client.channels.cache.get('706452607538954263').send('これは宣伝です！', `匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\nhttps://forms.gle/aRtBT1piAofz3vJM6\nhttps://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit\n\n${content}`);
-  
+  client.channels.cache.get('706452607538954263').send(`これは宣伝です！`,                                                      
+  new MessageEmbed()
+  .setDescription(`匿名で参加できるアンケートを設置しています。暇なときに記入してみてください。貴重な意見を待っています。\n[うんこ鯖アンケート](https://forms.gle/aRtBT1piAofz3vJM6)\n[みんなが遊びたい理想の鯖とは](https://docs.google.com/forms/d/156rdFiJkwUzNsHvx9KBNnEdoTFvJINsABn7x6hP8vzw/edit)\n${content}`)
+  .setColor('RANDOM')
+  .setTimestamp()
+  );
 })
 cron.schedule('0 0 15 * * *', () => {
   sql.prepare("DROP TABLE dailys;").run();
@@ -63,12 +66,15 @@ cron.schedule('0 0 15 * * *', () => {
         client.channels.cache.get('706469264638345227').send('@everyone うんこ鯖復活！');
      }
   }
+  let servermoneydata = client.getServerMoney.get('706452606918066237');
   const all = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC;").all('706452606918066237');
   for (let data of all) {
     let zeikin = Math.ceil( data.money / 1.15 );
     data.money -= zeikin;
+    servermoneydata.money += zeikin;
     client.setMoney.run(data);
   }
+  client.setServerMoney.run(servermoneydata);
 });
 
 async function textToSpeechReadableStream(text) {
@@ -148,4 +154,5 @@ process.on('unhandledRejection', error => {
     console.error(`[ERROR!]\n${error}`);
 });
   
-client.login(process.env.DISCORD_BOT_TOKEN);
+client.login();
+//DISCORD_TOKEN

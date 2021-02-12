@@ -40,36 +40,8 @@ module.exports = {
         else{
           usertag = user.user.tag;
         }
-        if(rank < 11){
-          embed[0].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 21){
-          embed[1].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 31){
-          embed[2].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 41){
-          embed[3].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 51){
-          embed[4].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 61){
-          embed[5].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 71){
-          embed[6].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 81){
-          embed[7].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 91){
-          embed[8].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
-        else if(rank < 101){
-          embed[9].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
-        }
+        embednumber = Math.ceil( rank / 10 );
+        embed[embednumber].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
         rank++;
       }
      const controller = new ReactionController(client);

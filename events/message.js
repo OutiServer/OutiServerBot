@@ -22,8 +22,6 @@ module.exports = async (client, message) => {
     if(userdailydata.login === 0 && userdebtdata.Tuna === 0 && message.guild.id === '706452606918066237'){
       userdailydata.login = 1;
       usermoneydata.dailylogin += 1;
-      let zeikin = Math.ceil( usermoneydata.money / 1.15 );
-      usermoneydata.money -= zeikin;
       usermoneydata.money += 10000 * usermoneydata.dailylogin;
       message.channel.send(
         new MessageEmbed()

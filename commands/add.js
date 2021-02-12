@@ -9,7 +9,7 @@ module.exports = {
       botownercommand: false,
       botadmincommand: true
     },
-  /**
+/**
  * @param {Message} message
  * @param {Client} client
  */

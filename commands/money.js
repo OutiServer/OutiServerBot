@@ -26,7 +26,6 @@ module.exports = {
             .setColor('RANDOM')
             .setTimestamp()
         );
-        client.setMoney.run(usermoneydata);
        }
        else{
         let usermoneydata = client.getMoney.get(user.id, message.guild.id);
@@ -39,7 +38,6 @@ module.exports = {
             .setColor('RANDOM')
             .setTimestamp()
         );
-        client.setMoney.run(usermoneydata);
        }
     },
 };

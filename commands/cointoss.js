@@ -27,7 +27,6 @@ module.exports = {
         if (!userdebtdata) {
           userdebtdata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, Tuna: 0, Shoulder: null }
         }
-        client.setDebt.run(userdebtdata);
         if(userdebtdata.Tuna === 1) return message.reply('借金返済中にコイントスはできません');
         const Stake = Number(args[0]);
         if(!Stake || Stake < 50000 || Stake > 100000) return message.reply('第一引数に賭け金を50000から100000の数値で入れてください！');
