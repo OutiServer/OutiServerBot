@@ -155,4 +155,3 @@ process.on('unhandledRejection', error => {
 });
   
 client.login();
-//DISCORD_TOKEN

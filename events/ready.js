@@ -75,7 +75,7 @@ module.exports = async (client) => {
   client.setSns = sql.prepare("INSERT OR REPLACE INTO snss (id, user, guild, title, url, count) VALUES (@id, @user, @guild, @title, @url, @count);");
   const ServerMoneytable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'servermoney';").get();
   if (!ServerMoneytable['count(*)']) {
-    sql.prepare("CREATE TABLE servermoney (id TEXT PRIMARY KEY, user TEXT, money INTEGER);").run();
+    sql.prepare("CREATE TABLE servermoney (id TEXT PRIMARY KEY, guild TEXT, money INTEGER);").run();
     sql.prepare("CREATE UNIQUE INDEX idx_servermoney_id ON servermoney (id);").run();
     sql.pragma("synchronous = 1");
     sql.pragma("journal_mode = wal");
@@ -159,12 +159,7 @@ module.exports = async (client) => {
   
   let Win = client.getSlotsettings.get('706452606918066237').Jackpot;
   let timerdata = client.getTimer.get('706452606918066237').unkoserver;
-  let servermoneydata = client.getServerMoney.get('706452606918066237');
-  if (!servermoneydata) 
-  {
-    servermoneydata　= { id: `706452606918066237`, guild: '706452606918066237', money: 0 }
-  }
-  client.setServerMoney.run(servermoneydata);
+  let money = client.getServerMoney.get('706452606918066237').money;
   let embed = new MessageEmbed()
   .setDescription(`現在のジャックポット: ${Win}うんコイン\n現在のうんこサーバーのお金: ${servermoneydata.money}`)
   .setColor('RANDOM')
