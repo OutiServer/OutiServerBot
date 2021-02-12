@@ -159,7 +159,12 @@ module.exports = async (client) => {
   
   let Win = client.getSlotsettings.get('706452606918066237').Jackpot;
   let timerdata = client.getTimer.get('706452606918066237').unkoserver;
-  let money = client.getServerMoney.get('706452606918066237').money;
+  let servermoneydata = client.getServerMoney.get('706452606918066237');
+  if (!servermoneydata) 
+  {
+    servermoneydata　= { id: `706452606918066237`, guild: '706452606918066237', money: 0 }
+  }
+  client.setServerMoney.run(servermoneydata);
   let embed = new MessageEmbed()
   .setDescription(`現在のジャックポット: ${Win}うんコイン\n現在のうんこサーバーのお金: ${servermoneydata.money}`)
   .setColor('RANDOM')
