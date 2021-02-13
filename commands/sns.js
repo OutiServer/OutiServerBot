@@ -48,9 +48,9 @@ module.exports = {
         if (!response2) return reply.edit('時間切れです...');
         usersnsdata.url = response2.content;
         response2.delete();
-        usermoneydata.ticket -= 5;
+        usermoneydata.ticket -= 1;
         client.setMoney.run(usermoneydata);
         client.setSns.run(usersnsdata);
-        message.channel.send('登録しました');
+        reply.edit('登録しました');
     },
 };

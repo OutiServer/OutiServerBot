@@ -19,6 +19,11 @@ module.exports = async (client, message) => {
     if (!userdailydata) {
       userdailydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, login: 0 }
     }
+    let servermoneydata = client.getServerMoney.get(message.guild.id);
+    if(!servermoneydata)
+    {
+      servermoneydata = { id: `${message.guild.id}`, guild: message.guild.id, money: 0 }
+    }
     if(userdailydata.login === 0 && userdebtdata.Tuna === 0 && message.guild.id === '706452606918066237'){
       userdailydata.login = 1;
       usermoneydata.dailylogin += 1;
@@ -30,6 +35,7 @@ module.exports = async (client, message) => {
         .setTimestamp()
       );
     }
+    servermoneydata.money += message.content.length;
     if(usermoneydata.money < 10000 && userdebtdata.Tuna === 0){
       usermoneydata.money += message.content.length * 10;
       if(usermoneydata.money > 9999){
@@ -55,6 +61,7 @@ module.exports = async (client, message) => {
     client.setMoney.run(usermoneydata);
     client.setDebt.run(userdebtdata);
     client.setDaily.run(userdailydata);
+    client.setServerMoney.run(servermoneydata);
     if(message.channel.id === '798157114555105330' || message.channel.id === '798176065562476604' || message.channel.id === '798198069849227294' || message.channel.id === '798570749136601158' || message.channel.id === '798486503255834664' || message.channel.id === '798186469516116028' || message.channel.id === '798571746730049597' || message.channel.id === '798191278369931265' || message.channel.id === '798500844579586048'){
       message.member.roles.add('798533393448960020');
     }

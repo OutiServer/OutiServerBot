@@ -34,12 +34,12 @@ cron.schedule('0 0 15,23,7 * * *', () => {
   const sns10 = sql.prepare("SELECT * FROM snss WHERE guild = ? ORDER BY user DESC;").all('706452606918066237');
   let content = ''
   for (let data of sns10) {
-    content += `[${data.title}](${data.url})`;
+    content += `[${data.title}](${data.url})\n`;
     data.count++;
     client.setSns.run(data);
     if(data.count > 8)
     {
-      sql.prepare(`DELETE FROM moneys WHERE user = ${data.user} AND guild = ${data.guild}`).run();
+      sql.prepare(`DELETE FROM snss WHERE user = ${data.user} AND guild = ${data.guild}`).run();
     }
   }
   client.channels.cache.get('706452607538954263').send(`これは宣伝です！`,                                                      

@@ -155,13 +155,13 @@ module.exports = async (client) => {
   })
 
   console.log(`[INFO] Logged in as ${client.user.tag}`);
-  client.user.setPresence({ activity: { name: `${process.env.PREFIX}help うんこ鯖` }, status: 'dnd' });
+  client.user.setPresence({ activity: { name: `${process.env.PREFIX}help うんこ鯖` }, status: 'idle' });
 
   let Win = client.getSlotsettings.get('706452606918066237').Jackpot;
   let timerdata = client.getTimer.get('706452606918066237').unkoserver;
   let money = client.getServerMoney.get('706452606918066237').money;
   let embed = new MessageEmbed()
-  .setDescription(`現在のジャックポット: ${Win}うんコイン\n現在のうんこサーバーのお金: ${money}`)
+  .setDescription(`現在のジャックポット: ${Win}うんコイン\n現在のうんこサーバーのお金: ${money}うんコイン`)
   .setColor('RANDOM')
   .setTimestamp();
   let top10 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC LIMIT 10;").all('706452606918066237');
@@ -193,7 +193,7 @@ module.exports = async (client) => {
     timerdata = client.getTimer.get('706452606918066237').unkoserver;
     money = client.getServerMoney.get('706452606918066237').money;
     embed = new MessageEmbed()
-    .setDescription(`現在のジャックポット: ${Win}うんコイン\n現在のうんこサーバーのお金: ${money}`)
+    .setDescription(`現在のジャックポット: ${Win}うんコイン\n現在のうんこサーバーのお金: ${money}うんコイン`)
     .setColor('RANDOM')
     .setTimestamp();
     top10 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC LIMIT 10;").all('706452606918066237');
