@@ -21,7 +21,7 @@ module.exports = {
       .addPages([
         new MessageEmbed()
         .setTitle(`${client.user.tag} help1ページ目(メインコマンド)`)
-        .setDescription('```'+`${process.env.PREFIX}ping: BotのPing値とメモリ使用率を表示\n${process.env.PREFIX}poll [タイトル] [選択肢1] [選択肢2] etc...: 投票を作るコマンド\n${process.env.PREFIX}sumpoll [メッセージID]: 投票集計\n${process.env.PREFIX}eval [プログラム]: jsのプログラムを実行できる便利コマンド`+'```')
+        .setDescription('```'+`${process.env.PREFIX}ping: BotのPing値とメモリ使用率を表示\n${process.env.PREFIX}poll [タイトル] [選択肢1] [選択肢2] etc...: 投票を作るコマンド\n${process.env.PREFIX}sumpoll [メッセージID]: 投票集計\n${process.env.PREFIX}sns: SNS宣伝\n${process.env.PREFIX}snsdelete: SNS宣伝削除\n${process.env.PREFIX}eval [プログラム]: jsのプログラムを実行できる便利コマンド`+'```')
         .setColor('RANDOM')
         .setFooter(`${process.env.PREFIX}help [command] で各コマンドの詳細を表示します。`, client.user.avatarURL())
         .setTimestamp(),
