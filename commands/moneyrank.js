@@ -20,15 +20,17 @@ module.exports = {
       let rank = 1
       let embed = {};
       let embednumber = 0;
-      let args1 = 1;
+      let ranknumber1 = 1;
+      let ranknumber2 = 10;
       while(embednumber < 10){
         embed[embednumber] = new MessageEmbed()
-        .setTitle(`うんこ鯖所持金ランキング${args1}〜${embednumber + 10}位`)
+        .setTitle(`うんこ鯖所持金ランキング${ranknumber1}〜${ranknumber2}位`)
         .setFooter(`コマンド実行者 ${message.author.tag}`, message.author.avatarURL())
         .setColor('RANDOM')
         .setTimestamp();
         embednumber++;
-        args1 += 10;
+        ranknumber1 += 10;
+        ranknumber2 += 10;
       }
       const top100 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC;").all(message.guild.id);
       for(const data of top100){
