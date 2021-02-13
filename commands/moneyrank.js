@@ -23,7 +23,7 @@ module.exports = {
       let args1 = 1;
       while(embednumber < 10){
         embed[embednumber] = new MessageEmbed()
-        .setTitle(`うんこ鯖所持金ランキング${args1}〜${embednumber * 10}位`)
+        .setTitle(`うんこ鯖所持金ランキング${args1}〜${embednumber + 10}位`)
         .setFooter(`コマンド実行者 ${message.author.tag}`, message.author.avatarURL())
         .setColor('RANDOM')
         .setTimestamp();
@@ -40,7 +40,7 @@ module.exports = {
         else{
           usertag = user.user.tag;
         }
-        embednumber = Math.ceil( rank / 10 );
+        embednumber = Math.ceil( rank / 10 ) - 1;
         embed[embednumber].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
         rank++;
       }
