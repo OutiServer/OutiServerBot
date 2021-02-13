@@ -25,7 +25,7 @@ module.exports = {
         let number = 0;
         for (const data of allsns) 
         {
-            embed.addField(`No. ${number}`, `登録した人 ${data.user}\nタイトル: ${data.title}\nURL: ${data.url}\n宣伝した回数: ${data.count}`);
+            embed.addField(`No. ${number}`, `登録した人: <@${data.user}>\nタイトル: ${data.title}\nURL: ${data.url}\n宣伝した回数: ${data.count}`);
             number++;
         }
         const reply = await message.channel.send(embed);
@@ -33,8 +33,8 @@ module.exports = {
         const collected = await message.channel.awaitMessages(filter, { max: 1, time: 60000 });
         const response = collected.first();
         if (!response) return reply.edit('時間切れです...');
-        if (!Number(response.content) || response.content > allsns.length - 1) return reply.edit('そのデータは存在しません');
+        if (!Number(response.content) || response.content > allsns.length - 1) return reply.edit('そのデータは存在しません', '');
         sql.prepare(`DELETE FROM snss WHERE user = ${allsns[response.content].user} AND guild = ${allsns[response.content].guild}`).run();
-        reply.edit('データを削除しました');
+        reply.edit('データを削除しました', '');
     },
 };
