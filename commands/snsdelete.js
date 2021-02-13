@@ -33,7 +33,7 @@ module.exports = {
         const collected = await message.channel.awaitMessages(filter, { max: 1, time: 60000 });
         const response = collected.first();
         if (!response) return reply.edit('時間切れです...');
-        if (!Number(response.content) || response.content > allsns.length - 1) return reply.edit('そのデータは存在しません', '');
+        if (!Number(response.content) || response.content > number) return reply.edit('そのデータは存在しません', '');
         sql.prepare(`DELETE FROM snss WHERE user = ${allsns[response.content].user} AND guild = ${allsns[response.content].guild}`).run();
         reply.edit('データを削除しました', '');
     },
