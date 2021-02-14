@@ -69,10 +69,13 @@ cron.schedule('0 0 15 * * *', () => {
   let servermoneydata = client.getServerMoney.get('706452606918066237');
   const all = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC;").all('706452606918066237');
   for (let data of all) {
-    let zeikin = Math.ceil( data.money / 1.15 );
-    data.money -= zeikin;
-    servermoneydata.money += zeikin;
-    client.setMoney.run(data);
+    if(data.money < 1)
+    {
+      let zeikin = Math.ceil( data.money / 1.15 );
+      data.money -= zeikin;
+      servermoneydata.money += zeikin;
+      client.setMoney.run(data);
+    }
   }
   client.setServerMoney.run(servermoneydata);
 });
