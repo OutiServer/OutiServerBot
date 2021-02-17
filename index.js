@@ -69,12 +69,24 @@ cron.schedule('0 0 15 * * *', () => {
   let servermoneydata = client.getServerMoney.get('706452606918066237');
   const all = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC;").all('706452606918066237');
   for (let data of all) {
-    if(data.money < 1)
+    if(data.money > 1)
     {
-      let zeikin = Math.ceil( data.money / 1.15 );
+      const zeikin = Math.ceil( data.money / 1.15 );
       data.money -= zeikin;
       servermoneydata.money += zeikin;
       client.setMoney.run(data);
+    }
+    else if (data.money < 0)
+    {
+      client.guilds.cache.get('706452606918066237').member(data.user).roles.add('798570033235755029');
+      let userdebtdata = client.getDebt.get(data.user, '706452606918066237');
+      if (!userdebtdata) {
+        userdebtdata　= { id: `706452606918066237-${data.user}`, user: data.user, guild: '706452606918066237', Tuna: 0, Shoulder: null }
+      }
+      userdebtdata.Tuna = 1;
+      const webhook = new WebhookClient('798186603235246111', 'Rf6vyUbm7GuwLOmmHseu-QZp7bV7QOYykwEoqzrSLX3Rjkza_7ipOsbJQGe9BKoGNiHn');
+      webhook.send(`<@${data.user}>、開けろごらああ！てめえ自分が何シてんのかわかってるのか！！？\n${usermoneydata.money * -1}円、しっかり払ってもらうで`);
+      client.setDebt.run(userdebtdata);
     }
   }
   client.setServerMoney.run(servermoneydata);
