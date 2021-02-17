@@ -198,14 +198,14 @@ async function textToSpeechReadableStream(text) {
     discordClient.login(process.env.DISCORD_BOT_TOKEN);
   })().catch((e) => console.error(e));
 
-process.on('unhandledRejection', error => {
+  process.on('unhandledRejection', (reason, promise) => {
     client.users.cache.get('714455926970777602').send(
       new MessageEmbed()
-      .setDescription('エラー内容\n```'+error+'```')
+      .setDescription(`エラー内容: ${reason}\n拒否されたプロミス: ${promise}`)
       .setColor('RANDOM')
       .setTimestamp()
     );
-    console.error(`[ERROR!]\n${error}`);
-});
+    console.error(`エラー内容: ${reason}\n拒否されたプロミス: ${promise}`);
+  });
   
 client.login();
