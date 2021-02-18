@@ -89,7 +89,7 @@ module.exports = async (client, message) => {
     const command = args.shift().toLowerCase();
     if (!command) return;
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
-    if (!cmd || cmd.info.botownercommand && process.env.OWNERID !== message.author.id || cmd.info.botadmincommand && !message.member.roles.cache.has('771015602180587571') && message.guild.id === '706452606918066237'){
+    if (!cmd || cmd.info.botownercommand && process.env.OWNERID !== message.author.id || cmd.info.botadmincommand && !message.member.roles.cache.has('771015602180587571') && message.member.guild.owner.id !== message.author.id && message.guild.id === '706452606918066237'){
       message.reply('そんなコマンドないで。😉').then( msg => {
         msg.delete({ timeout: 5000 });
       });
