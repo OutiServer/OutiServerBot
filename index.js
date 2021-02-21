@@ -4,6 +4,7 @@ const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const cron = require('node-cron');
+const util = require('minecraft-server-util');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('./unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL  } });
@@ -123,15 +124,32 @@ cron.schedule('* * * * *', () => {
   })
   client.channels.cache.get('780012050163302420').messages.fetch('800279738509426728')
   .then( msg => {
-    const timerdata = client.getTimer.get('706452606918066237').unkoserver;
-    msg.edit(
-      new MessageEmbed()
-      .setTitle('💩うんこサーバーの現在の状態💩')
-      .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り'+timerdata+'日')
-      .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
-      .setColor('RANDOM')
-      .setTimestamp()
-    );
+    util.statusBedrock('126.235.33.140')
+        .then((result) => {
+            msg.edit(
+              new MessageEmbed()
+              .setTitle('💩うんこサーバーの現在の状態💩')
+              .addField('IPアドレス', result.host)
+              .addField('ポート', result.port)
+              .addField('サーバーのバージョン', result.version)
+              .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
+              .setImage('https://media.discordapp.net/attachments/800317829962399795/800317877168373760/UnkoServerkoiyo.png')
+              .setColor('RANDOM')
+              .setTimestamp()
+            );
+        })
+        .catch((error) => {
+            const timerdata = client.getTimer.get('706452606918066237').unkoserver;
+            msg.edit(
+                new MessageEmbed()
+                .setTitle('💩うんこサーバーの現在の状態💩')
+                .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り'+timerdata+'日')
+                .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
+                .setColor('RANDOM')
+                .setTimestamp()
+            );
+          console.error(error)
+        });
   })
 });
 
