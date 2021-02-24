@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { readdir } = require("fs");
-const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, WebhookClient } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const cron = require('node-cron');
@@ -9,20 +9,6 @@ const SQLite = require("better-sqlite3");
 const sql = new SQLite('./unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL } });
 client.commands = new Collection();
-const status = [
-  {
-    name: `${process.env.PREFIX}help うんこ鯖`,
-    playingtype: 'PLAYING'
-  },
-  {
-    name: 'うんこサーバーに参加中',
-    playingtype: 'COMPETING'
-  },
-  {
-    name: 'unko men',
-    playingtype: 'WATCHING'
-  }
-]
 
 readdir(__dirname + "/events/", (err, files) => {
   if (err) return console.error(err);
@@ -62,7 +48,8 @@ cron.schedule('0 0 15,23,7 * * *', () => {
       .setColor('RANDOM')
       .setTimestamp()
   );
-})
+});
+
 cron.schedule('0 0 15 * * *', () => {
   sql.prepare("DROP TABLE dailys;").run();
   const testtable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();
@@ -106,10 +93,8 @@ cron.schedule('0 0 15 * * *', () => {
   }
   client.setServerMoney.run(servermoneydata);
 });
-cron.schedule('* * * * *', () => {
 
-  let random = Math.floor(Math.random() * status.length);
-  client.user.setPresence({ activity: { name: status[random].name, type: status[random].playingtype, url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
+cron.schedule('* * * * *', () => {
   client.channels.cache.get('798479605764718592').messages.fetch('799635530882744372')
     .then(msg => {
       const Win = client.getSlotsettings.get('706452606918066237').Jackpot;
@@ -151,16 +136,15 @@ cron.schedule('* * * * *', () => {
           );
         })
         .catch((error) => {
-          const timerdata = client.getTimer.get('706452606918066237').unkoserver;
           msg.edit(
             new MessageEmbed()
               .setTitle('💩うんこサーバーの現在の状態💩')
-              .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り' + timerdata + '日')
+              .setDescription('うんこサーバーは現在落ちてます')
               .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
               .setColor('RANDOM')
               .setTimestamp()
           );
-          console.error(error)
+          console.error(error);
         });
     })
 });
