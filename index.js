@@ -109,7 +109,7 @@ cron.schedule('0 0 15 * * *', () => {
 cron.schedule('* * * * *', () => {
 
   let random = Math.floor(Math.random() * status.length);
-  client.user.setPresence({ activity: { name: status[random].name, type: status[random].playingtype }, status: 'online' });
+  client.user.setPresence({ activity: { name: status[random].name, type: status[random].playingtype, url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
   client.channels.cache.get('798479605764718592').messages.fetch('799635530882744372')
     .then(msg => {
       const Win = client.getSlotsettings.get('706452606918066237').Jackpot;
