@@ -3,42 +3,42 @@ const util = require('minecraft-server-util');
 
 module.exports = {
     info: {
-        name: "serverstatus",
+        name: "unkoserverstatus",
         description: "うんこサーバーの状態を表示するコマンド",
         usage: "",
-        aliases: ["ss"],
+        aliases: ["uss"],
         botownercommand: false,
         botadmincommand: false
     },
-/**
- * @param {Message} message
- */
-    run: async function(client, message, args) {
+    /**
+     * @param {Message} message
+     */
+    run: async function (client, message, args) {
         util.statusBedrock('126.235.33.140')
-        .then((result) => {
-            message.channel.send(
-              new MessageEmbed()
-              .setTitle('💩うんこサーバーの現在の状態💩')
-              .addField('IPアドレス', result.host)
-              .addField('ポート', result.port)
-              .addField('サーバーのバージョン', result.version)
-              .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-              .setImage('https://media.discordapp.net/attachments/800317829962399795/800317877168373760/UnkoServerkoiyo.png')
-              .setColor('RANDOM')
-              .setTimestamp()
-            );
-        })
-        .catch((error) => {
-            const timerdata = client.getTimer.get('706452606918066237').unkoserver;
-            message.channel.send(
-                new MessageEmbed()
-                .setTitle('💩うんこサーバーの現在の状態💩')
-                .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り'+timerdata+'日')
-                .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
-                .setColor('RANDOM')
-                .setTimestamp()
-            );
-          console.error(error)
-        });
+            .then((result) => {
+                message.channel.send(
+                    new MessageEmbed()
+                        .setTitle('💩うんこサーバーの現在の状態💩')
+                        .addField('IPアドレス', result.host)
+                        .addField('ポート', result.port)
+                        .addField('サーバーのバージョン', result.version)
+                        .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
+                        .setImage('https://media.discordapp.net/attachments/800317829962399795/800317877168373760/UnkoServerkoiyo.png')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                );
+            })
+            .catch((error) => {
+                const timerdata = client.getTimer.get('706452606918066237').unkoserver;
+                message.channel.send(
+                    new MessageEmbed()
+                        .setTitle('💩うんこサーバーの現在の状態💩')
+                        .setDescription('うんこサーバーは現在落ちてます\nうんこ鯖が生き返るまで残り' + timerdata + '日')
+                        .setImage('https://media.discordapp.net/attachments/800317829962399795/800317874614829086/setumeisitekudasai.jpg')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                );
+                console.error(error)
+            });
     },
 };
