@@ -51,6 +51,12 @@ cron.schedule('0 0 15,23,7 * * *', () => {
 });
 
 cron.schedule('0 0 15 * * *', () => {
+  const time = new Date();
+  sql.backup(`backup-${time}.db`)
+    .then(() => {
+      const webhook = new WebhookClient('814193920723648584', 'rqvkVv21Um-PhL1TJ1SlWnDvV8XKIlXFkInW-OSovN4fvyEB_6U5cUgpiu4Ilafm45xS');
+      webhook.send(new MessageAttachment(`backup-${time}.db`));
+    });
   sql.prepare("DROP TABLE dailys;").run();
   const testtable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();
   if (!testtable['count(*)']) {
