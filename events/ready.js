@@ -1,20 +1,7 @@
 const { Client } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('./unkoserver.db');
-const status = [
-  {
-    name: `${process.env.PREFIX}help うんこ鯖`,
-    playingtype: 'PLAYING'
-  },
-  {
-    name: 'うんこサーバー',
-    playingtype: 'COMPETING'
-  },
-  {
-    name: 'unkomen',
-    playingtype: 'STREAMING'
-  }
-];
+const status = require('../data/status.json');
 
 /**
  * @param {Client} client
@@ -30,6 +17,7 @@ module.exports = async (client) => {
   }
   client.getMoney = sql.prepare("SELECT * FROM moneys WHERE user = ? AND guild = ?");
   client.setMoney = sql.prepare("INSERT OR REPLACE INTO moneys (id, user, guild, money, dailylogin, ticket) VALUES (@id, @user, @guild, @money, @dailylogin, @ticket);");
+
   const Debttable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'debts';").get();
   if (!Debttable['count(*)']) {
     sql.prepare("CREATE TABLE debts (id TEXT PRIMARY KEY, user TEXT, guild TEXT, Tuna INTEGER, Shoulder TEXT);").run();
@@ -39,6 +27,7 @@ module.exports = async (client) => {
   }
   client.getDebt = sql.prepare("SELECT * FROM debts WHERE user = ? AND guild = ?");
   client.setDebt = sql.prepare("INSERT OR REPLACE INTO debts (id, user, guild, Tuna, Shoulder) VALUES (@id, @user, @guild, @Tuna, @Shoulder);");
+
   const Slotsettingstable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'slotsettings';").get();
   if (!Slotsettingstable['count(*)']) {
     sql.prepare("CREATE TABLE slotsettings (id TEXT PRIMARY KEY, guild TEXT, Jackpotprobability INTEGER, Jackpot INTEGER);").run();
@@ -48,6 +37,7 @@ module.exports = async (client) => {
   }
   client.getSlotsettings = sql.prepare("SELECT * FROM slotsettings WHERE guild = ?");
   client.setSlotsettings = sql.prepare("INSERT OR REPLACE INTO slotsettings (id, guild, Jackpotprobability, Jackpot) VALUES (@id, @guild, @Jackpotprobability, @Jackpot);");
+
   const Dailytable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();
   if (!Dailytable['count(*)']) {
     sql.prepare("CREATE TABLE dailys (id TEXT PRIMARY KEY, user TEXT, guild TEXT, login INTEGER);").run();
@@ -57,6 +47,7 @@ module.exports = async (client) => {
   }
   client.getDaily = sql.prepare("SELECT * FROM dailys WHERE user = ? AND guild = ?");
   client.setDaily = sql.prepare("INSERT OR REPLACE INTO dailys (id, user, guild, login) VALUES (@id, @user, @guild, @login);");
+
   const Littlewartable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'littlewar';").get();
   if (!Littlewartable['count(*)']) {
     sql.prepare("CREATE TABLE littlewar (id TEXT PRIMARY KEY, user TEXT, guild TEXT, emoji1 INTEGER, emoji2 INTEGER, emoji3 INTEGER, number INTEGER);").run();
@@ -66,6 +57,7 @@ module.exports = async (client) => {
   }
   client.getLittlewar = sql.prepare("SELECT * FROM littlewar WHERE guild = ?");
   client.setLittlewar = sql.prepare("INSERT OR REPLACE INTO littlewar (id, user, guild, emoji1, emoji2, emoji3, number) VALUES (@id, @user, @guild, @emoji1, @emoji2, @emoji3, @number);");
+
   const Snstable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'snss';").get();
   if (!Snstable['count(*)']) {
     sql.prepare("CREATE TABLE snss (id TEXT PRIMARY KEY, user TEXT, guild TEXT, title TEXT, url TEXT, count INTEGER);").run();
@@ -75,6 +67,7 @@ module.exports = async (client) => {
   }
   client.getSns = sql.prepare("SELECT * FROM snss WHERE user = ? AND guild = ?");
   client.setSns = sql.prepare("INSERT OR REPLACE INTO snss (id, user, guild, title, url, count) VALUES (@id, @user, @guild, @title, @url, @count);");
+
   const ServerMoneytable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'servermoney';").get();
   if (!ServerMoneytable['count(*)']) {
     sql.prepare("CREATE TABLE servermoney (id TEXT PRIMARY KEY, guild TEXT, money INTEGER);").run();
@@ -99,6 +92,7 @@ module.exports = async (client) => {
     const collector = message.createReactionCollector(() => true);
     collector.on('collect', (reaction, user) => callback(reaction, user));
   }
+
   handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
     if (reaction.emoji.id === '790538555407597590') {
       if (reaction.message.guild.member(user).roles.cache.has('717326376516190221')) {
@@ -139,7 +133,32 @@ module.exports = async (client) => {
         }, 600000)
       }
     }
+    else if (reaction.emoji.id === '798179606166634516') {
+      if (reaction.message.guild.member(user).roles.cache.has('814095138443100191')) {
+        reaction.message.guild.member(user).roles.remove('814095138443100191');
+        const reply = await client.channels.cache.get('774594290679545886').send(`${user} 生活要素班を剥奪しました`);
+        reply.delete({ timeout: 5000 });
+      }
+      else {
+        reaction.message.guild.member(user).roles.add('814095138443100191');
+        const reply = await client.channels.cache.get('774594290679545886').send(`${user} 生活要素班を付与しました`);
+        reply.delete({ timeout: 5000 });
+      }
+    }
+    else if (reaction.emoji.id === '798179591582908446') {
+      if (reaction.message.guild.member(user).roles.cache.has('814070465064599593')) {
+        reaction.message.guild.member(user).roles.remove('814070465064599593');
+        const reply = await client.channels.cache.get('774594290679545886').send(`${user} ミニゲーム班を剥奪しました`);
+        reply.delete({ timeout: 5000 });
+      }
+      else {
+        reaction.message.guild.member(user).roles.add('814070465064599593');
+        const reply = await client.channels.cache.get('774594290679545886').send(`${user} ミニゲーム班を付与しました`);
+        reply.delete({ timeout: 5000 });
+      }
+    }
   });
+
   handleReaction('802079467739676692', '802115362526330930', async (reaction, user) => {
     let usermoneydata = client.getMoney.get(user.id, '706452606918066237');
     if (!usermoneydata) {
@@ -163,5 +182,4 @@ module.exports = async (client) => {
     client.setMoney.run(usermoneydata);
     client.setDebt.run(userdebtdata);
   });
-
 }
