@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { readdir } = require("fs");
-const { Client, Intents, Collection, MessageEmbed, WebhookClient } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, MessageAttachment } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const cron = require('node-cron');
@@ -52,10 +52,12 @@ cron.schedule('0 0 15,23,7 * * *', () => {
 
 cron.schedule('0 0 15 * * *', () => {
   const time = new Date();
-  sql.backup(`backup-${time}.db`)
-    .then(() => {
-      const webhook = new WebhookClient('814193920723648584', 'rqvkVv21Um-PhL1TJ1SlWnDvV8XKIlXFkInW-OSovN4fvyEB_6U5cUgpiu4Ilafm45xS');
-      webhook.send(new MessageAttachment(`backup-${time}.db`));
+  client.guilds.cache.get('794380572323086358').channels.create(time, { parent: '814406269074538496', position: 0, type: 'text' })
+    .then(channel => {
+      sql.backup(`backup-${time}.db`)
+        .then(() => {
+          channel.send(new MessageAttachment(`backup-${time}.db`));
+        });
     });
   sql.prepare("DROP TABLE dailys;").run();
   const testtable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();
@@ -64,14 +66,6 @@ cron.schedule('0 0 15 * * *', () => {
     sql.prepare("CREATE UNIQUE INDEX idx_dailys_id ON dailys (id);").run();
     sql.pragma("synchronous = 1");
     sql.pragma("journal_mode = wal");
-  }
-  let timerdata = client.getTimer.get('706452606918066237');
-  timerdata.unkoserver -= 1;
-  client.setTimer.run(timerdata);
-  if (timerdata.unkoserver === 1) {
-    for (let i = 0; i < 10; i++) {
-      client.channels.cache.get('706469264638345227').send('@everyone うんこ鯖復活！');
-    }
   }
   let servermoneydata = client.getServerMoney.get('706452606918066237');
   const all = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC;").all('706452606918066237');

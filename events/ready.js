@@ -66,15 +66,6 @@ module.exports = async (client) => {
   }
   client.getLittlewar = sql.prepare("SELECT * FROM littlewar WHERE guild = ?");
   client.setLittlewar = sql.prepare("INSERT OR REPLACE INTO littlewar (id, user, guild, emoji1, emoji2, emoji3, number) VALUES (@id, @user, @guild, @emoji1, @emoji2, @emoji3, @number);");
-  const Timertable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'timer';").get();
-  if (!Timertable['count(*)']) {
-    sql.prepare("CREATE TABLE timer (id TEXT PRIMARY KEY, guild TEXT, unkoserver INTEGER);").run();
-    sql.prepare("CREATE UNIQUE INDEX idx_ltimer_id ON timer (id);").run();
-    sql.pragma("synchronous = 1");
-    sql.pragma("journal_mode = wal");
-  }
-  client.getTimer = sql.prepare("SELECT * FROM timer WHERE guild = ?");
-  client.setTimer = sql.prepare("INSERT OR REPLACE INTO timer (id, guild, unkoserver) VALUES (@id, @guild, @unkoserver);");
   const Snstable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'snss';").get();
   if (!Snstable['count(*)']) {
     sql.prepare("CREATE TABLE snss (id TEXT PRIMARY KEY, user TEXT, guild TEXT, title TEXT, url TEXT, count INTEGER);").run();
