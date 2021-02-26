@@ -6,7 +6,7 @@ const { Readable } = require('stream');
 const cron = require('node-cron');
 const util = require('minecraft-server-util');
 const SQLite = require("better-sqlite3");
-const sql = new SQLite('data/db/unkoserver.db');
+const sql = new SQLite('unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL } });
 client.commands = new Collection();
 
