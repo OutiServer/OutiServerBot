@@ -1,6 +1,4 @@
 *.env 
-unkoserver.db
-*.db-shm
-*.db-wal
+data/db
 node_modules/
 .DS_Store

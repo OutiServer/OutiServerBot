@@ -1,6 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const SQLite = require("better-sqlite3");
-const sql = new SQLite('./unkoserver.db');
+const sql = new SQLite('data/db/unkoserver.db');
 
 module.exports = {
     info: {
@@ -11,20 +11,19 @@ module.exports = {
         botownercommand: false,
         botadmincommand: true
     },
-/**
- * @param {Message} message
- * @param {Client} client
- */
-    run: async function(client, message, args) {
+    /**
+     * @param {Message} message
+     * @param {Client} client
+     */
+    run: async function (client, message, args) {
         const allsns = sql.prepare("SELECT * FROM snss WHERE guild = ? ORDER BY user DESC;").all(message.guild.id);
         const embed = new MessageEmbed()
-        .setTitle('SNS宣伝一覧')
-        .setDescription('現在登録されているSNS宣伝です、削除するNo.を発言してください')
-        .setColor('RANDOM')
-        .setTimestamp();
+            .setTitle('SNS宣伝一覧')
+            .setDescription('現在登録されているSNS宣伝です、削除するNo.を発言してください')
+            .setColor('RANDOM')
+            .setTimestamp();
         let number = 0;
-        for (const data of allsns) 
-        {
+        for (const data of allsns) {
             embed.addField(`No. ${number}`, `登録した人: <@${data.user}>\nタイトル: ${data.title}\nURL: ${data.url}\n宣伝した回数: ${data.count}`);
             number++;
         }

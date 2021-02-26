@@ -6,7 +6,7 @@ const { Readable } = require('stream');
 const cron = require('node-cron');
 const util = require('minecraft-server-util');
 const SQLite = require("better-sqlite3");
-const sql = new SQLite('./unkoserver.db');
+const sql = new SQLite('data/db/unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL } });
 client.commands = new Collection();
 
@@ -52,11 +52,11 @@ cron.schedule('0 0 15,23,7 * * *', () => {
 
 cron.schedule('0 0 15 * * *', () => {
   const time = new Date();
-  client.guilds.cache.get('794380572323086358').channels.create(time, { parent: '814406269074538496', position: 0, type: 'text' })
-    .then(channel => {
-      sql.backup(`backup-${time}.db`)
-        .then(() => {
-          channel.send(new MessageAttachment(`backup-${time}.db`));
+  sql.backup(`data/backup/${time}.db`)
+    .then(() => {
+      client.guilds.cache.get('794380572323086358').channels.create(time, { parent: '814406269074538496', position: 0, type: 'text' })
+        .then(channel => {
+          channel.send(new MessageAttachment(`${time}.db`));
         });
     });
   sql.prepare("DROP TABLE dailys;").run();
@@ -217,13 +217,14 @@ const textclient = new textToSpeech.TextToSpeechClient({
 })().catch((e) => console.error(e));
 
 process.on('unhandledRejection', (reason, promise) => {
-  client.users.cache.get('714455926970777602').send(
-    new MessageEmbed()
-      .setDescription(`エラー内容: ${reason}`)
-      .setColor('RANDOM')
-      .setTimestamp()
-  );
   console.error(`エラー内容: ${reason}`);
+  client.guilds.cache.get('794380572323086358').channels.create(reason, { parent: '814514296049369159', position: 0, type: 'text' })
+    .then(channel => channel.send(
+      new MessageEmbed()
+        .setDescription(`エラー内容: ${reason}`)
+        .setColor('RANDOM')
+        .setTimestamp()
+    ));
 });
 
 client.login();
