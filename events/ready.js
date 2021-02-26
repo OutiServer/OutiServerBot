@@ -1,7 +1,7 @@
 const { Client } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('data/db/unkoserver.db');
-const status = require('data/json/status.json');
+const status = require('../data/json/status.json');
 
 /**
  * @param {Client} client
