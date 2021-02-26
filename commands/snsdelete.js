@@ -1,6 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const SQLite = require("better-sqlite3");
-const sql = new SQLite('data/db/unkoserver.db');
+const sql = new SQLite('unkoserver.db');
 
 module.exports = {
     info: {

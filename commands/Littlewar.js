@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { Menu } = require('discord.js-menu');
 const SQLite = require("better-sqlite3");
-const sql = new SQLite('data/db/unkoserver.db');
+const sql = new SQLite('unkoserver.db');
 
 const emojidata = ['<:unkooo:790538555407597590>', '<:emoji_105:790546312679391243>', '<:emoji_104:790546297521307668>'];
 
