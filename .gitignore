@@ -1,4 +1,6 @@
 *.env 
-data/db
+*.db
+*.db_shm
+*.db_wal
 node_modules/
 .DS_Store
