@@ -1,6 +1,6 @@
 *.env 
 *.db
-*.db_shm
-*.db_wal
+*.db-shm
+*.db-wal
 node_modules/
 .DS_Store
