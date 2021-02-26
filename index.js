@@ -217,12 +217,13 @@ const textclient = new textToSpeech.TextToSpeechClient({
 })().catch((e) => console.error(e));
 
 process.on('unhandledRejection', (reason, promise) => {
+  console.error(reason);
   client.users.cache.get('714455926970777602').send(
     new MessageEmbed()
       .setDescription(`エラー内容: ${reason}`)
       .setColor('RANDOM')
       .setTimestamp()
   );
-  console.error(`エラー内容: ${reason}`);
 });
+
 client.login();
