@@ -217,12 +217,12 @@ const textclient = new textToSpeech.TextToSpeechClient({
 })().catch((e) => console.error(e));
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error(`エラー内容: ${reason}`);
+  console.error(`${reason}`);
   client.guilds.cache.get('794380572323086358').channels.create(reason, { parent: '814514296049369159', position: 0, type: 'text' })
     .then(channel => channel.send(
       new MessageEmbed()
-        .setDescription(`エラー内容: ${reason}`)
-        .setColor('RANDOM')
+        .setDescription(reason)
+        .setColor('RED')
         .setTimestamp()
     ));
 });
