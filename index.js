@@ -150,7 +150,7 @@ cron.schedule('* * * * *', () => {
 
 cron.schedule('0,15,30,45 * * * *', () => {
   let random = Math.floor(Math.random() * status.length);
-  client.user.setPresence({ activity: { name: status[random], type: 'PLAYING' }, status: 'online' });
+  client.user.setPresence({ activity: { name: status[random].name, type: status[random].playingtype }, status: 'online' });
 });
 
 process.on('unhandledRejection', (reason, promise) => {
