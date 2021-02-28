@@ -151,7 +151,7 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error(reason);
   client.users.cache.get('714455926970777602').send(
     new MessageEmbed()
-      .setDescription(`エラー内容: ${reason}`)
+      .setDescription('エラー内容:\n```' + reason + '```')
       .setColor('RANDOM')
       .setTimestamp()
   );
