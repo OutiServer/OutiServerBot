@@ -1,7 +1,6 @@
 const { Client, MessageAttachment } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
-const status = require('../dat/status.json');
 
 /**
  * @param {Client} client
@@ -78,7 +77,7 @@ module.exports = async (client) => {
   client.getServerMoney = sql.prepare("SELECT * FROM servermoney WHERE guild = ?");
   client.setServerMoney = sql.prepare("INSERT OR REPLACE INTO servermoney (id, guild, money) VALUES (@id, @guild, @money);");
 
-  client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING', url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
+  client.user.setPresence({ activity: { name: '?help うんこ鯖', type: 'PLAYING', url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
   console.log(`[INFO] Logged in as ${client.user.tag}`);
 
   const time = new Date();
@@ -89,11 +88,6 @@ module.exports = async (client) => {
           channel.send(new MessageAttachment(`${time}.db`));
         });
     });
-
-  setInterval(function () {
-    let random = Math.floor(Math.random() * status.length);
-    client.user.setPresence({ activity: { name: status[random].name, type: status[random].playingtype, url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
-  }, 10000)
 
   const handleReaction = async (channelID, messageID, callback) => {
     const channel = await client.channels.fetch(channelID);

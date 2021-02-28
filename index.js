@@ -3,6 +3,7 @@ const { readdir } = require("fs");
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, WebhookClient } = require('discord.js');
 const cron = require('node-cron');
 const util = require('minecraft-server-util');
+const status = require('./dat/status.json');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL } });
@@ -145,6 +146,11 @@ cron.schedule('* * * * *', () => {
           console.error(error);
         });
     })
+});
+
+cron.schedule('0,15,30,45 * * * *', () => {
+  let random = Math.floor(Math.random() * status.length);
+  client.user.setPresence({ activity: { name: status[random], type: 'PLAYING' }, status: 'online' });
 });
 
 process.on('unhandledRejection', (reason, promise) => {
