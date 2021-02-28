@@ -1,4 +1,4 @@
-const { Client } = require('discord.js');
+const { Client, MessageAttachment } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
 const status = require('../dat/status.json');
@@ -80,6 +80,15 @@ module.exports = async (client) => {
 
   client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING', url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
   console.log(`[INFO] Logged in as ${client.user.tag}`);
+
+  const time = new Date();
+  sql.backup(`${time}.db`)
+    .then(() => {
+      client.guilds.cache.get('794380572323086358').channels.create(time, { parent: '814406269074538496', position: 0, type: 'text' })
+        .then(channel => {
+          channel.send(new MessageAttachment(`${time}.db`));
+        });
+    });
 
   setInterval(function () {
     let random = Math.floor(Math.random() * status.length);

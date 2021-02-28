@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { readdir } = require("fs");
-const { Client, Intents, Collection, MessageEmbed, MessageAttachment } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, MessageAttachment, WebhookClient } = require('discord.js');
 const cron = require('node-cron');
 const util = require('minecraft-server-util');
 const SQLite = require("better-sqlite3");
@@ -50,7 +50,7 @@ cron.schedule('0 0 15,23,7 * * *', () => {
 
 cron.schedule('0 0 15 * * *', () => {
   const time = new Date();
-  sql.backup(`data/backup/${time}.db`)
+  sql.backup(`${time}.db`)
     .then(() => {
       client.guilds.cache.get('794380572323086358').channels.create(time, { parent: '814406269074538496', position: 0, type: 'text' })
         .then(channel => {
