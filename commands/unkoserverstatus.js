@@ -37,7 +37,7 @@ module.exports = {
                         .setColor('RANDOM')
                         .setTimestamp()
                 );
-                console.error(error)
+                console.error(error);
             });
     },
 };

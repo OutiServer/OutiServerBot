@@ -9,30 +9,26 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
-/**
- * @param {Message} message
- * @param {Client} client
- */
-    run: async function(client, message, args) {
+    /**
+     * @param {Message} message
+     * @param {Client} client
+     */
+    run: async function (client, message, args) {
         let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
         if (!usermoneydata) {
-           usermoneydata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
+            usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
         }
-        if(usermoneydata.ticket < 1){
-            message.reply('チケットが足りてないですよ 出直してきてください＾＾').then( msg => {
-                msg.delete({ timeout: 5000 });
-            });
-            return;
+        if (usermoneydata.ticket < 1) {
+            message.delete();
+            return message.reply('チケットが足りてないですよ 出直してきてください＾＾');
         }
         let usersnsdata = client.getSns.get(message.author.id, message.guild.id);
         if (!usersnsdata) {
-           usersnsdata　= { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, title: '', url: '', count: 0 }
+            usersnsdata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, title: '', url: '', count: 0 }
         }
         else {
-            message.reply('お前すでに登録済みやん！').then( msg => {
-                msg.delete({ timeout: 5000 });
-            });
-            return;
+            message.delete();
+            return message.reply('お前すでに登録済みやん！');
         }
         const reply = await message.channel.send('宣伝するタイトルを送信してください');
         const filter = msg => msg.author.id === message.author.id;

@@ -21,11 +21,8 @@ module.exports = {
     run: async function (client, message, args) {
         if (message.channel.id !== '798157114555105330' && message.channel.id !== '798176065562476604' && message.channel.id !== '798198069849227294' && message.channel.id !== '798486503255834664' && message.channel.id !== '798570749136601158' && message.guild.id === '706452606918066237') {
             message.delete();
-            message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>でしか使用できません<a:owoxgif:793460058250805259>')
-                .then(msg => {
-                    msg.delete({ timeout: 5000 });
-                });
-            return;
+            return message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>でしか使用できません<a:owoxgif:793460058250805259>');
+
         }
         let littlewardata = client.getLittlewar.get(message.guild.id);
         if (!littlewardata) {

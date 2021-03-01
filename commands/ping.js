@@ -9,18 +9,18 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
-/**
- * @param {Message} message
- * @param {Client} client
- */
-    run: async function(client, message, args) {
-      const used = process.memoryUsage();
-      const memory = Math.round(used.rss / 1024 / 1024 * 100) / 100;
+    /**
+     * @param {Message} message
+     * @param {Client} client
+     */
+    run: async function (client, message, args) {
+        const used = process.memoryUsage();
+        const memory = Math.round(used.rss / 1024 / 1024 * 100) / 100;
         message.channel.send(
             new MessageEmbed()
-            .setDescription(`Ping値: ${client.ws.ping}ms\nメモリ使用率: ${memory}MB`)
-            .setColor('RANDOM')
-            .setTimestamp()
+                .setDescription(`Ping値: ${client.ws.ping}ms\nメモリ使用率: ${memory}MB`)
+                .setColor('RANDOM')
+                .setTimestamp()
         );
     },
 };
