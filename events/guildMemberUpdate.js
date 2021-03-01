@@ -57,7 +57,7 @@ module.exports = async (client, oldMember, newMember) => {
       .setColor('RANDOM')
       .setTimestamp()
   ).catch(e => {
-    client.channels.cache.get('706452607538954263').send(
+    client.channels.cache.get('706452607538954263').send(oldMember,
       new MessageEmbed()
         .setDescription(`あなたの信頼度は${Trust}に変更されました`)
         .setColor('RANDOM')
