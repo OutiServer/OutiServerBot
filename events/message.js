@@ -30,7 +30,7 @@ module.exports = async (client, message) => {
     usermoneydata.money += 10000 * usermoneydata.dailylogin;
     message.channel.send(
       new MessageEmbed()
-        .setDescription(`<@${message.author.id}>、あなたは現在うんこ鯖に${usermoneydata.dailylogin}日ログインしています！\nデイリーボーナスとして${10000 * usermoneydata.dailylogin}うんコイン獲得しました！`)
+        .setDescription(`<@${message.author.id}>、あなたは現在うんこ鯖に${usermoneydata.dailylogin}日浮上しています！\nデイリーボーナスとして${10000 * usermoneydata.dailylogin}うんコイン獲得しました！`)
         .setColor('RANDOM')
         .setTimestamp()
     );
