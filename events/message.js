@@ -28,7 +28,7 @@ module.exports = async (client, message) => {
   }
   let globalchatdata = client.getGlobalChat.get(message.guild.id);
   if (!globalchatdata) {
-    servermoneydata = { id: `${message.guild.id}`, guild: message.guild.id, channel: null }
+    globalchatdata = { id: `${message.guild.id}`, guild: message.guild.id, channel: null }
   }
   if (message.channel.id === globalchatdata.channel) {
     message.delete();
