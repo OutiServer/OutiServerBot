@@ -13,7 +13,7 @@ module.exports = async (client, message) => {
     }
     client.channels.cache.forEach(channel => {
       if (message.attachments.size <= 0) {
-        const embed = new Discord.RichEmbed()
+        const embed = new MessageEmbed()
           .setAuthor(message.author.tag, message.author.avatarURL)
           .setDescription(message.content)
           .setColor(0x2C2F33)
@@ -26,7 +26,7 @@ module.exports = async (client, message) => {
         return;
       }
       if (!message.attachments.forEach(attachment => {
-        const embed = new Discord.RichEmbed()
+        const embed = new MessageEmbed()
           .setAuthor(message.author.tag, message.author.avatarURL)
           .setImage(attachment.url)
           .setDescription(attachment.url)
