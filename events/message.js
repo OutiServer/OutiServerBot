@@ -1,6 +1,7 @@
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
 const dataStore = require('../store')
-const storeAsync = dataStore('../dat/global.json', { webhooks: [] })
+const storeAsync = dataStore('./global.json', { webhooks: [] })
+const globalclient = new Client();
 
 /**
  * @param {Client} client
@@ -177,7 +178,7 @@ async function handleMessage(message) {
     files: message.attachments.map(attachment => attachment.url)
   }
 
-  return Promise.all(store.map(value => client.channels.fetch(value.channelId)))
+  return Promise.all(store.map(value => globalclient.channels.fetch(value.channelId)))
     .then(channels => channels.filter(channel => channel.type === 'text' && !channel.deleted))
     .then(channels => Promise.all(channels.map(channel => channel.fetchWebhooks())))
     .then(webhooks => webhooks.map(webhooks => webhooks.map(webhook => webhook)))
