@@ -1,4 +1,6 @@
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
+const SQLite = require("better-sqlite3");
+const sql = new SQLite('unkoserver.db');
 
 /**
  * @param {Client} client
@@ -24,6 +26,25 @@ module.exports = async (client, message) => {
   if (!servermoneydata) {
     servermoneydata = { id: `${message.guild.id}`, guild: message.guild.id, money: 0 }
   }
+  let globalchatdata = client.getGlobalChat.get(message.guild.id);
+  if (!globalchatdata) {
+    servermoneydata = { id: `${message.guild.id}`, guild: message.guild.id, channel: null }
+  }
+  if (message.channel.id === globalchatdata.channel) {
+    message.delete();
+    const globalchannel = sql.prepare("SELECT * FROM globalchat ORDER BY channel DESC;").all();
+    for (const data of globalchannel) {
+      client.channels.cache.get(data.channel).send(
+        new MessageEmbed()
+          .setDescription(message.content)
+          .setFooter(message.author.tag, message.author.avatarURL())
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
+    }
+  }
+
+
   if (userdailydata.login === 0 && userdebtdata.Tuna === 0 && message.guild.id === '706452606918066237') {
     userdailydata.login = 1;
     usermoneydata.dailylogin += 1;

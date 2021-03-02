@@ -77,6 +77,16 @@ module.exports = async (client) => {
   client.getServerMoney = sql.prepare("SELECT * FROM servermoney WHERE guild = ?");
   client.setServerMoney = sql.prepare("INSERT OR REPLACE INTO servermoney (id, guild, money) VALUES (@id, @guild, @money);");
 
+  const GlobalChattable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'globalchat';").get();
+  if (!GlobalChattable['count(*)']) {
+    sql.prepare("CREATE TABLE globalchat (id TEXT PRIMARY KEY, guild TEXT, channel TEXT);").run();
+    sql.prepare("CREATE UNIQUE INDEX idx_globalchat_id ON globalchat (id);").run();
+    sql.pragma("synchronous = 1");
+    sql.pragma("journal_mode = wal");
+  }
+  client.getGlobalChat = sql.prepare("SELECT * FROM globalchat WHERE guild = ?");
+  client.setGlobalChat = sql.prepare("INSERT OR REPLACE INTO globalchat (id, guild, channel) VALUES (@id, @guild, @channel);");
+
   client.user.setPresence({ activity: { name: '?help うんこ鯖', type: 'PLAYING', url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
   console.log(`[INFO] Logged in as ${client.user.tag}`);
 
