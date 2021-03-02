@@ -1,7 +1,4 @@
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
-const dataStore = require('../store')
-const storeAsync = dataStore('./global.json', { webhooks: [] })
-const globalclient = new Client();
 
 /**
  * @param {Client} client
@@ -14,7 +11,7 @@ module.exports = async (client, message) => {
     if (message.attachments.size <= 0) {
       message.delete()
     }
-    client.channels.forEach(channel => {
+    client.channels.cache.forEach(channel => {
       if (message.attachments.size <= 0) {
         const embed = new Discord.RichEmbed()
           .setAuthor(message.author.tag, message.author.avatarURL)
