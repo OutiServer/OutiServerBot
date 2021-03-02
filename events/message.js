@@ -14,10 +14,10 @@ module.exports = async (client, message) => {
     client.channels.cache.forEach(channel => {
       if (message.attachments.size <= 0) {
         const embed = new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.avatarURL)
+          .setAuthor(message.author.tag, message.author.avatarURL())
           .setDescription(message.content)
           .setColor(0x2C2F33)
-          .setFooter(message.guild.name, message.guild.iconURL)
+          .setFooter(message.guild.name, message.guild.iconURL())
           .setTimestamp()
         if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
           channel.send(embed)
@@ -27,11 +27,11 @@ module.exports = async (client, message) => {
       }
       if (!message.attachments.forEach(attachment => {
         const embed = new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.avatarURL)
+          .setAuthor(message.author.tag, message.author.avatarURL())
           .setImage(attachment.url)
           .setDescription(attachment.url)
           .setColor(0x2C2F33)
-          .setFooter(message.guild.name, message.guild.iconURL)
+          .setFooter(message.guild.name, message.guild.iconURL())
           .setTimestamp()
         if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
           channel.send(embed)
