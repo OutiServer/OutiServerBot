@@ -12,9 +12,12 @@ module.exports = async (client, message) => {
       message.delete()
     }
     client.channels.cache.forEach(channel => {
+      let username = message.author.tag;
+      if (message.author.username !== message.member.nickname)
+        username = message.member.nickname + `(${message.author.tag})`;
       if (message.attachments.size <= 0) {
         const embed = new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.avatarURL())
+          .setAuthor(username, message.author.avatarURL())
           .setDescription(message.content)
           .setColor('RANDOM')
           .setFooter(message.guild.name + ' | ' + message.channel.name, message.guild.iconURL())
@@ -27,7 +30,7 @@ module.exports = async (client, message) => {
       }
       if (!message.attachments.forEach(attachment => {
         const embed = new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.avatarURL())
+          .setAuthor(username, message.author.avatarURL())
           .setImage(attachment.url)
           .setDescription(attachment.url)
           .setColor('RANDOM')
