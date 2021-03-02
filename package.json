@@ -18,6 +18,7 @@
     "discord.js-menu": "^2.3.1",
     "discord.js-reaction-controller": "^1.1.1",
     "dotenv": "^8.2.0",
-    "node-cron": "^2.0.3"
+    "node-cron": "^2.0.3",
+    "proxy-deep": "^3.1.0"
   }
 }
