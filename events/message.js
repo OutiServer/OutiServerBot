@@ -1,6 +1,6 @@
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
-const dataStore = require('./store')
-const storeAsync = dataStore('./dat/global.json', { webhooks: [] })
+const dataStore = require('../store')
+const storeAsync = dataStore('../dat/global.json', { webhooks: [] })
 
 /**
  * @param {Client} client
