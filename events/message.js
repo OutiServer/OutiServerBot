@@ -13,7 +13,7 @@ module.exports = async (client, message) => {
     }
     client.channels.cache.forEach(channel => {
       let username = message.author.tag;
-      if (message.author.username !== message.member.nickname)
+      if (message.member.nickname)
         username = message.member.nickname + `(${message.author.tag})`;
       if (message.attachments.size <= 0) {
         const embed = new MessageEmbed()
