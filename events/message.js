@@ -1,6 +1,7 @@
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
+const storeAsync = dataStore('./dat/global.json', { webhooks: [] })
 
 /**
  * @param {Client} client
@@ -26,24 +27,6 @@ module.exports = async (client, message) => {
   if (!servermoneydata) {
     servermoneydata = { id: `${message.guild.id}`, guild: message.guild.id, money: 0 }
   }
-  let globalchatdata = client.getGlobalChat.get(message.guild.id);
-  if (!globalchatdata) {
-    globalchatdata = { id: `${message.guild.id}`, guild: message.guild.id, channel: null }
-  }
-  if (message.channel.id === globalchatdata.channel) {
-    message.delete();
-    const globalchannel = sql.prepare("SELECT * FROM globalchat ORDER BY channel DESC;").all();
-    for (const data of globalchannel) {
-      client.channels.cache.get(data.channel).send(
-        new MessageEmbed()
-          .setDescription(message.content)
-          .setFooter(message.author.tag, message.author.avatarURL())
-          .setColor('RANDOM')
-          .setTimestamp()
-      );
-    }
-  }
-
 
   if (userdailydata.login === 0 && userdebtdata.Tuna === 0 && message.guild.id === '706452606918066237') {
     userdailydata.login = 1;
@@ -82,7 +65,6 @@ module.exports = async (client, message) => {
   client.setDebt.run(userdebtdata);
   client.setDaily.run(userdailydata);
   client.setServerMoney.run(servermoneydata);
-  client.setGlobalChat.run(globalchatdata);
   if (message.channel.id === '798157114555105330' || message.channel.id === '798176065562476604' || message.channel.id === '798198069849227294' || message.channel.id === '798570749136601158' || message.channel.id === '798486503255834664' || message.channel.id === '798186469516116028' || message.channel.id === '798571746730049597' || message.channel.id === '798191278369931265' || message.channel.id === '798500844579586048') {
     message.member.roles.add('798533393448960020');
   }
@@ -105,6 +87,9 @@ module.exports = async (client, message) => {
         .catch(console.error)
       );
   }
+  if (message.content.startsWith('?addChannel')) return addShareChannel(message).catch(console.error)
+  if (message.content.startsWith('?removeChannel')) return removeShareChannel(message).catch(console.error)
+  handleMessage(message);
   if (!message.content.startsWith(process.env.PREFIX)) return;
   const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
@@ -116,3 +101,89 @@ module.exports = async (client, message) => {
   }
   cmd.run(client, message, args);
 };
+
+const requireBotPermissions = ['ADMINISTRATOR']
+const missingBotPermissionsMessage = `ボットがこのコマンドの処理を行うためには、**${requireBotPermissions.join(', ')}**権限が必要です。`
+
+const requireMemberPermissions = ['ADMINISTRATOR']
+const missingMemberPermissionsMessage = `あなたがこのコマンドを使用するには、**${requireMemberPermissions.join(', ')}**権限を持っている必要があります。`
+
+const noChannelMentionMessage = 'チャンネルをメンションしてメッセージを送信してね。'
+
+/**
+ * @param {Discord.Message} message
+ */
+async function addShareChannel(message) {
+  const member = message.member
+  const channels = message.mentions.channels
+
+  if (!member.hasPermission(requireMemberPermissions)) return message.reply(missingMemberPermissionsMessage)
+  if (!message.guild.me.hasPermission(requireBotPermissions)) return message.reply(missingBotPermissionsMessage)
+  if (!channels.size) return message.reply(noChannelMentionMessage)
+
+  const store = await storeAsync.then(value => value.webhooks)
+
+  return Promise.all(channels.map(channel => channel.fetchWebhooks()))
+    .then(webhooks => webhooks.map(webhooks => webhooks.map(webhook => webhook.channelID)))
+    .then(channelIds => channelIds.reduce((previousValue, currentValue) => previousValue.concat(currentValue), []))
+    .then(channelIds => channelIds.filter(channelId => store.some(value => value.channelId !== channelId)))
+    .then(channelIds => channels.filter(channel => !channelIds.includes(channel.id)))
+    .then(channels => Promise.all(channels.map(channel => channel.createWebhook('うんこ鯖~カスクラサーバー！'))))
+    .then(webhooks => Promise.all(webhooks.map(webhook => store.push({ webhookId: webhook.id, channelId: webhook.channelID }))))
+    .then(indexNumbers => message.reply(`処理終了`))
+}
+
+/**
+ * @param {Discord.Message} message
+ */
+async function removeShareChannel(message) {
+  const member = message.member
+  const channels = message.mentions.channels
+
+  if (!member.hasPermission(requireMemberPermissions)) return message.reply(missingMemberPermissionsMessage)
+  if (!message.guild.me.hasPermission(requireBotPermissions)) return message.reply(missingBotPermissionsMessage)
+  if (!channels.size) return message.reply(noChannelMentionMessage)
+
+  const store = await storeAsync
+  const deleteWebhookIds = []
+
+  const deleteWebhook = webhook => {
+    deleteWebhookIds.push(webhook.id)
+
+    return webhook.delete()
+  }
+
+  return Promise.all(channels.map(channel => channel.fetchWebhooks()))
+    .then(webhooks => webhooks.map(webhooks => webhooks.map(webhook => webhook)))
+    .then(webhooks => webhooks.reduce((previousValue, currentValue) => previousValue.concat(currentValue), []))
+    .then(webhooks => webhooks.filter(webhook => store.webhooks.some(value => value.webhookId === webhook.id)))
+    .then(webhooks => webhooks.filter(webhook => channels.has(webhook.channelID)))
+    .then(webhooks => Promise.all(webhooks.map(webhook => deleteWebhook(webhook))))
+    .then(() => { store.webhooks = store.webhooks.filter(value => !deleteWebhookIds.includes(value.webhookId)) })
+    .then(() => message.reply(`処理終了`))
+}
+
+
+/**
+ * @param {Discord.Message} message
+ */
+async function handleMessage(message) {
+  const store = await storeAsync.then(value => value.webhooks)
+
+  if (!store.find(value => value.channelId === message.channel.id)) return
+
+  const messageOptions = {
+    username: message.author.username,
+    avatarURL: message.author.displayAvatarURL({ format: 'png', size: 512 }),
+    files: message.attachments.map(attachment => attachment.url)
+  }
+
+  return Promise.all(store.map(value => client.channels.fetch(value.channelId)))
+    .then(channels => channels.filter(channel => channel.type === 'text' && !channel.deleted))
+    .then(channels => Promise.all(channels.map(channel => channel.fetchWebhooks())))
+    .then(webhooks => webhooks.map(webhooks => webhooks.map(webhook => webhook)))
+    .then(webhooks => webhooks.reduce((previousValue, currentValue) => previousValue.concat(currentValue), []))
+    .then(webhooks => webhooks.filter(webhook => store.some(value => value.webhookId === webhook.id)))
+    .then(webhooks => Promise.all(webhooks.map(webhook => webhook.send(message.cleanContent, messageOptions))))
+    .then(() => message.delete())
+}
