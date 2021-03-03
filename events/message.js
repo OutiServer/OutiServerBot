@@ -6,8 +6,9 @@ const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
  */
 
 module.exports = async (client, message) => {
+  if (!message.guild || message.system) return;
   if (message.channel.name === 'うんこ鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
-    if (message.author.bot) return;
+
     if (message.attachments.size <= 0) {
       message.delete()
     }
@@ -45,7 +46,7 @@ module.exports = async (client, message) => {
       return;
     });
   };
-  if (message.author.bot || !message.guild || message.system) return;
+  if (message.author.bot) return;
   let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
   if (!usermoneydata) {
     usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
