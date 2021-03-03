@@ -19,13 +19,16 @@ app.listen(port, () => {
   console.log(`サーバーを起動させました！`);
 });
 
-app.get('/', function (req, res) {
-  res.send('hello world');
-});
-
 app.get('/user', function (req, res) {
   const userid = req.query.id
   res.send(client.users.cache.get(userid).tag);
+});
+
+app.get('/money', function (req, res) {
+  const userid = req.query.id;
+  const money = client.getMoney.get(userid, '706452606918066237');
+  const user = client.users.cache.get(userid).tag;
+  res.send(`${user}のうんコインは${money}うんコインです。`);
 });
 
 readdir(__dirname + "/events/", (err, files) => {
