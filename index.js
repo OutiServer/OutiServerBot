@@ -1,7 +1,5 @@
 require('dotenv').config();
-const http = require('http');
-const querystring = require('querystring');
-var express = require('express');
+const express = require('express');
 const { readdir } = require("fs");
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, WebhookClient } = require('discord.js');
 const cron = require('node-cron');
@@ -27,8 +25,9 @@ app.get('/user', function (req, res) {
 app.get('/money', function (req, res) {
   const userid = req.query.id;
   const money = client.getMoney.get(userid, '706452606918066237');
-  const user = client.users.cache.get(userid).tag;
-  res.send(`${user}のうんコインは${money.money}うんコインです。`);
+  const user = client.users.cache.get(userid);
+  if (!money || !user) return res.send(`data Not Fond`);
+  res.send(`${user.tag}のうんコインは${money.money}うんコインです。`);
 });
 
 readdir(__dirname + "/events/", (err, files) => {
