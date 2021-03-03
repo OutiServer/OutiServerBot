@@ -6,7 +6,7 @@ const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
  */
 
 module.exports = async (client, message) => {
-  if (!message.guild || message.system) return;
+  if (!message.guild || message.system || message.author.id === client.user.id) return;
   if (message.channel.name === 'うんこ鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
 
     if (message.attachments.size <= 0) {
