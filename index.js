@@ -1,4 +1,6 @@
 require('dotenv').config();
+const http = require('http');
+const querystring = require('querystring');
 const { readdir } = require("fs");
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, WebhookClient } = require('discord.js');
 const cron = require('node-cron');
@@ -8,6 +10,39 @@ const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
 const client = new Client({ ws: { intents: Intents.ALL } });
 client.commands = new Collection();
+
+http.createServer(function (req, res) {
+  if (req.method == 'POST') {
+    var data = "";
+    req.on('data', function (chunk) {
+      data += chunk;
+    });
+    req.on('end', function () {
+      if (!data) {
+        console.log("No post data");
+        res.end();
+        return;
+      }
+      var dataObject = querystring.parse(data);
+      console.log("post:" + dataObject.type);
+      if (dataObject.type == "wake") {
+        console.log("Woke up in post");
+        res.end();
+        return;
+      }
+      res.end();
+    });
+  }
+  else if (req.method == 'GET') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Hello World');
+  }
+}).listen(3000);
+
+client.on('ready', message => {
+  console.log('Bot準備完了～');
+  client.user.setPresence({ activity: { name: 'げーむ' } });
+});
 
 readdir(__dirname + "/events/", (err, files) => {
   if (err) return console.error(err);

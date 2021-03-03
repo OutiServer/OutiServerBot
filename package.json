@@ -19,6 +19,7 @@
     "discord.js-reaction-controller": "^1.1.1",
     "dotenv": "^8.2.0",
     "minecraft-server-util": "^3.4.3",
-    "node-cron": "^2.0.3"
+    "node-cron": "^2.0.3",
+    "querystring": "^0.2.1"
   }
 }
