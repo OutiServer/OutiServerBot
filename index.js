@@ -28,7 +28,7 @@ app.get('/money', function (req, res) {
   const userid = req.query.id;
   const money = client.getMoney.get(userid, '706452606918066237');
   const user = client.users.cache.get(userid).tag;
-  res.send(`${user}のうんコインは${money}うんコインです。`);
+  res.send(`${user}のうんコインは${money.money}うんコインです。`);
 });
 
 readdir(__dirname + "/events/", (err, files) => {
