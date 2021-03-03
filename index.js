@@ -53,10 +53,7 @@ cron.schedule('0 0 15 * * *', () => {
   const time = new Date();
   sql.backup(`${time}.db`)
     .then(() => {
-      client.guilds.cache.get('775952658779209770').channels.create(time, { parent: '815547487506137129', position: 0, type: 'text' })
-        .then(channel => {
-          channel.send(new MessageAttachment(`${time}.db`));
-        });
+      client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
     });
   sql.prepare("DROP TABLE dailys;").run();
   const testtable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();

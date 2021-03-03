@@ -83,10 +83,7 @@ module.exports = async (client) => {
   const time = new Date();
   sql.backup(`${time}.db`)
     .then(() => {
-      client.guilds.cache.get('775952658779209770').channels.create(time, { parent: '815547487506137129', position: 0, type: 'text' })
-        .then(channel => {
-          channel.send(new MessageAttachment(`${time}.db`));
-        });
+      client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
     });
 
   const handleReaction = async (channelID, messageID, callback) => {
