@@ -10,36 +10,18 @@ const status = require('./dat/status.json');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
 const app = express();
+const port = 3000;
 const client = new Client({ ws: { intents: Intents.ALL } });
 client.commands = new Collection();
 
-http.createServer(function (req, res) {
-  if (req.method == 'POST') {
-    var data = "";
-    req.on('data', function (chunk) {
-      data += chunk;
-    });
-    req.on('end', function () {
-      if (!data) {
-        console.log("No post data");
-        res.end();
-        return;
-      }
-      var dataObject = querystring.parse(data);
-      console.log("post:" + dataObject.type);
-      if (dataObject.type == "wake") {
-        console.log("Woke up in post");
-        res.end();
-        return;
-      }
-      res.end();
-    });
-  }
-}).listen(3000);
+// HTTPサーバを起動する
+app.listen(port, () => {
+  console.log(`サーバーを起動させました！`);
+});
 
 app.get('/', function (req, res) {
   res.send('hello world');
-})
+});
 
 readdir(__dirname + "/events/", (err, files) => {
   if (err) return console.error(err);
