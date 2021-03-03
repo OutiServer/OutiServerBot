@@ -23,6 +23,11 @@ app.get('/', function (req, res) {
   res.send('hello world');
 });
 
+app.get('/user', function (req, res) {
+  const userid = req.query.id
+  res.send(client.users.cache.get(userid).tag);
+});
+
 readdir(__dirname + "/events/", (err, files) => {
   if (err) return console.error(err);
   files.forEach((file) => {
