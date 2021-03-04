@@ -32,7 +32,7 @@ readdir(__dirname + "/events/cron/", (err, files) => {
     const event = require(__dirname + `/events/cron/${file}`);
     let eventTime = file.split(".")[0];
     cron.schedule(eventTime, event.bind(null, client))
-    console.log("時間イベントのロード完了: " + eventName);
+    console.log("時間イベントのロード完了: " + eventTime);
   });
 });
 
