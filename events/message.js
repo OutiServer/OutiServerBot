@@ -14,8 +14,6 @@ module.exports = async (client, message) => {
     }
     client.channels.cache.forEach(channel => {
       let username = '';
-      if (message.author.id === '714455926970777602' || message.author.id === '515443335012286465' || message.author.id === '399553158235291658' || message.author.id === '706466435240820766')
-        username += '<:staff_0:816891988615757824>';
       if (message.member.nickname)
         username = message.member.nickname + `(${message.author.tag})`;
       else username += message.author.tag;
