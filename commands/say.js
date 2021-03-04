@@ -15,5 +15,6 @@ module.exports = {
      */
     run: async function (client, message, args) {
         client.channels.cache.get(args[0]).send(args[1]);
+        message.react('793460057932038145');
     },
 };
