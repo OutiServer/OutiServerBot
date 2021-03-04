@@ -21,6 +21,9 @@ module.exports = {
         else {
             message.member.roles.add('780217228649562113');
             message.reply('<:emoji_106:790546684710223882>');
+            setTimeout(() => {
+                reaction.message.guild.member(user).roles.remove('780217228649562113');
+            }, 600000)
         }
     },
 };
