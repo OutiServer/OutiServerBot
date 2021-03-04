@@ -13,9 +13,12 @@ module.exports = async (client, message) => {
       message.delete()
     }
     client.channels.cache.forEach(channel => {
-      let username = message.author.tag;
+      let username = '';
+      if (message.author.id === '714455926970777602' || message.author.id === '515443335012286465' || message.author.id === '399553158235291658' || message.author.id === '706466435240820766')
+        username += '';
       if (message.member.nickname)
         username = message.member.nickname + `(${message.author.tag})`;
+      else username += message.author.tag;
       if (message.attachments.size <= 0) {
         const embed = new MessageEmbed()
           .setAuthor(username, message.author.avatarURL())

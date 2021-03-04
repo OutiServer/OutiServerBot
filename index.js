@@ -1,5 +1,4 @@
 require('dotenv').config();
-const express = require('express');
 const { readdir } = require("fs");
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, WebhookClient } = require('discord.js');
 const cron = require('node-cron');
@@ -7,28 +6,8 @@ const util = require('minecraft-server-util');
 const status = require('./dat/status.json');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
-const app = express();
-const port = 3000;
 const client = new Client({ ws: { intents: Intents.ALL } });
 client.commands = new Collection();
-
-// HTTPサーバを起動する
-app.listen(port, () => {
-  console.log(`サーバーを起動させました！`);
-});
-
-app.get('/user', function (req, res) {
-  const userid = req.query.id
-  res.send(client.users.cache.get(userid).tag);
-});
-
-app.get('/money', function (req, res) {
-  const userid = req.query.id;
-  const money = client.getMoney.get(userid, '706452606918066237');
-  const user = client.users.cache.get(userid);
-  if (!money || !user) return res.send(`data Not Fond`);
-  res.send(`${user.tag}のうんコインは${money.money}うんコインです。`);
-});
 
 readdir(__dirname + "/events/", (err, files) => {
   if (err) return console.error(err);
