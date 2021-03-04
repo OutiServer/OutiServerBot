@@ -2,7 +2,7 @@ require('dotenv').config();
 const fs = require("fs");
 const { Client, Intents, Collection } = require('discord.js');
 const cron = require('node-cron');
-const client = new Client({ ws: { intents: Intents.ALL } });
+const client = new Client({ messageCacheMaxSize: 20, messageSweepInterval: 30, ws: { intents: Intents.ALL } });
 client.commands = new Collection();
 
 fs.readdir(__dirname + "/events/process/", (err, files) => {
@@ -45,5 +45,7 @@ fs.readdir(__dirname + "/events/cron/", (err, files) => {
     console.log("時間イベントのロード完了: " + eventTime);
   });
 });
+
+module.exports = require('./yomiage');
 
 client.login();
