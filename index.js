@@ -1,21 +1,31 @@
 require('dotenv').config();
-const { readdir } = require("fs");
-const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
+const fs = require("fs");
+const { Client, Intents, Collection } = require('discord.js');
 const cron = require('node-cron');
 const client = new Client({ ws: { intents: Intents.ALL } });
 client.commands = new Collection();
 
-readdir(__dirname + "/events/discord/", (err, files) => {
+fs.readdir(__dirname + "/events/process/", (err, files) => {
+  if (err) return console.error(err);
+  files.forEach((file) => {
+    const event = require(__dirname + `/events/process/${file}`);
+    let eventName = file.split(".")[0];
+    process.on(eventName, event.bind(null, client))
+    console.log("Processイベントのロード完了: " + eventName);
+  });
+});
+
+fs.readdir(__dirname + "/events/discord/", (err, files) => {
   if (err) return console.error(err);
   files.forEach((file) => {
     const event = require(__dirname + `/events/discord/${file}`);
     let eventName = file.split(".")[0];
     client.on(eventName, event.bind(null, client));
-    console.log("イベントのロード完了: " + eventName);
+    console.log("Discordイベントのロード完了: " + eventName);
   });
 });
 
-readdir("./commands/", (err, files) => {
+fs.readdir("./commands/", (err, files) => {
   if (err) return console.error(err);
   files.forEach((file) => {
     if (!file.endsWith(".js")) return;
@@ -26,7 +36,7 @@ readdir("./commands/", (err, files) => {
   });
 });
 
-readdir(__dirname + "/events/cron/", (err, files) => {
+fs.readdir(__dirname + "/events/cron/", (err, files) => {
   if (err) return console.error(err);
   files.forEach((file) => {
     const event = require(__dirname + `/events/cron/${file}`);
@@ -34,16 +44,6 @@ readdir(__dirname + "/events/cron/", (err, files) => {
     cron.schedule(eventTime, event.bind(null, client))
     console.log("時間イベントのロード完了: " + eventTime);
   });
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error(reason);
-  client.users.cache.get('714455926970777602').send(
-    new MessageEmbed()
-      .setDescription('エラー内容:\n```' + reason + '```')
-      .setColor('RANDOM')
-      .setTimestamp()
-  );
 });
 
 client.login();
