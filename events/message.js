@@ -8,15 +8,13 @@ const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
 module.exports = async (client, message) => {
   if (!message.guild || message.system || message.author.bot) return;
   if (message.channel.name === 'うんこ鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
-
     if (message.attachments.size <= 0) {
       message.delete()
     }
     client.channels.cache.forEach(channel => {
-      let username = '';
+      let username = message.author.tag;
       if (message.member.nickname)
         username = message.member.nickname + `(${message.author.tag})`;
-      else username += message.author.tag;
       if (message.attachments.size <= 0) {
         const embed = new MessageEmbed()
           .setAuthor(username, message.author.avatarURL())
@@ -26,9 +24,7 @@ module.exports = async (client, message) => {
           .setTimestamp()
         if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
           channel.send(embed)
-          return;
         }
-        return;
       }
       if (!message.attachments.forEach(attachment => {
         const embed = new MessageEmbed()
@@ -40,11 +36,8 @@ module.exports = async (client, message) => {
           .setTimestamp()
         if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
           channel.send(embed)
-          return;
         }
-        return;
       }));
-      return;
     });
   };
   let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
