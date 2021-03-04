@@ -7,6 +7,7 @@ const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
 
 module.exports = async (client, message) => {
   if (!message.guild || message.system || message.author.bot) return;
+
   if (message.channel.name === 'うんこ鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
     if (message.attachments.size <= 0) {
       message.delete()
@@ -40,18 +41,22 @@ module.exports = async (client, message) => {
       }));
     });
   };
+
   let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
   if (!usermoneydata) {
     usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
   }
+
   let userdebtdata = client.getDebt.get(message.author.id, message.guild.id);
   if (!userdebtdata) {
     userdebtdata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, Tuna: 0, Shoulder: null }
   }
+
   let userdailydata = client.getDaily.get(message.author.id, message.guild.id);
   if (!userdailydata) {
     userdailydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, login: 0 }
   }
+
   let servermoneydata = client.getServerMoney.get(message.guild.id);
   if (!servermoneydata) {
     servermoneydata = { id: `${message.guild.id}`, guild: message.guild.id, money: 0 }
@@ -68,13 +73,16 @@ module.exports = async (client, message) => {
         .setTimestamp()
     );
   }
+
   servermoneydata.money += message.content.length;
+
   if (usermoneydata.money < 10000 && userdebtdata.Tuna === 0) {
     usermoneydata.money += message.content.length * 10;
     if (usermoneydata.money > 9999) {
       usermoneydata.money = 10000;
     }
   }
+
   if (usermoneydata.money < -99999 && userdebtdata.Tuna === 0) {
     message.member.roles.add('798570033235755029');
     userdebtdata.Tuna = 1;
@@ -87,19 +95,23 @@ module.exports = async (client, message) => {
     webhook.send(`${message.author}、確かに借金は返してもらった、もう二度と借金すんじゃねえぞ。`);
     userdebtdata.Tuna = 0;
   }
+
   if (usermoneydata.ticket === null) {
     usermoneydata.ticket = 0;
   }
+
   client.setMoney.run(usermoneydata);
   client.setDebt.run(userdebtdata);
   client.setDaily.run(userdailydata);
   client.setServerMoney.run(servermoneydata);
+
   if (message.channel.id === '798157114555105330' || message.channel.id === '798176065562476604' || message.channel.id === '798198069849227294' || message.channel.id === '798570749136601158' || message.channel.id === '798486503255834664' || message.channel.id === '798186469516116028' || message.channel.id === '798571746730049597' || message.channel.id === '798191278369931265' || message.channel.id === '798500844579586048') {
     message.member.roles.add('798533393448960020');
   }
   else if (message.channel.id === '738899882454024323' || message.channel.id === '801057145529172018' || message.channel.id === '801095344800661544') {
     message.member.roles.add('801796340057112589');
   }
+
   const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
   let result;
   while ((result = URL_PATTERN.exec(message.content)) !== null) {
@@ -116,6 +128,7 @@ module.exports = async (client, message) => {
         .catch(console.error)
       );
   }
+
   if (!message.content.startsWith(process.env.PREFIX)) return;
   const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
