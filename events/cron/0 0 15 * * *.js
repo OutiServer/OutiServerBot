@@ -8,7 +8,7 @@ const sql = new SQLite('unkoserver.db');
 
 module.exports = (client) => {
     const time = new Date();
-    sql.backup(`${time}.db`)
+    sql.backup(`../../${time}.db`)
         .then(() => {
             client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
         });
