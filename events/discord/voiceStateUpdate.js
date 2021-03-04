@@ -17,4 +17,4 @@ module.exports = async (client, oldMember, newMember) => {
   else if (newMember.channelID !== oldMember.channelID) {
     client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${oldMember.channel.name}から${newMember.channel.name}に移動しました`);
   }
-}
+};

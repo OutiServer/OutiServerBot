@@ -14,4 +14,4 @@ module.exports = async (client, oldMessage, newMessage) => {
             .setColor('RANDOM')
             .setTimestamp()
     );
-}
+};

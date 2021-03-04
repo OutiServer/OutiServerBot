@@ -172,4 +172,4 @@ module.exports = async (client) => {
     client.setMoney.run(usermoneydata);
     client.setDebt.run(userdebtdata);
   });
-}
+};
