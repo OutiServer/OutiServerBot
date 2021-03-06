@@ -14,7 +14,7 @@ module.exports = {
      * @param {Message} message
      */
     run: async function (client, message, args) {
-        util.statusBedrock('126.235.33.140')
+        util.statusBedrock('126.235.33.140', { timeout: 5000 })
             .then((result) => {
                 message.channel.send(
                     new MessageEmbed()
