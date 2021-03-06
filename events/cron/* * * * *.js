@@ -34,7 +34,7 @@ module.exports = (client) => {
         })
     client.channels.cache.get('780012050163302420').messages.fetch('800279738509426728')
         .then(msg => {
-            util.statusBedrock('126.235.33.140')
+            util.statusBedrock('126.235.33.140', { timeout: 5000 })
                 .then((result) => {
                     msg.edit(
                         new MessageEmbed()
