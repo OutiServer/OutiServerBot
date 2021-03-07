@@ -2,13 +2,14 @@ const { Client, MessageAttachment, WebhookClient } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
 
+
 /**
  * @param {Client} client
  */
 
 module.exports = (client) => {
     const time = new Date();
-    sql.backup(`../../${time}.db`)
+    sql.backup(`${time}.db`)
         .then(() => {
             client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
         });
