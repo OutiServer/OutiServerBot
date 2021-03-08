@@ -18,13 +18,12 @@ module.exports = {
             .then((result) => {
                 message.channel.send(
                     new MessageEmbed()
-                        .attachFiles(['../../images/UnkoServerkoiyo.png'])
                         .setTitle('💩うんこサーバーの現在の状態💩')
                         .addField('IPアドレス', result.host)
                         .addField('ポート', result.port)
                         .addField('サーバーのバージョン', result.version)
                         .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-                        .setImage('attachment://UnkoServerkoiyo.png')
+                        .setImage('https://media.discordapp.net/attachments/818411667015991297/818411780127981578/UnkoServerkoiyo.png')
                         .setColor('RANDOM')
                         .setTimestamp()
                 );
@@ -32,10 +31,9 @@ module.exports = {
             .catch((error) => {
                 message.channel.send(
                     new MessageEmbed()
-                        .attachFiles(['../../images/setumeisitekudasai.jpg'])
                         .setTitle('💩うんこサーバーの現在の状態💩')
                         .setDescription('うんこサーバーは現在落ちてます')
-                        .setImage('attachment://setumeisitekudasai.jpg')
+                        .setImage('https://media.discordapp.net/attachments/818411667015991297/818411780127981578/UnkoServerkoiyo.png')
                         .setColor('RANDOM')
                         .setTimestamp()
                 );
