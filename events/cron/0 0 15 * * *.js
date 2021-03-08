@@ -30,20 +30,6 @@ module.exports = (client) => {
             servermoneydata.money += zeikin;
             client.setMoney.run(data);
         }
-        else if (data.money < 0) {
-            let userdebtdata = client.getDebt.get(data.user, '706452606918066237');
-            if (!userdebtdata) {
-                userdebtdata = { id: `706452606918066237-${data.user}`, user: data.user, guild: '706452606918066237', Tuna: 0, Shoulder: null }
-            }
-            if (userdebtdata.Tuna === 0) {
-                client.guilds.cache.get('706452606918066237').member(data.user).roles.add('798570033235755029');
-                userdebtdata.Tuna = 1;
-                const webhook = new WebhookClient('798186603235246111', 'Rf6vyUbm7GuwLOmmHseu-QZp7bV7QOYykwEoqzrSLX3Rjkza_7ipOsbJQGe9BKoGNiHn');
-                webhook.send(`<@${data.user}>、開けろごらああ！てめえ自分が何シてんのかわかってるのか！！？\n${usermoneydata.money * -1}円、しっかり払ってもらうで`);
-            }
-
-            client.setDebt.run(userdebtdata);
-        }
     }
     client.setServerMoney.run(servermoneydata);
 };
