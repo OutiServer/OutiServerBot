@@ -51,6 +51,7 @@ module.exports = {
         }
         message.channel.send(
             new MessageEmbed()
+                .attachFiles(['../../images/gacha.png'])
                 .setTitle('うんこガチャ')
                 .setImage('attachment://gacha.png')
                 .setColor('RANDOM')
@@ -59,6 +60,7 @@ module.exports = {
             setTimeout(() => {
                 msg.edit(
                     new MessageEmbed()
+                        .attachFiles(['../../images/capsule_close1_red.png'])
                         .setTitle('うんこガチャ')
                         .setImage('attachment://capsule_close1_red.png')
                         .setColor('RANDOM')
@@ -67,6 +69,7 @@ module.exports = {
                     setTimeout(() => {
                         msg.edit(
                             new MessageEmbed()
+                                .attachFiles(['../../images/capsule_open1_red.png'])
                                 .setTitle('うんこガチャ')
                                 .setImage('attachment://capsule_open1_red.png')
                                 .setColor('RANDOM')

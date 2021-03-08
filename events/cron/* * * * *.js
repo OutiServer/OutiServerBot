@@ -38,6 +38,7 @@ module.exports = (client) => {
                 .then((result) => {
                     msg.edit(
                         new MessageEmbed()
+                            .attachFiles(['../../images/UnkoServerkoiyo.png'])
                             .setTitle('💩うんこサーバーの現在の状態💩')
                             .addField('IPアドレス', result.host)
                             .addField('ポート', result.port)
@@ -51,6 +52,7 @@ module.exports = (client) => {
                 .catch((error) => {
                     msg.edit(
                         new MessageEmbed()
+                            .attachFiles(['../../images/setumeisitekudasai.jpg'])
                             .setTitle('💩うんこサーバーの現在の状態💩')
                             .setDescription('うんこサーバーは現在落ちてます')
                             .setImage('attachment://setumeisitekudasai.jpg')
