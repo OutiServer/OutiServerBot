@@ -51,27 +51,24 @@ module.exports = {
         }
         message.channel.send(
             new MessageEmbed()
-                .attachFiles(['../../images/gacha.png'])
                 .setTitle('うんこガチャ')
-                .setImage('attachment://gacha.png')
+                .setImage('https://media.discordapp.net/attachments/818411667015991297/818411778962489384/gacha.png')
                 .setColor('RANDOM')
                 .setTimestamp()
         ).then(msg => {
             setTimeout(() => {
                 msg.edit(
                     new MessageEmbed()
-                        .attachFiles(['../../images/capsule_close1_red.png'])
                         .setTitle('うんこガチャ')
-                        .setImage('attachment://capsule_close1_red.png')
+                        .setImage('https://media.discordapp.net/attachments/818411667015991297/818411775212650496/capsule_close1_red.png')
                         .setColor('RANDOM')
                         .setTimestamp()
                 ).then(msg => {
                     setTimeout(() => {
                         msg.edit(
                             new MessageEmbed()
-                                .attachFiles(['../../images/capsule_open1_red.png'])
                                 .setTitle('うんこガチャ')
-                                .setImage('attachment://capsule_open1_red.png')
+                                .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777699217468/capsule_open1_red.png')
                                 .setColor('RANDOM')
                                 .setTimestamp()
                         ).then(msg => {
