@@ -53,7 +53,7 @@ module.exports = (client) => {
                         new MessageEmbed()
                             .setTitle('💩うんこサーバーの現在の状態💩')
                             .setDescription('うんこサーバーは現在落ちてます')
-                            .setImage('https://media.discordapp.net/attachments/818411667015991297/818411780127981578/UnkoServerkoiyo.png')
+                            .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
                             .setColor('RANDOM')
                             .setTimestamp()
                     );
