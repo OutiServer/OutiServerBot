@@ -2,9 +2,11 @@ const { Client, MessageAttachment } = require('discord.js');
 const SQLite = require("better-sqlite3");
 
 class Database {
+
     /**
      * @param {string} database_filename
      */
+
     constructor(database_filename) {
         this.sql = new SQLite(`${database_filename}`); //db接続
     }
