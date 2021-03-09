@@ -147,6 +147,10 @@ class Database {
         this.sql.prepare('INSERT OR REPLACE INTO snss (id, user, guild, title, url, count) VALUES (@id, @user, @guild, @title, @url, @count);').run(data);
     }
 
+    dailyreset() {
+        this.sql.prepare("DROP TABLE dailys;").run();
+        this.Initialize();
+    }
 
     /**
      * @param {Client} client
