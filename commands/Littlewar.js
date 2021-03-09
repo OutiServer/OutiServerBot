@@ -1,7 +1,9 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 const { Menu } = require('discord.js-menu');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 
 const emojidata = ['<:unkooo:790538555407597590>', '<:emoji_105:790546312679391243>', '<:emoji_104:790546297521307668>'];
 
@@ -14,20 +16,18 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
-     * @param {Client} client
      */
-    run: async function (client, message, args) {
+
+    run: async function (message, args) {
         if (message.channel.id !== '798157114555105330' && message.channel.id !== '798176065562476604' && message.channel.id !== '798198069849227294' && message.channel.id !== '798486503255834664' && message.channel.id !== '798570749136601158' && message.guild.id === '706452606918066237') {
             message.react('793460058250805259');
             return message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>でしか使用できません<a:owoxgif:793460058250805259>');
 
         }
-        let littlewardata = client.getLittlewar.get(message.guild.id);
-        if (!littlewardata) {
-            littlewardata = { id: message.guild.id, user: message.author.id, guild: message.guild.id, emoji1: 1, emoji2: 1, emoji3: 1, number: 0 }
-        }
+        let littlewardata = db.LittlewarGet(message.author.id, message.guild.id);
         if (littlewardata.number === 0) {
             littlewardata.emoji1 = Math.ceil(Math.random() * 13);
             littlewardata.emoji2 = Math.ceil(Math.random() * 13);
@@ -87,7 +87,7 @@ module.exports = {
                 else if (destination.name === 'emoji3') {
                     littlewardata.number = littlewardata.emoji3;
                 }
-                client.setLittlewar.run(littlewardata);
+                db.LittlewarSet(littlewardata);
             })
         }
         else {
@@ -141,14 +141,8 @@ module.exports = {
             ], 60000)
             LittlewarMenu.start()
             LittlewarMenu.on('pageChange', destination => {
-                let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
-                if (!usermoneydata) {
-                    usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-                }
-                let playermoneydata = client.getMoney.get(littlewardata.user, message.guild.id);
-                if (!playermoneydata) {
-                    playermoneydata = { id: `${littlewardata.user}-${message.author.id}`, user: littlewardata.user, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-                }
+                let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
+                let playermoneydata = db.MoneyGet(littlewardata.user, message.guild.id);
                 let playeremojidata = 1;
                 if (destination.name === 'emoji1') {
                     playeremojidata = littlewardata.emoji1;
@@ -188,8 +182,8 @@ module.exports = {
                     );
                 }
                 sql.prepare(`DELETE FROM littlewar WHERE guild = '${message.guild.id}'`).run();
-                client.setMoney.run(usermoneydata);
-                client.setMoney.run(playermoneydata);
+                db.MoneySet(usermoneydata);
+                db.MoneySet(playermoneydata);
             })
         }
     },
