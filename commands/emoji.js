@@ -1,4 +1,4 @@
-const { Client, Message } = require('discord.js');
+const { Message } = require('discord.js');
 
 module.exports = {
     info: {
@@ -9,10 +9,11 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
-     * @param {Client} client
      */
+
     run: async function (client, message, args) {
         if (message.member.roles.cache.has('717326376516190221')) {
             message.member.roles.remove('717326376516190221');
