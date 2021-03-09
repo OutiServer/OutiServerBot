@@ -1,4 +1,6 @@
 const { Client, Message } = require('discord.js');
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 
 module.exports = {
   info: {
@@ -9,34 +11,32 @@ module.exports = {
     botownercommand: false,
     botadmincommand: false
   },
+
   /**
- * @param {Message} message
- * @param {Client} client
- */
+   * @param {Message} message
+   * @param {Client} client
+   */
+
   run: async function (client, message, args) {
     const user = message.mentions.users.first() || client.users.cache.get(args[0]);
-    if (!user || user.bot) {
+    if (!user || user.bot || user.id === message.author.id) {
       message.react('793460058250805259');
       return message.reply("あなたは誰かに言及するか、彼らのIDを与える必要があります！");
     }
+
     const moneysToAdd = Number(args[1]);
     if (!moneysToAdd || moneysToAdd < 1) {
       message.react('793460058250805259');
       return message.reply("付与するうんコインを第二引数に入れてください");
     }
-    let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
-    if (!usermoneydata) {
-      usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-    }
+
+    let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
     if (usermoneydata.money < moneysToAdd) return message.reply('自分の所持金以上の金を付与することはできません＾＾；');
-    let giveusermoneydata = client.getMoney.get(user.id, message.guild.id);
-    if (!giveusermoneydata) {
-      giveusermoneydata = { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-    }
-    giveusermoneydata.money += moneysToAdd;
+    let giveusermoneydata = db.MoneyGet(user.id, message.guild.id);
     usermoneydata.money -= moneysToAdd;
-    client.setMoney.run(giveusermoneydata);
-    client.setMoney.run(usermoneydata);
+    giveusermoneydata.money += moneysToAdd;
+    db.MoneySet(usermoneydata);
+    db.MoneyGet(giveusermoneydata);
     message.channel.send(`${user}に${moneysToAdd}うんコイン、${message.author}から付与しました`);
   },
 };
