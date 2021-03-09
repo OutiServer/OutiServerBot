@@ -5,7 +5,7 @@ module.exports = {
         name: "allmute",
         description: "VCにいる人全員Mute",
         usage: "",
-        aliases: [""],
+        aliases: ["a"],
         botownercommand: false,
         botadmincommand: true
     },
