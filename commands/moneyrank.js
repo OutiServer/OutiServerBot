@@ -12,10 +12,12 @@ module.exports = {
     botownercommand: false,
     botadmincommand: false
   },
+
   /**
    * @param {Client} client
    * @param {Message} message
    */
+
   run: async function (client, message, args) {
     let rank = 1
     let embed = {};
