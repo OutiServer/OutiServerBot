@@ -9,10 +9,12 @@ module.exports = {
         botownercommand: false,
         botadmincommand: true
     },
+
     /**
-    * @param {Message} message
-    * @param {Client} client
-    */
+     * @param {Message} message
+     * @param {Client} client
+     */
+
     run: async function (client, message, args) {
         if (!message.member.voice.channelID) {
             message.react('793460058250805259');
