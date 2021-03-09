@@ -9,9 +9,11 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
      */
+
     run: async function (client, message, args) {
         if (!message.member.roles.cache.has('814095138443100191')) {
             message.member.roles.add('814095138443100191');
