@@ -9,6 +9,7 @@ const sql = new SQLite('unkoserver.db');
  */
 
 module.exports = async (client, guild, user) => {
+    if (guild.id !== '706452606918066237') return;
     sql.prepare(`DELETE FROM moneys WHERE user = ${user.id} AND guild = ${guild.id}`).run();
     sql.prepare(`DELETE FROM debts WHERE user = ${user.id} AND guild = ${guild.id}`).run();
     sql.prepare(`DELETE FROM dailys WHERE user = ${user.id} AND guild = ${guild.id}`).run();
