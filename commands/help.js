@@ -1,5 +1,4 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-const { ReactionController } = require('discord.js-reaction-controller');
 
 module.exports = {
   info: {
@@ -10,10 +9,12 @@ module.exports = {
     botownercommand: false,
     botadmincommand: false
   },
+
   /**
    * @param {Message} message
    * @param {Client} client
    */
+
   run: async function (client, message, args) {
     if (!args[0]) {
       const commands = client.commands.map(command => command.info);
