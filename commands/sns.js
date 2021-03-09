@@ -19,7 +19,7 @@ module.exports = {
             usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
         }
         if (usermoneydata.ticket < 1) {
-            message.delete();
+            message.react('793460058250805259');
             return message.reply('チケットが足りてないですよ 出直してきてください＾＾');
         }
         let usersnsdata = client.getSns.get(message.author.id, message.guild.id);
@@ -27,7 +27,7 @@ module.exports = {
             usersnsdata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, title: '', url: '', count: 0 }
         }
         else {
-            message.delete();
+            message.react('793460058250805259');
             return message.reply('お前すでに登録済みやん！');
         }
         const reply = await message.channel.send('宣伝するタイトルを送信してください');
