@@ -46,7 +46,7 @@ module.exports = {
       let command = client.commands.get(cmd)
       if (!command) command = client.commands.find(x => x.info.aliases.includes(cmd))
       if (!command) {
-        message.delete();
+        message.react('793460058250805259');
         return message.channel.send("そんなコマンドないで。😉");
       }
       let commandinfo = new MessageEmbed()
