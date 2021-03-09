@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
 
@@ -11,10 +11,11 @@ module.exports = {
         botownercommand: false,
         botadmincommand: true
     },
+
     /**
      * @param {Message} message
-     * @param {Client} client
      */
+
     run: async function (client, message, args) {
         const allsns = sql.prepare("SELECT * FROM snss WHERE guild = ? ORDER BY user DESC;").all(message.guild.id);
         const embed = new MessageEmbed()
