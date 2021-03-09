@@ -15,7 +15,7 @@ module.exports = {
      */
     run: async function (client, message, args) {
         if (message.channel.id !== '798157114555105330' && message.channel.id !== '798176065562476604' && message.channel.id !== '798198069849227294' && message.channel.id !== '798486503255834664' && message.channel.id !== '798570749136601158' && message.channel.id !== '798571746730049597' && message.guild.id === '706452606918066237') {
-            message.delete();
+            message.react('793460058250805259');
             return message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>、<#798571746730049597>でしか使用できません<a:owoxgif:793460058250805259>');
 
         }
@@ -29,7 +29,7 @@ module.exports = {
         }
         let Latch = Number(args[0]);
         if (!Latch || Latch > 10000 || Latch < 500) {
-            message.delete();
+            message.react('793460058250805259');
             return message.reply('第一引数に賭け金を500~10000の数値で入れてください！');
         }
         const emojis = ['<:dice1:802898424928010240>', '<:dice2:802898424986730536>', '<:dice3:802898424944787496>', '<:dice4:802898424810569728>', '<:dice5:802898424802050049>', '<:dice6:802898424789336105>'];
