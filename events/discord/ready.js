@@ -1,7 +1,5 @@
-const { Client, MessageAttachment } = require('discord.js');
+const { Client } = require('discord.js');
 const { Database } = require('../../unko/index');
-const SQLite = require("better-sqlite3");
-const sql = new SQLite('unkoserver.db');
 const db = new Database('unkoserver.db');
 
 /**
