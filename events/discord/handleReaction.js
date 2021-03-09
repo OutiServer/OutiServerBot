@@ -1,10 +1,11 @@
 const { Client } = require('discord.js');
 
-/**
- * @param {Client} client
- */
+
 
 module.exports = {
+    /**
+     * @param {Client} client
+     */
     run: async function (client) {
         const handleReaction = async (channelID, messageID, callback) => {
             const channel = await client.channels.fetch(channelID);
