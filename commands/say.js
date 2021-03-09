@@ -9,10 +9,12 @@ module.exports = {
         botownercommand: true,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
      * @param {Client} client
      */
+
     run: async function (client, message, args) {
         client.channels.cache.get(args[0]).send(args[1]);
         message.react('793460057932038145');
