@@ -16,12 +16,12 @@ module.exports = {
   run: async function (client, message, args) {
     const user = message.mentions.users.first() || client.users.cache.get(args[0]);
     if (!user || user.bot) {
-      message.delete();
+      message.react('793460058250805259');
       return message.reply("あなたは誰かに言及するか、彼らのIDを与える必要があります！");
     }
     const moneysToAdd = Number(args[1]);
     if (!moneysToAdd || moneysToAdd < 1) {
-      message.delete();
+      message.react('793460058250805259');
       return message.reply("付与するうんコインを第二引数に入れてください");
     }
     let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
