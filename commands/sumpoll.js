@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 
 module.exports = {
     info: {
@@ -9,10 +9,11 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
-     * @param {Client} client
      */
+
     run: async function (client, message, args) {
         const messageid = args[0];
         if (!messageid) {
