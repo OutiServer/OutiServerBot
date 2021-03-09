@@ -9,10 +9,11 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
-     * @param {Client} client
      */
+
     run: async function (client, message, args) {
         if (message.member.roles.cache.has('780217228649562113')) {
             message.member.roles.remove('780217228649562113');
