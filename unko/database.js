@@ -1,3 +1,4 @@
+const { Client, MessageAttachment } = require('discord.js');
 const SQLite = require("better-sqlite3");
 
 class Database {
@@ -142,6 +143,19 @@ class Database {
 
     SnsSet(data) {
         this.sql.prepare('INSERT OR REPLACE INTO snss (id, user, guild, title, url, count) VALUES (@id, @user, @guild, @title, @url, @count);').run(data);
+    }
+
+
+    /**
+     * @param {Client} client
+     */
+
+    backup(client) {
+        const time = new Date();
+        this.sql.backup(`${time}.db`)
+            .then(() => {
+                client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
+            });
     }
 }
 
