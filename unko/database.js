@@ -136,7 +136,7 @@ class Database {
     SnsGet(userid, guildid) {
         let data = this.sql.prepare('SELECT * FROM snss WHERE user = ? AND guild = ?').get(userid, guildid);
         if (!data) {
-            data = { id: `${guildid}-${userid}`, user: userid, guild: guildid, title: '', url: '', count: 0 }
+            data = { id: `${guildid}-${userid}`, user: userid, guild: guildid, title: null, url: null, count: 0 }
             this.SnsSet(data);
         }
 
