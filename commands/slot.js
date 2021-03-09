@@ -1,4 +1,6 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -14,25 +16,15 @@ module.exports = {
      * @param {Client} client
      */
     run: async function (client, message, args) {
-        let userdebtdata = client.getDebt.get(message.author.id, message.guild.id);
-        if (!userdebtdata) {
-            userdebtdata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, Tuna: 0, Shoulder: null }
-        }
-        let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
-        if (!usermoneydata) {
-            usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-        }
-        let slotsettingsdata = client.getSlotsettings.get(message.guild.id);
-        if (!slotsettingsdata) {
-            slotsettingsdata = { id: `${message.guild.id}`, guild: message.guild.id, Jackpotprobability: 10, Jackpot: 100000 }
-        }
+        let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
+        let slotsettingsdata = db.SlotSettingsGet(message.guild.id);
         let slot = {};
         let content = '';
         let slotlength = 11;
         let emojis = [];
         let Win = 0
         let Latch = Number(args[0]);
-        if (userdebtdata.Tuna === 0) {
+        if (usermoneydata.tuna === 0) {
             if (message.channel.id !== '798157114555105330' && message.channel.id !== '798176065562476604' && message.channel.id !== '798198069849227294' && message.channel.id !== '798486503255834664' && message.channel.id !== '798570749136601158' && message.guild.id === '706452606918066237') {
                 message.react('793460058250805259');
                 return message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>でしか使用できません<a:owoxgif:793460058250805259>');
@@ -199,8 +191,7 @@ module.exports = {
                 });
             });
         });
-        client.setMoney.run(usermoneydata);
-        client.setDebt.run(userdebtdata);
-        client.setSlotsettings.run(slotsettingsdata);
+        db.MoneySet(usermoneydata);
+        db.SlotSettingsSet(slotsettingsdata);
     },
 };
