@@ -9,10 +9,12 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
      * @param {Client} client
      */
+
     run: async function (client, message, args) {
         const used = process.memoryUsage();
         const memory = Math.round(used.rss / 1024 / 1024 * 100) / 100;
