@@ -1,4 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 const normaldata = require('../dat/normal.json');
 const raredata = require('../dat/rare.json');
 
@@ -22,10 +24,7 @@ module.exports = {
             message.react('793460058250805259');
             return message.reply('そのコマンドは<#798157114555105330>・<#798176065562476604>、<#798198069849227294>、<#798486503255834664>、<#798570749136601158>でしか使用できません<a:owoxgif:793460058250805259>');
         }
-        let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
-        if (!usermoneydata) {
-            usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-        }
+        let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
         if (usermoneydata.ticket < 1) {
             message.react('793460058250805259');
             return message.reply('お前チケット1枚も持ってないやん！');
