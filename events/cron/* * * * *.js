@@ -2,6 +2,8 @@ const { Client, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
+const { Database } = require('../../unko/index');
+const db = new Database('unkoserver.db');
 
 /**
  * @param {Client} client
@@ -10,10 +12,9 @@ const sql = new SQLite('unkoserver.db');
 module.exports = (client) => {
     client.channels.cache.get('798479605764718592').messages.fetch('799635530882744372')
         .then(msg => {
-            const Win = client.getSlotsettings.get('706452606918066237').Jackpot;
-            const money = client.getServerMoney.get('706452606918066237').money;
+            const Win = db.SlotSettingsGet('706452606918066237').Jackpot;
             const embed = new MessageEmbed()
-                .setDescription(`現在のジャックポット: ${Win}うんコイン\n現在のうんこサーバーのお金: ${money}うんコイン`)
+                .setDescription(`現在のジャックポット: ${Win}うんコイン`)
                 .setColor('RANDOM')
                 .setTimestamp();
             const top10 = sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY money DESC LIMIT 10;").all('706452606918066237');
