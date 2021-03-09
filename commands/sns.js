@@ -1,4 +1,6 @@
 const { Client, Message } = require('discord.js');
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -9,24 +11,20 @@ module.exports = {
         botownercommand: false,
         botadmincommand: false
     },
+
     /**
      * @param {Message} message
      * @param {Client} client
      */
+
     run: async function (client, message, args) {
-        let usermoneydata = client.getMoney.get(message.author.id, message.guild.id);
-        if (!usermoneydata) {
-            usermoneydata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-        }
+        let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
         if (usermoneydata.ticket < 1) {
             message.react('793460058250805259');
             return message.reply('チケットが足りてないですよ 出直してきてください＾＾');
         }
-        let usersnsdata = client.getSns.get(message.author.id, message.guild.id);
-        if (!usersnsdata) {
-            usersnsdata = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, title: '', url: '', count: 0 }
-        }
-        else {
+        let usersnsdata = db.SnsGet(message.author.id, message.guild.id);
+        if (usersnsdata.title) {
             message.react('793460058250805259');
             return message.reply('お前すでに登録済みやん！');
         }
@@ -45,8 +43,8 @@ module.exports = {
         usersnsdata.url = response2.content;
         response2.delete();
         usermoneydata.ticket -= 1;
-        client.setMoney.run(usermoneydata);
-        client.setSns.run(usersnsdata);
+        db.MoneySet(usermoneydata);
+        db.SnsSet(usersnsdata);
         reply.edit('登録しました');
     },
 };
