@@ -1,7 +1,8 @@
-const { Client, MessageAttachment, WebhookClient } = require('discord.js');
+const { Client, MessageAttachment } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
-
+const { Database } = require('../../unko/index');
+const db = new Database('unkoserver.db');
 
 /**
  * @param {Client} client
@@ -9,10 +10,7 @@ const sql = new SQLite('unkoserver.db');
 
 module.exports = (client) => {
     const time = new Date();
-    sql.backup(`${time}.db`)
-        .then(() => {
-            client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
-        });
+    db.backup(client);
     sql.prepare("DROP TABLE dailys;").run();
     const testtable = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dailys';").get();
     if (!testtable['count(*)']) {
