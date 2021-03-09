@@ -16,7 +16,7 @@ module.exports = {
     run: async function (client, message, args) {
         const messageid = args[0];
         if (!messageid) {
-            message.delete();
+            message.react('793460058250805259');
             return message.reply('集計する投票のメッセージIDを入れてください！');
         }
 
