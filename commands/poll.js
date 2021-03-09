@@ -15,12 +15,12 @@ module.exports = {
   run: async function (client, message, args) {
     const [title, ...choices] = args
     if (!title) {
-      message.delete();
+      message.react('793460058250805259');
       return message.channel.send('タイトルを指定してください');
     }
     const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
     if (choices.length < 2 || choices.length > emojis.length) {
-      message.delete();
+      message.react('793460058250805259');
       return message.channel.send(`選択肢は2から${emojis.length}つを指定してください`);
     }
     const poll = await message.channel.send(
