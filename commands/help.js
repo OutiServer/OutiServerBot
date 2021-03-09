@@ -22,17 +22,12 @@ module.exports = {
         .setTitle(`${client.user.tag} helpページ`)
         .setColor('RANDOM')
         .setTimestamp();
-      const adminembed = new MessageEmbed()
-        .setTitle(`${client.user.tag} 管理者helpページ`)
-        .setDescription(`Prefix: ${process.env.PREFIX}`)
-        .setColor('RANDOM')
-        .setTimestamp();
       commandconstdescription += '```\n';
       for (const cmd of commands) {
-        commandconstdescription += `${cmd.name} ${cmd.usage}: ${cmd.description}\n`;
+        commandconstdescription += `${process.env.PREFIX}${cmd.name} ${cmd.usage}: ${cmd.description}\n`;
       }
       commandconstdescription += '```';
-      embed.setDescription(`Prefix: ${process.env.PREFIX}\n${commandconstdescription}`)
+      embed.setDescription(commandconstdescription)
       message.channel.send(embed);
     }
     else {
