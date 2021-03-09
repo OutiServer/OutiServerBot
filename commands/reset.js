@@ -19,7 +19,7 @@ module.exports = {
   run: async function (client, message, args) {
     const user = message.mentions.users.first() || client.users.cache.get(args[0]);
     if (!user || user.bot) {
-      message.delete();
+      message.react('793460058250805259');
       return message.reply("あなたは誰かに言及するか、彼らのIDを与える必要があります！");
     }
     sql.prepare(`DELETE FROM moneys WHERE user = ${user.id} AND guild = ${message.guild.id}`).run();
