@@ -11,10 +11,12 @@ module.exports = {
     botownercommand: false,
     botadmincommand: true
   },
+
   /**
    * @param {Message} message
    * @param {Client} client
    */
+
   run: async function (client, message, args) {
     const user = message.mentions.users.first() || client.users.cache.get(args[0]);
     if (!user || user.bot) {
