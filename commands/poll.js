@@ -9,9 +9,11 @@ module.exports = {
     botownercommand: false,
     botadmincommand: false
   },
+
   /**
    * @param {Message} message
    */
+
   run: async function (client, message, args) {
     const [title, ...choices] = args
     if (!title) {
