@@ -1,4 +1,6 @@
 const { Client, Message } = require('discord.js');
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 
 module.exports = {
   info: {
@@ -9,10 +11,12 @@ module.exports = {
     botownercommand: false,
     botadmincommand: true
   },
+
   /**
- * @param {Message} message
- * @param {Client} client
- */
+   * @param {Message} message
+   * @param {Client} client
+   */
+
   run: async function (client, message, args) {
     const user = message.mentions.users.first() || client.users.cache.get(args[0]);
     if (!user || user.bot) {
@@ -24,12 +28,9 @@ module.exports = {
       message.react('793460058250805259');
       return message.reply("剥奪するうんコインを第二引数に入れてください");
     }
-    let usermoneydata = client.getMoney.get(user.id, message.guild.id);
-    if (!usermoneydata) {
-      usermoneydata = { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, dailylogin: 0, ticket: 0 }
-    }
+    let usermoneydata = db.MoneyGet(user.id, message.guild.id)
     usermoneydata.money -= moneysToAdd;
-    client.setMoney.run(usermoneydata);
+    db.MoneySet(usermoneydata)
     message.channel.send(`${user}から${moneysToAdd}うんコイン剥奪しました`);
   },
 };
