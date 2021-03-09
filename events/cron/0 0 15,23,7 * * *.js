@@ -1,6 +1,8 @@
 const { Client, MessageEmbed } = require('discord.js');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
+const { Database } = require('../../unko/index');
+const db = new Database('unkoserver.db');
 
 /**
  * @param {Client} client
@@ -12,9 +14,11 @@ module.exports = (client) => {
     for (let data of sns10) {
         content += `[${data.title}](${data.url})\n`;
         data.count++;
-        client.setSns.run(data);
         if (data.count > 8) {
             sql.prepare(`DELETE FROM snss WHERE user = ${data.user} AND guild = ${data.guild}`).run();
+        }
+        else {
+            db.SnsSet(data);
         }
     }
     client.channels.cache.get('706452607538954263').send(
