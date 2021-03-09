@@ -86,5 +86,5 @@ module.exports = async (client) => {
       client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
     });
 
-  require('./handleReaction').run(client)
+  require('../../unko/handleReaction').run(client)
 };
