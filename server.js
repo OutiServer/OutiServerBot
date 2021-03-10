@@ -23,7 +23,7 @@ module.exports = {
                     res.render(__dirname + '/public/html/index.ejs', { joindedmembers: `${result.onlinePlayers}.${result.maxPlayers}`, serverversion: result.version });
                 })
                 .catch(() => {
-                    res.sendFile(__dirname + '/public/html/index.index.js');
+                    res.sendFile(__dirname + '/public/html/index.html');
                 })
         });
     }
