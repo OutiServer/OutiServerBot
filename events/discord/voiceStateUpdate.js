@@ -7,6 +7,10 @@ const { Client, GuildMember } = require('discord.js');
  */
 
 module.exports = async (client, oldMember, newMember) => {
+  const conn = client.voice.connections.get(process.env.DISCORD_GUILD_ID);
+  if (conn && conn.channel && conn.channel.members.array().length < 2) {
+    conn.disconnect();
+  }
   if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot) return;
   if (oldMember.channelID === null) {
     client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${newMember.channel.name}に入室しました`);
