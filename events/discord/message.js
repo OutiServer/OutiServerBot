@@ -10,6 +10,8 @@ const db = new Database('unkoserver.db');
 module.exports = async (client, message) => {
   if (!message.guild || message.system || message.author.bot) return;
 
+  yomiage(client, message);
+
   if (message.channel.name === 'うんこ鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
     if (message.attachments.size <= 0) {
       message.delete()
@@ -124,3 +126,30 @@ module.exports = async (client, message) => {
   }
   cmd.run(client, message, args);
 };
+
+/**
+ * @param {Client} client
+ * @param {Message} message
+ */
+
+async function yomiage(client, message) {
+  const guild = message.guild;
+  const channel = message.member.voice.channel;
+  if (!message.member.voice.selfMute || guild.id !== process.env.DISCORD_GUILD_ID || !channel || message.channel.id !== process.env.DISCORD_SOURCE_CHANNEL_ID) {
+    return;
+  }
+  const text = message
+    .content
+    .replace(/https?:\/\/\S+/g, 'URL省略')
+    .replace(/<a?:.*?:\d+>/g, '絵文字省略')
+    .replace(/<@!?.*?>/g, 'メンション省略')
+    .replace(/<#.*?>/g, 'メンション省略')
+    .replace(/<@&.*?>/g, 'メンション省略')
+    .slice(0, 50);
+  if (!text) { return; }
+  if (channel.members.array().length < 1) { return; }
+  const currentConnection = client.voice.connections.get(process.env.DISCORD_GUILD_ID);
+  const shouldMove = !currentConnection || currentConnection.channel.id !== channel.id;
+  const conn = shouldMove ? await channel.join() : currentConnection;
+  conn.play(await textToSpeechReadableStream(text), { highWaterMark: 6, bitrate: 'auto' })
+}
