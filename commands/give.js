@@ -36,7 +36,7 @@ module.exports = {
     usermoneydata.money -= moneysToAdd;
     giveusermoneydata.money += moneysToAdd;
     db.MoneySet(usermoneydata);
-    db.MoneyGet(giveusermoneydata);
+    db.MoneySet(giveusermoneydata);
     message.channel.send(`${user}に${moneysToAdd}うんコイン、${message.author}から付与しました`);
   },
 };
