@@ -1,4 +1,6 @@
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
+const textToSpeech = require('@google-cloud/text-to-speech');
+const { Readable } = require('stream');
 const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
 
@@ -126,6 +128,32 @@ module.exports = async (client, message) => {
   }
   cmd.run(client, message, args);
 };
+
+async function textToSpeechReadableStream(text) {
+  const request = {
+    input: { text },
+    voice: {
+      languageCode: 'ja-JP',
+      name: 'ja-JP-Wavenet-A'
+    },
+    audioConfig: {
+      audioEncoding: 'OGG_OPUS',
+      speakingRate: 1.2
+    }
+  };
+
+  const [response] = await textclient.synthesizeSpeech(request);
+  const stream = new Readable({ read() { } });
+  stream.push(response.audioContent);
+
+  return stream;
+}
+const textclient = new textToSpeech.TextToSpeechClient({
+  credentials: {
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
+  }
+});
 
 /**
  * @param {Client} client
