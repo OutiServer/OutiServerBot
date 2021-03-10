@@ -47,6 +47,13 @@ module.exports = async (client, message) => {
   let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
   let userdailydata = db.DailyGet(message.author.id, message.guild.id);
 
+  if (usermoneydata.ticket === null) {
+    usermoneydata.ticket = 0;
+  }
+  else if (usermoneydata.tuna === null) {
+    usermoneydata.tuna = 0;
+  }
+
   if (userdailydata.login === 0 && usermoneydata.tuna === 0 && message.guild.id === '706452606918066237') {
     userdailydata.login = 1;
     usermoneydata.dailylogin += 1;
@@ -59,7 +66,7 @@ module.exports = async (client, message) => {
     );
   }
 
-  if (usermoneydata.money < 10000 && usermoneydata.tuna === 0) {
+  if (usermoneydata.money < 10000 && usermoneydata.tuna !== 0) {
     usermoneydata.money += message.content.length * 10;
     if (usermoneydata.money > 9999) {
       usermoneydata.money = 10000;
@@ -77,10 +84,6 @@ module.exports = async (client, message) => {
     message.member.roles.remove('798570033235755029');
     const webhook = new WebhookClient('798186603235246111', 'Rf6vyUbm7GuwLOmmHseu-QZp7bV7QOYykwEoqzrSLX3Rjkza_7ipOsbJQGe9BKoGNiHn');
     webhook.send(`${message.author}、確かに借金は返してもらった、もう二度と借金すんじゃねえぞ。`);
-  }
-
-  if (usermoneydata.ticket === null) {
-    usermoneydata.ticket = 0;
   }
 
   db.MoneySet(usermoneydata);
