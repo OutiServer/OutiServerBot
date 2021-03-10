@@ -66,7 +66,7 @@ module.exports = async (client, message) => {
     );
   }
 
-  if (usermoneydata.money < 10000 && usermoneydata.tuna !== 0) {
+  if (usermoneydata.money < 10000 && usermoneydata.tuna === 0) {
     usermoneydata.money += message.content.length * 10;
     if (usermoneydata.money > 9999) {
       usermoneydata.money = 10000;
