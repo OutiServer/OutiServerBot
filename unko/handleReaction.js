@@ -1,7 +1,5 @@
 const { Client } = require('discord.js');
 
-
-
 module.exports = {
     /**
      * @param {Client} client
