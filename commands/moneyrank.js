@@ -27,6 +27,7 @@ module.exports = {
     while (embednumber < 10) {
       embed[embednumber] = new MessageEmbed()
         .setTitle(`うんこ鯖所持金ランキング${ranknumber1}〜${ranknumber2}位`)
+        .setFooter(`コマンド実行者 ${message.author.tag}`, message.author.avatarURL())
         .setColor('RANDOM')
         .setTimestamp();
       embednumber++;
