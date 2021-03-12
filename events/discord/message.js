@@ -46,7 +46,7 @@ module.exports = async (client, message) => {
         }
       }));
     });
-  };
+  }
 
   let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
   let userdailydata = db.DailyGet(message.author.id, message.guild.id);
