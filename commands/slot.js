@@ -9,12 +9,15 @@ module.exports = {
         usage: "",
         aliases: ["s"],
         botownercommand: false,
-        botadmincommand: false
+        botadmincommand: false,
+        category: 'Casino'
     },
+
     /**
      * @param {Message} message
      * @param {Client} client
      */
+
     run: async function (client, message, args) {
         let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
         let slotsettingsdata = db.SlotSettingsGet(message.guild.id);

@@ -1,6 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
 const { Menu } = require('discord.js-menu');
-const { json } = require('express');
 const { inspect } = require('util');
 
 module.exports = {
@@ -10,7 +9,8 @@ module.exports = {
     usage: "",
     aliases: [""],
     botownercommand: true,
-    botadmincommand: false
+    botadmincommand: false,
+    category: 'Owner'
   },
 
   /**

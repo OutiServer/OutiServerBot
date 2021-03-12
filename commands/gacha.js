@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
 const normaldata = require('../dat/normal.json');
@@ -11,12 +11,12 @@ module.exports = {
         usage: "",
         aliases: [""],
         botownercommand: false,
-        botadmincommand: false
+        botadmincommand: false,
+        category: 'Casino'
     },
 
     /**
      * @param {Message} message
-     * @param {Client} client
      */
 
     run: async function (client, message, args) {
@@ -87,6 +87,6 @@ module.exports = {
                 })
             }, 1000);
         });
-        client.setMoney.run(usermoneydata);
+        db.MoneySet(usermoneydata);
     },
 };

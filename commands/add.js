@@ -9,7 +9,8 @@ module.exports = {
     usage: "[ユーザーをメンションまたはid] [付与するうんコイン]",
     aliases: [""],
     botownercommand: false,
-    botadmincommand: true
+    botadmincommand: true,
+    category: 'Admin'
   },
 
   /**

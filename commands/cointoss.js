@@ -10,7 +10,8 @@ module.exports = {
         usage: "[賭け金]",
         aliases: ["ct"],
         botownercommand: false,
-        botadmincommand: false
+        botadmincommand: false,
+        category: 'Casino'
     },
 
     /**

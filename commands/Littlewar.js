@@ -14,7 +14,8 @@ module.exports = {
         usage: "[賭け金]",
         aliases: ["war"],
         botownercommand: false,
-        botadmincommand: false
+        botadmincommand: false,
+        category: 'Casino'
     },
 
     /**

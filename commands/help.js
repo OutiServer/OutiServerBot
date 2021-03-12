@@ -7,7 +7,8 @@ module.exports = {
     usage: "[command]",
     aliases: [""],
     botownercommand: false,
-    botadmincommand: false
+    botadmincommand: false,
+    category: 'Main'
   },
 
   /**
@@ -17,19 +18,27 @@ module.exports = {
 
   run: async function (client, message, args) {
     if (!args[0]) {
-      const commands = client.commands.map(command => command.info);
-      let commandconstdescription = '';
-      const embed = new MessageEmbed()
-        .setTitle(`${client.user.tag} helpページ`)
+      const main = client.commands.filter(x => x.info.category == 'Main').map((x) => '`' + x.info.name + '`').join(', ');
+      const casino = client.commands.filter(x => x.info.category == 'Casino').map((x) => '`' + x.info.name + '`').join(', ');
+      const money = client.commands.filter(x => x.info.category == 'Money').map((x) => '`' + x.info.name + '`').join(', ');
+      const admin = client.commands.filter(x => x.info.category == 'Admin').map((x) => '`' + x.info.name + '`').join(', ');
+      const owner = client.commands.filter(x => x.info.category == 'Owner').map((x) => '`' + x.info.name + '`').join(', ');
+      let embeds = [];
+      const mainembed = new MessageEmbed()
+        .setTitle(`${client.user.tag} help`)
+        .addField('Main', main)
+        .addField('Money', money)
+        .addField('Casino', casino)
         .setColor('RANDOM')
         .setTimestamp();
-      commandconstdescription += '```\n';
-      for (const cmd of commands) {
-        commandconstdescription += `${process.env.PREFIX}${cmd.name} ${cmd.usage}: ${cmd.description}\n`;
+      if (message.member.roles.cache.has('771015602180587571')) {
+        mainembed.addField('Admin', admin);
       }
-      commandconstdescription += '```';
-      embed.setDescription(commandconstdescription)
-      message.channel.send(embed);
+      if (message.author.id === process.env.OWNERID) {
+        mainembed.addField('Owner', owner);
+      }
+      embeds.push(mainembed);
+      message.channel.send(embeds[0]);
     }
     else {
       let cmd = args[0]
@@ -42,7 +51,7 @@ module.exports = {
       let commandinfo = new MessageEmbed()
         .setTitle("コマンド名: " + command.info.name + " の詳細")
         .setColor("RANDOM")
-        .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(", ")}\nBotOwnerコマンド: ${command.info.ownercommand}\nBotAdminコマンド: ${command.info.botadmincommand}`)
+        .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(", ")}\n\nカテゴリー: ${command.info.category}BotOwnerコマンド: ${command.info.ownercommand}\nBotAdminコマンド: ${command.info.botadmincommand}`)
       message.channel.send(commandinfo)
     }
   },

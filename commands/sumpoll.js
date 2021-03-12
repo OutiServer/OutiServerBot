@@ -7,7 +7,8 @@ module.exports = {
         usage: "[メッセージID]",
         aliases: [""],
         botownercommand: false,
-        botadmincommand: false
+        botadmincommand: false,
+        category: 'Main'
     },
 
     /**

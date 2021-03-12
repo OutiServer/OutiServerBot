@@ -10,7 +10,8 @@ module.exports = {
     usage: "[ユーザーをメンションまたはid]",
     aliases: [""],
     botownercommand: false,
-    botadmincommand: true
+    botadmincommand: true,
+    category: 'Admin'
   },
 
   /**

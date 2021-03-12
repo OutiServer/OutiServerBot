@@ -8,7 +8,8 @@ module.exports = {
         usage: "",
         aliases: ["uss"],
         botownercommand: false,
-        botadmincommand: false
+        botadmincommand: false,
+        category: 'Main'
     },
 
     /**

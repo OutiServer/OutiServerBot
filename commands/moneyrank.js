@@ -9,7 +9,8 @@ module.exports = {
     usage: "",
     aliases: ["mr"],
     botownercommand: false,
-    botadmincommand: false
+    botadmincommand: false,
+    category: 'Money'
   },
 
   /**

@@ -7,7 +7,8 @@ module.exports = {
         usage: "",
         aliases: [""],
         botownercommand: true,
-        botadmincommand: false
+        botadmincommand: false,
+        category: 'Owner'
     },
 
     /**
