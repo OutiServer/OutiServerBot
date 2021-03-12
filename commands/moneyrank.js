@@ -20,7 +20,7 @@ module.exports = {
 
   run: async function (client, message, args) {
     let rank = 1
-    let embed = {};
+    let embed = [];
     let embednumber = 0;
     let ranknumber1 = 1;
     let ranknumber2 = 10;
@@ -48,21 +48,24 @@ module.exports = {
       embed[embednumber].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
       rank++;
     }
-    const controller = new ReactionController(client);
-    controller
-      .addPages([
-        embed[0],
-        embed[1],
-        embed[2],
-        embed[3],
-        embed[4],
-        embed[5],
-        embed[6],
-        embed[7],
-        embed[8],
-        embed[9],
-      ])
-    controller.send(message)
-      .catch(console.error)
+    const msg = await message.channel.send(`1/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります`, { code: true });
+    while (true) {
+      const filter = msg => msg.author.id === message.author.id;
+      const collected = await message.channel.awaitMessages(filter, { max: 1, time: 10000 });
+      const response = collected.first();
+      if (!response) {
+        msg.edit('', { code: true });
+        break;
+      }
+      if (response.content === '0') {
+        msg.edit('', { code: true });
+        break;
+      }
+      else {
+        const selectembed = Number(response.content);
+        if (selectembed > 0 && selectembed < embed.length + 1)
+          msg.edit(`${selectembed}/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります`, embed[selectembed - 1], { code: true });
+      }
+    }
   },
 };
