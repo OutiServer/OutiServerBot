@@ -26,8 +26,8 @@ module.exports = {
           .setColor('RANDOM')
           .setTimestamp(),
         reactions: {
-          '810436146718441483': 'yes',
-          '810436146978619392': 'delete'
+          '741467219208437800': 'yes',
+          '741467232869154907': 'delete'
         }
       },
       {
