@@ -23,22 +23,20 @@ module.exports = {
       const money = client.commands.filter(x => x.info.category == 'Money').map((x) => '`' + x.info.name + '`').join(', ');
       const admin = client.commands.filter(x => x.info.category == 'Admin').map((x) => '`' + x.info.name + '`').join(', ');
       const owner = client.commands.filter(x => x.info.category == 'Owner').map((x) => '`' + x.info.name + '`').join(', ');
-      let embeds = [];
-      const mainembed = new MessageEmbed()
-        .setTitle(`${client.user.tag} help`)
+      const embed = new MessageEmbed()
+        .setTitle(`${client.user.tag} helpページ`)
         .addField('Main', main)
         .addField('Money', money)
         .addField('Casino', casino)
         .setColor('RANDOM')
         .setTimestamp();
       if (message.member.roles.cache.has('771015602180587571')) {
-        mainembed.addField('Admin', admin);
+        embed.addField('Admin', admin);
       }
       if (message.author.id === process.env.OWNERID) {
-        mainembed.addField('Owner', owner);
+        embed.addField('Owner', owner);
       }
-      embeds.push(mainembed);
-      message.channel.send(embeds[0]);
+      message.channel.send(embed);
     }
     else {
       let cmd = args[0]
