@@ -1,5 +1,4 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-const { ReactionController } = require('discord.js-reaction-controller');
 const SQLite = require("better-sqlite3");
 const sql = new SQLite('unkoserver.db');
 
