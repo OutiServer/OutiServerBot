@@ -47,23 +47,23 @@ module.exports = {
       embed[embednumber].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
       rank++;
     }
-    const msg = await message.channel.send(`1/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります`, { code: true });
+    const msg = await message.channel.send(`1/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります`, embed[0]);
     while (true) {
       const filter = msg => msg.author.id === message.author.id;
-      const collected = await message.channel.awaitMessages(filter, { max: 1, time: 10000 });
+      const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
       const response = collected.first();
       if (!response) {
-        msg.edit('', { code: true });
+        msg.edit('');
         break;
       }
       if (response.content === '0') {
-        msg.edit('', { code: true });
+        msg.edit('');
         break;
       }
       else {
         const selectembed = Number(response.content);
         if (selectembed > 0 && selectembed < embed.length + 1)
-          msg.edit(`${selectembed}/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります`, embed[selectembed - 1], { code: true });
+          msg.edit('```' + `${selectembed}/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embed[selectembed - 1]);
       }
     }
   },
