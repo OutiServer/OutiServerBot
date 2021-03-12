@@ -23,20 +23,76 @@ module.exports = {
       const money = client.commands.filter(x => x.info.category == 'Money').map((x) => '`' + x.info.name + '`').join(', ');
       const admin = client.commands.filter(x => x.info.category == 'Admin').map((x) => '`' + x.info.name + '`').join(', ');
       const owner = client.commands.filter(x => x.info.category == 'Owner').map((x) => '`' + x.info.name + '`').join(', ');
-      const embed = new MessageEmbed()
-        .setTitle(`${client.user.tag} helpページ`)
-        .addField('Main', main)
-        .addField('Money', money)
-        .addField('Casino', casino)
-        .setColor('RANDOM')
-        .setTimestamp();
+      let embeds = [];
+      embeds.push(
+        new MessageEmbed()
+          .setTitle(`${client.user.tag} helpページ`)
+          .addField('Main', main)
+          .addField('Money', money)
+          .addField('Casino', casino)
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
+      embeds.push(
+        new MessageEmbed()
+          .setTitle('main')
+          .setDescription(client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`))
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
+      embeds.push(
+        new MessageEmbed()
+          .setTitle('Casino')
+          .setDescription(client.commands.filter(x => x.info.category == 'Casino').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`))
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
+      embeds.push(
+        new MessageEmbed()
+          .setTitle('Money')
+          .setDescription(client.commands.filter(x => x.info.category == 'Money').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`))
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
       if (message.member.roles.cache.has('771015602180587571')) {
-        embed.addField('Admin', admin);
+        embeds[0].addField('Admin', admin);
+        embeds.push(
+          new MessageEmbed()
+            .setTitle('Admin')
+            .setDescription(client.commands.filter(x => x.info.category == 'Admin').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`))
+            .setColor('RANDOM')
+            .setTimestamp()
+        );
       }
       if (message.author.id === process.env.OWNERID) {
-        embed.addField('Owner', owner);
+        embeds[0].addField('Owner', owner);
+        embeds.push(
+          new MessageEmbed()
+            .setTitle('Owner')
+            .setDescription(client.commands.filter(x => x.info.category == 'Owner').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`))
+            .setColor('RANDOM')
+            .setTimestamp()
+        );
       }
-      message.channel.send(embed);
+      const msg = await message.channel.send('```' + `1/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[0]);
+      while (true) {
+        const filter = msg => msg.author.id === message.author.id;
+        const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
+        const response = collected.first();
+        if (!response) {
+          msg.edit('');
+          break;
+        }
+        if (response.content === '0') {
+          msg.edit('');
+          break;
+        }
+        else {
+          const selectembed = Number(response.content);
+          if (selectembed > 0 && selectembed < embeds.length + 1)
+            msg.edit('```' + `${selectembed}/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[selectembed - 1]);
+        }
+      }
     }
     else {
       let cmd = args[0]
