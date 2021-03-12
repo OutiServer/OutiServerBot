@@ -47,7 +47,7 @@ module.exports = {
       embed[embednumber].addFields({ name: `${rank}位: ${usertag}`, value: `${data.money}うんコイン` });
       rank++;
     }
-    const msg = await message.channel.send(`1/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります`, embed[0]);
+    const msg = await message.channel.send('```' + `1/${embed.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embed[0]);
     while (true) {
       const filter = msg => msg.author.id === message.author.id;
       const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
@@ -63,7 +63,7 @@ module.exports = {
       else {
         const selectembed = Number(response.content);
         if (selectembed > 0 && selectembed < embed.length + 1)
-          msg.edit('```' + `${selectembed}/${embed.length + 1}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embed[selectembed - 1]);
+          msg.edit('```' + `${selectembed}/${embed.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embed[selectembed - 1]);
       }
     }
   },
