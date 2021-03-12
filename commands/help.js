@@ -36,21 +36,21 @@ module.exports = {
       embeds.push(
         new MessageEmbed()
           .setTitle('main')
-          .setDescription('```' + client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`) + '```')
+          .setDescription('```' + client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join(', ') + '```')
           .setColor('RANDOM')
           .setTimestamp()
       );
       embeds.push(
         new MessageEmbed()
           .setTitle('Casino')
-          .setDescription('```' + client.commands.filter(x => x.info.category == 'Casino').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`) + '```')
+          .setDescription('```' + client.commands.filter(x => x.info.category == 'Casino').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join(', ') + '```')
           .setColor('RANDOM')
           .setTimestamp()
       );
       embeds.push(
         new MessageEmbed()
           .setTitle('Money')
-          .setDescription('```' + client.commands.filter(x => x.info.category == 'Money').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`) + '```')
+          .setDescription('```' + client.commands.filter(x => x.info.category == 'Money').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join(', ') + '```')
           .setColor('RANDOM')
           .setTimestamp()
       );
@@ -59,7 +59,7 @@ module.exports = {
         embeds.push(
           new MessageEmbed()
             .setTitle('Admin')
-            .setDescription('```' + client.commands.filter(x => x.info.category == 'Admin').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}` + '```') + '```')
+            .setDescription('```' + client.commands.filter(x => x.info.category == 'Admin').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}` + '```').join(', ') + '```')
             .setColor('RANDOM')
             .setTimestamp()
         );
@@ -69,7 +69,7 @@ module.exports = {
         embeds.push(
           new MessageEmbed()
             .setTitle('Owner')
-            .setDescription('```' + client.commands.filter(x => x.info.category == 'Owner').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}` + '```') + '```')
+            .setDescription('```' + client.commands.filter(x => x.info.category == 'Owner').map((x) => '```' + `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}` + '```').join(', ') + '```')
             .setColor('RANDOM')
             .setTimestamp()
         );
