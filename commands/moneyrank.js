@@ -58,13 +58,16 @@ module.exports = {
         break;
       }
       if (response.content === '0') {
+        response.delete();
         msg.edit('');
         break;
       }
       else {
         const selectembed = Number(response.content);
-        if (selectembed > 0 && selectembed < embed.length + 1)
+        if (selectembed > 0 && selectembed < embed.length + 1) {
+          response.delete();
           msg.edit('```' + `${selectembed}/${embed.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embed[selectembed - 1]);
+        }
       }
     }
   },
