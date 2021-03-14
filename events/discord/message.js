@@ -10,6 +10,14 @@ const db = new Database('unkoserver.db');
  */
 
 module.exports = async (client, message) => {
+  if (message.author.id === '302050872383242240') {
+    if (message.embeds[0].image.url === 'https://disboard.org/images/bot-command-image-bump.png') {
+      message.reply('Bumpを確認しました、2時間後に通知します');
+      setTimeout(() => {
+        message.channel.send('Bumpしてから二時間経ちました');
+      }, 7200000);
+    }
+  }
   if (!message.guild || message.system || message.author.bot) return;
 
   yomiage(client, message);
