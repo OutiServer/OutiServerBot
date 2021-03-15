@@ -10,12 +10,19 @@ const db = new Database('unkoserver.db');
  */
 
 module.exports = async (client, message) => {
-  if (message.author.id === '302050872383242240') {
-    if (message.embeds[0].image.url === 'https://disboard.org/images/bot-command-image-bump.png') {
-      message.reply('Bumpを確認しました、2時間後に通知します');
+  if (message.author.id == "302050872383242240") {
+    if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
+      const noti = await message.channel.send('Bumpを確認しました、二時間後に通知します<:emoji_106:790546684710223882>');
+      noti.delete({ timeout: 7200000 });
       setTimeout(() => {
-        message.channel.send('Bumpしてから二時間経ちました');
+        message.channel.send('Bumpしてから二時間経ちました<:emoji_106:790546684710223882>');
       }, 7200000);
+    }
+    else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
+      var splcontent_a = message.embeds[0].description.split("と");
+      var splcontent_b = splcontent_a[1].split("分");
+      var waittime_bump = splcontent_b[0];
+      message.channel.send(`Bumpに失敗たようです、${waittime_bump}分後にもう一度実行してください<:emoji_119:819881070971060246>`);
     }
   }
   if (!message.guild || message.system || message.author.bot) return;
