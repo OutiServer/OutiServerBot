@@ -1,5 +1,4 @@
-const { Message, MessageEmbed } = require('discord.js');
-const { Menu } = require('discord.js-menu');
+const { Message } = require('discord.js');
 const { inspect } = require('util');
 
 module.exports = {
@@ -18,54 +17,36 @@ module.exports = {
    */
 
   run: async function (client, message, args) {
-    let evalMenu = new Menu(message.channel, message.author.id, [
-      {
-        name: 'main',
-        content: new MessageEmbed()
-          .setDescription('```js\n' + args.join(' ') + '```')
-          .setColor('RANDOM')
-          .setTimestamp(),
-        reactions: {
-          '741467219208437800': 'yes',
-          '741467232869154907': 'delete'
-        }
-      },
-      {
-        name: 'yes',
-        content: new MessageEmbed()
-          .setDescription('```js\n' + args.join(' ') + '```')
-          .setColor('RANDOM')
-          .setTimestamp(),
-        reactions: {
-          '⏹': 'delete'
-        }
+    const msg = await message.channel.send('```以下のコードを実行してもいいですか？\n実行していい場合はokを、キャンセルする場合はnoを送信してください\n30秒経つと強制キャンセルされます```\n```js\n' + args.join(' ') + '\n```');
+    while (true) {
+      const filter = msg => msg.author.id === message.author.id;
+      const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
+      const response = collected.first();
+      if (!response) {
+        msg.delete();
+        break;
       }
-    ], 60000)
-    evalMenu.start()
-    evalMenu.on('pageChange', async destination => {
-      if (destination.name === "yes") {
+      if (response.content === 'ok') {
+        response.delete();
         let evaled;
         try {
           evaled = await eval(args.join(' '));
-          const evalinsoext = inspect(evaled).length
+          const evalinsoext = inspect(evaled).length;
+          message.react('✅');
           if (evalinsoext <= 2000) {
-            message.react('✅');
-            message.channel.send(new MessageEmbed()
-              .setDescription('```' + inspect(evaled) + '```')
-              .setColor('RANDOM')
-              .setTimestamp());
-          }
-          else {
-            message.react('❌');
+            msg.edit(inspect(evaled), { code: true });
           }
         }
         catch (error) {
-          message.reply(new MessageEmbed()
-            .setDescription('```' + error + '```')
-            .setColor('RANDOM')
-            .setTimestamp());
+          message.react('❌');
+          msg.edit(error, { code: true });
         }
+        break;
       }
-    })
+      else if (response.content === 'no') {
+        response.delete();
+        msg.delete();
+      }
+    }
   },
 };
