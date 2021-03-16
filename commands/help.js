@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
+const admins = require('../dat/admin.json');
 
 module.exports = {
   info: {
@@ -54,7 +55,7 @@ module.exports = {
           .setColor('RANDOM')
           .setTimestamp()
       );
-      if (message.member.roles.cache.has('771015602180587571')) {
+      if (admins.includes(message.author.id)) {
         embeds[0].addField('Admin', admin);
         embeds.push(
           new MessageEmbed()
