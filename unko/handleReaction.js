@@ -1,4 +1,6 @@
 const { Client } = require('discord.js');
+const { Database } = require('./index');
+const db = new Database('unkoserver.db');
 
 module.exports = {
     /**
@@ -69,15 +71,8 @@ module.exports = {
         });
 
         handleReaction('802079467739676692', '802115362526330930', async (reaction, user) => {
-            let usermoneydata = client.getMoney.get(user.id, '706452606918066237');
-            if (!usermoneydata) {
-                usermoneydata = { id: `706452606918066237 - ${user.id}`, user: user.id, guild: '706452606918066237', money: 0, dailylogin: 0, ticket: 0 }
-            }
-            let userdebtdata = client.getDebt.get(user.id, '706452606918066237');
-            if (!userdebtdata) {
-                userdebtdata = { id: `706452606918066237 - ${user.id}`, user: user.id, guild: '706452606918066237', Tuna: 0, Shoulder: null }
-            }
-            if (userdebtdata.Tuna === 1) {
+            let usermoneydata = db.MoneyGet(user.id, '706452606918066237');
+            if (usermoneydata.tuna === 1) {
                 const reply = await client.channels.cache.get('802079467739676692').send(`${user}、お前借金返済中やん！`);
                 reply.delete({ timeout: 5000 });
                 return;
@@ -88,8 +83,7 @@ module.exports = {
                 const reply = await client.channels.cache.get('802079467739676692').send(`${user}、うんこチケットを5000うんコインで購入しました。`);
                 reply.delete({ timeout: 5000 });
             }
-            client.setMoney.run(usermoneydata);
-            client.setDebt.run(userdebtdata);
+            db.MoneySet(usermoneydata);
         });
     }
 }
