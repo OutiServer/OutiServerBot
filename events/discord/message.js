@@ -3,6 +3,7 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
+const admins = require('../../dat/admin.json');
 
 /**
  * @param {Client} client
@@ -12,17 +13,17 @@ const db = new Database('unkoserver.db');
 module.exports = async (client, message) => {
   if (message.author.id == "302050872383242240") {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
-      const noti = await message.channel.send('Bumpを確認しました、二時間後に通知します<:emoji_106:790546684710223882>');
+      const noti = await message.channel.send('Bumpを確認しました、二時間後に通知します');
       noti.delete({ timeout: 7200000 });
       setTimeout(() => {
-        message.channel.send('Bumpしてから二時間経ちました<:emoji_106:790546684710223882>');
+        message.channel.send('Bumpしてから二時間経ちました');
       }, 7200000);
     }
     else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
       var splcontent_a = message.embeds[0].description.split("と");
       var splcontent_b = splcontent_a[1].split("分");
       var waittime_bump = splcontent_b[0];
-      message.channel.send(`Bumpに失敗たようです、${waittime_bump}分後にもう一度実行してください<:emoji_119:819881070971060246>`);
+      message.channel.send(`Bumpに失敗たようです、${waittime_bump}分後にもう一度実行してください`);
     }
   }
   if (!message.guild || message.system || message.author.bot) return;
@@ -137,9 +138,13 @@ module.exports = async (client, message) => {
   const command = args.shift().toLowerCase();
   if (!command) return;
   const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
-  if (!cmd || cmd.info.botownercommand && process.env.OWNERID !== message.author.id || cmd.info.botadmincommand && !message.member.roles.cache.has('771015602180587571') && message.member.guild.owner.id !== message.author.id && message.guild.id === '706452606918066237') {
+  if (!cmd) {
     message.react('793460058250805259');
     return message.reply('そんなコマンドないで。😉');
+  }
+  else if (cmd.info.botadmincommand && !admins.includes(message.author.id)) {
+    message.react('793460058250805259');
+    return message.reply('そのコマンドを使う権限が足りてないで。😉');
   }
   cmd.run(client, message, args);
 };
