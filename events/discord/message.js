@@ -142,11 +142,7 @@ module.exports = async (client, message) => {
     message.react('793460058250805259');
     return message.reply('そんなコマンドないで。😉');
   }
-  else if (cmd.info.adminonly && !admins.includes(message.author.id)) {
-    message.react('793460058250805259');
-    return message.reply('そのコマンドを使う権限が足りてないで。😉');
-  }
-  else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID) {
+  else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !admins.includes(message.author.id)) {
     message.react('793460058250805259');
     return message.reply('そのコマンドを使う権限が足りてないで。😉');
   }
