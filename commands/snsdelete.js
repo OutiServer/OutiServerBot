@@ -8,8 +8,8 @@ module.exports = {
         description: "sns宣伝を削除",
         usage: "",
         aliases: [""],
-        botownercommand: false,
-        botadmincommand: true,
+        owneronly: false,
+        adminonly: true,
         category: 'Admin'
     },
 

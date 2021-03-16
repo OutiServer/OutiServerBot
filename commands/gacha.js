@@ -10,8 +10,8 @@ module.exports = {
         description: "ガチャ",
         usage: "",
         aliases: [""],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Casino'
     },
 

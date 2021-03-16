@@ -8,8 +8,8 @@ module.exports = {
         description: "うんコイン",
         usage: "[ユーザーをメンションまたはid]",
         aliases: ["m"],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Money'
     },
 

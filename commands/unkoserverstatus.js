@@ -7,8 +7,8 @@ module.exports = {
         description: "うんこサーバーの状態を表示するコマンド",
         usage: "",
         aliases: ["uss"],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Main'
     },
 

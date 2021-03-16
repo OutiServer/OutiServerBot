@@ -9,8 +9,8 @@ module.exports = {
         description: "コイントス",
         usage: "[賭け金]",
         aliases: ["ct"],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Casino'
     },
 

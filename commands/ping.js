@@ -6,8 +6,8 @@ module.exports = {
         description: "BotのPing値とメモリ使用率を表示",
         usage: "",
         aliases: [""],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Main'
     },
 

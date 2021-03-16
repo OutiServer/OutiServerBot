@@ -6,8 +6,8 @@ module.exports = {
         description: "VCにいる人全員UnMute",
         usage: "",
         aliases: [""],
-        botownercommand: false,
-        botadmincommand: true,
+        owneronly: false,
+        adminonly: true,
         category: 'Admin'
     },
 

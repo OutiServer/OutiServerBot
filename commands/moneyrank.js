@@ -8,8 +8,8 @@ module.exports = {
     description: "うんコイン所持金ランキング",
     usage: "",
     aliases: ["mr"],
-    botownercommand: false,
-    botadmincommand: false,
+    owneronly: false,
+    adminonly: false,
     category: 'Money'
   },
 

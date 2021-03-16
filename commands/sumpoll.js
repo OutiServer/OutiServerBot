@@ -6,8 +6,8 @@ module.exports = {
         description: "投票集計コマンド",
         usage: "[メッセージID]",
         aliases: [""],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Main'
     },
 

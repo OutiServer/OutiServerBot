@@ -8,8 +8,8 @@ module.exports = {
     description: "指定したユーザーにうんコインを付与する",
     usage: "[ユーザーをメンションまたはid] [付与するうんコイン]",
     aliases: [""],
-    botownercommand: false,
-    botadmincommand: true,
+    owneronly: false,
+    adminonly: true,
     category: 'Admin'
   },
 

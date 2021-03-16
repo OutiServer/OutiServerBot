@@ -8,8 +8,8 @@ module.exports = {
         description: "チンチロ",
         usage: "",
         aliases: ["賭け金"],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Casino'
     },
 

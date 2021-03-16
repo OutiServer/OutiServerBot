@@ -9,8 +9,8 @@ module.exports = {
     description: "指定したユーザーのうんコインをリセット",
     usage: "[ユーザーをメンションまたはid]",
     aliases: [""],
-    botownercommand: false,
-    botadmincommand: true,
+    owneronly: false,
+    adminonly: true,
     category: 'Admin'
   },
 

@@ -6,8 +6,8 @@ module.exports = {
     description: "コマンドの詳細を表示します",
     usage: "[command]",
     aliases: [""],
-    botownercommand: false,
-    botadmincommand: false,
+    owneronly: false,
+    adminonly: false,
     category: 'Main'
   },
 

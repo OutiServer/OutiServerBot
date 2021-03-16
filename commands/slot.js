@@ -8,8 +8,8 @@ module.exports = {
         description: "スロット",
         usage: "",
         aliases: ["s"],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Casino'
     },
 

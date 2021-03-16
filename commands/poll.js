@@ -6,8 +6,8 @@ module.exports = {
     description: "投票を作る",
     usage: "[タイトル] [選択肢]",
     aliases: [""],
-    botownercommand: false,
-    botadmincommand: false,
+    owneronly: false,
+    adminonly: false,
     category: 'Main'
   },
 

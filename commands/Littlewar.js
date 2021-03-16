@@ -13,8 +13,8 @@ module.exports = {
         description: "小戦争",
         usage: "[賭け金]",
         aliases: ["war"],
-        botownercommand: false,
-        botadmincommand: false,
+        owneronly: false,
+        adminonly: false,
         category: 'Casino'
     },
 

@@ -8,8 +8,8 @@ module.exports = {
     description: "指定したユーザーからうんコインを剥奪する",
     usage: "[ユーザーをメンションまたはid] [剥奪するうんコイン]",
     aliases: ["rm"],
-    botownercommand: false,
-    botadmincommand: true,
+    owneronly: false,
+    adminonly: true,
     category: 'Admin'
   },
 

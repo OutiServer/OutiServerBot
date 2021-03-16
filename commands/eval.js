@@ -7,8 +7,8 @@ module.exports = {
     description: "jsのコードを実行するなんか",
     usage: "",
     aliases: [""],
-    botownercommand: true,
-    botadmincommand: false,
+    owneronly: true,
+    adminonly: false,
     category: 'Owner'
   },
 
