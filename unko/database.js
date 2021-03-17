@@ -51,6 +51,14 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const Tickettable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'tickets';").get();
+        if (!Tickettable['count(*)']) {
+            this.sql.prepare("CREATE TABLE tickets (id TEXT PRIMARY KEY, user TEXT, guild TEXT, ticketid INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_tickets_id ON tickets (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -145,6 +153,25 @@ class Database {
 
     SnsSet(data) {
         this.sql.prepare('INSERT OR REPLACE INTO snss (id, user, guild, title, url, count) VALUES (@id, @user, @guild, @title, @url, @count);').run(data);
+    }
+
+    /**
+     * @param {string} userid
+     * @param {string} guildid
+     */
+
+    TicketGet(userid, guildid) {
+        let data = this.sql.prepare('SELECT * FROM tickets WHERE user = ? AND guild = ?').get(userid, guildid);
+        if (!data) {
+            data = { id: `${guildid}-${userid}`, user: userid, guild: guildid, ticketid: 0 }
+            this.SnsSet(data);
+        }
+
+        return data;
+    }
+
+    TicketSet(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO tickets (id, user, guild, ticketid) VALUES (@id, @user, @guild, @ticketid);').run(data);
     }
 
     dailyreset() {
