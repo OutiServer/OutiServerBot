@@ -89,6 +89,20 @@ module.exports = {
         handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
             if (reaction.emoji.name === '🎫') {
                 client.guilds.cache.get('706452606918066237').channels.create(`${user.tag}-お問い合わせ`, { type: 'text', parent: '821684794056245258' })
+                    .then(channel => channel.overwritePermissions([
+                        {
+                            id: '706452606918066237',
+                            deny: ['VIEW_CHANNEL']
+                        },
+                        {
+                            id: user.id,
+                            allow: ['VIEW_CHANNEL']
+                        },
+                        {
+                            id: '771015602180587571',
+                            allow: ['VIEW_CHANNEL']
+                        }
+                    ]))
                     .then(channel => channel.send(`${user}さん専用のお問い合わせチャンネルを作成しました！`,
                         new MessageEmbed()
                             .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします')
