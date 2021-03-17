@@ -64,6 +64,11 @@ module.exports = async (client, message) => {
     });
   }
 
+  if (message.channel.id === '706469264638345227') {
+    message.react('👍');
+    message.react('👎');
+  }
+
   let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
   let userdailydata = db.DailyGet(message.author.id, message.guild.id);
 
