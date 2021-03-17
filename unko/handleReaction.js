@@ -88,7 +88,8 @@ module.exports = {
 
         handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
             if (reaction.emoji.name === '🎫') {
-                client.guilds.cache.get('706452606918066237').channels.create(`${user.tag}-お問い合わせ`, { type: 'text', parent: '821684794056245258' })
+                let ticketdata = db.TicketGet('706452606918066237');
+                client.guilds.cache.get('706452606918066237').channels.create(`${ticketdata.ticketid}-お問い合わせ`, { type: 'text', parent: '821684794056245258' })
                     .then(channel => channel.overwritePermissions([
                         {
                             id: '706452606918066237',
@@ -108,7 +109,9 @@ module.exports = {
                             .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします')
                             .setColor('RANDOM')
                             .setTimestamp())
-                    )
+                    );
+                ticketdata.ticketid++;
+                db.TicketSet(ticketdata);
             }
         });
     }
