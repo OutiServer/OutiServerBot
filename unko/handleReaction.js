@@ -1,4 +1,4 @@
-const { Client } = require('discord.js');
+const { Client, MessageEmbed } = require('discord.js');
 const { Database } = require('./index');
 const db = new Database('unkoserver.db');
 
@@ -84,6 +84,18 @@ module.exports = {
                 reply.delete({ timeout: 5000 });
             }
             db.MoneySet(usermoneydata);
+        });
+
+        handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
+            if (reaction.emoji.name === '🎫') {
+                client.guilds.cache.get('706452606918066237').channels.create(`${user.tag}-お問い合わせ`, { type: 'text', parent: '821684794056245258' })
+                    .then(channel => channel.send(`${user}さん専用のお問い合わせチャンネルを作成しました！`,
+                        new MessageEmbed()
+                            .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします')
+                            .setColor('RANDOM')
+                            .setTimestamp())
+                    )
+            }
         });
     }
 }
