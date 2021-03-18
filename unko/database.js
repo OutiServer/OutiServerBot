@@ -12,8 +12,6 @@ class Database {
     }
 
     Initialize() { //初期設定色々
-        this.sql.prepare("DROP TABLE disboardtimer;").run();
-        this.sql.prepare("DROP TABLE dissokutimer;").run();
         const Moneytable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'moneys';").get();
         if (!Moneytable['count(*)']) {
             this.sql.prepare("CREATE TABLE moneys (id TEXT PRIMARY KEY, user TEXT, guild TEXT, money INTEGER, dailylogin INTEGER, ticket INTEGER, tuna INTEGER);").run();
