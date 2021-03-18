@@ -12,6 +12,8 @@ class Database {
     }
 
     Initialize() { //初期設定色々
+        this.sql.prepare("DROP TABLE disboardtimer;").run();
+        this.sql.prepare("DROP TABLE dissokutimer;").run();
         const Moneytable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'moneys';").get();
         if (!Moneytable['count(*)']) {
             this.sql.prepare("CREATE TABLE moneys (id TEXT PRIMARY KEY, user TEXT, guild TEXT, money INTEGER, dailylogin INTEGER, ticket INTEGER, tuna INTEGER);").run();
@@ -62,7 +64,7 @@ class Database {
 
         const Disboardtimertable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'disboardtimer';").get();
         if (!Disboardtimertable['count(*)']) {
-            this.sql.prepare("CREATE TABLE disboardtimer (id TEXT PRIMARY KEY, guild TEXT, hour INTEGER, minute INTEGER, second INTEGER, millisecond INTEGER);").run();
+            this.sql.prepare("CREATE TABLE disboardtimer (id TEXT PRIMARY KEY, guild TEXT, hour INTEGER, minute INTEGER, second INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_disboardtimer_id ON disboardtimer (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
@@ -70,7 +72,7 @@ class Database {
 
         const Dissokutimertable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dissokutimer';").get();
         if (!Dissokutimertable['count(*)']) {
-            this.sql.prepare("CREATE TABLE dissokutimer (id TEXT PRIMARY KEY, guild TEXT, hour INTEGER, minute INTEGER, second INTEGER, millisecond INTEGER);").run();
+            this.sql.prepare("CREATE TABLE dissokutimer (id TEXT PRIMARY KEY, guild TEXT, hour INTEGER, minute INTEGER, second INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_dissokutimer_id ON dissokutimer (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
@@ -196,7 +198,7 @@ class Database {
     DisboardtimerGet(guildid) {
         let data = this.sql.prepare('SELECT * FROM disboardtimer WHERE guild = ?').get(guildid);
         if (!data) {
-            data = { id: `${guildid}`, guild: guildid, hour: 0, miute: 0, second: 0, millisecond: 0 }
+            data = { id: `${guildid}`, guild: guildid, hour: 0, miute: 0, second: 0 }
             this.DisboardtimerSet(data);
         }
 
@@ -204,7 +206,7 @@ class Database {
     }
 
     DisboardtimerSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO disboardtimer (id, guild, hour, miute, second, millisecond) VALUES (@id, @guild, @hour, @miute, @second, @millisecond);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO disboardtimer (id, guild, hour, miute, second) VALUES (@id, @guild, @hour, @miute, @second);').run(data);
     }
 
     /**
@@ -214,7 +216,7 @@ class Database {
     DissokutimerGet(guildid) {
         let data = this.sql.prepare('SELECT * FROM dissokutimer WHERE guild = ?').get(guildid);
         if (!data) {
-            data = { id: `${guildid}`, guild: guildid, hour: 0, miute: 0, second: 0, millisecond: 0 }
+            data = { id: `${guildid}`, guild: guildid, hour: 0, miute: 0, second: 0 }
             this.DissokutimerSet(data);
         }
 
@@ -222,7 +224,7 @@ class Database {
     }
 
     DissokutimerSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO dissokutimer (id, guild, hour, miute, second, millisecond) VALUES (@id, @guild, @hour, @miute, @second, @millisecond);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO dissokutimer (id, guild, hour, miute, second) VALUES (@id, @guild, @hour, @miute, @second);').run(data);
     }
 
     dailyreset() {
