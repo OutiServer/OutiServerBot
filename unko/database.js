@@ -62,7 +62,7 @@ class Database {
 
         const Disboardtimertable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'disboardtimer';").get();
         if (!Disboardtimertable['count(*)']) {
-            this.sql.prepare("CREATE TABLE disboardtimer (id TEXT PRIMARY KEY, guild TEXT, ms INTEGER);").run();
+            this.sql.prepare("CREATE TABLE disboardtimer (id TEXT PRIMARY KEY, guild TEXT, hour INTEGER, minute INTEGER, second INTEGER, millisecond INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_disboardtimer_id ON disboardtimer (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
@@ -70,7 +70,7 @@ class Database {
 
         const Dissokutimertable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dissokutimer';").get();
         if (!Dissokutimertable['count(*)']) {
-            this.sql.prepare("CREATE TABLE dissokutimer (id TEXT PRIMARY KEY, guild TEXT, ms INTEGER);").run();
+            this.sql.prepare("CREATE TABLE dissokutimer (id TEXT PRIMARY KEY, guild TEXT, hour INTEGER, minute INTEGER, second INTEGER, millisecond INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_dissokutimer_id ON dissokutimer (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
