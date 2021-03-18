@@ -16,14 +16,24 @@ module.exports = async (client, message) => {
       const noti = await message.channel.send('Bumpを確認しました、二時間後に通知します');
       noti.delete({ timeout: 7200000 });
       setTimeout(() => {
-        message.channel.send('Bumpしてから二時間経ちました');
+        message.channel.send('Bumpしてから二時間経ちました<:emoji_121:820198227147751474>');
       }, 7200000);
     }
     else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
-      var splcontent_a = message.embeds[0].description.split("と");
-      var splcontent_b = splcontent_a[1].split("分");
-      var waittime_bump = splcontent_b[0];
-      message.channel.send(`Bumpに失敗たようです、${waittime_bump}分後にもう一度実行してください`);
+      const waittime_bump = message.embeds[0].description.split("と")[1].split("分")[0];
+      message.channel.send(`Bumpに失敗たようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
+    }
+  }
+  else if (message.author.id == "761562078095867916") {
+    if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
+      message.channel.send('Upを確認しました、二時間後に通知します');
+      setTimeout(() => {
+        message.channel.send('Upしてから二時間経ちました<:emoji_121:820198227147751474>');
+      }, 7200000);
+    }
+    else if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.startsWith('間隔をあけてください')) {
+      const waittime_up = message.embeds[0].fields[0].value.split("間隔をあけてください")[1].split('(')[0].split(')')[0];
+      message.channel.send(`Upに失敗たようです、${waittime_up}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
     }
   }
   if (!message.guild || message.system || message.author.bot) return;
