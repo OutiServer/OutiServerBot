@@ -48,13 +48,13 @@ fs.readdir(__dirname + "/events/cron/", (err, files) => {
   });
 });
 
-const disboarddata = db.DisboardtimerGet(message.guild.id);
+const disboarddata = db.DisboardtimerGet('706452606918066237');
 const task1 = cron.schedule(`${disboarddata.second} ${disboarddata.miute} ${disboarddata.hour} * * *`, () => {
   client.channels.cache.get('706452606918066237').send('Bumpしてから二時間経ちました<:emoji_121:820198227147751474>')
   task1.destroy();
 });
 
-const dissokudata = db.DissokutimerGet(message.guild.id);
+const dissokudata = db.DissokutimerGet('706452606918066237');
 const task2 = cron.schedule(`${dissokudata.second} ${dissokudata.miute} ${dissokudata.hour} * * *`, () => {
   message.channel.send('Upしてから一時間経ちました<:emoji_121:820198227147751474>');
   task2.destroy();
