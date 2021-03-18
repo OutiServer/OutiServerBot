@@ -41,7 +41,7 @@ fs.readdir(__dirname + "/events/cron/", (err, files) => {
   files.forEach((file) => {
     const event = require(__dirname + `/events/cron/${file}`);
     let eventTime = file.split(".")[0];
-    cron.schedule(eventTime, event.bind(null, client))
+    const task = cron.schedule(eventTime, event.bind(null, client, task));
     console.log("時間イベントのロード完了: " + eventTime);
   });
 });
