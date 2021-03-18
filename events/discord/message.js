@@ -21,10 +21,10 @@ module.exports = async (client, message) => {
       if (disboarddata.hour >= 24) {
         disboarddata.hour -= 24;
       }
-      disboarddata.miute = nowtime.getMinutes();
+      disboarddata.minute = nowtime.getMinutes();
       disboarddata.second = nowtime.getSeconds();
       db.DisboardtimerSet(disboarddata);
-      const task = cron.schedule(`${disboarddata.second} ${disboarddata.miute} ${disboarddata.hour} * * *`, () => {
+      const task = cron.schedule(`${disboarddata.second} ${disboarddata.minute} ${disboarddata.hour} * * *`, () => {
         message.channel.send('Bumpしてから二時間経ちました<:emoji_121:820198227147751474>');
         task.destroy();
       });
@@ -43,10 +43,10 @@ module.exports = async (client, message) => {
       if (dissokudata.hour >= 24) {
         dissokudata.hour -= 24;
       }
-      dissokudata.miute = nowtime.getMinutes();
+      dissokudata.minute = nowtime.getMinutes();
       dissokudata.second = nowtime.getSeconds();
       db.DissokutimerSet(dissokudata);
-      const task = cron.schedule(`${dissokudata.second} ${dissokudata.miute} ${dissokudata.hour} * * *`, () => {
+      const task = cron.schedule(`${dissokudata.second} ${dissokudata.minute} ${dissokudata.hour} * * *`, () => {
         message.channel.send('Upしてから一時間経ちました<:emoji_121:820198227147751474>');
         task.destroy();
       });
