@@ -21,7 +21,7 @@ module.exports = async (client, message) => {
     }
     else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
       const waittime_bump = message.embeds[0].description.split("と")[1].split("分")[0];
-      message.channel.send(`Bumpに失敗たようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
+      message.channel.send(`Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
     }
   }
   else if (message.author.id == "761562078095867916") {
@@ -33,7 +33,7 @@ module.exports = async (client, message) => {
     }
     else if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.startsWith('間隔をあけてください')) {
       const waittime_up = message.embeds[0].fields[0].value.split("間隔をあけてください")[1].split('(')[1].split(')')[0];
-      message.channel.send(`Upに失敗たようです、${waittime_up}後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
+      message.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
     }
   }
   if (!message.guild || message.system || message.author.bot) return;
