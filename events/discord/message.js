@@ -24,9 +24,8 @@ module.exports = async (client, message) => {
       disboarddata.minute = nowtime.getMinutes();
       disboarddata.second = nowtime.getSeconds();
       db.DisboardtimerSet(disboarddata);
-      const task = cron.schedule(`${disboarddata.second} ${disboarddata.minute} ${disboarddata.hour} * * *`, () => {
-        message.channel.send('Bumpしてから二時間経ちました<:emoji_121:820198227147751474>');
-        task.destroy();
+      cron.schedule(`${disboarddata.second} ${disboarddata.minute} ${disboarddata.hour} * * *`, () => {
+        message.channel.send('Bumpしてから二時間経ちました\n`!d bump` を実行しましょう<:emoji_121:820198227147751474>');
       });
     }
     else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
@@ -46,9 +45,8 @@ module.exports = async (client, message) => {
       dissokudata.minute = nowtime.getMinutes();
       dissokudata.second = nowtime.getSeconds();
       db.DissokutimerSet(dissokudata);
-      const task = cron.schedule(`${dissokudata.second} ${dissokudata.minute} ${dissokudata.hour} * * *`, () => {
-        message.channel.send('Upしてから一時間経ちました<:emoji_121:820198227147751474>');
-        task.destroy();
+      cron.schedule(`${dissokudata.second} ${dissokudata.minute} ${dissokudata.hour} * * *`, () => {
+        message.channel.send('Upしてから一時間経ちました\n`/dissoku up!` を実行しましょう<:emoji_121:820198227147751474>');
       });
     }
     else if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].value.startsWith('間隔をあけてください')) {
