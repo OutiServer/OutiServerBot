@@ -56,7 +56,7 @@ const task1 = cron.schedule(`${disboarddata.second} ${disboarddata.minute} ${dis
 
 const dissokudata = db.DissokutimerGet('706452606918066237');
 const task2 = cron.schedule(`${dissokudata.second} ${dissokudata.minute} ${dissokudata.hour} * * *`, () => {
-  message.channel.send('Upしてから一時間経ちました<:emoji_121:820198227147751474>');
+  client.channels.cache.get('706452606918066237').send('Upしてから一時間経ちました<:emoji_121:820198227147751474>')
   task2.destroy();
 });
 
