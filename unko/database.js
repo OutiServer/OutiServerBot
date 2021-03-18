@@ -196,7 +196,7 @@ class Database {
     DisboardtimerGet(guildid) {
         let data = this.sql.prepare('SELECT * FROM disboardtimer WHERE guild = ?').get(guildid);
         if (!data) {
-            data = { id: `${guildid}`, guild: guildid, ms: 0 }
+            data = { id: `${guildid}`, guild: guildid, hour: 0, miute: 0, second: 0, millisecond: 0 }
             this.DisboardtimerSet(data);
         }
 
@@ -204,7 +204,7 @@ class Database {
     }
 
     DisboardtimerSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO disboardtimer (id, guild, ms) VALUES (@id, @guild, @ms);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO disboardtimer (id, guild, hour, miute, second, millisecond) VALUES (@id, @guild, @hour, @miute, @second, @millisecond);').run(data);
     }
 
     /**
@@ -214,7 +214,7 @@ class Database {
     DissokutimerGet(guildid) {
         let data = this.sql.prepare('SELECT * FROM dissokutimer WHERE guild = ?').get(guildid);
         if (!data) {
-            data = { id: `${guildid}`, guild: guildid, ms: 0 }
+            data = { id: `${guildid}`, guild: guildid, hour: 0, miute: 0, second: 0, millisecond: 0 }
             this.DissokutimerSet(data);
         }
 
@@ -222,7 +222,7 @@ class Database {
     }
 
     DissokutimerSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO dissokutimer (id, guild, ms) VALUES (@id, @guild, @ms);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO dissokutimer (id, guild, hour, miute, second, millisecond) VALUES (@id, @guild, @hour, @miute, @second, @millisecond);').run(data);
     }
 
     dailyreset() {
