@@ -1,6 +1,7 @@
 const { Client, Message, MessageEmbed, WebhookClient } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
+const cron = require('node-cron');
 const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
 const admins = require('../../dat/admin.json');
@@ -11,25 +12,44 @@ const admins = require('../../dat/admin.json');
  */
 
 module.exports = async (client, message) => {
-  if (message.author.id == "302050872383242240") {
+  if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
-      const noti = await message.channel.send('Bumpを確認しました、二時間後に通知します');
-      noti.delete({ timeout: 7200000 });
-      setTimeout(() => {
+      message.channel.send('Bumpを確認しました、二時間後に通知します');
+      const nowtime = new Date();
+      const disboarddata = db.DisboardtimerGet(message.guild.id);
+      disboarddata.hour = nowtime.getHours() + 2;
+      if (disboarddata.hour >= 24) {
+        disboarddata.hour -= 24;
+      }
+      disboarddata.miute = nowtime.getMinutes();
+      disboarddata.second = nowtime.getSeconds();
+      db.DisboardtimerSet(disboarddata);
+      const task = cron.schedule(`${disboarddata.second} ${disboarddata.miute} ${disboarddata.hour} * *`, () => {
         message.channel.send('Bumpしてから二時間経ちました<:emoji_121:820198227147751474>');
-      }, 7200000);
+        task.destroy();
+      });
     }
     else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
       const waittime_bump = message.embeds[0].description.split("と")[1].split("分")[0];
       message.channel.send(`Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
     }
   }
-  else if (message.author.id == "761562078095867916") {
+  else if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
-      message.channel.send('Upを確認しました、二時間後に通知します');
-      setTimeout(() => {
-        message.channel.send('Upしてから二時間経ちました<:emoji_121:820198227147751474>');
-      }, 7200000);
+      message.channel.send('Upを確認しました、一時間後に通知します');
+      const nowtime = new Date();
+      const dissokudata = db.DissokutimerGet(message.guild.id);
+      dissokudata.hour = nowtime.getHours() + 1;
+      if (dissokudata.hour >= 24) {
+        dissokudata.hour -= 24;
+      }
+      dissokudata.miute = nowtime.getMinutes();
+      dissokudata.second = nowtime.getSeconds();
+      db.DissokutimerSet(dissokudata);
+      const task = cron.schedule(`${dissokudata.second} ${dissokudata.miute} ${dissokudata.hour} * *`, () => {
+        message.channel.send('Upしてから一時間経ちました<:emoji_121:820198227147751474>');
+        task.destroy();
+      });
     }
     else if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.startsWith('間隔をあけてください')) {
       const waittime_up = message.embeds[0].fields[0].value.split("間隔をあけてください")[1].split('(')[1].split(')')[0];
