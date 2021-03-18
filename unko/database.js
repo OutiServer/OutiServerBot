@@ -59,6 +59,22 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const Disboardtimertable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'disboardtimer';").get();
+        if (!Disboardtimertable['count(*)']) {
+            this.sql.prepare("CREATE TABLE disboardtimer (id TEXT PRIMARY KEY, guild TEXT, ms INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_disboardtimer_id ON disboardtimer (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
+
+        const Dissokutimertable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'dissokutimer';").get();
+        if (!Dissokutimertable['count(*)']) {
+            this.sql.prepare("CREATE TABLE dissokutimer (id TEXT PRIMARY KEY, guild TEXT, ms INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_dissokutimer_id ON dissokutimer (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -171,6 +187,42 @@ class Database {
 
     TicketSet(data) {
         this.sql.prepare('INSERT OR REPLACE INTO tickets (id, guild, ticketid) VALUES (@id, @guild, @ticketid);').run(data);
+    }
+
+    /**
+     * @param {string} guildid
+     */
+
+    DisboardtimerGet(guildid) {
+        let data = this.sql.prepare('SELECT * FROM dissokutimer WHERE guild = ?').get(guildid);
+        if (!data) {
+            data = { id: `${guildid}`, guild: guildid, ms: 0 }
+            this.DisboardtimerSet(data);
+        }
+
+        return data;
+    }
+
+    DisboardtimerSet(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO dissokutimer (id, guild, ms) VALUES (@id, @guild, @ms);').run(data);
+    }
+
+    /**
+     * @param {string} guildid
+     */
+
+    DissokutimerGet(guildid) {
+        let data = this.sql.prepare('SELECT * FROM dissokutimer WHERE guild = ?').get(guildid);
+        if (!data) {
+            data = { id: `${guildid}`, guild: guildid, ms: 0 }
+            this.DissokutimerSet(data);
+        }
+
+        return data;
+    }
+
+    DissokutimerSet(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO dissokutimer (id, guild, ms) VALUES (@id, @guild, @ms);').run(data);
     }
 
     dailyreset() {
