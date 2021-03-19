@@ -3,13 +3,15 @@ const uuid = require('uuid');
 const { Client } = require('discord.js');
 
 module.exports = {
+
     /**
- * @param {Client} client
- */
+     * @param {Client} client
+     */
+
     run: async function (client) {
         console.log('Ready. On Minecraft, type /connect localhost:3000');
         const wss = new WebSocket.Server({
-            port: 3000
+            port: 514
         });
 
         wss.on('connection', function connection(socket) {
