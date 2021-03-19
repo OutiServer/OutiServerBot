@@ -5,11 +5,12 @@ const path = require('path');
 const util = require('minecraft-server-util');
 const app = express();
 
-/**
- * @param {Client} client
- */
-
 module.exports = {
+
+    /**
+     * @param {Client} client
+     */
+
     run: async function (client) {
         app.use(express.static(path.join(__dirname, 'public')));
         app.set("view engine", "ejs");
