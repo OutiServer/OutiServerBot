@@ -9,7 +9,9 @@ module.exports = {
      */
 
     run: async function (client) {
-        const wss = new WebSocket.Server();
+        const wss = new WebSocket.Server({
+            port: 2000
+        });
 
         wss.on('connection', function connection(socket) {
             console.log('Connected');
