@@ -9,10 +9,7 @@ module.exports = {
      */
 
     run: async function (client) {
-        console.log('Ready. On Minecraft, type /connect localhost:3000');
-        const wss = new WebSocket.Server({
-            port: 514
-        });
+        const wss = new WebSocket.Server();
 
         wss.on('connection', function connection(socket) {
             console.log('Connected');
