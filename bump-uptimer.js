@@ -1,6 +1,6 @@
 const { Client } = require('discord.js');
 const cron = require('node-cron');
-const { Database } = require('./index');
+const { Database } = require('./unko/index');
 const db = new Database('unkoserver.db');
 
 module.exports = {

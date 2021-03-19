@@ -1,5 +1,5 @@
 const { Client, MessageEmbed } = require('discord.js');
-const { Database } = require('./index');
+const { Database } = require('./unko/index');
 const db = new Database('unkoserver.db');
 
 module.exports = {
