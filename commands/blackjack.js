@@ -112,6 +112,77 @@ module.exports = {
             }
         }
 
+        if (winloseflag.get(message.author.id) === 0) {
+            msg.edit(
+                new MessageEmbed()
+                    .setTitle('BlackJack')
+                    .setDescription('BlackJack\nあなたの勝ちです')
+                    .addField('ディーラー', dealer.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .addField('あなた', player.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .setColor('RANDOM')
+                    .setTimestamp())
+        }
+        else if (winloseflag.get(message.author.id) === 2) {
+            msg.edit(
+                new MessageEmbed()
+                    .setTitle('BlackJack')
+                    .setDescription('Busted\nあなたの負けです')
+                    .addField('ディーラー', dealer.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .addField('あなた', player.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .setColor('RANDOM')
+                    .setTimestamp())
+        }
+        else if (winloseflag.get(message.author.id) === 3) {
+            msg.edit(
+                new MessageEmbed()
+                    .setTitle('BlackJack')
+                    .setDescription('あなたの勝ちです')
+                    .addField('ディーラー', dealer.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .addField('あなた', player.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .setColor('RANDOM')
+                    .setTimestamp())
+        }
+        else if (winloseflag.get(message.author.id) === 10) {
+            msg.edit(
+                new MessageEmbed()
+                    .setTitle('BlackJack')
+                    .setDescription('引き分け')
+                    .addField('ディーラー', dealer.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .addField('あなた', player.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .setColor('RANDOM')
+                    .setTimestamp())
+        }
+        else if (winloseflag.get(message.author.id) === -1) {
+            msg.edit(
+                new MessageEmbed()
+                    .setTitle('BlackJack')
+                    .setDescription('ディーラーBlackKack\nあなたの負けです')
+                    .addField('ディーラー', dealer.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .addField('あなた', player.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .setColor('RANDOM')
+                    .setTimestamp())
+        }
+        else if (winloseflag.get(message.author.id) === -2) {
+            msg.edit(
+                new MessageEmbed()
+                    .setTitle('BlackJack')
+                    .setDescription('あなたの負けです')
+                    .addField('ディーラー', dealer.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .addField('あなた', player.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .setColor('RANDOM')
+                    .setTimestamp())
+        }
+        else if (winloseflag.get(message.author.id) === -3) {
+            msg.edit(
+                new MessageEmbed()
+                    .setTitle('BlackJack')
+                    .setDescription('ディーラーBusted\nあなたの勝ちです')
+                    .addField('ディーラー', dealer.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .addField('あなた', player.get(message.author.id).map(data => cards[0][data]).join(' '))
+                    .setColor('RANDOM')
+                    .setTimestamp())
+        }
+
         dealer.delete(message.author.id);
         player.delete(message.author.id);
     }
