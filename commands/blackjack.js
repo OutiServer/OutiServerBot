@@ -1,7 +1,7 @@
 const { Message, MessageEmbed } = require("discord.js");
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
-const cards = require('../dat/cards.json')[0];
+const cards = require('../dat/cards.json');
 const dealer = new Map();
 const player = new Map();
 
@@ -25,10 +25,10 @@ module.exports = {
             const dealerarray = [];
             const playerarray = [];
             for (let i = 0; i < 2; i++) {
-                dealerarray.push(cards[Math.floor(Math.random() * cards.length)]);
+                dealerarray.push(cards[0][Math.floor(Math.random() * cards.length)]);
             }
             for (let i = 0; i < 2; i++) {
-                playerarray.push(cards[Math.floor(Math.random() * cards.length)]);
+                playerarray.push(cards[0][Math.floor(Math.random() * cards.length)]);
             }
             dealer.set(message.author.id, dealerarray);
             player.set(message.author.id, playerarray);
