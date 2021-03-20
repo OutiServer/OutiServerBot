@@ -61,7 +61,10 @@ module.exports = {
             const collected = await message.channel.awaitMessages(filter, { max: 1, time: 60000 });
             const response = collected.first();
             if (!response) break;
-            if (response.content === 'Stand') break;
+            if (response.content === 'Stand') {
+                winloseflag.set(message.author.id, 1);
+                break;
+            }
         }
 
         let dealernumber = 0;
