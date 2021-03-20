@@ -46,10 +46,12 @@ module.exports = {
         const msg = await message.channel.send(
             new MessageEmbed()
                 .setTitle('BlackJack')
-                .addField('ディーラー', player[message.author.id].join(' '))
+                .addField('ディーラー', dealer[message.author.id].join(' '))
                 .addField('あなた', player[message.author.id].join(' '))
                 .setColor('RANDOM')
                 .setTimestamp()
         );
+        dealer[message.author.id] = [];
+        player[message.author.id] = [];
     }
 }
