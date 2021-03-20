@@ -236,9 +236,9 @@ class Database {
 
     backup(client) {
         const time = new Date();
-        this.sql.backup(`${time}.db`)
+        this.sql.backup(`${time.getDay()}-${time.getHours()}-${time.getMinutes()}-${time.getSeconds()}.db`)
             .then(() => {
-                client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time}.db`));
+                client.channels.cache.get('816555488694108170').send(new MessageAttachment(`${time.getDay()}-${time.getHours()}-${time.getMinutes()}-${time.getSeconds()}.db`));
             });
     }
 }
