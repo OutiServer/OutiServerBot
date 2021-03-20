@@ -12,8 +12,6 @@ module.exports = async (client) => {
   client.user.setPresence({ activity: { name: '?help うんこ鯖', type: 'PLAYING', url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
   console.log(`[INFO] Logged in as ${client.user.tag}`);
 
-  db.backup(client);
-
   require('../../handleReaction').run(client);
   require('../../server').run(client);
   require('../../websocket').run(client);
