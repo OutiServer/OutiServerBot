@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js");
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
 const cards = require('../dat/cards.json')[0];
@@ -18,7 +18,6 @@ module.exports = {
 
     /**
      * @param {Message} message
-     * @param {Client} client
      */
 
     run: async function (client, message, args) {
