@@ -25,10 +25,10 @@ module.exports = {
             const dealerarray = [];
             const playerarray = [];
             for (let i = 0; i < 2; i++) {
-                dealerarray.push(cards[0][Math.floor(Math.random() * cards.length)]);
+                dealerarray.push(cards[0][Math.floor(Math.random() * cards[0].length)]);
             }
             for (let i = 0; i < 2; i++) {
-                playerarray.push(cards[0][Math.floor(Math.random() * cards.length)]);
+                playerarray.push(cards[0][Math.floor(Math.random() * cards[0].length)]);
             }
             dealer.set(message.author.id, dealerarray);
             player.set(message.author.id, playerarray);
