@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
-const cards = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'];
+const cards = ['<:card1:822786101940191272>', '<:card2:822786102305357855>', '<:card3:822786104134205451>', '<:card4:822786107279147018>', '<:card5:822786107276001320>', '6', '<:card7:822786107812479036>', '<:card8:822786107673411635>', '<:card9:822786108592226304>', '<:card10:822786108508602389>', '<:card11:822786108425240617>', '<:card12:822786108810461190>', '<:card13:822786108987277312>'];
 const dealer = new Map();
 const player = new Map();
 
@@ -26,10 +26,10 @@ module.exports = {
             const dealerarray = [];
             const playerarray = [];
             for (let i = 0; i < 2; i++) {
-                dealerarray.push(Math.floor(Math.random() * cards.length));
+                dealerarray.push(cards[Math.floor(Math.random() * cards.length)]);
             }
             for (let i = 0; i < 2; i++) {
-                playerarray.push(Math.floor(Math.random() * cards.length));
+                playerarray.push(cards[Math.floor(Math.random() * cards.length)]);
             }
             dealer.set(message.author.id, dealerarray);
             player.set(message.author.id, playerarray);
