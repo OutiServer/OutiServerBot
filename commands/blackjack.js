@@ -53,7 +53,7 @@ module.exports = {
                 .setColor('RANDOM')
                 .setTimestamp()
         );
-        dealer.set(message.author.id, []);
-        player.set(message.author.id, []);
+        dealer.delete(message.author.id);
+        player.delete(message.author.id);
     }
 }
