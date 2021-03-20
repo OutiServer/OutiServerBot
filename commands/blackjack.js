@@ -69,7 +69,11 @@ module.exports = {
 
         let dealernumber = 0;
         let playernumber = 0;
-        const dealerarray = player.get(message.author.id);
+        const dealerarray = dealer.get(message.author.id);
+
+        if (winloseflag.get(message.author.id) === 1) {
+
+        }
 
         while (winloseflag.get(message.author.id) === 1) {
             dealerarray.push(Math.floor(Math.random() * cards[0].length));
