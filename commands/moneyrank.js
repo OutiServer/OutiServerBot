@@ -25,12 +25,13 @@ module.exports = {
     let ranknumber1 = 1;
     let ranknumber2 = 10;
     while (embednumber < 10) {
-      embed[embednumber] = new MessageEmbed()
-        .setTitle(`うんこ鯖所持金ランキング${ranknumber1}〜${ranknumber2}位`)
-        .setFooter(`コマンド実行者 ${message.author.tag}`, message.author.avatarURL())
-        .setColor('RANDOM')
-        .setTimestamp();
-      embednumber++;
+      embed.push(
+        new MessageEmbed()
+          .setTitle(`うんこ鯖所持金ランキング${ranknumber1}〜${ranknumber2}位`)
+          .setFooter(`コマンド実行者 ${message.author.tag}`, message.author.avatarURL())
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
       ranknumber1 += 10;
       ranknumber2 += 10;
     }
@@ -39,7 +40,7 @@ module.exports = {
       const user = message.guild.member(data.user);
       let usertag = ''
       if (!user) {
-        usertag = '取得できないユーザー';
+        client.users.fetch(data.user).then(user => usertag = user.tag);
       }
       else {
         usertag = user.user.tag;
