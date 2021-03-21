@@ -15,5 +15,4 @@ module.exports = async (client) => {
   require('../../handleReaction').run(client);
   require('../../server').run(client);
   require('../../websocket').run(client);
-  require('../../bump-uptimer').run(client);
 };
