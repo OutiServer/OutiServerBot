@@ -53,6 +53,15 @@ class Database {
     }
 
     /**
+     * @param {string} guildid 
+     * @returns {Array}
+     */
+
+    levelallget(guildid) {
+        return sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY levels DESC;").all(guildid);
+    }
+
+    /**
      * @param {string} guildid
      */
 
