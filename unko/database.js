@@ -42,6 +42,8 @@ class Database {
             data = { id: `${guildid}-${userid}`, user: userid, guild: guildid, level: 0, xp: 0 }
             this.levelset(data);
         }
+
+        return data;
     }
 
     /**
