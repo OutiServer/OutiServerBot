@@ -27,8 +27,6 @@ module.exports = {
         new MessageEmbed()
           .setTitle(`${client.user.tag} helpページ`)
           .addField('Main', main)
-          .addField('Money', money)
-          .addField('Casino', casino)
           .setColor('RANDOM')
           .setTimestamp()
       );
