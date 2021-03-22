@@ -2,10 +2,8 @@ require('dotenv').config();
 const fs = require("fs");
 const { Client, Intents, Collection } = require('discord.js');
 const cron = require('node-cron');
-const { Database } = require('./unko/index');
 const client = new Client({ messageCacheMaxSize: 20, messageSweepInterval: 30, fetchAllMembers: true, ws: { intents: Intents.ALL } });
 client.commands = new Collection();
-const db = new Database('unkoserver.db');
 
 fs.readdir(__dirname + "/events/process/", (err, files) => {
   if (err) return console.error(err);
