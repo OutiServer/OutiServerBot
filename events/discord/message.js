@@ -77,19 +77,6 @@ module.exports = async (client, message) => {
     message.react('👎');
   }
 
-  let usermoneydata = db.MoneyGet(message.author.id, message.guild.id);
-  let userdailydata = db.DailyGet(message.author.id, message.guild.id);
-
-  if (usermoneydata.ticket === null) {
-    usermoneydata.ticket = 0;
-  }
-  else if (usermoneydata.tuna === null) {
-    usermoneydata.tuna = 0;
-  }
-
-  db.MoneySet(usermoneydata);
-  db.DailySet(userdailydata);
-
   if (message.channel.parentID === '801057223139917884') {
     message.member.roles.add('801796340057112589');
   }
