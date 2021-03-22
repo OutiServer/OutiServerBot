@@ -13,9 +13,10 @@ class Database {
     }
 
     Initialize() { //初期設定色々
+        this.sql.prepare('DROP TABLE levels;');
         const Leveltable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'levels';").get();
         if (!Leveltable['count(*)']) {
-            this.sql.prepare("CREATE TABLE levels (id TEXT PRIMARY KEY, user TEXT, guild TEXT, level INTEGER, xp INTEGER);").run();
+            this.sql.prepare("CREATE TABLE levels (id TEXT PRIMARY KEY, user TEXT, guild TEXT, level INTEGER, xp INTEGER, allxp INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_levels_id ON levels (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
@@ -39,7 +40,7 @@ class Database {
     levelget(userid, guildid) {
         let data = this.sql.prepare('SELECT * FROM levels WHERE user = ? AND guild = ?').get(userid, guildid);
         if (!data) {
-            data = { id: `${guildid}-${userid}`, user: userid, guild: guildid, level: 0, xp: 0 }
+            data = { id: `${guildid}-${userid}`, user: userid, guild: guildid, level: 0, xp: 0, allxp: 0 }
             this.levelset(data);
         }
 
@@ -51,7 +52,7 @@ class Database {
      */
 
     levelset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO levels (id, user, guild, level, xp) VALUES (@id, @user, @guild, @level, @xp);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(data);
     }
 
     /**
@@ -60,7 +61,7 @@ class Database {
      */
 
     levelallget(guildid) {
-        return this.sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY levels DESC;").all(guildid);
+        return this.sql.prepare("SELECT * FROM levels WHERE guild = ? ORDER BY allxp DESC;").all(guildid);
     }
 
     /**

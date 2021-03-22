@@ -83,7 +83,9 @@ module.exports = async (client, message) => {
 
   let userleveldata = db.levelget(message.author.id, message.guild.id);
 
-  userleveldata.xp += Math.ceil(Math.random() * 25);
+  let xp = Math.ceil(Math.random() * 25);
+  userleveldata.xp += xp
+  userleveldata.allxp += xp;
   if (userleveldata.level >= userleveldata.level * 55) {
     userleveldata.xp -= userleveldata.level * 55;
     userleveldata.level++;
