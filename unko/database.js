@@ -13,7 +13,6 @@ class Database {
     }
 
     Initialize() { //初期設定色々
-        this.sql.prepare('DROP TABLE levels;').run();
         const Leveltable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'levels';").get();
         if (!Leveltable['count(*)']) {
             this.sql.prepare("CREATE TABLE levels (id TEXT PRIMARY KEY, user TEXT, guild TEXT, level INTEGER, xp INTEGER, allxp INTEGER);").run();

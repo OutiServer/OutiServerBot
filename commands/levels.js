@@ -26,7 +26,7 @@ module.exports = {
         let ranknumber2 = 10;
         let rank = 1;
 
-        for (let i; i < Math.ceil(all.length / 10); i++) {
+        for (let i = 0; i < Math.ceil(all.length / 10); i++) {
             embeds.push(
                 new MessageEmbed()
                     .setTitle(`うんこ鯖Levelランキング${ranknumber1}〜${ranknumber2}位`)
@@ -46,6 +46,7 @@ module.exports = {
             else {
                 usertag = user.user.tag;
             }
+            console.log(embeds);
             embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${usertag}`, `${data.level}Level ${data.xp}経験値`);
             rank++;
         }
