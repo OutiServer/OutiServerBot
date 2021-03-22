@@ -1,6 +1,4 @@
 const { Client, Guild, User } = require('discord.js');
-const SQLite = require("better-sqlite3");
-const sql = new SQLite('unkoserver.db');
 
 /**
  * @param {Client} client
@@ -10,9 +8,6 @@ const sql = new SQLite('unkoserver.db');
 
 module.exports = async (client, guild, user) => {
     if (guild.id !== '706452606918066237') return;
-    sql.prepare(`DELETE FROM moneys WHERE user = ${user.id} AND guild = ${guild.id}`).run();
-    sql.prepare(`DELETE FROM dailys WHERE user = ${user.id} AND guild = ${guild.id}`).run();
-    sql.prepare(`DELETE FROM littlewar WHERE user = ${user.id} AND guild = ${guild.id}`).run();
     const replys = ['がBANされましたwwwwwwwwwwwww', 'はシベリア旅行に行った', 'は BABANBABANBANBA BABANBABANBANBAN された', 'は下水処理場へ流れていった。', 'は豚箱に送られた', 'は粛清された', 'は北に拉致された', 'は自粛した'];
     let random = Math.floor(Math.random() * replys.length);
     client.channels.cache.get('706459931351711775').send(user.tag + replys[random]);
