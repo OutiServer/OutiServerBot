@@ -20,8 +20,6 @@ module.exports = {
   run: async function (client, message, args) {
     if (!args[0]) {
       const main = client.commands.filter(x => x.info.category == 'Main').map((x) => '`' + x.info.name + '`').join(', ');
-      const casino = client.commands.filter(x => x.info.category == 'Casino').map((x) => '`' + x.info.name + '`').join(', ');
-      const money = client.commands.filter(x => x.info.category == 'Money').map((x) => '`' + x.info.name + '`').join(', ');
       const admin = client.commands.filter(x => x.info.category == 'Admin').map((x) => '`' + x.info.name + '`').join(', ');
       const owner = client.commands.filter(x => x.info.category == 'Owner').map((x) => '`' + x.info.name + '`').join(', ');
       let embeds = [];
@@ -38,20 +36,6 @@ module.exports = {
         new MessageEmbed()
           .setTitle('main')
           .setDescription('```' + client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
-          .setColor('RANDOM')
-          .setTimestamp()
-      );
-      embeds.push(
-        new MessageEmbed()
-          .setTitle('Casino')
-          .setDescription('```' + client.commands.filter(x => x.info.category == 'Casino').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
-          .setColor('RANDOM')
-          .setTimestamp()
-      );
-      embeds.push(
-        new MessageEmbed()
-          .setTitle('Money')
-          .setDescription('```' + client.commands.filter(x => x.info.category == 'Money').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
           .setColor('RANDOM')
           .setTimestamp()
       );
