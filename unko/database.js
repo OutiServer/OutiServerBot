@@ -20,6 +20,14 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const Tickettable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'tickets';").get();
+        if (!Tickettable['count(*)']) {
+            this.sql.prepare("CREATE TABLE tickets (id TEXT PRIMARY KEY, guild TEXT, ticketid INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_tickets_id ON tickets (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -42,6 +50,24 @@ class Database {
 
     levelset(data) {
         this.sql.prepare('INSERT OR REPLACE INTO levels (id, user, guild, level, xp) VALUES (@id, @user, @guild, @level, @xp);').run(data);
+    }
+
+    /**
+     * @param {string} guildid
+     */
+
+    TicketGet(guildid) {
+        let data = this.sql.prepare('SELECT * FROM tickets WHERE guild = ?').get(guildid);
+        if (!data) {
+            data = { id: `${guildid}`, guild: guildid, ticketid: 0 }
+            this.TicketSet(data);
+        }
+
+        return data;
+    }
+
+    TicketSet(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO tickets (id, guild, ticketid) VALUES (@id, @guild, @ticketid);').run(data);
     }
 
     /**
