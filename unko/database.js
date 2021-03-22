@@ -58,7 +58,7 @@ class Database {
      */
 
     levelallget(guildid) {
-        return sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY levels DESC;").all(guildid);
+        return this.sql.prepare("SELECT * FROM moneys WHERE guild = ? ORDER BY levels DESC;").all(guildid);
     }
 
     /**
