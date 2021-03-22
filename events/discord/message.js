@@ -81,6 +81,17 @@ module.exports = async (client, message) => {
     message.member.roles.add('801796340057112589');
   }
 
+  let userleveldata = db.levelget(message.author.id, message.guild.id);
+
+  userleveldata.xp += Math.ceil(Math.random() * 25);
+  if (userleveldata.level >= userleveldata.level * 55) {
+    userleveldata.xp -= userleveldata.level * 55;
+    userleveldata.level++;
+    message.channel.send(`GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`);
+  }
+
+  db.levelset(userleveldata);
+
   const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
   let result;
   while ((result = URL_PATTERN.exec(message.content)) !== null) {
