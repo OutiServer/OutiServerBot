@@ -32,7 +32,7 @@ module.exports = {
 
             ctx.font = '50px Impact';
             ctx.rotate(0);
-            ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.point}/${53 * userleveldata.level}xp`, 500, 200);
+            ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
             const canvasDataUrl = canvas.toDataURL();
             const decoded = dataUriToBuffer(canvasDataUrl);
 
