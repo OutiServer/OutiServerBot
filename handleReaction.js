@@ -72,22 +72,6 @@ module.exports = {
             }
         });
 
-        handleReaction('802079467739676692', '802115362526330930', async (reaction, user) => {
-            let usermoneydata = db.MoneyGet(user.id, '706452606918066237');
-            if (usermoneydata.tuna === 1) {
-                const reply = await client.channels.cache.get('802079467739676692').send(`${user}、お前借金返済中やん！`);
-                reply.delete({ timeout: 5000 });
-                return;
-            }
-            if (reaction.emoji.name === '0️⃣') {
-                usermoneydata.ticket++;
-                usermoneydata.money -= 5000;
-                const reply = await client.channels.cache.get('802079467739676692').send(`${user}、うんこチケットを5000うんコインで購入しました。`);
-                reply.delete({ timeout: 5000 });
-            }
-            db.MoneySet(usermoneydata);
-        });
-
         handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
             if (reaction.emoji.name === '🎫') {
                 let ticketdata = db.TicketGet('706452606918066237');
