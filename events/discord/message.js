@@ -4,6 +4,7 @@ const { Readable } = require('stream');
 const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
 const admins = require('../../dat/admin.json');
+let cooldown = new Map();
 
 /**
  * @param {Client} client
@@ -83,9 +84,12 @@ module.exports = async (client, message) => {
 
   let userleveldata = db.levelget(message.author.id, message.guild.id);
 
-  let xp = Math.ceil(Math.random() * 25);
-  userleveldata.xp += xp
-  userleveldata.allxp += xp;
+  if (!cooldown.get(message.author.id)) {
+    let xp = Math.ceil(Math.random() * 25);
+    userleveldata.xp += xp
+    userleveldata.allxp += xp;
+    cooldown.set(message.author.id, true);
+  }
   if (userleveldata.xp >= userleveldata.level * 55) {
     userleveldata.xp -= userleveldata.level * 55;
     userleveldata.level++;
@@ -179,3 +183,7 @@ async function yomiage(client, message) {
   const conn = shouldMove ? await channel.join() : currentConnection;
   conn.play(await textToSpeechReadableStream(text), { highWaterMark: 6, bitrate: 'auto' })
 }
+
+setInterval(() => {
+  cooldown = new Map();
+}, 60000);
