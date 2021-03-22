@@ -86,7 +86,7 @@ module.exports = async (client, message) => {
   let xp = Math.ceil(Math.random() * 25);
   userleveldata.xp += xp
   userleveldata.allxp += xp;
-  if (userleveldata.level >= userleveldata.level * 55) {
+  if (userleveldata.xp >= userleveldata.level * 55) {
     userleveldata.xp -= userleveldata.level * 55;
     userleveldata.level++;
     message.channel.send(`GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`);
