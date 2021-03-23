@@ -53,7 +53,10 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () { });
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
+                            });
                         });
 
                 });
@@ -81,7 +84,10 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () { });
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
+                            });
                         });
 
                 });
@@ -109,7 +115,10 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () { });
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
+                            });
                         });
 
                 });
@@ -172,7 +181,10 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () { });
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
+                            });
                         });
 
                 });
@@ -200,7 +212,10 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () { });
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
+                            });
                         });
 
                 });
@@ -228,9 +243,11 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () { });
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
+                            });
                         });
-
                 });
             }
             else {
