@@ -1,3 +1,4 @@
 module.exports = {
-    Database: require('./database')
+    Database: require('./database'),
+    rankimage: require('./rankimage')
 }
