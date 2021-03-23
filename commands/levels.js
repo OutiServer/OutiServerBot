@@ -1,6 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../unko/index');
-const rank = require('./rank');
 const db = new Database('unkoserver.db');
 
 module.exports = {
