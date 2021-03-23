@@ -84,16 +84,18 @@ module.exports = async (client, message) => {
 
   let userleveldata = db.levelget(message.author.id, message.guild.id);
 
-  if (!cooldown.get(message.author.id)) {
-    let xp = Math.ceil(Math.random() * 25);
-    userleveldata.xp += xp
-    userleveldata.allxp += xp;
-    cooldown.set(message.author.id, true);
-  }
-  if (userleveldata.xp >= userleveldata.level * 55) {
-    userleveldata.xp -= userleveldata.level * 55;
-    userleveldata.level++;
-    message.channel.send(`GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`);
+  if (message.guild.id === '706452606918066237') {
+    if (!cooldown.get(message.author.id)) {
+      let xp = Math.ceil(Math.random() * 25);
+      userleveldata.xp += xp
+      userleveldata.allxp += xp;
+      cooldown.set(message.author.id, true);
+    }
+    if (userleveldata.xp >= userleveldata.level * 55) {
+      userleveldata.xp -= userleveldata.level * 55;
+      userleveldata.level++;
+      message.channel.send(`GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`);
+    }
   }
 
   db.levelset(userleveldata);
