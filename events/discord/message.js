@@ -3,8 +3,8 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
-const admins = require('../../dat/admin.json');
-const all_emojis = require('../../dat/all_emojis.json');
+const admins = require('../../dat/json/admin.json');
+const all_emojis = require('../../dat/json/all_emojis.json');
 let cooldown = new Map();
 
 /**
