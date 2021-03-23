@@ -4,6 +4,7 @@ const { Readable } = require('stream');
 const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
 const admins = require('../../dat/admin.json');
+const all_emojis = require('../../dat/all_emojis.json');
 let cooldown = new Map();
 
 /**
@@ -16,26 +17,27 @@ module.exports = async (client, message) => {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
       message.channel.send('Bumpを確認しました、二時間後に通知します');
       setTimeout(() => {
-        message.channel.send('Bumpしてから二時間経ちました\n`!d bump` を実行しましょう<:emoji_121:820198227147751474>');
+        message.channel.send(`Bumpしてから二時間経ちました\n\`!d bump\` を実行しましょう${all_emojis.うんこ鯖こいよ}`);
       }, 7200000);
     }
     else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
       const waittime_bump = message.embeds[0].description.split("と")[1].split("分")[0];
-      message.channel.send(`Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
+      message.channel.send(`Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！${all_emojis.unkooo}`);
     }
   }
   else if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
       message.channel.send('Upを確認しました、一時間後に通知します');
       setTimeout(() => {
-        message.channel.send('Upしてから一時間経ちました\n`/dissoku up!` を実行しましょう<:emoji_121:820198227147751474>');
+        message.channel.send(`Upしてから一時間経ちました\n\`/dissoku up!\` を実行しましょう${all_emojis.うんこ鯖こいよ}`);
       }, 3600000);
     }
     else if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].value.startsWith('間隔をあけてください')) {
       const waittime_up = message.embeds[0].fields[0].value.split("間隔をあけてください")[1].split('(')[1].split(')')[0];
-      message.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
+      message.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！${all_emojis.unkooo}`);
     }
   }
+
   if (!message.guild || message.system || message.author.bot) return;
 
   yomiage(client, message);
@@ -94,7 +96,7 @@ module.exports = async (client, message) => {
     if (userleveldata.xp >= userleveldata.level * 55) {
       userleveldata.xp -= userleveldata.level * 55;
       userleveldata.level++;
-      message.channel.send(`GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`);
+      message.channel.send(`GG ${message.author}, you just advanced to level ${userleveldata.level}! <: emoji_106: 790546684710223882 > `);
     }
   }
 
