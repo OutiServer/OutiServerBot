@@ -40,10 +40,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = [`./images/${user.id}.png`, './images/level.png'];
+                    var images = [`./dat/images/${user.id}.png`, './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -55,8 +55,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
@@ -71,10 +71,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = [`./images/${user.id}.png`, './images/level.png'];
+                    var images = [`./dat/images/${user.id}.png`, './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -86,8 +86,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
@@ -104,10 +104,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = [`./images/${user.id}.png`, './images/level.png'];
+                    var images = [`./dat/images/${user.id}.png`, './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -119,8 +119,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
@@ -134,10 +134,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = ['./images/default.png', './images/level.png'];
+                    var images = ['./dat/images/default.png', './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -149,8 +149,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
@@ -171,10 +171,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = [`./images/${message.author.id}.png`, './images/level.png'];
+                    var images = [`./dat/images/${message.author.id}.png`, './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -186,8 +186,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
@@ -202,10 +202,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = [`./images/${message.author.id}.png`, './images/level.png'];
+                    var images = [`./dat/images/${message.author.id}.png`, './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -217,8 +217,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
@@ -234,10 +234,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = [`./images/${message.author.id}.png`, './images/level.png'];
+                    var images = [`./dat/images/${message.author.id}.png`, './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -249,8 +249,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
@@ -263,10 +263,10 @@ module.exports = {
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./images/level.png', decoded, (err) => {
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
                     if (err) return console.log(err);
 
-                    var images = ['./images/default.png', './images/level.png'];
+                    var images = ['./dat/images/default.png', './dat/images/level.png'];
                     var jimps = [];
                     for (var i = 0; i < images.length; i++) {
                         jimps.push(jimp.read(images[i]));
@@ -278,8 +278,8 @@ module.exports = {
                         })
                         .then(function (data) {
                             data[0].composite(data[1], 0, 0);
-                            data[0].write('./images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
                                 message.channel.stopTyping();
                             });
                         });
