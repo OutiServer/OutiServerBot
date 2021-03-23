@@ -1,4 +1,6 @@
 const { Message, Client, MessageEmbed } = require("discord.js");
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -17,6 +19,8 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        const userleveldata = db.levelget(message.author.id, message.guild.id);
+        if (userleveldata.level < 10) return message.reply('画像背景申請はLevel10以上になってから使用できます！');
         if (message.attachments.size <= 0) {
             message.react('816282137065947136');
             return message.reply('リクエストする画像を一緒に送信してください！');
