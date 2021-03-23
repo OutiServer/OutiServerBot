@@ -32,6 +32,7 @@ module.exports = {
 
             if (user.id === '714455926970777602') {
                 ctx.font = '30px Impact';
+                ctx.fillStyle = '#00f70c';
                 ctx.rotate(0);
                 ctx.fillText(`${user.user.username}`, 5, 30);
                 ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 330, 370);
@@ -94,6 +95,7 @@ module.exports = {
             }
             else if (user.id === '515443335012286465') {
                 ctx.font = '80px Impact';
+                ctx.fillStyle = '#ffffff';
                 ctx.rotate(0);
                 console.log(user.user.username)
                 ctx.fillText(`${user.user.username}`, 420, 100);
@@ -161,6 +163,7 @@ module.exports = {
 
             if (message.author.id === '714455926970777602') {
                 ctx.font = '30px Impact';
+                ctx.fillStyle = '#00f70c';
                 ctx.rotate(0);
                 ctx.fillText(`${message.author.username}`, 5, 30);
                 ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 330, 370);
@@ -223,6 +226,7 @@ module.exports = {
             }
             else if (message.author.id === '515443335012286465') {
                 ctx.font = '80px Impact';
+                ctx.fillStyle = '#ffffff';
                 ctx.rotate(0);
                 ctx.fillText(`${message.author.username}`, 420, 100);
                 ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 450);
