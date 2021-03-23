@@ -30,120 +30,118 @@ module.exports = {
             const canvas = createCanvas(1500, 700);
             const ctx = canvas.getContext('2d');
 
-            switch (message.author.id) {
-                case '714455926970777602':
-                    ctx.font = '30px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${user.username}`, 5, 30);
-                    ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 360, 370);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
+            if (user.id === '714455926970777602') {
+                ctx.font = '30px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${user.username}`, 5, 30);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 360, 370);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
 
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
 
-                        var images = [`./images/${user.id}.png`, './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
+                    var images = [`./images/${user.id}.png`, './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
 
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () { });
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () { });
+                        });
+
+                });
+            }
+            else if (user.id === '440863982413283342') {
+                ctx.font = '30px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${user.username}`, 420, 30);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 250, 240);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
+
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = [`./images/${user.id}.png`, './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () { });
+                        });
+
+                });
+            }
+            else if (user.id === '515443335012286465') {
+                ctx.font = '80px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${user.username}`, 420, 100);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 450);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
+
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = [`./images/${user.id}.png`, './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () { });
+                        });
+
+                });
+            }
+            else {
+                ctx.font = '50px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
+
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = ['./images/default.png', './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
                             });
-
-                    });
-                    break;
-                case '440863982413283342':
-                    ctx.font = '30px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${user.username}`, 420, 30);
-                    ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 250, 240);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
-
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
-
-                        var images = [`./images/${user.id}.png`, './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
-
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () { });
-                            });
-
-                    });
-                    break;
-                case '515443335012286465':
-                    ctx.font = '80px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${user.username}`, 420, 100);
-                    ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 450);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
-
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
-
-                        var images = [`./images/${user.id}.png`, './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
-
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () { });
-                            });
-
-                    });
-                    break;
-                default:
-                    ctx.font = '50px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
-
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
-
-                        var images = ['./images/default.png', './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
-
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () {
-                                    message.channel.send(new MessageAttachment('./images/rank.png'));
-                                    message.channel.stopTyping();
-                                });
-                            });
-                    });
-                    break;
+                        });
+                });
             }
         }
         else {
@@ -151,120 +149,118 @@ module.exports = {
             const canvas = createCanvas(1500, 700);
             const ctx = canvas.getContext('2d');
 
-            switch (message.author.id) {
-                case '714455926970777602':
-                    ctx.font = '30px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${message.author.username}`, 5, 30);
-                    ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 360, 370);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
+            if (message.author.id === '714455926970777602') {
+                ctx.font = '30px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${message.author.username}`, 5, 30);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 360, 370);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
 
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
 
-                        var images = [`./images/${message.author.id}.png`, './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
+                    var images = [`./images/${message.author.id}.png`, './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
 
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () { });
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () { });
+                        });
+
+                });
+            }
+            else if (message.author.id === '440863982413283342') {
+                ctx.font = '30px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${message.author.username}`, 420, 30);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 250, 240);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
+
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = [`./images/${message.author.id}.png`, './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () { });
+                        });
+
+                });
+            }
+            else if (message.author.id === '515443335012286465') {
+                ctx.font = '80px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${message.author.username}`, 420, 100);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 450);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
+
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = [`./images/${message.author.id}.png`, './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () { });
+                        });
+
+                });
+            }
+            else {
+                ctx.font = '50px Impact';
+                ctx.rotate(0);
+                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
+
+                fs.writeFile('./images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = ['./images/default.png', './images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./images/rank.png'));
+                                message.channel.stopTyping();
                             });
-
-                    });
-                    break;
-                case '440863982413283342':
-                    ctx.font = '30px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${message.author.username}`, 420, 30);
-                    ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 250, 240);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
-
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
-
-                        var images = [`./images/${message.author.id}.png`, './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
-
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () { });
-                            });
-
-                    });
-                    break;
-                case '515443335012286465':
-                    ctx.font = '80px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${message.author.username}`, 420, 100);
-                    ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 450);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
-
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
-
-                        var images = [`./images/${message.author.id}.png`, './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
-
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () { });
-                            });
-
-                    });
-                    break;
-                default:
-                    ctx.font = '50px Impact';
-                    ctx.rotate(0);
-                    ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
-                    const canvasDataUrl = canvas.toDataURL();
-                    const decoded = dataUriToBuffer(canvasDataUrl);
-
-                    fs.writeFile('./images/level.png', decoded, (err) => {
-                        if (err) return console.log(err);
-
-                        var images = ['./images/default.png', './images/level.png'];
-                        var jimps = [];
-                        for (var i = 0; i < images.length; i++) {
-                            jimps.push(jimp.read(images[i]));
-                        }
-
-                        Promise.all(jimps)
-                            .then(function () {
-                                return Promise.all(jimps);
-                            })
-                            .then(function (data) {
-                                data[0].composite(data[1], 0, 0);
-                                data[0].write('./images/rank.png', function () {
-                                    message.channel.send(new MessageAttachment('./images/rank.png'));
-                                    message.channel.stopTyping();
-                                });
-                            });
-                    });
-                    break;
+                        });
+                });
             }
         }
 
