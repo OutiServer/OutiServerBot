@@ -17,7 +17,10 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        if (message.attachments.size <= 0) return message.reply('リクエストする画像を一緒に送信してください！');
+        if (message.attachments.size <= 0) {
+            message.react('816282137065947136');
+            return message.reply('リクエストする画像を一緒に送信してください！');
+        }
         message.attachments.forEach(attachment => {
             client.channels.cache.get('823573179309359135').send(
                 new MessageEmbed()
