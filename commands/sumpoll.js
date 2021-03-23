@@ -26,6 +26,7 @@ module.exports = {
             var msg = await message.channel.messages.fetch(messageid);
         }
         catch (e) {
+            message.react('816282137065947136');
             return message.channel.send('投票が見つかりませんでした');
         }
         const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name);
