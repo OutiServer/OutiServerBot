@@ -18,7 +18,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         if (!message.member.voice.channelID) {
-            message.react('793460058250805259');
+            message.react('816282137065947136');
             return message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
         }
         message.member.voice.guild.voiceStates.cache.map(member => member.setMute(true, 'Among Us!'));
