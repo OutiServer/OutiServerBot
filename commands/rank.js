@@ -33,8 +33,8 @@ module.exports = {
             if (user.id === '714455926970777602') {
                 ctx.font = '30px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}`, 5, 30);
-                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 360, 370);
+                ctx.fillText(`${user.user.username}`, 5, 30);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 330, 370);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
@@ -64,8 +64,8 @@ module.exports = {
             else if (user.id === '440863982413283342') {
                 ctx.font = '30px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}`, 420, 30);
-                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 250, 240);
+                ctx.fillText(`${user.user.username}`, 420, 30);
+                ctx.fillText(`${userleveldata.level} level ${userleveldata.xp} /${55 * userleveldata.level}xp`, 250, 240);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
@@ -95,7 +95,8 @@ module.exports = {
             else if (user.id === '515443335012286465') {
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}`, 420, 100);
+                console.log(user.user.username)
+                ctx.fillText(`${user.user.username}`, 420, 100);
                 ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 450);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
@@ -126,7 +127,7 @@ module.exports = {
             else {
                 ctx.font = '50px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
+                ctx.fillText(`${user.user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
@@ -162,7 +163,7 @@ module.exports = {
                 ctx.font = '30px Impact';
                 ctx.rotate(0);
                 ctx.fillText(`${message.author.username}`, 5, 30);
-                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 360, 370);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 330, 370);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
