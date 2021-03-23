@@ -19,6 +19,7 @@ class Rankimage {
      * @param {number} levelx 
      * @param {number} levely 
      * @param {boolean} original 
+     * @returns {number}
      */
 
     createimage(user, userleveldata, fontpx, color, userx, usery, levelx, levely, original) {
