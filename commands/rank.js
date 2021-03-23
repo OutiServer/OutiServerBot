@@ -2,7 +2,7 @@ const fs = require('fs');
 const jimp = require("jimp");
 const dataUriToBuffer = require('data-uri-to-buffer');
 const { createCanvas } = require('canvas');
-const { Message, MessageAttachment } = require("discord.js");
+const { Client, Message, MessageAttachment } = require("discord.js");
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
 
@@ -18,12 +18,13 @@ module.exports = {
     },
 
     /**
+     * @param {Client} client
      * @param {Message} message 
      */
 
     run: async function (client, message, args) {
         message.channel.startTyping();
-        const user = message.mentions.users.first() || message.guild.member(args[0]);
+        const user = message.mentions.users.first() || client.users.cache.get(args[0]);
 
         if (user) {
             const userleveldata = db.levelget(user.id, message.guild.id);
