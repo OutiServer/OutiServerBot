@@ -1,5 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-const admins = require('../dat/admin.json');
+const admins = require('../dat/json/admin.json');
 
 module.exports = {
   info: {
