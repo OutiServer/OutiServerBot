@@ -27,8 +27,8 @@ module.exports = {
 
         if (user) {
             const userleveldata = db.levelget(user.id, message.guild.id);
-            const canvas = createCanvas(1500, 700)
-            const ctx = canvas.getContext('2d')
+            const canvas = createCanvas(1500, 700);
+            const ctx = canvas.getContext('2d');
 
             ctx.font = '50px Impact';
             ctx.rotate(0);
@@ -56,6 +56,7 @@ module.exports = {
                             message.channel.stopTyping();
                         });
                     });
+
             });
         }
         else {
