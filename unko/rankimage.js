@@ -4,7 +4,7 @@ const jimp = require("jimp");
 const dataUriToBuffer = require('data-uri-to-buffer');
 const { createCanvas } = require('canvas');
 
-class rankimage {
+class Rankimage {
     constructor() {
 
     }
@@ -62,4 +62,4 @@ class rankimage {
     }
 }
 
-module.exports = rankimage;
+module.exports = Rankimage;
