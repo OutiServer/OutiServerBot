@@ -1,5 +1,5 @@
 const { Client } = require('discord.js');
-const status = require('../../dat/status.json');
+const status = require('../../dat/json/status.json');
 
 /**
  * @param {Client} client
