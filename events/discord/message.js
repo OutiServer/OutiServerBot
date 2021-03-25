@@ -5,7 +5,7 @@ const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
 const admins = require('../../dat/json/admin.json');
 const all_emojis = require('../../dat/json/all_emojis.json');
-const e = require('express');
+const all_ngwords = require('../../dat/json/all_ngwords.json');
 let cooldown = new Map();
 
 /**
@@ -42,6 +42,11 @@ module.exports = async (client, message) => {
   if (!message.guild || message.system || message.author.bot) return;
 
   yomiage(client, message);
+
+  if (all_ngwords.includes(message.content) && message.channel.id !== '714404103224164423' && !admins.includes(message.author.id)) {
+    message.delete();
+    message.channel.send('<:owox:741467232869154907>');
+  }
 
   if (message.channel.name === 'うんこ鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
     if (message.attachments.size <= 0) {
