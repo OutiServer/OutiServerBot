@@ -25,11 +25,11 @@ module.exports = {
             if (err) return console.error(err);
             files.forEach((file) => {
                 if (!file.endsWith(".js")) return;
-                let props = require(`./commands/${file}`);
+                let props = require(`../commands/${file}`);
                 let commandName = file.split(".")[0];
                 client.commands.set(commandName, props);
                 console.log("コマンドファイルのリロード完了: " + commandName);
-                message.channel.send(`Command file ${commandName} Loading completed`);
+                message.channel.send(`Command file \`${commandName}\` Loading completed`);
             });
         });
     }
