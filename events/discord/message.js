@@ -93,6 +93,7 @@ module.exports = async (client, message) => {
   let userleveldata = db.levelget(message.author.id, message.guild.id);
 
   if (message.guild.id === '706452606918066237') {
+    if (userleveldata >= 10) message.member.roles.add('824554360699879455');
     if (!cooldown.get(message.author.id)) {
       let xp = Math.ceil(Math.random() * 25);
       userleveldata.xp += xp
