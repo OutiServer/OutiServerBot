@@ -36,7 +36,7 @@ module.exports = {
                 ctx.fillStyle = '#00f70c';
                 ctx.rotate(0);
                 ctx.fillText(`${user.username}`, 5, 30);
-                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 300, 370);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 300, 300);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
@@ -166,7 +166,7 @@ module.exports = {
                 ctx.fillStyle = '#00f70c';
                 ctx.rotate(0);
                 ctx.fillText(`${message.author.username}`, 5, 30);
-                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 300, 370);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 300, 300);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
