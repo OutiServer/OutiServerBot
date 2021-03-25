@@ -74,11 +74,12 @@ module.exports = {
 
         handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
             if (reaction.emoji.name === '🎫') {
-                let ticketdata = db.TicketGet('706452606918066237');
+                let ticketdata = db.ServerSettingGet('706452606918066237');
                 client.guilds.cache.get('706452606918066237').channels.create(`${ticketdata.ticketid}-お問い合わせ`,
                     {
                         type: 'text',
                         parent: '821684794056245258',
+                        topic: `${user.id}さん専用のお問い合わせチャンネル`,
                         permissionOverwrites: [
                             {
                                 id: '706452606918066237',
@@ -101,7 +102,7 @@ module.exports = {
                             .setTimestamp())
                     );
                 ticketdata.ticketid++;
-                db.TicketSet(ticketdata);
+                db.ServerSettingSet(ticketdata);
             }
         });
     }
