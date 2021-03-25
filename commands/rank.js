@@ -4,6 +4,7 @@ const dataUriToBuffer = require('data-uri-to-buffer');
 const { createCanvas } = require('canvas');
 const { Client, Message, MessageAttachment } = require("discord.js");
 const { Database } = require('../unko/index');
+const rankimage = require('../dat/json/rankimage.json');
 const db = new Database('unkoserver.db');
 
 module.exports = {
@@ -30,13 +31,43 @@ module.exports = {
             const userleveldata = db.levelget(user.id, message.guild.id);
             const canvas = createCanvas(1500, 700);
             const ctx = canvas.getContext('2d');
+            const rankimagedata = rankimage['714455926970777602'];
 
-            if (user.id === '714455926970777602') {
-                ctx.font = '30px Impact';
-                ctx.fillStyle = '#00f70c';
+            if (!rankimagedata) {
+                ctx.font = '50px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}`, 5, 30);
-                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 250, 370);
+                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
+
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = ['./dat/images/default.png', './dat/images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
+                                message.channel.stopTyping();
+                            });
+                        });
+                });
+            }
+            else {
+                ctx.font = `${rankimagedata.font}px Impact`;
+                ctx.fillStyle = rankimagedata.fillStyle;
+                ctx.rotate(0);
+                ctx.fillText(`${user.username}`, rankimagedata.usernamex, rankimagedata.usernamey);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, rankimagedata.levelx, rankimagedata.levely);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
@@ -62,6 +93,10 @@ module.exports = {
                         });
 
                 });
+            }
+
+            if (user.id === '714455926970777602') {
+
             }
             else if (user.id === '440863982413283342') {
                 ctx.font = '30px Impact';
@@ -127,9 +162,19 @@ module.exports = {
                 });
             }
             else {
+
+            }
+        }
+        else {
+            const userleveldata = db.levelget(message.author.id, message.guild.id);
+            const canvas = createCanvas(1500, 700);
+            const ctx = canvas.getContext('2d');
+            const rankimagedata = rankimage[message.author.id];
+
+            if (!rankimagedata) {
                 ctx.font = '50px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
+                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
 
@@ -155,12 +200,38 @@ module.exports = {
                         });
                 });
             }
-        }
-        else {
-            const userleveldata = db.levelget(message.author.id, message.guild.id);
-            const canvas = createCanvas(1500, 700);
-            const ctx = canvas.getContext('2d');
+            else {
+                ctx.font = `${rankimagedata.font}px Impact`;
+                ctx.fillStyle = rankimagedata.fillStyle;
+                ctx.rotate(0);
+                ctx.fillText(`${message.author.username}`, rankimagedata.usernamex, rankimagedata.usernamey);
+                ctx.fillText(`${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, rankimagedata.levelx, rankimagedata.levely);
+                const canvasDataUrl = canvas.toDataURL();
+                const decoded = dataUriToBuffer(canvasDataUrl);
 
+                fs.writeFile('./dat/images/level.png', decoded, (err) => {
+                    if (err) return console.log(err);
+
+                    var images = [`./dat/images/${message.author.id}.png`, './dat/images/level.png'];
+                    var jimps = [];
+                    for (var i = 0; i < images.length; i++) {
+                        jimps.push(jimp.read(images[i]));
+                    }
+
+                    Promise.all(jimps)
+                        .then(function () {
+                            return Promise.all(jimps);
+                        })
+                        .then(function (data) {
+                            data[0].composite(data[1], 0, 0);
+                            data[0].write('./dat/images/rank.png', function () {
+                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
+                                message.channel.stopTyping();
+                            });
+                        });
+
+                });
+            }
             if (message.author.id === '714455926970777602') {
                 ctx.font = '30px Impact';
                 ctx.fillStyle = '#00f70c';
@@ -256,33 +327,7 @@ module.exports = {
                 });
             }
             else {
-                ctx.font = '50px Impact';
-                ctx.rotate(0);
-                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
-                const canvasDataUrl = canvas.toDataURL();
-                const decoded = dataUriToBuffer(canvasDataUrl);
 
-                fs.writeFile('./dat/images/level.png', decoded, (err) => {
-                    if (err) return console.log(err);
-
-                    var images = ['./dat/images/default.png', './dat/images/level.png'];
-                    var jimps = [];
-                    for (var i = 0; i < images.length; i++) {
-                        jimps.push(jimp.read(images[i]));
-                    }
-
-                    Promise.all(jimps)
-                        .then(function () {
-                            return Promise.all(jimps);
-                        })
-                        .then(function (data) {
-                            data[0].composite(data[1], 0, 0);
-                            data[0].write('./dat/images/rank.png', function () {
-                                message.channel.send(new MessageAttachment('./dat/images/rank.png'));
-                                message.channel.stopTyping();
-                            });
-                        });
-                });
             }
         }
 
