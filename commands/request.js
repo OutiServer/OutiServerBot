@@ -1,6 +1,6 @@
 const fs = require('fs');
 const request = require('request');
-const { Message, Client, MessageEmbed } = require("discord.js");
+const { Message, Client } = require("discord.js");
 const { Database } = require('../unko/index');
 const rankimage = require('../dat/json/rankimage.json');
 const db = new Database('unkoserver.db');
