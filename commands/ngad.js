@@ -25,6 +25,9 @@ module.exports = {
             message.react('816282137065947136');
             return message.reply('第一引数に追加するNGワードを入れてください！');
         }
+
+        all_ngwords.push(addng_word);
+
         fs.writeFile('../dat/json/all_ngwords.json', JSON.stringify(all_ngwords, null, ' '), (err) => {
             if (err) {
                 console.log(err);
