@@ -106,7 +106,7 @@ module.exports = {
             if (!rankimagedata) {
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
-                const avatar = await loadImage(user.displayAvatarURL({ format: 'jpg' }));
+                const avatar = await loadImage(message.author.displayAvatarURL({ format: 'jpg' }));
                 ctx.drawImage(avatar, 25, 25, 200, 200);
                 ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
                 const canvasDataUrl = canvas.toDataURL();
