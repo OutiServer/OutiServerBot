@@ -1,4 +1,5 @@
 const fs = require('fs');
+const request = require('request');
 const { Message, Client, MessageEmbed } = require("discord.js");
 const { Database } = require('../unko/index');
 const rankimage = require('../dat/json/rankimage.json');
@@ -32,22 +33,34 @@ module.exports = {
             return message.reply('リクエストする画像を一緒に送信してください！');
         }
         message.attachments.forEach(attachment => {
-            rankimage[message.author.id] = {
-                "font": 80,
-                "fillStyle": "#000000",
-                "usernamex": null,
-                "usernamey": null,
-                "levelx": 500,
-                "levely": 200
-            }
-            fs.writeFile('./dat/json/rankimage.json', JSON.stringify(rankimage, null, ' '), (err) => {
-                if (err) {
-                    console.log(err);
-                    return message.channel.send(err, { code: true });
-                }
+            request(
+                {
+                    method: 'GET',
+                    url: attachment.url,
+                    encoding: null
+                },
+                function (error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        fs.writeFileSync(`./dat/images/${message.author.id}.png`, body, 'binary');
+                        rankimage[message.author.id] = {
+                            "font": 80,
+                            "fillStyle": "#000000",
+                            "usernamex": null,
+                            "usernamey": null,
+                            "levelx": 500,
+                            "levely": 200
+                        }
+                        fs.writeFile('./dat/json/rankimage.json', JSON.stringify(rankimage, null, ' '), (err) => {
+                            if (err) {
+                                console.log(err);
+                                return message.channel.send(err, { code: true });
+                            }
 
-                message.channel.send('level画像をリクエストしました！');
-            });
+                            message.channel.send('level画像をリクエストしました！');
+                        });
+                    }
+                }
+            );
         })
     }
 }
