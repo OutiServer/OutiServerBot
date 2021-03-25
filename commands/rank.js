@@ -1,7 +1,7 @@
 const fs = require('fs');
 const jimp = require("jimp");
 const dataUriToBuffer = require('data-uri-to-buffer');
-const { createCanvas } = require('canvas');
+const { createCanvas, loadImage } = require('canvas');
 const { Client, Message, MessageAttachment } = require("discord.js");
 const { Database } = require('../unko/index');
 const rankimage = require('../dat/json/rankimage.json');
@@ -36,6 +36,8 @@ module.exports = {
             if (!rankimagedata) {
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
+                const avatar = await loadImage(user.displayAvatarURL({ format: 'jpg' }));
+                ctx.drawImage(avatar, 25, 25, 200, 200);
                 ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
@@ -104,6 +106,8 @@ module.exports = {
             if (!rankimagedata) {
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
+                const avatar = await loadImage(user.displayAvatarURL({ format: 'jpg' }));
+                ctx.drawImage(avatar, 25, 25, 200, 200);
                 ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
                 const canvasDataUrl = canvas.toDataURL();
                 const decoded = dataUriToBuffer(canvasDataUrl);
