@@ -28,7 +28,7 @@ module.exports = {
 
         all_ngwords.push(addng_word);
 
-        fs.writeFile('../dat/json/all_ngwords.json', JSON.stringify(all_ngwords, null, ' '), (err) => {
+        fs.writeFile('./dat/json/all_ngwords.json', JSON.stringify(all_ngwords, null, ' '), (err) => {
             if (err) {
                 console.log(err);
                 return message.channel.send(err, { code: true });
