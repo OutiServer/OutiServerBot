@@ -6,6 +6,7 @@ const db = new Database('unkoserver.db');
 const admins = require('../../dat/json/admin.json');
 const all_emojis = require('../../dat/json/all_emojis.json');
 const all_ngwords = require('../../dat/json/all_ngwords.json');
+const bans = require('../../dat/json/ban.json');
 let cooldown = new Map();
 
 /**
@@ -14,6 +15,7 @@ let cooldown = new Map();
  */
 
 module.exports = async (client, message) => {
+  if (bans.includes(message.author.id)) return;
   if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
       message.channel.send('Bumpを確認しました、二時間後に通知します');
