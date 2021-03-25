@@ -20,15 +20,15 @@ module.exports = {
 
     run: async function (client, message, args) {
         const user = message.mentions.users.first() || message.guild.member(args[0]);
-        if (user) {
+        if (!user) {
             message.react('816282137065947136');
             return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
         }
 
-        const addxp = Number(args[0]);
+        const addxp = Number(args[1]);
         if (!addxp) {
             message.react('816282137065947136');
-            return message.reply('経験値を付与する数を第一引数に入れてください！');
+            return message.reply('経験値を付与する数を第二引数に入れてください！');
         }
 
         let userleveldata = db.levelget(user.id, message.guild.id);
