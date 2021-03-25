@@ -6,5 +6,21 @@
         "usernamey": 30,
         "levelx": 250,
         "levely": 370
+    },
+    "440863982413283342": {
+        "font": 30,
+        "fillStyle": "#000000",
+        "usernamex": 420,
+        "usernamey": 30,
+        "levelx": 250,
+        "levely": 240
+    },
+    "515443335012286465": {
+        "font": 80,
+        "fillStyle": "#ffffff",
+        "usernamex": 420,
+        "usernamey": 100,
+        "levelx": 500,
+        "levely": 450
     }
 }
