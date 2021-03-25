@@ -34,7 +34,7 @@ module.exports = {
             const rankimagedata = rankimage[user.id];
 
             if (!rankimagedata) {
-                ctx.font = '50px Impact';
+                ctx.font = '80px Impact';
                 ctx.rotate(0);
                 ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
                 const canvasDataUrl = canvas.toDataURL();
@@ -102,7 +102,7 @@ module.exports = {
             const rankimagedata = rankimage[message.author.id];
 
             if (!rankimagedata) {
-                ctx.font = '50px Impact';
+                ctx.font = '80px Impact';
                 ctx.rotate(0);
                 ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, 500, 200);
                 const canvasDataUrl = canvas.toDataURL();
