@@ -1,5 +1,7 @@
+const fs = require('fs');
 const { Message, Client, MessageEmbed } = require("discord.js");
 const { Database } = require('../unko/index');
+const rankimage = require('../dat/json/rankimage.json');
 const db = new Database('unkoserver.db');
 
 module.exports = {
@@ -30,14 +32,22 @@ module.exports = {
             return message.reply('リクエストする画像を一緒に送信してください！');
         }
         message.attachments.forEach(attachment => {
-            client.channels.cache.get('823573179309359135').send(
-                new MessageEmbed()
-                    .setDescription(`${message.author.tag}の画像リクエストです`)
-                    .setImage(attachment.url)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-            );
-            message.channel.send('level画像をリクエストしました');
+            rankimage[message.author.id] = {
+                "font": 80,
+                "fillStyle": "#000000",
+                "usernamex": null,
+                "usernamey": null,
+                "levelx": 500,
+                "levely": 200
+            }
+            fs.writeFile('./dat/json/rankimage.json', JSON.stringify(rankimage, null, ' '), (err) => {
+                if (err) {
+                    console.log(err);
+                    return message.channel.send(err, { code: true });
+                }
+
+                message.channel.send('level画像をリクエストしました！');
+            });
         })
     }
 }
