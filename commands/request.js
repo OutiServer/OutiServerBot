@@ -22,6 +22,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        return message.reply('現在レベル画像リクエストは調整中です！');
         const userleveldata = db.levelget(message.author.id, message.guild.id);
         if (userleveldata.level < 10) {
             message.react('793460058250805259');
