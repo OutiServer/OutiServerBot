@@ -1,8 +1,5 @@
-const fs = require('fs');
-const jimp = require("jimp");
-const dataUriToBuffer = require('data-uri-to-buffer');
 const { createCanvas, loadImage } = require('canvas');
-const { Client, Message, MessageAttachment, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageAttachment } = require("discord.js");
 const { Database } = require('../unko/index');
 const rankimage = require('../dat/json/rankimage.json');
 const db = new Database('unkoserver.db');
