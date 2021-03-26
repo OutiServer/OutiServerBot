@@ -31,7 +31,7 @@ class Database {
 
         const Serverjoindedtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'serverjoindeds';").get();
         if (!Serverjoindedtable['count(*)']) {
-            this.sql.prepare("CREATE TABLE serverjoindeds (id TEXT PRIMARY KEY, case INTEGER, time TEXT, joinded INTEGER);").run();
+            this.sql.prepare("CREATE TABLE serverjoindeds (id TEXT PRIMARY KEY, serverjoindedcase INTEGER, time TEXT, joinded INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_serverjoindeds_id ON serverjoindeds (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
@@ -92,7 +92,7 @@ class Database {
     }
 
     Serverjoindedset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, case, time, joinded) VALUES (@id, @case, @time, @joinded;').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, serverjoindedcase, time, joinded) VALUES (@id, @serverjoindedcase, @time, @joinded;').run(data);
     }
 
     /**

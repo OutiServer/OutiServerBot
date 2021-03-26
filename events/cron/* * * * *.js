@@ -18,8 +18,9 @@ module.exports = (client) => {
                         const time = new Date();
                         const serversettingdata = db.ServerSettingGet('706452606918066237');
                         serversettingdata.serverjoindedcase++;
-                        db.Serverjoindedset({ id: serversettingdata.serverjoindedcase, case: serversettingdata.serverjoindedcase, time: `${time.getMonth()}月${time.getDate()}日${time.getHours}時${time.getMinutes()}分`, joinded: result.onlinePlayers });
+                        db.Serverjoindedset({ id: serversettingdata.serverjoindedcase, serverjoindedcase: serversettingdata.serverjoindedcase, time: `${time.getMonth()}月${time.getDate()}日${time.getHours}時${time.getMinutes()}分`, joinded: result.onlinePlayers });
                         db.ServerSettingSet(serversettingdata);
+                        count = 0;
                     }
                     msg.edit(
                         new MessageEmbed()
