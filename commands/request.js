@@ -22,7 +22,6 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        return message.reply('現在レベル画像リクエストは調整中です！');
         const userleveldata = db.levelget(message.author.id, message.guild.id);
         if (userleveldata.level < 10) {
             message.react('793460058250805259');
@@ -46,10 +45,8 @@ module.exports = {
                         rankimage[message.author.id] = {
                             "font": 80,
                             "fillStyle": "#000000",
-                            "usernamex": null,
-                            "usernamey": null,
-                            "levelx": 500,
-                            "levely": 200
+                            "imagex": attachment.width,
+                            "imagey": attachment.height
                         }
                         fs.writeFile('./dat/json/rankimage.json', JSON.stringify(rankimage, null, ' '), (err) => {
                             if (err) {
@@ -57,7 +54,7 @@ module.exports = {
                                 return message.channel.send(err, { code: true });
                             }
 
-                            message.channel.send('level画像をリクエストしました！');
+                            message.channel.send('level画像を設定しました！');
                         });
                     }
                 }
