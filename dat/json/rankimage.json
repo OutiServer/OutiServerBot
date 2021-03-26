@@ -4,43 +4,39 @@
         "fillStyle": "#00f70c",
         "imagex": 534,
         "imagey": 378,
-        "usernamex": 5,
-        "usernamey": 30,
-        "levelx": 250,
-        "levely": 370
+        "textx": 250,
+        "texty": 370
     },
     "440863982413283342": {
         "font": 30,
         "fillStyle": "#000000",
         "imagex": 600,
         "imagey": 249,
-        "usernamex": 420,
-        "usernamey": 30,
-        "levelx": 250,
-        "levely": 240
+        "textx": 250,
+        "texty": 240
     },
     "515443335012286465": {
         "font": 80,
         "fillStyle": "#000000",
-        "usernamex": 500,
-        "usernamey": 400,
-        "levelx": 500,
-        "levely": 200
+        "imagex": 1920,
+        "imagey": 1080,
+        "textx": 500,
+        "texty": 200
     },
     "557821971614924820": {
         "font": 80,
         "fillStyle": "#000000",
-        "usernamex": null,
-        "usernamey": null,
-        "levelx": 500,
-        "levely": 200
+        "imagex": 1575,
+        "imagey": 675,
+        "textx": 500,
+        "texty": 200
     },
     "698462830458044468": {
         "font": 80,
         "fillStyle": "#000000",
-        "usernamex": null,
-        "usernamey": null,
-        "levelx": 500,
-        "levely": 200
+        "imagex": 1708,
+        "imagey": 959,
+        "textx": 500,
+        "texty": 200
     }
 }
