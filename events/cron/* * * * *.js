@@ -1,5 +1,6 @@
 const { Client, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
+let count = 0;
 
 /**
  * @param {Client} client
@@ -10,6 +11,10 @@ module.exports = (client) => {
         .then(msg => {
             util.statusBedrock('126.235.33.140', { timeout: 5000 })
                 .then((result) => {
+                    count++;
+                    if (count >= 10) {
+
+                    }
                     msg.edit(
                         new MessageEmbed()
                             .setTitle('💩うんこサーバーの現在の状態💩')
