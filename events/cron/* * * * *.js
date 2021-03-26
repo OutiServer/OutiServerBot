@@ -1,5 +1,7 @@
 const { Client, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
+const { Database } = require('../../unko/index');
+const db = new Database('unkoserver.db');
 let count = 0;
 
 /**
@@ -13,7 +15,11 @@ module.exports = (client) => {
                 .then((result) => {
                     count++;
                     if (count >= 10) {
-
+                        const time = new Date();
+                        const serversettingdata = db.ServerSettingGet('706452606918066237');
+                        serversettingdata.serverjoindedcase++;
+                        db.Serverjoindedset({ id: serversettingdata.serverjoindedcase, case: serversettingdata.serverjoindedcase, time: `${time.getMonth()}月${time.getDate()}日${time.getHours}時${time.getMinutes()}分`, joinded: result.onlinePlayers });
+                        db.ServerSettingSet(serversettingdata);
                     }
                     msg.edit(
                         new MessageEmbed()
