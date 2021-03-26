@@ -4,39 +4,34 @@
         "fillStyle": "#00f70c",
         "imagex": 534,
         "imagey": 378,
-        "textx": 250,
-        "texty": 370
+        "icon": false
     },
     "440863982413283342": {
         "font": 30,
         "fillStyle": "#000000",
         "imagex": 600,
         "imagey": 249,
-        "textx": 250,
-        "texty": 240
+        "icon": true
     },
     "515443335012286465": {
         "font": 80,
         "fillStyle": "#000000",
         "imagex": 1920,
         "imagey": 1080,
-        "textx": 500,
-        "texty": 200
+        "icon": true
     },
     "557821971614924820": {
         "font": 80,
         "fillStyle": "#000000",
         "imagex": 1575,
         "imagey": 675,
-        "textx": 500,
-        "texty": 200
+        "icon": true
     },
     "698462830458044468": {
         "font": 80,
         "fillStyle": "#000000",
         "imagex": 1708,
         "imagey": 959,
-        "textx": 500,
-        "texty": 200
+        "icon": true
     }
 }
