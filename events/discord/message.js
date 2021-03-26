@@ -105,7 +105,7 @@ module.exports = async (client, message) => {
     if (userleveldata.xp >= userleveldata.level * 55) {
       userleveldata.xp -= userleveldata.level * 55;
       userleveldata.level++;
-      const levelup = [`${message.author}、あなたのレベルが${userleveldata.level}に上がりました！<:owoxv:816282137065947136>`, `${message.author}、あなたのレベルが${userleveldata.level}に上がっりました！<:owotukkomi:778507729517412402>`, `GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`];
+      const levelup = [`${message.author}、あなたのレベルが${userleveldata.level}に上がりました！<:owoxv:816282137065947136>`, `${message.author}、あなたのレベルが${userleveldata.level}に上がっりました！<:owotukkomi:778507729517412402>`, `GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`, `${message.author} あなたのレベルが${userleveldata.level}に上がったで。😉`];
       let random = Math.floor(Math.random() * levelup.length);
       message.channel.send(levelup[random]);
     }
