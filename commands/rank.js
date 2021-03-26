@@ -100,7 +100,7 @@ module.exports = {
                     ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                     ctx.closePath();
                     ctx.clip();
-                    const avatar = await loadImage(user.displayAvatarURL({ format: 'jpg' }));
+                    const avatar = await loadImage(message.author.displayAvatarURL({ format: 'jpg' }));
                     ctx.drawImage(avatar, 25, 25, 200, 200);
                 }
                 message.channel.send(new MessageAttachment(canvas.toBuffer(), 'rank.png'));
