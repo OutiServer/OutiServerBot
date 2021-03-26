@@ -45,7 +45,7 @@ module.exports = async (client, message) => {
 
   yomiage(client, message);
 
-  if (all_ngwords.includes(message.content) && message.channel.id !== '714404103224164423' && !admins.includes(message.author.id)) {
+  if (all_ngwords.some(item => message.content.indexOf(item)) > -1 && message.channel.id !== '714404103224164423' && !admins.includes(message.author.id)) {
     message.delete();
     message.channel.send('<:owox:741467232869154907>');
   }
