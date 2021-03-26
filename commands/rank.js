@@ -38,14 +38,15 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
+                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
                 ctx.beginPath();
                 ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.clip();
                 const avatar = await loadImage(user.displayAvatarURL({ format: 'jpg' }));
                 ctx.drawImage(avatar, 25, 25, 200, 200);
-                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
                 message.channel.send(new MessageAttachment(canvas.toBuffer(), 'rank.png'));
+                message.channel.stopTyping();
             }
             else {
                 const canvas = createCanvas(1500, 500);
@@ -95,14 +96,15 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
+                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
                 ctx.beginPath();
                 ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.clip();
                 const avatar = await loadImage(message.author.displayAvatarURL({ format: 'jpg' }));
                 ctx.drawImage(avatar, 25, 25, 200, 200);
-                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
                 message.channel.send(new MessageAttachment(canvas.toBuffer(), 'rank.png'));
+                message.channel.stopTyping();
             }
             else {
                 const canvas = createCanvas(1500, 500);
