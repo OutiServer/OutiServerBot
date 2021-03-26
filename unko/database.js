@@ -9,10 +9,10 @@ class Database {
      */
 
     constructor(database_filename) {
-        this.sql = new SQLite(`${database_filename}`); //db接続
+        this.sql = new SQLite(`${database_filename}`);
     }
 
-    Initialize() { //初期設定色々
+    Initialize() {
         const Leveltable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'levels';").get();
         if (!Leveltable['count(*)']) {
             this.sql.prepare("CREATE TABLE levels (id TEXT PRIMARY KEY, user TEXT, guild TEXT, level INTEGER, xp INTEGER, allxp INTEGER);").run();
@@ -21,10 +21,18 @@ class Database {
             this.sql.pragma("journal_mode = wal");
         }
 
-        const Tickettable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'serversettings';").get();
-        if (!Tickettable['count(*)']) {
-            this.sql.prepare("CREATE TABLE serversettings (id TEXT PRIMARY KEY, guild TEXT, ticketid INTEGER);").run();
+        const ServerSettingtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'serversettings';").get();
+        if (!ServerSettingtable['count(*)']) {
+            this.sql.prepare("CREATE TABLE serversettings (id TEXT PRIMARY KEY, guild TEXT, ticketid INTEGER, serverjoindedcase INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_serversettings_id ON serversettings (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
+
+        const Serverjoindedtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'serverjoindeds';").get();
+        if (!Serverjoindedtable['count(*)']) {
+            this.sql.prepare("CREATE TABLE serverjoindeds (id TEXT PRIMARY KEY, case INTEGER, time TEXT, joinded INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_serverjoindeds_id ON serverjoindeds (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
@@ -33,7 +41,6 @@ class Database {
     /**
      * @param {string} userid
      * @param {string} guildid
-     * @returns {object} 
      */
 
     levelget(userid, guildid) {
@@ -55,8 +62,7 @@ class Database {
     }
 
     /**
-     * @param {string} guildid 
-     * @returns {Array}
+     * @param {string} guildid
      */
 
     levelallget(guildid) {
@@ -70,7 +76,7 @@ class Database {
     ServerSettingGet(guildid) {
         let data = this.sql.prepare('SELECT * FROM serversettings WHERE guild = ?').get(guildid);
         if (!data) {
-            data = { id: `${guildid}`, guild: guildid, ticketid: 0 }
+            data = { id: `${guildid}`, guild: guildid, ticketid: 0, serverjoindedcase: 0 }
             this.TicketSet(data);
         }
 
@@ -78,7 +84,15 @@ class Database {
     }
 
     ServerSettingSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO serversettings (id, guild, ticketid) VALUES (@id, @guild, @ticketid);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, serverjoindedcase);').run(data);
+    }
+
+    Serverjoindedallget() {
+        return this.sql.prepare('SELECT * FROM serverjoindeds ORDER BY case ASC;').all();
+    }
+
+    Serverjoindedset(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, case, time, joinded) VALUES (@id, @case, @time, @joinded;').run(data);
     }
 
     /**
