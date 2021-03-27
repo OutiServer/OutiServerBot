@@ -118,7 +118,7 @@ module.exports = {
             const todonumber = args[1];
             if (!todonumber) {
                 message.react('816282137065947136');
-                message.reply('第二引数に完了するTodoの識別番号を入れてください！');
+                return message.reply('第二引数に完了するTodoの識別番号を入れてください！');
             }
 
             const usertododata = db.Todolistget(message.author.id, todonumber);

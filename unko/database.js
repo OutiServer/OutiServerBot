@@ -200,7 +200,7 @@ class Database {
      */
 
     Todoremove(userid, count) {
-        this.sql.prepare('DELETE FROM todolists WHERE user ? AND count = ?').run(userid, count);
+        this.sql.prepare('DELETE FROM todolists WHERE user = ? AND count = ?').run(userid, count);
     }
 
     /**
