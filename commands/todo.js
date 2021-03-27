@@ -37,8 +37,8 @@ module.exports = {
             if (!response) return;
             const title = response.content;
             msg.edit('追加するTodoの説明を送信してください');
-            const filter = msg => msg.author.id === message.author.id;
-            const collected2 = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
+            const filter2 = msg => msg.author.id === message.author.id;
+            const collected2 = await message.channel.awaitMessages(filter2, { max: 1, time: 30000 });
             const response2 = collected2.first();
             if (!response2) return;
             const description = response2.content;
