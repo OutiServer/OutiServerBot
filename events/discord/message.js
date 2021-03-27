@@ -3,9 +3,6 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const { Database } = require('../../unko/index');
 const db = new Database('unkoserver.db');
-const admins = require('../../dat/json/admin.json');
-const all_emojis = require('../../dat/json/all_emojis.json');
-const bans = require('../../dat/json/ban.json');
 let cooldown = new Map();
 
 /**
@@ -18,28 +15,30 @@ module.exports = async (client, message) => {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
       message.channel.send('Bumpを確認しました、二時間後に通知します');
       setTimeout(() => {
-        message.channel.send(`Bumpしてから二時間経ちました\n\`!d bump\` を実行しましょう${all_emojis.うんこ鯖こいよ}`);
+        message.channel.send(`Bumpしてから二時間経ちました\n\`!d bump\` を実行しましょう<:emoji_121:820198227147751474>`);
       }, 7200000);
     }
     else if (message.embeds[0].color == "15420513" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
       const waittime_bump = message.embeds[0].description.split("と")[1].split("分")[0];
-      message.channel.send(`Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！${all_emojis.unkooo}`);
+      message.channel.send(`Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
     }
   }
   else if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
       message.channel.send('Upを確認しました、一時間後に通知します');
       setTimeout(() => {
-        message.channel.send(`Upしてから一時間経ちました\n\`/dissoku up!\` を実行しましょう${all_emojis.うんこ鯖こいよ}`);
+        message.channel.send(`Upしてから一時間経ちました\n\`/dissoku up!\` を実行しましょう<:emoji_121:820198227147751474>`);
       }, 3600000);
     }
     else if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].value.startsWith('間隔をあけてください')) {
       const waittime_up = message.embeds[0].fields[0].value.split("間隔をあけてください")[1].split('(')[1].split(')')[0];
-      message.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！${all_emojis.unkooo}`);
+      message.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
     }
   }
 
-  if (!message.guild || message.system || message.author.bot || bans.includes(message.author.id)) return;
+  let usersettingdata = db.UserSettingget(message.author.id);
+
+  if (!message.guild || message.system || message.author.bot || usersettingdata.ban === 1) return;
 
   yomiage(client, message);
 
@@ -132,7 +131,7 @@ module.exports = async (client, message) => {
     message.react('793460058250805259');
     return message.reply('そんなコマンドないで。😉');
   }
-  else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !admins.includes(message.author.id)) {
+  else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && usersettingdata.admin !== 1) {
     message.react('793460058250805259');
     return message.reply('そのコマンドを使う権限が足りてないで。😉');
   }
