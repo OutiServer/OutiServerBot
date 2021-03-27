@@ -216,7 +216,7 @@ class Database {
      */
 
     Todolistremoveall(userid) {
-        this.sql.prepare('DELETE FROM todolists WHERE user ?').run(userid);
+        this.sql.prepare('DELETE FROM todolists WHERE user = ?').run(userid);
     }
 
     /**
