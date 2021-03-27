@@ -235,7 +235,7 @@ module.exports = {
                     .setTitle(`識別番号${usertododata.count}の詳細`)
                     .addField('Todo名', usertododata.title)
                     .addField('Todoの説明', usertododata.description)
-                    .addField('完了済み', usertododata.completion.replace(0, 'No').replace(1, 'Yes'))
+                    .addField('完了済み', usertododata.completion)
                     .setColor('RANDOM')
                     .setTimestamp()
             );
