@@ -1,6 +1,6 @@
+const fs = require('fs');
 const { Client, MessageAttachment } = require('discord.js');
 const SQLite = require("better-sqlite3");
-const fs = require('fs');
 
 class Database {
 
@@ -33,6 +33,30 @@ class Database {
         if (!Serverjoindedtable['count(*)']) {
             this.sql.prepare("CREATE TABLE serverjoindeds (id TEXT PRIMARY KEY, serverjoindedcase INTEGER, time TEXT, joinded INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_serverjoindeds_id ON serverjoindeds (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
+
+        const UserSettingtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'usersettings';").get();
+        if (!UserSettingtable['count(*)']) {
+            this.sql.prepare("CREATE TABLE usersettings (id TEXT PRIMARY KEY, user TEXT, ban INTEGER, admin INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_usersettings_id ON usersettings (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
+
+        const Ngwordtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'ngwords';").get();
+        if (!Ngwordtable['count(*)']) {
+            this.sql.prepare("CREATE TABLE ngwords (id TEXT PRIMARY KEY, word TEXT);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_ngwords_id ON ngwords (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
+
+        const Rankimagetable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'rankimages';").get();
+        if (!Rankimagetable['count(*)']) {
+            this.sql.prepare("CREATE TABLE rankimages (id TEXT PRIMARY KEY, user TEXT, font INTEGER, fillStyle TEXT, imagex INTEGER, imagey INTEGER, icon INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_rankimages_id ON rankimages (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
@@ -77,14 +101,14 @@ class Database {
         let data = this.sql.prepare('SELECT * FROM serversettings WHERE guild = ?').get(guildid);
         if (!data) {
             data = { id: `${guildid}`, guild: guildid, ticketid: 0, serverjoindedcase: 0 }
-            this.TicketSet(data);
+            this.ServerSettingSet(data);
         }
 
         return data;
     }
 
     ServerSettingSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, serverjoindedcase);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, @serverjoindedcase);').run(data);
     }
 
     Serverjoindedallget() {
@@ -92,7 +116,59 @@ class Database {
     }
 
     Serverjoindedset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, serverjoindedcase, time, joinded) VALUES (@id, @serverjoindedcase, @time, @joinded;').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, serverjoindedcase, time, joinded) VALUES (@id, @serverjoindedcase, @time, @joinded);').run(data);
+    }
+
+    /**
+     * @param {string} userid 
+     */
+
+    UserSettingget(userid) {
+        let data = this.sql.prepare('SELECT * FROM usersettings WHERE user = ?').get(userid);
+        if (!data) {
+            data = { id: `${userid}`, user: userid, ban: 0, admin: 0 }
+            this.UserSettingset(data);
+        }
+
+        return data;
+    }
+
+    UserSettingset(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO usersettings (id, user, ban, admin) VALUES (@id, @user, @ban, @admin);').run(data);
+    }
+
+    ngwordset(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO ngwords (id, word) VALUES (@id, @word);').run(data);
+    }
+
+    ngwordgetall() {
+        return this.sql.prepare("SELECT * FROM ngwords ORDER BY word DESC;").all();
+    }
+
+    /**
+     * @param {string} word 
+     */
+
+    ngworddelete(word) {
+        this.sql.prepare('DELETE FROM ngwords WHERE word = ?').run(word);
+    }
+
+    /**
+     * @param {string} userid 
+     */
+
+    Rankimageget(userid) {
+        let data = this.sql.prepare('SELECT * FROM rankimages WHERE user = ?').get(userid);
+        if (!data) {
+            data = { id: `${userid}`, user: userid, font: null, fillstyle: null, imagex: null, imagey: null, icon: null }
+            this.Rankimageset(data);
+        }
+
+        return data;
+    }
+
+    Rankimageset(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
     }
 
     /**
