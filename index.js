@@ -11,7 +11,7 @@ fs.readdir(__dirname + "/events/process/", (err, files) => {
     const event = require(__dirname + `/events/process/${file}`);
     let eventName = file.split(".")[0];
     process.on(eventName, event.bind(null, client))
-    console.log("Processイベントのロード完了: " + eventName);
+    console.log(`Process ${eventName} event is Loading completed`);
   });
 });
 
@@ -21,7 +21,7 @@ fs.readdir(__dirname + "/events/discord/", (err, files) => {
     const event = require(__dirname + `/events/discord/${file}`);
     let eventName = file.split(".")[0];
     client.on(eventName, event.bind(null, client));
-    console.log("Discordイベントのロード完了: " + eventName);
+    console.log(`Discord ${eventName} event is Loading completed`);
   });
 });
 
@@ -32,7 +32,7 @@ fs.readdir("./commands/", (err, files) => {
     let props = require(`./commands/${file}`);
     let commandName = file.split(".")[0];
     client.commands.set(commandName, props);
-    console.log("コマンドファイルのロード完了: " + commandName);
+    console.log(`${commandName} command is Loading completed`);
   });
 });
 
@@ -42,7 +42,7 @@ fs.readdir(__dirname + "/events/cron/", (err, files) => {
     const event = require(__dirname + `/events/cron/${file}`);
     let eventTime = file.split(".")[0];
     cron.schedule(eventTime, event.bind(null, client));
-    console.log("時間イベントのロード完了: " + eventTime);
+    console.log(`time ${eventTime} event is Loading completed`);
   });
 });
 
