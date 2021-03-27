@@ -145,7 +145,7 @@ module.exports = {
                 return message.reply('その識別番号のTodoは存在しないようです。');
             }
 
-            const msg = await message.channel.send('変更する項目を送信してください、0で処理を止める\n`title`, `description`',
+            const msg = await message.channel.send('変更する項目を送信してください、0で処理を止める\n`title`, `description` ',
                 new MessageEmbed()
                     .setTitle('現在の設定')
                     .addField('title', usertododata.title)
@@ -190,7 +190,13 @@ module.exports = {
                 response.delete();
                 db.Todolistset(usertododata);
 
-                msg.edit(`Titleを${usertododata.title}に変更しました`);
+                msg.edit(`Titleを${usertododata.title}に変更しました`,
+                    new MessageEmbed()
+                        .setTitle('現在の設定')
+                        .addField('title', usertododata.title)
+                        .addField('description', usertododata.description)
+                        .setColor('RANDOM')
+                        .setTimestamp());
             }
             else if (type === 'description') {
                 msg.edit('新しい説明を送信してください', '');
@@ -202,8 +208,37 @@ module.exports = {
                 response.delete();
                 db.Todolistset(usertododata);
 
-                msg.edit(`説明を${usertododata.description}に変更しました`);
+                msg.edit(`説明を${usertododata.description}に変更しました`,
+                    new MessageEmbed()
+                        .setTitle('現在の設定')
+                        .addField('title', usertododata.title)
+                        .addField('description', usertododata.description)
+                        .setColor('RANDOM')
+                        .setTimestamp());
             }
+        }
+        else if (command === 'info') {
+            const todonumber = args[1];
+            if (!todonumber) {
+                message.react('816282137065947136');
+                return message.reply('第二引数に完了するTodoの識別番号を入れてください！');
+            }
+
+            const usertododata = db.Todolistget(message.author.id, todonumber);
+            if (!usertododata) {
+                message.react('816282137065947136');
+                return message.reply('その識別番号のTodoは存在しないようです。');
+            }
+
+            message.channel.send(
+                new MessageEmbed()
+                    .setTitle(`識別番号${usertododata.count}の詳細`)
+                    .addField('Todo名', usertododata.title)
+                    .addField('Todoの説明', usertododata.description)
+                    .addField('完了済み', usertododata.completion.replace(0, 'No').replace(1, 'Yes'))
+                    .setColor('RANDOM')
+                    .setTimestamp()
+            );
         }
         else if (command === 'allremove') {
             db.Todolistremoveall(message.author.id);
@@ -214,7 +249,7 @@ module.exports = {
             message.channel.send(
                 new MessageEmbed()
                     .setTitle('To do うんこ')
-                    .setDescription(`\`${process.env.PREFIX}todo add\` TodoListに追加する\n\`${process.env.PREFIX}todo list\` TodoのList\n\`${process.env.PREFIX}todo remove [識別番号]\` TodoListから削除する\n\`${process.env.PREFIX}todo completion [識別番号]\` Todoを完了する\n\`${process.env.PREFIX}todo edit [識別番号]\` Todo編集コマンド\n\`${process.env.PREFIX}todo allremove\` Todoから全て削除`)
+                    .setDescription(`\`${process.env.PREFIX}todo add\` TodoListに追加する\n\`${process.env.PREFIX}todo list\` TodoのList\n\`${process.env.PREFIX}todo remove [識別番号]\` TodoListから削除する\n\`${process.env.PREFIX}todo completion [識別番号]\` Todoを完了する\n\`${process.env.PREFIX}todo edit [識別番号]\` Todo編集コマンド\n\`${process.env.PREFIX}todo info [識別番号]\` Todoの詳細\n\`${process.env.PREFIX}todo allremove\` Todoから全て削除`)
                     .setColor('RANDOM')
                     .setTimestamp()
             );

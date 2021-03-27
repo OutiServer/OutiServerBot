@@ -208,7 +208,7 @@ class Database {
      */
 
     Todolistgetall(userid) {
-        return this.sql.prepare("SELECT * FROM todolists WHERE user = ? ORDER BY count DESC;").all(userid);
+        return this.sql.prepare("SELECT * FROM todolists WHERE user = ? ORDER BY count ASC;").all(userid);
     }
 
     /**
