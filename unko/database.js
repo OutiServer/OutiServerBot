@@ -39,7 +39,7 @@ class Database {
 
         const UserSettingtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'usersettings';").get();
         if (!UserSettingtable['count(*)']) {
-            this.sql.prepare("CREATE TABLE usersettings (id TEXT PRIMARY KEY, user TEXT, ban INTEGER, admin INTEGER);").run();
+            this.sql.prepare("CREATE TABLE usersettings (id TEXT PRIMARY KEY, user TEXT, ban INTEGER, admin INTEGER, todocount INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_usersettings_id ON usersettings (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
@@ -57,6 +57,14 @@ class Database {
         if (!Rankimagetable['count(*)']) {
             this.sql.prepare("CREATE TABLE rankimages (id TEXT PRIMARY KEY, user TEXT, font INTEGER, fillStyle TEXT, imagex INTEGER, imagey INTEGER, icon INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_rankimages_id ON rankimages (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
+
+        const Todolisttable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'todolists';").get();
+        if (!Todolisttable['count(*)']) {
+            this.sql.prepare("CREATE TABLE todolists (id TEXT PRIMARY KEY, user TEXT, count INTEGER, title TEXT, description TEXT, completion INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_todolists_id ON todolists (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
@@ -126,7 +134,7 @@ class Database {
     UserSettingget(userid) {
         let data = this.sql.prepare('SELECT * FROM usersettings WHERE user = ?').get(userid);
         if (!data) {
-            data = { id: `${userid}`, user: userid, ban: 0, admin: 0 }
+            data = { id: `${userid}`, user: userid, ban: 0, admin: 0, todocount: 0 }
             this.UserSettingset(data);
         }
 
@@ -134,7 +142,7 @@ class Database {
     }
 
     UserSettingset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO usersettings (id, user, ban, admin) VALUES (@id, @user, @ban, @admin);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO usersettings (id, user, ban, admin, todocount) VALUES (@id, @user, @ban, @admin, @todocount);').run(data);
     }
 
     ngwordset(data) {
@@ -169,6 +177,46 @@ class Database {
 
     Rankimageset(data) {
         this.sql.prepare('INSERT OR REPLACE INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
+    }
+
+    /**
+     * @param {string} userid 
+     * @param {number} count 
+     */
+
+    Todolistget(userid, count) {
+        let data = this.sql.prepare('SELECT * FROM todolists WHERE user = ? AND count = ?').get(userid, count);
+
+        return data;
+    }
+
+    Todolistset(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO todolists (id, user, count, title, description, completion) VALUES (@id, @user, @count, @title, @description, @completion);').run(data);
+    }
+
+    /**
+     * @param {string} userid
+     * @param {number} count
+     */
+
+    Todoremove(userid, count) {
+        this.sql.prepare('DELETE FROM todolists WHERE user ? AND count = ?').run(userid, count);
+    }
+
+    /**
+     * @param {string} userid 
+     */
+
+    Todolistgetall(userid) {
+        return this.sql.prepare("SELECT * FROM todolists WHERE user = ? ORDER BY count DESC;").all(userid);
+    }
+
+    /**
+     * @param {string} userid 
+     */
+
+    Todolistremoveall(userid) {
+        this.sql.prepare('DELETE FROM todolists WHERE user ?').run(userid);
     }
 
     /**
