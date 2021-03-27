@@ -35,7 +35,7 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
+                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
                 ctx.beginPath();
                 ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                 ctx.closePath();
@@ -52,7 +52,7 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = `${rankimagedata.font}px Impact`;
                 ctx.rotate(0);
-                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
+                ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
                 if (rankimagedata.icon) {
                     ctx.beginPath();
                     ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
@@ -76,7 +76,7 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = '80px Impact';
                 ctx.rotate(0);
-                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
+                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
                 ctx.beginPath();
                 ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                 ctx.closePath();
@@ -94,7 +94,7 @@ module.exports = {
                 ctx.font = `${rankimagedata.font}px Impact`;
                 ctx.fillStyle = rankimagedata.fillStyle;
                 ctx.rotate(0);
-                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2.5, canvas.height / 1.8);
+                ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
                 if (rankimagedata.icon) {
                     ctx.beginPath();
                     ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
