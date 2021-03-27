@@ -20,16 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         const command = args[0];
-        if (!command) {
-            message.channel.send(
-                new MessageEmbed()
-                    .setTitle('To do うんこ')
-                    .setDescription(`\`${process.env.PREFIX}todo add\` TodoListに追加する\n\`${process.env.PREFIX}todo list\` TodoのList\n\`${process.env.PREFIX}todo remove [識別番号]\` TodoListから削除する\n\`${process.env.PREFIX}todo completion [識別番号]\` Todoを完了する\n\`${process.env.PREFIX}todo edit [識別番号]\` Todo編集コマンド\n\`${process.env.PREFIX}todo allremove\` Todoから全て削除`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-            );
-        }
-        else if (command === 'add') {
+        if (command === 'add') {
             const msg = await message.channel.send('Todoに追加する名前を送信してください');
             const filter = msg => msg.author.id === message.author.id;
             const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
@@ -73,7 +64,7 @@ module.exports = {
             for (let i = 0; i < Math.ceil(usertododata.length / 10); i++) {
                 embeds.push(
                     new MessageEmbed()
-                        .setTitle(`${message.author.id} TodoList ${i + 1}ページ目`)
+                        .setTitle(`${message.author.tag} TodoList ${i + 1}ページ目`)
                         .setColor('RANDOM')
                         .setTimestamp()
                 );
@@ -145,7 +136,7 @@ module.exports = {
             const todonumber = args[1];
             if (!todonumber) {
                 message.react('816282137065947136');
-                message.reply('第二引数に完了するTodoの識別番号を入れてください！');
+                return message.reply('第二引数に完了するTodoの識別番号を入れてください！');
             }
 
             const usertododata = db.Todolistget(message.author.id, todonumber);
@@ -218,6 +209,15 @@ module.exports = {
             db.Todolistremoveall(message.author.id);
 
             message.channel.send('あなたのTodoを全て削除しました')
+        }
+        else {
+            message.channel.send(
+                new MessageEmbed()
+                    .setTitle('To do うんこ')
+                    .setDescription(`\`${process.env.PREFIX}todo add\` TodoListに追加する\n\`${process.env.PREFIX}todo list\` TodoのList\n\`${process.env.PREFIX}todo remove [識別番号]\` TodoListから削除する\n\`${process.env.PREFIX}todo completion [識別番号]\` Todoを完了する\n\`${process.env.PREFIX}todo edit [識別番号]\` Todo編集コマンド\n\`${process.env.PREFIX}todo allremove\` Todoから全て削除`)
+                    .setColor('RANDOM')
+                    .setTimestamp()
+            );
         }
     }
 }
