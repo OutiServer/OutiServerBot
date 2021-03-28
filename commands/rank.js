@@ -26,7 +26,7 @@ module.exports = {
 
         if (user) {
             const userleveldata = db.levelget(user.id, message.guild.id);
-            const rankimagedata = rankimage[user.id];
+            const rankimagedata = db.Rankimageget(user.id)
 
             if (!rankimagedata) {
                 const canvas = createCanvas(1500, 500);
@@ -67,7 +67,7 @@ module.exports = {
         }
         else {
             const userleveldata = db.levelget(message.author.id, message.guild.id);
-            const rankimagedata = rankimage[message.author.id];
+            const rankimagedata = db.Rankimageget(message.author.id);
 
             if (!rankimagedata) {
                 const canvas = createCanvas(1500, 500);
