@@ -43,11 +43,12 @@ module.exports = {
                             id: `${message.author.id}`,
                             user: message.author.id,
                             font: 80,
-                            fillstyle: '#000000',
+                            fillStyle: '#000000',
                             imagex: attachment.width,
                             imagey: attachment.height,
                             icon: 1
-                        }
+                        };
+                        console.log(data);
                         db.Rankimageset(data);
                         message.channel.send('level画像を設定しました！');
                     }
