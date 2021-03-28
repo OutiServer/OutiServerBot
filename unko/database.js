@@ -167,10 +167,6 @@ class Database {
 
     Rankimageget(userid) {
         let data = this.sql.prepare('SELECT * FROM rankimages WHERE user = ?').get(userid);
-        if (!data) {
-            data = { id: `${userid}`, user: userid, font: null, fillstyle: null, imagex: null, imagey: null, icon: null }
-            this.Rankimageset(data);
-        }
 
         return data;
     }
