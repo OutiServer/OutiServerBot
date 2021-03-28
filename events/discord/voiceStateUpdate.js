@@ -15,6 +15,7 @@ module.exports = async (client, oldMember, newMember) => {
   if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot) return;
   if (oldMember.channelID === null) {
     if (newMember.channelID === '822310255324299294') {
+      client.channels.cache.get('825674456470519809').setTopic(`${newMember.channel.name}のVC接続数: ${newMember.channel.members.size}人`);
       client.channels.cache.get('825674456470519809').send(`${newMember.member.user.tag}が${newMember.channel.name}に入室しました`);
     }
     else {
