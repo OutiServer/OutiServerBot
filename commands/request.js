@@ -40,7 +40,7 @@ module.exports = {
                 },
                 function (error, response, body) {
                     if (!error && response.statusCode === 200) {
-                        fs.writeFileSync(`./dat/images/${message.author.id}`, body, 'binary');
+                        fs.writeFileSync(`./dat/images/${message.author.id}.png`, body, 'binary');
                         const data = {
                             id: `${message.author.id}`,
                             user: message.author.id,
