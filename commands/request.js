@@ -49,6 +49,7 @@ module.exports = {
                             icon: 1
                         }
                         db.Rankimageset(data);
+                        message.channel.send('level画像を設定しました！');
                     }
                 }
             );
