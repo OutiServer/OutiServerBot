@@ -1,10 +1,10 @@
-const { Client, Message } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
-        name: "ranknset",
+        name: "rankset",
         description: "rank画像の座標調整",
         usage: "",
         aliases: [""],
@@ -54,10 +54,17 @@ module.exports = {
         else if (command === 'icon') {
             const icon = args[1];
             if (!icon || icon !== 'yes' && icon !== 'no') return message.reply('第二引数にiconを表示するかどうかを`yes` か `no` で入れてください！');
-            if (icon === 'yes') userrankimagedata.icon = true;
-            else if (icon === 'no') userrankimagedata.icon = false;
+            if (icon === 'yes') userrankimagedata.icon = 1;
+            else if (icon === 'no') userrankimagedata.icon = 0;
             db.Rankimageset(userrankimagedata);
-            message.channel.send(`X座標を${userrankimagedata.icon}に設定しました！`);
+            message.channel.send(`Iconを${userrankimagedata.icon}に設定しました！`);
+        }
+        else {
+            message.channel.send(
+                new MessageEmbed()
+                    .setTitle('ranksetで設定できる項目')
+                    .setDescription('`size`, `color`, `imagex`, `imagey`, `icon`')
+            )
         }
     }
 }
