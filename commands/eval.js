@@ -46,6 +46,7 @@ module.exports = {
       else if (response.content === 'no') {
         response.delete();
         msg.delete();
+        break;
       }
     }
   },
