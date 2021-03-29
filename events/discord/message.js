@@ -128,13 +128,9 @@ module.exports = async (client, message) => {
   const command = args.shift().toLowerCase();
   if (!command) return;
   const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
-  if (!cmd) {
+  if (!cmd || cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && usersettingdata.admin !== 1) {
     message.react('793460058250805259');
     return message.reply('そんなコマンドないで。😉');
-  }
-  else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && usersettingdata.admin !== 1) {
-    message.react('793460058250805259');
-    return message.reply('そのコマンドを使う権限が足りてないで。😉');
   }
   cmd.run(client, message, args);
 };
