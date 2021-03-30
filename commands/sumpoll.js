@@ -1,4 +1,4 @@
-const { Message, MessageEmbed } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 
 module.exports = {
     info: {
@@ -12,13 +12,14 @@ module.exports = {
     },
 
     /**
+     * @param {Client} client
      * @param {Message} message
+     * @param {Array} args
      */
 
     run: async function (client, message, args) {
         const messageid = args[0];
         if (!messageid) {
-            message.react('793460058250805259');
             return message.reply('集計する投票のメッセージIDを入れてください！');
         }
 
@@ -26,9 +27,9 @@ module.exports = {
             var msg = await message.channel.messages.fetch(messageid);
         }
         catch (e) {
-            message.react('816282137065947136');
-            return message.channel.send('投票が見つかりませんでした');
+            return message.reply('投票が見つかりませんでした');
         }
+
         const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name);
         const allreacioncount = msg.reactions.cache.map(reactions => reactions.count);
         let count = 0;
@@ -37,6 +38,7 @@ module.exports = {
             msgcontent += `${allreacionname[count]} ${data - 1}票\n`
             count++;
         }
+
         message.channel.send(
             new MessageEmbed()
                 .setTitle(msg.embeds[0].title + 'の投票結果')
