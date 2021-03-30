@@ -18,12 +18,15 @@ module.exports = {
 
     run: async function (client, message, args) {
         if (!message.member.voice.channelID) {
-            message.react('816282137065947136');
             return message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
         }
+
         const voicemember = message.member.voice.guild.voiceStates.cache.map(member => member);
         for (const data of voicemember) {
             if (data.member.user.bot) continue;
+            data.member.voice.setMute(true);
         }
+
+        message.channel.send(`ボイスチャンネルに接続されている全員のミュートが完了しました！`);
     }
 };
