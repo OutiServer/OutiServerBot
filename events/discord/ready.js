@@ -9,8 +9,8 @@ const db = new Database('unkoserver.db');
 module.exports = async (client) => {
   db.Initialize();
 
-  client.user.setPresence({ activity: { name: '?help うんこ鯖', type: 'PLAYING', url: 'https://www.youtube.com/channel/UC56TMTAn7gCqRoKWi0jnlHQ' }, status: 'online' });
-  console.log(`[INFO] Logged in as ${client.user.tag}`);
+  client.user.setPresence({ activity: { name: '?help うんこ鯖', type: 'PLAYING' }, status: 'online' });
+  console.log(`Logged in as ${client.user.tag}`);
 
   require('../../handleReaction').run(client);
   require('../../server').run(client);
