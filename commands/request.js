@@ -18,17 +18,16 @@ module.exports = {
     /**
      * @param {Client} client 
      * @param {Message} message 
+     * @param {Array} args
      */
 
     run: async function (client, message, args) {
         const userleveldata = db.levelget(message.author.id, message.guild.id);
         if (userleveldata.level < 10) {
-            message.react('793460058250805259');
             return message.reply('画像背景申請はLevel10以上になってから使用できます！');
         }
 
         if (message.attachments.size <= 0) {
-            message.react('816282137065947136');
             return message.reply('リクエストする画像を一緒に送信してください！');
         }
         message.attachments.forEach(attachment => {
@@ -50,7 +49,6 @@ module.exports = {
                             imagey: attachment.height,
                             icon: 1
                         };
-                        console.log(data);
                         db.Rankimageset(data);
                         message.channel.send('level画像を設定しました！');
                     }
