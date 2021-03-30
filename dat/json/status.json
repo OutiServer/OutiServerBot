@@ -1,10 +1,14 @@
 [
     {
-        "name": "?help うんこ鯖",
+        "name": "?help おうち鯖",
         "playingtype": "PLAYING"
     },
     {
-        "name": "うんこサーバー",
+        "name": "おうち鯖サーバー",
         "playingtype": "COMPETING"
+    },
+    {
+        "name": "SekiTonami",
+        "playingtype": "WATCHING"
     }
 ]
