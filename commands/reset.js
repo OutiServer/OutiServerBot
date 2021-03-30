@@ -1,6 +1,6 @@
 const { Client, Message } = require("discord.js");
-const SQLite = require('better-sqlite3');
-const sql = new SQLite('unkoserver.db');
+const { Database } = require('../unko/index');
+const db = new Database();
 
 module.exports = {
     info: {
@@ -21,11 +21,10 @@ module.exports = {
     run: async function (client, message, args) {
         const user = message.mentions.users.first() || message.guild.member(args[0]);
         if (!user) {
-            message.react('816282137065947136');
-            return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
+            return message.reply('全データをリセットするユーザーをメンションするかIDを第一引数に入れてください！');
         }
 
-        sql.prepare(`DELETE FROM levels WHERE user = ? AND guild = ?;`).run(user.id, message.guild.id);
+        db.sql.prepare(`DELETE FROM levels WHERE user = ? AND guild = ?`).run(user.id, message.guild.id);
 
         message.channel.send(`${user}の全データをリセットしました`);
     }
