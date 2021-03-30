@@ -1,4 +1,4 @@
-const { Message, MessageEmbed } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
 
@@ -14,8 +14,9 @@ module.exports = {
     },
 
     /**
-     * @param {*} client 
+     * @param {Client} client 
      * @param {Message} message 
+     * @param {Array} args
      */
 
     run: async function (client, message, args) {
@@ -45,7 +46,6 @@ module.exports = {
             else {
                 usertag = user.user.tag;
             }
-            console.log(embeds);
             embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${usertag}`, `${data.level}Level ${data.xp}経験値`);
             rank++;
         }
@@ -59,7 +59,7 @@ module.exports = {
                 msg.edit('');
                 break;
             }
-            if (response.content === '0') {
+            else if (response.content === '0') {
                 response.delete();
                 msg.edit('');
                 break;
