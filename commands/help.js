@@ -1,4 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
+const { Database } = require('../unko/index');
+const db = new Database('unkoserver.db');
 const admins = require('../dat/json/admin.json');
 
 module.exports = {
@@ -13,8 +15,9 @@ module.exports = {
   },
 
   /**
-   * @param {Message} message
    * @param {Client} client
+     * @param {Message} message
+     * @param {Array} args
    */
 
   run: async function (client, message, args) {
@@ -47,7 +50,7 @@ module.exports = {
           .setTimestamp()
 
       )
-      if (admins.includes(message.author.id)) {
+      if (db.UserSettingget(message.author.id).admin === 1) {
         embeds[0].addField('Admin', admin);
         embeds.push(
           new MessageEmbed()
