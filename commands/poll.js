@@ -1,4 +1,4 @@
-const { Message, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js");
 
 module.exports = {
   info: {
@@ -12,20 +12,22 @@ module.exports = {
   },
 
   /**
+   * @param {Client} client
    * @param {Message} message
+   * @param {Array} args
    */
 
   run: async function (client, message, args) {
-    const [title, ...choices] = args
+    const [title, ...choices] = args;
     if (!title) {
-      message.react('793460058250805259');
       return message.channel.send('タイトルを指定してください');
     }
+
     const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
     if (choices.length < 2 || choices.length > emojis.length) {
-      message.react('793460058250805259');
       return message.channel.send(`選択肢は2から${emojis.length}つを指定してください`);
     }
+
     const poll = await message.channel.send(
       new MessageEmbed()
         .setDescription('投票作成中')
