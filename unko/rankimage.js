@@ -53,4 +53,4 @@ class Rankimage {
     }
 }
 
-module.exports = rankimage;
+module.exports = Rankimage;
