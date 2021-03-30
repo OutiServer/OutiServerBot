@@ -15,8 +15,8 @@ module.exports = {
 
   /**
    * @param {Client} client
-     * @param {Message} message
-     * @param {Array} args
+   * @param {Message} message
+   * @param {Array} args
    */
 
   run: async function (client, message, args) {
@@ -69,6 +69,7 @@ module.exports = {
             .setTimestamp()
         );
       }
+
       const msg = await message.channel.send('```' + `1/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[0]);
       while (true) {
         const filter = msg => msg.author.id === message.author.id;
@@ -78,7 +79,7 @@ module.exports = {
           msg.edit('');
           break;
         }
-        if (response.content === '0') {
+        else if (response.content === '0') {
           response.delete();
           msg.edit('');
           break;
@@ -103,7 +104,7 @@ module.exports = {
       let commandinfo = new MessageEmbed()
         .setTitle("コマンド名: " + command.info.name + " の詳細")
         .setColor("RANDOM")
-        .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(", ")}\n\nカテゴリー: ${command.info.category}BotOwnerコマンド: ${command.info.ownercommand}\nBotAdminコマンド: ${command.info.botadmincommand}`)
+        .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(", ")}\n\nカテゴリー: ${command.info.category}BotOwnerコマンド: ${command.info.owneronly}\nBotAdminコマンド: ${command.info.adminonly}`)
       message.channel.send(commandinfo)
     }
   },
