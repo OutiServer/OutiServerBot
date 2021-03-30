@@ -29,7 +29,7 @@ module.exports = (client) => {
                             .addField('ポート', result.port)
                             .addField('サーバーのバージョン', result.version)
                             .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-                            .setImage('https://media.discordapp.net/attachments/818411667015991297/818411780127981578/UnkoServerkoiyo.png')
+                            .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
                             .setColor('RANDOM')
                             .setTimestamp()
                     );
@@ -38,7 +38,7 @@ module.exports = (client) => {
                     msg.edit(
                         new MessageEmbed()
                             .setTitle('🏠おうちサーバーの現在の状態🏠')
-                            .setDescription('うんこサーバーは現在落ちてます')
+                            .setDescription('おうちサーバーは現在落ちてます')
                             .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
                             .setColor('RANDOM')
                             .setTimestamp()
