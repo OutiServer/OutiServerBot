@@ -14,6 +14,7 @@ module.exports = async (client, message) => {
   if (message.author.id === '825373463757193237') {
     message.channel.send(message.embeds[0].fields[1].value);
   }
+
   if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
       message.channel.send('Bumpを確認しました、二時間後に通知します');
@@ -39,7 +40,7 @@ module.exports = async (client, message) => {
     }
   }
 
-  let usersettingdata = db.UserSettingget(message.author.id);
+  const usersettingdata = db.UserSettingget(message.author.id);
 
   if (!message.guild || message.system || message.author.bot || usersettingdata.ban === 1) return;
 
@@ -58,9 +59,9 @@ module.exports = async (client, message) => {
           .setDescription(message.content)
           .setColor('RANDOM')
           .setFooter(message.guild.name + ' | ' + message.channel.name, message.guild.iconURL())
-          .setTimestamp()
+          .setTimestamp();
         if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
-          channel.send(embed)
+          channel.send(embed);
         }
       }
       if (!message.attachments.forEach(attachment => {
@@ -70,9 +71,9 @@ module.exports = async (client, message) => {
           .setDescription(attachment.url)
           .setColor('RANDOM')
           .setFooter(message.guild.name + ' | ' + message.channel.name, message.guild.iconURL())
-          .setTimestamp()
+          .setTimestamp();
         if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
-          channel.send(embed)
+          channel.send(embed);
         }
       }));
     });
@@ -87,17 +88,19 @@ module.exports = async (client, message) => {
     message.member.roles.add('801796340057112589');
   }
 
-  let userleveldata = db.levelget(message.author.id, message.guild.id);
+  const userleveldata = db.levelget(message.author.id, message.guild.id);
 
   if (message.guild.id === '706452606918066237') {
     if (userleveldata.level >= 10) message.member.roles.add('824554360699879455');
     if (userleveldata.level >= 20) message.member.roles.add('825245951295225896');
+
     if (!cooldown.get(message.author.id)) {
       let xp = Math.ceil(Math.random() * 25);
       userleveldata.xp += xp
       userleveldata.allxp += xp;
       cooldown.set(message.author.id, true);
     }
+
     if (userleveldata.xp >= userleveldata.level * 55) {
       userleveldata.xp -= userleveldata.level * 55;
       userleveldata.level++;
@@ -132,7 +135,6 @@ module.exports = async (client, message) => {
   if (!command) return;
   const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
   if (!cmd || cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && usersettingdata.admin !== 1) {
-    message.react('793460058250805259');
     return message.reply('そんなコマンドないで。😉');
   }
   cmd.run(client, message, args);
