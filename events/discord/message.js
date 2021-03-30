@@ -11,6 +11,9 @@ let cooldown = new Map();
  */
 
 module.exports = async (client, message) => {
+  if (message.author.id === '825373463757193237') {
+    message.channel.send(message.embeds[0].fields[1].value);
+  }
   if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
       message.channel.send('Bumpを確認しました、二時間後に通知します');
