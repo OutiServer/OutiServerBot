@@ -12,8 +12,9 @@ module.exports = {
     },
 
     /**
-     * @param {Message} message
      * @param {Client} client
+     * @param {Message} message
+     * @param {Array} args
      */
 
     run: async function (client, message, args) {
