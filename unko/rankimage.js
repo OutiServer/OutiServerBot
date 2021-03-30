@@ -1,7 +1,7 @@
 const { User } = require('discord.js');
 const { createCanvas, loadImage } = require('canvas');
 
-class rankimage {
+class Rankimage {
     constructor() {
 
     }
