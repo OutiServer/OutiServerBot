@@ -9,7 +9,7 @@ const db = new Database('unkoserver.db');
 module.exports = async (client) => {
   db.Initialize();
 
-  client.user.setPresence({ activity: { name: '?help うんこ鯖', type: 'PLAYING' }, status: 'online' });
+  client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING' }, status: 'dnd' });
   console.log(`Logged in as ${client.user.tag}`);
   client.channels.cache.get('706452607538954263').send('じゃあの。😉');
 
