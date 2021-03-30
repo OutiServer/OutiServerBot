@@ -18,10 +18,11 @@ module.exports = {
 
     run: async function (client, message, args) {
         if (!message.member.voice.channelID) {
-            message.react('816282137065947136');
             return message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
         }
-        message.member.voice.guild.voiceStates.cache.map(member => member.setMute(false, 'Among Us!'));
-        message.reply('全員のミュート解除が終了しました！');
+
+        message.member.voice.guild.voiceStates.cache.map(member => member.setMute(false));
+
+        message.channel.send('全員のミュート解除が終了しました！');
     }
 };
