@@ -1,7 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../unko/index');
 const db = new Database('unkoserver.db');
-const admins = require('../dat/json/admin.json');
 
 module.exports = {
   info: {
