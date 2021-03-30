@@ -11,6 +11,7 @@ module.exports = async (client) => {
 
   client.user.setPresence({ activity: { name: '?help うんこ鯖', type: 'PLAYING' }, status: 'online' });
   console.log(`Logged in as ${client.user.tag}`);
+  client.channels.cache.get('706452607538954263').send('じゃあの。😉');
 
   require('../../handleReaction').run(client);
   require('../../server').run(client);
