@@ -46,7 +46,7 @@ module.exports = async (client, message) => {
 
   yomiage(client, message);
 
-  if (message.channel.name === 'うんこ鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
+  if (message.channel.name === 'おうち鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
     if (message.attachments.size <= 0) {
       message.delete();
     }
@@ -60,7 +60,7 @@ module.exports = async (client, message) => {
           .setColor('RANDOM')
           .setFooter(message.guild.name + ' | ' + message.channel.name, message.guild.iconURL())
           .setTimestamp();
-        if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
+        if (channel.name === 'おうち鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
           channel.send(embed);
         }
       }
@@ -72,7 +72,7 @@ module.exports = async (client, message) => {
           .setColor('RANDOM')
           .setFooter(message.guild.name + ' | ' + message.channel.name, message.guild.iconURL())
           .setTimestamp();
-        if (channel.name === 'うんこ鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
+        if (channel.name === 'おうち鯖グローバルチャット' || channel.name === 'カスクラグローバルチャット') {
           channel.send(embed);
         }
       }));
