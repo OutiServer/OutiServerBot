@@ -80,14 +80,14 @@ module.exports = {
                 ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.clip();
-                const avatar = await loadImage(user.displayAvatarURL({ format: 'jpg' }));
+                const avatar = await loadImage(message.author.displayAvatarURL({ format: 'jpg' }));
                 ctx.drawImage(avatar, 25, 25, 200, 200);
                 rankimagebuffer = canvas.toBuffer();
             }
             else {
                 const canvas = createCanvas(rankimagedata.imagex, rankimagedata.imagey);
                 const ctx = canvas.getContext('2d');
-                const background = await loadImage(`./dat/images/${user.id}.png`);
+                const background = await loadImage(`./dat/images/${message.author.id}.png`);
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = `${rankimagedata.font}px Impact`;
                 ctx.rotate(0);
@@ -97,7 +97,7 @@ module.exports = {
                     ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                     ctx.closePath();
                     ctx.clip();
-                    const avatar = await loadImage(user.displayAvatarURL({ format: 'jpg' }));
+                    const avatar = await loadImage(message.author.displayAvatarURL({ format: 'jpg' }));
                     ctx.drawImage(avatar, 25, 25, 200, 200);
                 }
                 rankimagebuffer = canvas.toBuffer();
