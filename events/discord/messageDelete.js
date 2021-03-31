@@ -9,8 +9,7 @@ module.exports = (client, message) => {
     client.channels.cache.get('825394905572573184').send(
         new MessageEmbed()
             .setTitle('メッセージが削除されました')
-            .addField('User', message.author.tag)
-            .addField('Message', message.content)
+            .setDescription(`User: ${message.author.tag}\nMessage: ${message.content}`)
             .setColor('RANDOM')
             .setThumbnail()
     );
