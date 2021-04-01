@@ -57,7 +57,7 @@ module.exports = {
                 }
             }
             else if (reaction.emoji.id === '798179606166634516') {
-                if (!reaction.message.guild.member(user).roles.cache.has('814095138443100191')) {
+                if (reaction.message.guild.member(user).roles.cache.has('814095138443100191')) {
                     reaction.message.guild.member(user).roles.remove('814095138443100191');
                     const reply = await client.channels.cache.get('774594290679545886').send(`${user} 生活要素班を剥奪しました`);
                     reply.delete({ timeout: 5000 });
