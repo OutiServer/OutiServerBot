@@ -82,6 +82,18 @@ module.exports = {
                     reply.delete({ timeout: 5000 });
                 }
             }
+            else if (reaction.emoji.id === '826629936194387988') {
+                if (reaction.message.guild.member(user).roles.cache.has('826994784614219846')) {
+                    reaction.message.guild.member(user).roles.remove('826994784614219846');
+                    const reply = await client.channels.cache.get('774594290679545886').send(`${user} お知らせを剥奪しました`);
+                    reply.delete({ timeout: 5000 });
+                }
+                else {
+                    reaction.message.guild.member(user).roles.add('826994784614219846');
+                    const reply = await client.channels.cache.get('774594290679545886').send(`${user} お知らせを付与しました`);
+                    reply.delete({ timeout: 5000 });
+                }
+            }
         });
 
         handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
