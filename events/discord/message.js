@@ -178,7 +178,7 @@ const textclient = new textToSpeech.TextToSpeechClient({
 async function yomiage(client, message) {
   const guild = message.guild;
   const channel = message.member.voice.channel;
-  if (!message.member.voice.selfMute || guild.id !== process.env.DISCORD_GUILD_ID || !channel || message.channel.id !== process.env.DISCORD_SOURCE_CHANNEL_ID) {
+  if (!message.member.voice.selfMute || guild.id !== process.env.DISCORD_GUILD_ID || !channel || message.channel.id !== '706458716320432198' && message.channel.id !== '825674456470519809') {
     return;
   }
   const text = message
