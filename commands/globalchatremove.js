@@ -22,7 +22,7 @@ module.exports = {
     run: async function (client, message, args) {
         const channel = client.channels.cache.get(args[0]);
         if (!channel) return message.reply('第一引数にグローバルチャットから削除するチャンネルIDを入れてください')
-        db.globalchatdelete(channel);
+        db.globalchatdelete(channel.id);
         message.channel.send('削除しました')
     }
 }
