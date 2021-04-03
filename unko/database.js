@@ -240,7 +240,7 @@ class Database {
      */
 
     globalchatdelete(channelid) {
-        this.sql.prepare('DELETE FROM globalchats WHERE channel = ?').run(guildid, channelid);
+        this.sql.prepare('DELETE FROM globalchats WHERE channel = ?').run(channelid);
     }
 
     /**
