@@ -22,6 +22,6 @@ module.exports = {
     run: async function (client, message, args) {
         const channel = client.channels.cache.get(args[0]);
         if (!channel) return message.reply('第一引数にグローバルチャットに追加するチャンネルIDを入れてください')
-        db.globalchatset(message.guild.id, channel);
+        db.globalchatset(message.guild.id, channel.id);
     }
 }
