@@ -249,7 +249,7 @@ class Database {
      */
 
     globalchatall() {
-        return this.sql.prepare("SELECT * FROM globalchats ORDER BY guild DESC;").all();
+        return this.sql.prepare("SELECT * FROM globalchats ORDER BY channel DESC;").all();
     }
 
     /**
