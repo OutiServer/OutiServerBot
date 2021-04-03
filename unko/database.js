@@ -68,6 +68,14 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const GlobalChattable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'globalchats';").get();
+        if (!GlobalChattable['count(*)']) {
+            this.sql.prepare("CREATE TABLE globalchats (id TEXT PRIMARY KEY, guild TEXT, channel TEXT);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_globalchats_id ON globalchats (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -213,6 +221,37 @@ class Database {
 
     Todolistremoveall(userid) {
         this.sql.prepare('DELETE FROM todolists WHERE user = ?').run(userid);
+    }
+
+    /**
+     * グローバルチャットチャンネル設定関数
+     * @param {string} guildid 
+     * @param {string} channelid 
+     */
+
+    globalchatset(guildid, channelid) {
+        let data = { id: `${guildid}-${channelid}`, guild: guildid, channel: channelid };
+
+        this.sql.prepare('INSERT OR REPLACE INTO globalchats (id, guild, channel) VALUES (@id, @guild, @channel);').run(data);
+    }
+
+    /**
+     * グローバルチャットチャンネル削除関数
+     * @param {string} guildid
+     * @param {string} channelid
+     */
+
+    globalchatdelete(guildid, channelid) {
+        this.sql.prepare('DELETE FROM globalchats WHERE guild = ? AND channel = ?').run(guildid, channelid);
+    }
+
+    /**
+     * グローバルチャットチャンネル取得関数
+     * @returns 
+     */
+
+    globalchatall() {
+        return this.sql.prepare("SELECT * FROM globalchats ORDER BY guild DESC;").all();
     }
 
     /**
