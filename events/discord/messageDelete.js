@@ -6,7 +6,7 @@ const { Client, Message, MessageEmbed } = require("discord.js");
  */
 
 module.exports = (client, message) => {
-    if (message.guild.id === '775952658779209770' || message.author.bot) return;
+    if (message.guild.id !== '706452606918066237' || message.author.bot) return;
     client.channels.cache.get('825394905572573184').send(
         new MessageEmbed()
             .setTitle('メッセージが削除されました')
