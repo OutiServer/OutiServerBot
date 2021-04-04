@@ -111,7 +111,7 @@ module.exports = async (client, message) => {
   if (message.channel.id === '828267048807039037') {
     message.guild.channels.create(message.content, { type: 'text', topic: `${message.author.tag}さんのスレッドです。\n${message.content}`, parent: '828266382277345310' })
       .then(channel => {
-        db.Threadset(message.author.id, channel.id)
+        db.ThreadSet(message.author.id, channel.id)
         channel.send(message.author,
           new MessageEmbed()
             .setTitle('スレッドを作成しました！')
