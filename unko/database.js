@@ -291,7 +291,7 @@ class Database {
      */
 
     ThreadGet(userid) {
-        this.sql.prepare('SELECT * FROM threads WHERE user = ?').get(userid);
+        return this.sql.prepare('SELECT * FROM threads WHERE user = ?').get(userid);
     }
 
     /**
