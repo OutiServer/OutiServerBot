@@ -19,6 +19,35 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        util.statusBedrock('126.235.33.140', { timeout: 5000 })
+            .then((result) => {
+                message.channel.send(
+                    new MessageEmbed()
+                        .setTitle('🏠おうちサーバーの現在の状態🏠')
+                        .addField('IPアドレス', result.host)
+                        .addField('ポート', result.port)
+                        .addField('サーバーの説明', result.motdLine2.descriptionText[0])
+                        .addField('サーバーのバージョン', result.version)
+                        .addField('サーバーのエディション', result.edition)
+                        .addField('サーバーID', result.serverID)
+                        .addField('デフォルトゲームモード', result.gameMode)
+                        .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
+                        .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                );
+            })
+            .catch((error) => {
+                message.channel.send(
+                    new MessageEmbed()
+                        .setTitle('🏠おうちサーバーの現在の状態🏠')
+                        .setDescription('おうちサーバーは現在落ちてます')
+                        .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                );
+                console.error(error);
+            });
         message.reply(`そのコマンドは \`${process.env.PREFIX}hss\` に変更されました\n\`${process.env.PREFIX}uss\` は三日後削除されます`)
     },
 };
