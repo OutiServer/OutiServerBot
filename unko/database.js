@@ -76,6 +76,14 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const BumpUpCounttable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'bumpupcounts';").get();
+        if (!BumpUpCounttable['count(*)']) {
+            this.sql.prepare("CREATE TABLE bumpupcounts (id TEXT PRIMARY KEY, user TEXT, bump INTEGER, up INTEGER);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_bumpupcounts_id ON bumpupcounts (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -250,6 +258,25 @@ class Database {
 
     globalchatall() {
         return this.sql.prepare("SELECT * FROM globalchats ORDER BY channel DESC;").all();
+    }
+
+    /**
+     * Bump & Upの回数を返す関数
+     * @param {string} userid 
+     */
+
+    BumpUpCountGet(userid) {
+        let data = this.sql.prepare('SELECT * FROM bumpupcounts WHERE user = ?').get(userid);
+        if (!data) {
+            data = { id: `${userid}`, user: userid, bump: 0, up: 0 };
+            this.BumpUpCountSet(data);
+        }
+
+        return data;
+    }
+
+    BumpUpCountSet(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO bumpupcounts (id, user, bump, up) VALUES (@id, @user, @bump, @up);').run(data);
     }
 
     /**
