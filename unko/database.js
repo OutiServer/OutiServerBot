@@ -304,7 +304,7 @@ class Database {
         let data = {
             id: `${userid}-${channelid}`,
             user: userid,
-            channelid: channelid
+            channel: channelid
         };
 
         this.sql.prepare('INSERT OR REPLACE INTO threads (id, user, channel) VALUES (@id, @user, @channel);').run(data);
