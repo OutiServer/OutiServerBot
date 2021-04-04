@@ -84,6 +84,14 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const Threadtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'threads';").get();
+        if (!Threadtable['count(*)']) {
+            this.sql.prepare("CREATE TABLE threads (id TEXT PRIMARY KEY, user TEXT, channel TEXT);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_threads_id ON threads (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -276,6 +284,22 @@ class Database {
     }
 
     BumpUpCountSet(data) {
+        this.sql.prepare('INSERT OR REPLACE INTO bumpupcounts (id, user, bump, up) VALUES (@id, @user, @bump, @up);').run(data);
+    }
+
+    /**
+     * スレッドを記録する関数
+     * @param {string} userid 
+     * @param {string} channelid 
+     */
+
+    Threadset(userid, channelid) {
+        let data = {
+            id: `${userid}-${channelid}`,
+            user: userid,
+            channelid: channelid
+        };
+
         this.sql.prepare('INSERT OR REPLACE INTO bumpupcounts (id, user, bump, up) VALUES (@id, @user, @bump, @up);').run(data);
     }
 
