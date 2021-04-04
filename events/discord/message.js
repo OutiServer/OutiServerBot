@@ -18,7 +18,15 @@ module.exports = async (client, message) => {
   if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "2406327" && message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
       const bump_user = message.embeds[0].description.split(',')[0];
-      message.channel.send(`${bump_user}、Bumpを確認しました、二時間後に通知します`);
+      const bumpcountdata = db.BumpUpCountGet(bump_user.split('<@')[1].split('>')[0]);
+      bumpcountdata.bump++;
+      message.channel.send(bump_user,
+        new MessageEmbed()
+          .setDescription(`${bumpcountdata.bump}回目のBumpです、二時間後にこのチャンネルで通知します`)
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
+      db.BumpUpCountSet(bumpcountdata);
       setTimeout(() => {
         message.channel.send(`Bumpしてから二時間経ちました\n\`!d bump\` を実行しましょう<:emoji_121:820198227147751474>`);
       }, 7200000);
@@ -32,7 +40,15 @@ module.exports = async (client, message) => {
   else if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
     if (message.embeds[0].color == "7506394" && message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
       const up_user = message.embeds[0].description.split(/\s+/)[0];
-      message.channel.send(`${up_user}、Upを確認しました、一時間後に通知します`);
+      const upcountdata = db.BumpUpCountGet(up_user.split('<@')[1].split('>')[0]);
+      upcountdata.up++;
+      message.channel.send(up_user,
+        new MessageEmbed()
+          .setDescription(`${upcountdata.up}回目のupです、一時間後にこのチャンネルで通知します`)
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
+      db.BumpUpCountSet(upcountdata);
       setTimeout(() => {
         message.channel.send(`Upしてから一時間経ちました\n\`/dissoku up!\` を実行しましょう<:emoji_121:820198227147751474>`);
       }, 3600000);
