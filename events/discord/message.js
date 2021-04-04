@@ -109,6 +109,7 @@ module.exports = async (client, message) => {
   }
 
   if (message.channel.id === '828267048807039037') {
+    message.delete();
     message.guild.channels.create(message.content, { type: 'text', topic: `${message.author.tag}さんのスレッドです。\n${message.content}`, parent: '828266382277345310' })
       .then(channel => {
         db.ThreadSet(message.author.id, channel.id)
