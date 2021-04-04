@@ -190,9 +190,7 @@ class Database {
      */
 
     Rankimageget(userid) {
-        let data = this.sql.prepare('SELECT * FROM rankimages WHERE user = ?').get(userid);
-
-        return data;
+        return this.sql.prepare('SELECT * FROM rankimages WHERE user = ?').get(userid);
     }
 
     Rankimageset(data) {
@@ -288,19 +286,28 @@ class Database {
     }
 
     /**
+     * スレッドを取得する関数
+     * @param {string} userid 
+     */
+
+    ThreadGet(userid) {
+        this.sql.prepare('SELECT * FROM threads WHERE user = ?').get(userid);
+    }
+
+    /**
      * スレッドを記録する関数
      * @param {string} userid 
      * @param {string} channelid 
      */
 
-    Threadset(userid, channelid) {
+    ThreadSet(userid, channelid) {
         let data = {
             id: `${userid}-${channelid}`,
             user: userid,
             channelid: channelid
         };
 
-        this.sql.prepare('INSERT OR REPLACE INTO bumpupcounts (id, user, bump, up) VALUES (@id, @user, @bump, @up);').run(data);
+        this.sql.prepare('INSERT OR REPLACE INTO threads (id, user, channel) VALUES (@id, @user, @channel);').run(data);
     }
 
     /**

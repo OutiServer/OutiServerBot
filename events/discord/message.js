@@ -99,10 +99,6 @@ module.exports = async (client, message) => {
     }
   }
 
-  if (message.channel.name === 'おうち鯖グローバルチャット' || message.channel.name === 'カスクラグローバルチャット') {
-
-  }
-
   if (message.channel.id === '706469264638345227') {
     message.react('👍');
     message.react('👎');
@@ -110,6 +106,21 @@ module.exports = async (client, message) => {
 
   if (message.channel.parentID === '801057223139917884') {
     message.member.roles.add('801796340057112589');
+  }
+
+  if (message.channel.id === '828267048807039037') {
+    message.guild.channels.create(message.content, { type: 'text', topic: `${message.author.tag}さんのスレッドです。\n${message.content}`, parent: '828266382277345310' })
+      .then(channel => {
+        db.Threadset(message.author.id, channel.id)
+        channel.send(message.author,
+          new MessageEmbed()
+            .setTitle('スレッドを作成しました！')
+            .setDescription(message.content)
+            .setColor('RANDOM')
+            .setTimestamp()
+        )
+          .then(msg => msg.pin());
+      });
   }
 
   const userleveldata = db.levelget(message.author.id, message.guild.id);
