@@ -16,11 +16,13 @@ module.exports = {
      */
 
     run: async function (client, interaction, args) {
+        const nickname = client.guilds.cache.get('706452606918066237').member(args[0].value).nickname || client.users.cache.get(args[0].value).username;
+        client.guilds.cache.get('706452606918066237').member(args[0].value).setNickname(`故 ${nickname}`);
         client.api.interactions(interaction.id, interaction.token).callback.post({
             data: {
                 type: 4,
                 data: {
-                    content: `<@${args[0].value}>をkillしました\n<@${args[0].value}>は力尽きた`
+                    content: `<@${args[0].value}>をkillしました\n\n<@${args[0].value}>は力尽きた`
                 }
             }
         });
