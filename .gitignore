@@ -3,4 +3,5 @@
 *.db-shm
 *.db-wal
 node_modules/
+slash-command.js
 .DS_Store
