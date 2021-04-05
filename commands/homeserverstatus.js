@@ -19,6 +19,12 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        if (message.channel.id === '797008715646500865') {
+            return message.reply('このチャンネルでそのコマンドは使用できません。')
+                .then(msg => msg.delete({ timeout: 5000 }))
+                .then(msg => message.delete());
+        }
+
         util.statusBedrock('126.235.33.140', { timeout: 5000 })
             .then((result) => {
                 message.channel.send(
