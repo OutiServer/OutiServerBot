@@ -106,5 +106,7 @@ module.exports = {
 
         message.channel.send(new MessageAttachment(rankimagebuffer, 'rank.png'));
         message.channel.stopTyping();
+
+        client.cooldown.set(message.author.id, false);
     }
 };

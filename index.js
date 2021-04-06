@@ -5,6 +5,8 @@ const cron = require('node-cron');
 const client = new Client({ messageCacheMaxSize: 20, messageSweepInterval: 30, fetchAllMembers: true, ws: { intents: Intents.ALL } });
 client.commands = new Collection();
 client.slashcommands = new Collection();
+client.cooldown = new Collection();
+client.levelcooldown = new Collection();
 
 fs.readdir(__dirname + "/events/process/", (err, files) => {
   if (err) return console.error(err);

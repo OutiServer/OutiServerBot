@@ -38,5 +38,7 @@ module.exports = {
         db.levelset(userleveldata);
 
         message.channel.send(`${user}に${addxp}経験値付与しました！`);
+
+        client.cooldown.set(message.author.id, false);
     }
 }

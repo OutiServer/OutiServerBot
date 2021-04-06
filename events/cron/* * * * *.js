@@ -1,4 +1,4 @@
-const { Client, MessageEmbed } = require('discord.js');
+const { Client, MessageEmbed, Collection } = require('discord.js');
 const util = require('minecraft-server-util');
 const { Database } = require('../../home/index');
 const db = new Database('unkoserver.db');
@@ -50,4 +50,6 @@ module.exports = (client) => {
                     console.error(error);
                 });
         });
+
+    client.levelcooldown = new Collection();
 };

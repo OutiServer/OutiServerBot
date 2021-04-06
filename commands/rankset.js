@@ -66,5 +66,7 @@ module.exports = {
                     .setDescription('`size`, `color`, `imagex`, `imagey`, `icon`')
             )
         }
+
+        client.cooldown.set(message.author.id, false);
     }
 }

@@ -23,5 +23,7 @@ module.exports = {
         message.channel.setParent('828266382277345310');
 
         message.channel.send('このスレッドを再オープンしました。');
+
+        client.cooldown.set(message.author.id, false);
     }
 }

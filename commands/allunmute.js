@@ -25,5 +25,7 @@ module.exports = {
         message.member.voice.guild.voiceStates.cache.map(member => member.setMute(false));
 
         message.channel.send('全員のミュート解除が終了しました！');
+
+        client.cooldown.set(message.author.id, false);
     }
 };

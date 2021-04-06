@@ -28,5 +28,7 @@ module.exports = {
         db.sql.prepare(`DELETE FROM levels WHERE user = ? AND guild = ?`).run(user.id, message.guild.id);
 
         message.channel.send(`${user}の全データをリセットしました`);
+
+        client.cooldown.set(message.author.id, false);
     }
 }

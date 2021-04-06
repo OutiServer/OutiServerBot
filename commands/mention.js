@@ -28,5 +28,7 @@ module.exports = {
         }
 
         client.channels.cache.get('797008715646500865').send(notrolesusers.join('\n') + '\n<#825536134054543412>のグーグルフォームへの記入お願いします。\nわからない場合はこのチャンネルで聞いてください！');
+
+        client.cooldown.set(message.author.id, false);
     }
 }

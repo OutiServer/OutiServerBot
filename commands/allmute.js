@@ -29,5 +29,7 @@ module.exports = {
         }
 
         message.channel.send(`ボイスチャンネルに接続されている全員のミュートが完了しました！`);
+
+        client.cooldown.set(message.author.id, false);
     }
 };

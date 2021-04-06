@@ -107,5 +107,7 @@ module.exports = {
         .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(", ")}\n\nカテゴリー: ${command.info.category}BotOwnerコマンド: ${command.info.owneronly}\nBotAdminコマンド: ${command.info.adminonly}`)
       message.channel.send(commandinfo)
     }
+
+    client.cooldown.set(message.author.id, false);
   },
 };

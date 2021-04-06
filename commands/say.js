@@ -18,7 +18,11 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        client.channels.cache.get(args[0]).send(args[1]);
+        const channel = args[0];
+        args[0] = null;
+        client.channels.cache.get(channel).send(args.join(' '));
         message.react('793460057932038145');
+
+        client.cooldown.set(message.author.id, false);
     },
 };

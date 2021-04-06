@@ -21,6 +21,7 @@ module.exports = {
         message.channel.send('再接続しています...')
             .then(() => client.destroy())
             .then(() => client.login(process.env.DISCORD_TOKEN))
-            .then(() => message.channel.send('再接続が完了しました'));
+            .then(() => message.channel.send('再接続が完了しました'))
+            .then(() => client.cooldown.set(message.author.id, false));
     },
 };

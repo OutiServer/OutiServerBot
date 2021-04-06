@@ -54,5 +54,7 @@ module.exports = {
                 );
                 console.error(error);
             });
+
+        client.cooldown.set(message.author.id, false);
     },
 };

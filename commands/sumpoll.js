@@ -47,5 +47,7 @@ module.exports = {
                 .setColor(msg.embeds[0].color)
                 .setTimestamp(msg.embeds[0].timestamp)
         );
+
+        client.cooldown.set(message.author.id, false);
     },
 };

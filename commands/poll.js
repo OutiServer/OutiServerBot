@@ -42,5 +42,7 @@ module.exports = {
         .setFooter(`${process.env.PREFIX}sumpoll ${poll.id} で集計します`)
         .setColor('RANDOM')
     );
+
+    client.cooldown.set(message.author.id, false);
   },
 };

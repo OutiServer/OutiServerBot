@@ -3,7 +3,6 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const { Database } = require('../../home/index');
 const db = new Database('unkoserver.db');
-let cooldown = new Collection();
 
 /**
  * @param {Client} client
@@ -130,11 +129,11 @@ module.exports = async (client, message) => {
     if (userleveldata.level >= 10) message.member.roles.add('824554360699879455');
     if (userleveldata.level >= 20) message.member.roles.add('825245951295225896');
 
-    if (!cooldown.get(message.author.id)) {
+    if (!client.levelcooldown.get(message.author.id)) {
       let xp = Math.ceil(Math.random() * 25);
       userleveldata.xp += xp
       userleveldata.allxp += xp;
-      cooldown.set(message.author.id, true);
+      client.levelcooldown.set(message.author.id, true);
     }
 
     if (userleveldata.xp >= userleveldata.level * 55) {
@@ -173,6 +172,11 @@ module.exports = async (client, message) => {
   if (!cmd || cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && usersettingdata.admin !== 1) {
     return message.reply('そんなコマンドないで。😉');
   }
+  else if (client.cooldown.get(message.author.id)) {
+    return message.reply('前のコマンドが実行中やで。😉')
+  }
+
+  client.cooldown.set(message.author.id, true);
   cmd.run(client, message, args);
 };
 
@@ -228,7 +232,3 @@ async function yomiage(client, message) {
   const conn = shouldMove ? await channel.join() : currentConnection;
   conn.play(await textToSpeechReadableStream(text), { highWaterMark: 6, bitrate: 'auto' })
 }
-
-setInterval(() => {
-  cooldown = new Map();
-}, 60000);

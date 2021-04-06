@@ -28,5 +28,7 @@ module.exports = {
         message.channel.setParent('828268142820196372');
 
         message.channel.send('このスレッドをアーカイブしました。');
+
+        client.cooldown.set(message.author.id, false);
     }
 }

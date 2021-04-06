@@ -26,5 +26,7 @@ module.exports = {
                 .setColor('RANDOM')
                 .setTimestamp()
         );
+
+        client.cooldown.set(message.author.id, false);
     },
 };

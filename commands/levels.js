@@ -72,5 +72,7 @@ module.exports = {
                 }
             }
         }
+
+        client.cooldown.set(message.author.id, false);
     }
 }
