@@ -46,7 +46,7 @@ module.exports = {
       embeds.push(
         new MessageEmbed()
           .setTitle('Minecraft')
-          .setDescription('```' + client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+          .setDescription('```' + client.commands.filter(x => x.info.category == 'Minecraft').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
           .setColor('RANDOM')
           .setTimestamp()
       );
