@@ -22,6 +22,7 @@ module.exports = {
   run: async function (client, message, args) {
     if (!args[0]) {
       const main = client.commands.filter(x => x.info.category == 'Main').map((x) => '`' + x.info.name + '`').join(', ');
+      const minecraft = client.commands.filter(x => x.info.category == 'Minecraft').map((x) => '`' + x.info.name + '`').join(', ');
       const level = client.commands.filter(x => x.info.category == 'Level').map((x) => '`' + x.info.name + '`').join(', ');
       const admin = client.commands.filter(x => x.info.category == 'Admin').map((x) => '`' + x.info.name + '`').join(', ');
       const owner = client.commands.filter(x => x.info.category == 'Owner').map((x) => '`' + x.info.name + '`').join(', ');
@@ -30,6 +31,7 @@ module.exports = {
         new MessageEmbed()
           .setTitle(`${client.user.tag} helpページ`)
           .addField('Main', main)
+          .addField('Minecraft', minecraft)
           .addField('Level', level)
           .setColor('RANDOM')
           .setTimestamp()
@@ -37,6 +39,13 @@ module.exports = {
       embeds.push(
         new MessageEmbed()
           .setTitle('Main')
+          .setDescription('```' + client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+          .setColor('RANDOM')
+          .setTimestamp()
+      );
+      embeds.push(
+        new MessageEmbed()
+          .setTitle('Minecraft')
           .setDescription('```' + client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
           .setColor('RANDOM')
           .setTimestamp()

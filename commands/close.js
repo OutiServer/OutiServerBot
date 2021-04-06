@@ -10,7 +10,7 @@ module.exports = {
         aliases: [""],
         owneronly: false,
         adminonly: false,
-        category: 'Main'
+        category: 'Admin'
     },
 
     /**

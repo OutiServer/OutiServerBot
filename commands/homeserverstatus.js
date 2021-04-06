@@ -9,7 +9,7 @@ module.exports = {
         aliases: ["hss"],
         owneronly: false,
         adminonly: false,
-        category: 'Main'
+        category: 'Minecraft'
     },
 
     /**
