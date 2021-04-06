@@ -1,6 +1,6 @@
 const { Client, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
-const { Database } = require('../../unko/index');
+const { Database } = require('../../home/index');
 const db = new Database('unkoserver.db');
 let count = 0;
 

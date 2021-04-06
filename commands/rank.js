@@ -1,6 +1,6 @@
 const { createCanvas, loadImage } = require('canvas');
 const { Client, Message, MessageAttachment } = require("discord.js");
-const { Database } = require('../unko/index');
+const { Database } = require('../home/index');
 const db = new Database('unkoserver.db');
 
 module.exports = {

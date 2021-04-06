@@ -1,7 +1,7 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
-const { Database } = require('../../unko/index');
+const { Database } = require('../../home/index');
 const db = new Database('unkoserver.db');
 let cooldown = new Collection();
 
