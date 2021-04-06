@@ -13,5 +13,5 @@ module.exports = async (client, guild, user) => {
     const random = Math.floor(Math.random() * replys.length);
 
     client.channels.cache.get('706459931351711775').send(user.tag + replys[random]);
-    client.channels.cache.get('706452607538954263').send(`${user.tag} has been banned <:emoji_106:790546684710223882>`);
+    client.channels.cache.get('825231334657884161').send(`${user.tag} has been banned <:emoji_106:790546684710223882>`);
 };
