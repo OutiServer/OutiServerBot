@@ -1,12 +1,12 @@
 const { Client } = require('discord.js');
 const { Database } = require('../../home/index');
-const db = new Database('unkoserver.db');
 
 /**
  * @param {Client} client
  */
 
 module.exports = async (client) => {
+  const db = new Database('unkoserver.db');
   db.Initialize();
 
   client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING' }, status: 'dnd' });

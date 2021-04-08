@@ -1,8 +1,7 @@
-const { Client, Message, MessageEmbed, Collection } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const { Database } = require('../../home/index');
-const db = new Database('unkoserver.db');
 
 /**
  * @param {Client} client
@@ -10,6 +9,7 @@ const db = new Database('unkoserver.db');
  */
 
 module.exports = async (client, message) => {
+  const db = new Database('unkoserver.db');
   if (message.author.id === '825373463757193237') {
     message.channel.send(message.embeds[0].fields[1].value);
   }
