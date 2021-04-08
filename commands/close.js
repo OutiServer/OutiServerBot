@@ -19,6 +19,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        if (message.channel.parentID !== '828266382277345310') return message.reply('そのコマンドは考案スレッドカテゴリーでのみ使用できます。');
         const db = new Database('unkoserver.db');
         const userthreaddata = db.ThreadGet(message.author.id);
         const usersettingsdata = db.UserSettingget(message.author.id);

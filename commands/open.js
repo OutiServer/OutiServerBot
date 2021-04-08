@@ -19,6 +19,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        if (message.channel.parentID !== '828268142820196372') return message.reply('そのコマンドはスレッドアーカイブカテゴリーのみで使用できます。');
         message.channel.setParent('828266382277345310');
 
         message.channel.send('このスレッドを再オープンしました。');
