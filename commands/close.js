@@ -1,6 +1,5 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message } = require("discord.js");
 const { Database } = require('../home/index');
-const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -20,6 +19,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        const db = new Database('unkoserver.db');
         const userthreaddata = db.ThreadGet(message.author.id);
         const usersettingsdata = db.UserSettingget(message.author.id);
 

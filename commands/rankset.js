@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../home/index');
-const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -20,6 +19,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        const db = new Database('unkoserver.db');
         const userrankimagedata = db.Rankimageget(message.author.id);
         if (!userrankimagedata) return message.reply('あなたはまだrank画像を設定していないようです');
         const command = args[0];

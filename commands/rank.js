@@ -1,7 +1,6 @@
 const { createCanvas, loadImage } = require('canvas');
 const { Client, Message, MessageAttachment } = require("discord.js");
 const { Database } = require('../home/index');
-const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -22,6 +21,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         message.channel.startTyping();
+        const db = new Database('unkoserver.db');
         const user = message.mentions.users.first() || client.users.cache.get(args[0]);
         let rankimagebuffer;
 

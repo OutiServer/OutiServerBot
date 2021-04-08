@@ -1,6 +1,5 @@
 const { Client, Message } = require("discord.js");
 const { Database } = require('../home/index');
-const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -20,6 +19,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        const db = new Database('unkoserver.db');
         const channel = client.channels.cache.get(args[0]);
         if (!channel) return message.reply('第一引数にグローバルチャットに追加するチャンネルIDを入れてください');
         db.globalchatset(channel.id);

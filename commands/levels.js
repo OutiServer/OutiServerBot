@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../home/index');
-const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -20,6 +19,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        const db = new Database('unkoserver.db');
         const all = db.levelallget(message.guild.id);
         let embeds = [];
         let ranknumber1 = 1;

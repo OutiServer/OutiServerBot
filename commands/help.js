@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { Database } = require('../home/index');
-const db = new Database('unkoserver.db');
 
 module.exports = {
   info: {
@@ -20,6 +19,7 @@ module.exports = {
    */
 
   run: async function (client, message, args) {
+    const db = new Database('unkoserver.db');
     if (!args[0]) {
       const main = client.commands.filter(x => x.info.category == 'Main').map((x) => '`' + x.info.name + '`').join(', ');
       const minecraft = client.commands.filter(x => x.info.category == 'Minecraft').map((x) => '`' + x.info.name + '`').join(', ');

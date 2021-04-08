@@ -1,6 +1,5 @@
 const { Client, Message } = require("discord.js");
 const { Database } = require('../home/index');
-const db = new Database('unkoserver.db');
 
 module.exports = {
     info: {
@@ -20,6 +19,7 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
+        const db = new Database('unkoserver.db');
         const user = message.mentions.users.first() || message.guild.member(args[0]);
         if (!user) {
             return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');

@@ -1,7 +1,6 @@
 const { Client, MessageEmbed, Collection } = require('discord.js');
 const util = require('minecraft-server-util');
 const { Database } = require('../../home/index');
-const db = new Database('unkoserver.db');
 let count = 0;
 
 /**
@@ -9,6 +8,7 @@ let count = 0;
  */
 
 module.exports = (client) => {
+    const db = new Database('unkoserver.db');
     client.channels.cache.get('780012050163302420').messages.fetch('800279738509426728')
         .then(msg => {
             util.statusBedrock('126.235.33.140', { timeout: 5000 })
