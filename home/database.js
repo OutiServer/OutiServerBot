@@ -97,6 +97,14 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const Gamertagtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'gamertags';").get();
+        if (!Gamertagtable['count(*)']) {
+            this.sql.prepare("CREATE TABLE gamertags (id TEXT PRIMARY KEY, user TEXT, tag TEXT);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_gamertags_id ON gamertags (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -345,6 +353,44 @@ class Database {
 
     Countrygetall() {
         return this.sql.prepare("SELECT * FROM countrys ORDER BY leader DESC;").all();
+    }
+
+    /**
+     * ゲーマータグ設定関数
+     * @param {string} userid 
+     * @param {string} gamertag 
+     */
+
+    GamertagSet(userid, gamertag) {
+        let data = {
+            id: `${userid}-${gamertag}`,
+            user: userid,
+            tag: gamertag
+        };
+
+        return this.sql.prepare('INSERT OR REPLACE INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
+    }
+
+    /**
+     * ゲーマータグユーザーIDで取得関数
+     * @param {string} userid 
+     */
+
+    GamertaguserGet(userid) {
+        let data = this.sql.prepare('SELECT * FROM gamertags WHERE user = ?').get(userid);
+        if (!data) return undefined;
+        return { id: data.id, user: data.user, tag: data.tag };
+    }
+
+    /**
+     * ゲーマータグゲーマータグで取得関数
+     * @param {string} gamertag
+     */
+
+    GamertagtagGet(gamertag) {
+        let data = this.sql.prepare('SELECT * FROM gamertags WHERE tag = ?').get(gamertag);
+        if (!data) return undefined;
+        return { id: data.id, user: data.user, tag: data.tag };
     }
 
     /**
