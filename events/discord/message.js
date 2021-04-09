@@ -13,7 +13,7 @@ module.exports = async (client, message) => {
   if (message.author.id === '825373463757193237') {
     message.channel.send(message.embeds[0].fields[1].value);
     const user = message.guild.members.cache.find(user => user.user.tag === message.embeds[0].fields[0].value);
-    if (!user) message.channel.send('ゲーマータグの自動追加に失敗しました、コマンドで手動追加してください。');
+    if (!user) return message.channel.send('ゲーマータグの自動追加に失敗しました、コマンドで手動追加してください。');
     db.GamertagSet(user.id, message.embeds[0].fields[1].value);
   }
 
