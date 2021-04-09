@@ -92,6 +92,14 @@ class Database {
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
+
+        const Countrytable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'countrys';").get();
+        if (!Countrytable['count(*)']) {
+            this.sql.prepare("CREATE TABLE countrys (id TEXT PRIMARY KEY, leader TEXT, role TEXT);").run();
+            this.sql.prepare("CREATE UNIQUE INDEX idx_countrys_id ON countrys (id);").run();
+            this.sql.pragma("synchronous = 1");
+            this.sql.pragma("journal_mode = wal");
+        }
     }
 
     /**
@@ -308,6 +316,26 @@ class Database {
         };
 
         this.sql.prepare('INSERT OR REPLACE INTO threads (id, user, channel) VALUES (@id, @user, @channel);').run(data);
+    }
+
+    /**
+     * 国設定関数
+     * @param {string} leaderid 
+     * @param {string} roleid 
+     */
+
+    Countryset(leaderid, roleid) {
+        let data = {
+            id: `${leaderid}-${roleid}`,
+            leader: leaderid,
+            role: roleid
+        };
+
+        this.sql.prepare('INSERT OR REPLACE INTO countrys (id, leader, role) VALUES (@id, @leader, @role);').run(data);
+    }
+
+    Countrygetall() {
+        return this.sql.prepare("SELECT * FROM countrys ORDER BY leader DESC;").all();
     }
 
     /**
