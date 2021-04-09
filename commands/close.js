@@ -21,10 +21,9 @@ module.exports = {
     run: async function (client, message, args) {
         if (message.channel.parentID !== '828266382277345310') return message.reply('そのコマンドは考案スレッドカテゴリーでのみ使用できます。');
         const db = new Database('unkoserver.db');
-        const userthreaddata = db.ThreadGet(message.author.id);
         const usersettingsdata = db.UserSettingget(message.author.id);
 
-        if (userthreaddata.channel !== message.channel.id && usersettingsdata.admin !== 1) return message.reply('このスレッドを削除できるのはスレッド作成者か中間管理職、ニート役職を持っている人のみです！');
+        if (usersettingsdata.admin !== 1) return message.reply('このスレッドを削除できるのは中間管理職、ニート役職を持っている人のみです！');
 
         message.channel.setParent('828268142820196372');
 
