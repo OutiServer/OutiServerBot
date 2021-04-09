@@ -21,9 +21,10 @@ module.exports = {
     run: async function (client, message, args) {
         const db = new Database('unkoserver.db');
         const usersettingsdata = db.UserSettingget(message.author.id);
-        if (!usersettingsdata.admin !== 1) {
+        if (usersettingsdata.admin !== 1) {
             if (!args[0]) return message.reply('第一引数にあなたのゲーマータグを入れてください！');
             db.GamertagSet(message.author.id, args[0]);
+            message.reply('あなたのゲーマータグをDiscordアカウントとリンクしました！');
         }
         else {
             const user = client.users.cache.get(args[0]);
