@@ -85,14 +85,6 @@ class Database {
             this.sql.pragma("journal_mode = wal");
         }
 
-        const Threadtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'threads';").get();
-        if (!Threadtable['count(*)']) {
-            this.sql.prepare("CREATE TABLE threads (id TEXT PRIMARY KEY, user TEXT, channel TEXT);").run();
-            this.sql.prepare("CREATE UNIQUE INDEX idx_threads_id ON threads (id);").run();
-            this.sql.pragma("synchronous = 1");
-            this.sql.pragma("journal_mode = wal");
-        }
-
         const Countrytable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'countrys';").get();
         if (!Countrytable['count(*)']) {
             this.sql.prepare("CREATE TABLE countrys (id TEXT PRIMARY KEY, leader TEXT, role TEXT);").run();
@@ -291,31 +283,6 @@ class Database {
 
     BumpUpCountSet(data) {
         this.sql.prepare('INSERT OR REPLACE INTO bumpupcounts (id, user, bump, up) VALUES (@id, @user, @bump, @up);').run(data);
-    }
-
-    /**
-     * スレッドを取得する関数
-     * @param {string} userid 
-     */
-
-    ThreadGet(userid) {
-        return this.sql.prepare('SELECT * FROM threads WHERE user = ?').get(userid);
-    }
-
-    /**
-     * スレッドを記録する関数
-     * @param {string} userid 
-     * @param {string} channelid 
-     */
-
-    ThreadSet(userid, channelid) {
-        let data = {
-            id: `${userid}-${channelid}`,
-            user: userid,
-            channel: channelid
-        };
-
-        this.sql.prepare('INSERT OR REPLACE INTO threads (id, user, channel) VALUES (@id, @user, @channel);').run(data);
     }
 
     /**
