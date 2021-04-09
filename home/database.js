@@ -5,12 +5,17 @@ const SQLite = require("better-sqlite3");
 class Database {
 
     /**
+     * データベース接続
      * @param {string} database_filename
      */
 
     constructor(database_filename) {
         this.sql = new SQLite(`${database_filename}`);
     }
+
+    /**
+     * データベース初期化関数
+     */
 
     Initialize() {
         const Leveltable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'levels';").get();
@@ -95,6 +100,7 @@ class Database {
     }
 
     /**
+     * level取得関数
      * @param {string} userid
      * @param {string} guildid
      */
@@ -106,18 +112,20 @@ class Database {
             this.levelset(data);
         }
 
-        return data;
+        return { id: data.id, user: data.user, guild: data.guild, level: data.level, xp: data.xp, allxp: data.allxp };
     }
 
     /**
-     * @param {object} data 
+     * level保存関数
+     * @param {*} data
      */
 
     levelset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(data);
+        return this.sql.prepare('INSERT OR REPLACE INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(data);
     }
 
     /**
+     * 全てのlevelデータ取得関数
      * @param {string} guildid
      */
 
@@ -126,6 +134,7 @@ class Database {
     }
 
     /**
+     * サーバーの設定取得関数
      * @param {string} guildid
      */
 
@@ -136,22 +145,39 @@ class Database {
             this.ServerSettingSet(data);
         }
 
-        return data;
+        return { id: data.id, guild: data.guild, ticketid: data.ticketid, serverjoindedcase: data.serverjoindedcase };
     }
 
+    /**
+     * サーバー設定保存関数
+     * @param {*} data 
+     */
+
     ServerSettingSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, @serverjoindedcase);').run(data);
+        return this.sql.prepare('INSERT OR REPLACE INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, @serverjoindedcase);').run(data);
     }
+
+    /**
+     * Minecraftサーバー参加数全取得関数
+     * @returns 
+     */
 
     Serverjoindedallget() {
         return this.sql.prepare('SELECT * FROM serverjoindeds ORDER BY case ASC;').all();
     }
 
+    /**
+     * Minecraftサーバー参加数保存関数
+     * @param {*} data 
+     * @returns 
+     */
+
     Serverjoindedset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, serverjoindedcase, time, joinded) VALUES (@id, @serverjoindedcase, @time, @joinded);').run(data);
+        return this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, serverjoindedcase, time, joinded) VALUES (@id, @serverjoindedcase, @time, @joinded);').run(data);
     }
 
     /**
+     * ユーザー設定取得関数
      * @param {string} userid 
      */
 
@@ -162,66 +188,71 @@ class Database {
             this.UserSettingset(data);
         }
 
-        return data;
-    }
-
-    UserSettingset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO usersettings (id, user, ban, admin, todocount) VALUES (@id, @user, @ban, @admin, @todocount);').run(data);
-    }
-
-    ngwordset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO ngwords (id, word) VALUES (@id, @word);').run(data);
-    }
-
-    ngwordgetall() {
-        return this.sql.prepare("SELECT * FROM ngwords ORDER BY word DESC;").all();
+        return { id: data.id, user: data.user, ban: data.ban, admin: data.admin, todocount: data.todocount };
     }
 
     /**
-     * @param {string} word 
+     * ユーザー設定保存関数
+     * @param {*} data 
      */
 
-    ngworddelete(word) {
-        this.sql.prepare('DELETE FROM ngwords WHERE word = ?').run(word);
+    UserSettingset(data) {
+        return this.sql.prepare('INSERT OR REPLACE INTO usersettings (id, user, ban, admin, todocount) VALUES (@id, @user, @ban, @admin, @todocount);').run(data);
     }
 
     /**
+     * rankimage設定取得関数
      * @param {string} userid 
      */
 
     Rankimageget(userid) {
-        return this.sql.prepare('SELECT * FROM rankimages WHERE user = ?').get(userid);
-    }
-
-    Rankimageset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
+        let data = this.sql.prepare('SELECT * FROM rankimages WHERE user = ?').get(userid);
+        if (!data) return undefined;
+        return { id: data.id, user: data.user, font: data.font, fillStyle: data.fillStyle, imagex: data.imagex, imagey: data.imagey, icon: data.icon };
     }
 
     /**
+     * rank画像保存関数
+     * @param {*} data 
+     */
+
+    Rankimageset(data) {
+        return this.sql.prepare('INSERT OR REPLACE INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
+    }
+
+    /**
+     * Todoリスト取得関数
      * @param {string} userid 
      * @param {number} count 
      */
 
     Todolistget(userid, count) {
         let data = this.sql.prepare('SELECT * FROM todolists WHERE user = ? AND count = ?').get(userid, count);
-
-        return data;
-    }
-
-    Todolistset(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO todolists (id, user, count, title, description, completion) VALUES (@id, @user, @count, @title, @description, @completion);').run(data);
+        if (!data) return undefined;
+        return { id: data.id, user: data.user, count: data.count, title: data.title, description: data.description, completion: data.completion };
     }
 
     /**
+     * Todoリスト保存関数
+     * @param {*} data 
+     */
+
+    Todolistset(data) {
+        return this.sql.prepare('INSERT OR REPLACE INTO todolists (id, user, count, title, description, completion) VALUES (@id, @user, @count, @title, @description, @completion);').run(data);
+    }
+
+    /**
+     * Todoリスト削除関数
      * @param {string} userid
      * @param {number} count
      */
 
     Todoremove(userid, count) {
-        this.sql.prepare('DELETE FROM todolists WHERE user = ? AND count = ?').run(userid, count);
+        return this.sql.prepare('DELETE FROM todolists WHERE user = ? AND count = ?').run(userid, count);
     }
 
     /**
+     * Todoリスト全取得関数
      * @param {string} userid 
      */
 
@@ -230,11 +261,12 @@ class Database {
     }
 
     /**
+     * Todoリスト全削除関数
      * @param {string} userid 
      */
 
     Todolistremoveall(userid) {
-        this.sql.prepare('DELETE FROM todolists WHERE user = ?').run(userid);
+        return this.sql.prepare('DELETE FROM todolists WHERE user = ?').run(userid);
     }
 
     /**
@@ -245,7 +277,7 @@ class Database {
     globalchatset(channelid) {
         let data = { id: `${channelid}`, channel: channelid };
 
-        this.sql.prepare('INSERT OR REPLACE INTO globalchats (id, channel) VALUES (@id, @channel);').run(data);
+        return this.sql.prepare('INSERT OR REPLACE INTO globalchats (id, channel) VALUES (@id, @channel);').run(data);
     }
 
     /**
@@ -254,7 +286,7 @@ class Database {
      */
 
     globalchatdelete(channelid) {
-        this.sql.prepare('DELETE FROM globalchats WHERE channel = ?').run(channelid);
+        return this.sql.prepare('DELETE FROM globalchats WHERE channel = ?').run(channelid);
     }
 
     /**
@@ -278,11 +310,16 @@ class Database {
             this.BumpUpCountSet(data);
         }
 
-        return data;
+        return { id: data.id, user: data.user, bump: data.bump, up: data.up };
     }
 
+    /**
+     * Bump & Upの回数を保存する関数
+     * @param {*} data 
+     */
+
     BumpUpCountSet(data) {
-        this.sql.prepare('INSERT OR REPLACE INTO bumpupcounts (id, user, bump, up) VALUES (@id, @user, @bump, @up);').run(data);
+        return this.sql.prepare('INSERT OR REPLACE INTO bumpupcounts (id, user, bump, up) VALUES (@id, @user, @bump, @up);').run(data);
     }
 
     /**
@@ -298,14 +335,20 @@ class Database {
             role: roleid
         };
 
-        this.sql.prepare('INSERT OR REPLACE INTO countrys (id, leader, role) VALUES (@id, @leader, @role);').run(data);
+        return this.sql.prepare('INSERT OR REPLACE INTO countrys (id, leader, role) VALUES (@id, @leader, @role);').run(data);
     }
+
+    /**
+     * 国全取得関数
+     * @returns 
+     */
 
     Countrygetall() {
         return this.sql.prepare("SELECT * FROM countrys ORDER BY leader DESC;").all();
     }
 
     /**
+     * dbバックアップ関数
      * @param {Client} client
      */
 
