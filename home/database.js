@@ -394,6 +394,15 @@ class Database {
     }
 
     /**
+     * ゲーマータグ全取得関数
+     * @returns 
+     */
+
+    GamertagGetall() {
+        return this.sql.prepare("SELECT * FROM gamertags ORDER BY id DESC;").all();
+    }
+
+    /**
      * dbバックアップ関数
      * @param {Client} client
      */
