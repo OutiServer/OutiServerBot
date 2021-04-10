@@ -43,6 +43,7 @@ module.exports = {
                 usertag = user.user.tag;
             }
             embeds[Math.ceil(count / 10) - 1].addField(usertag, data.tag);
+            count++;
         }
 
         const msg = await message.channel.send('```' + `1/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[0]);
