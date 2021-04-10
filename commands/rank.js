@@ -51,6 +51,7 @@ module.exports = {
                 const background = await loadImage(`./dat/images/${user.id}.png`);
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = `${rankimagedata.font}px Impact`;
+                ctx.fillStyle = rankimagedata.fillStyle;
                 ctx.rotate(0);
                 ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
                 if (rankimagedata.icon) {
@@ -90,6 +91,7 @@ module.exports = {
                 const background = await loadImage(`./dat/images/${message.author.id}.png`);
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = `${rankimagedata.font}px Impact`;
+                ctx.fillStyle = rankimagedata.fillStyle;
                 ctx.rotate(0);
                 ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
                 if (rankimagedata.icon) {
