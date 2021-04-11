@@ -18,6 +18,6 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        message.channel.send('https://media.discordapp.net/attachments/825231334657884161/830441950401921025/29_20210410225811.png');
+        message.channel.send('https://media.discordapp.net/attachments/825231334657884161/830771036509306930/image0.png');
     }
 }
