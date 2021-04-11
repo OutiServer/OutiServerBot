@@ -25,17 +25,14 @@ module.exports = {
                 .then(msg => message.delete());
         }
 
-        util.statusBedrock('126.235.33.140', { timeout: 5000 })
+        util.statusBedrock('126.235.33.140', { timeout: 1000 })
             .then((result) => {
                 message.channel.send(
                     new MessageEmbed()
-                        .setTitle('🏠おうちサーバーの現在の状態🏠')
+                        .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                         .addField('IPアドレス', result.host)
                         .addField('ポート', result.port)
-                        .addField('サーバーの説明', result.motdLine2.descriptionText[0])
                         .addField('サーバーのバージョン', result.version)
-                        .addField('サーバーのエディション', result.edition)
-                        .addField('サーバーID', result.serverID)
                         .addField('デフォルトゲームモード', result.gameMode)
                         .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
                         .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
@@ -46,15 +43,13 @@ module.exports = {
             .catch((error) => {
                 message.channel.send(
                     new MessageEmbed()
-                        .setTitle('🏠おうちサーバーの現在の状態🏠')
-                        .setDescription('おうちサーバーは現在落ちてます')
+                        .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
+                        .setDescription('おうちサーバー(BE)は現在落ちてます')
                         .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
                         .setColor('RANDOM')
                         .setTimestamp()
                 );
                 console.error(error);
             });
-
-        client.cooldown.set(message.author.id, false);
     },
 };
