@@ -1,6 +1,7 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
+const fetch = require('node-fetch');
 const { Database } = require('../../home/index');
 
 /**
@@ -15,6 +16,11 @@ module.exports = async (client, message) => {
     const user = message.guild.members.cache.find(user => user.user.tag === message.embeds[0].fields[0].value);
     if (!user) return message.channel.send('ゲーマータグの自動追加に失敗しました、コマンドで手動追加してください。');
     db.GamertagSet(user.id, message.embeds[0].fields[1].value);
+  }
+  else if (message.author.id === '786343397807620106') {
+    fetch(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`)
+      .then(res => res.text())
+      .then(content => message.channel.send(content));
   }
 
   if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
