@@ -29,7 +29,7 @@ module.exports = {
         for (let i = 0; i < Math.ceil(all.length / 10); i++) {
             embeds.push(
                 new MessageEmbed()
-                    .setTitle(`うんこ鯖Levelランキング${ranknumber1}〜${ranknumber2}位`)
+                    .setTitle(`おうち鯖Levelランキング${ranknumber1}〜${ranknumber2}位`)
                     .setColor('RANDOM')
                     .setTimestamp()
             );
