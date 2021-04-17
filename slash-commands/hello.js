@@ -1,4 +1,5 @@
 const { Client } = require("discord.js");
+const { clienterrorlog } = require("../functions/error");
 
 module.exports = {
     info: {
@@ -16,13 +17,17 @@ module.exports = {
      */
 
     run: async function (client, interaction, args) {
-        client.api.interactions(interaction.id, interaction.token).callback.post({
-            data: {
-                type: 4,
+        try {
+            client.api.interactions(interaction.id, interaction.token).callback.post({
                 data: {
-                    content: `Hello World!`
+                    type: 4,
+                    data: {
+                        content: `Hello World!`
+                    }
                 }
-            }
-        });
+            });
+        } catch (error) {
+            clienterrorlog(client, error);
+        }
     }
 }

@@ -6,10 +6,7 @@ const { Client, MessageEmbed } = require('discord.js');
 
 module.exports = (client, reason, promise) => {
     console.error(reason);
-    client.users.cache.get('714455926970777602').send(
-        new MessageEmbed()
-            .setDescription('エラー内容:\n```' + reason + '```')
-            .setColor('RANDOM')
-            .setTimestamp()
-    );
+    try {
+        client.channels.cache.get('832147363430006796').send(reason.stack, { code: true, split: true })
+    } catch (error) { }
 };

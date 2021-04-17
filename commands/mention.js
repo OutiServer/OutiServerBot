@@ -1,4 +1,5 @@
 const { Client, Message } = require("discord.js");
+const { errorlog } = require("../functions/error");
 
 module.exports = {
     info: {
@@ -18,17 +19,22 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        const allusers = message.guild.members.cache.map(user => user.id);
-        const notrolesusers = [];
+        try {
+            const allusers = message.guild.members.cache.map(user => user.id);
+            const notrolesusers = [];
 
-        for (const data of allusers) {
-            if (!message.guild.member(data).roles.cache.has('821715178147020800')) {
-                notrolesusers.push('<@' + data + '>');
+            for (const data of allusers) {
+                if (!message.guild.member(data).roles.cache.has('821715178147020800')) {
+                    notrolesusers.push('<@' + data + '>');
+                }
             }
+
+            client.channels.cache.get('797008715646500865').send(notrolesusers.join('\n') + '\n<#825536134054543412>のグーグルフォームへの記入お願いします。\nわからない場合はこのチャンネルで聞いてください！');
+        } catch (error) {
+            errorlog(client, message, error);
         }
-
-        client.channels.cache.get('797008715646500865').send(notrolesusers.join('\n') + '\n<#825536134054543412>のグーグルフォームへの記入お願いします。\nわからない場合はこのチャンネルで聞いてください！');
-
-        client.cooldown.set(message.author.id, false);
+        finally {
+            client.cooldown.set(message.author.id, false);
+        }
     }
 }

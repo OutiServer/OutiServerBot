@@ -1,4 +1,5 @@
 const { Client, Message } = require("discord.js");
+const { clienterrorlog } = require("../functions/error");
 const { Database } = require('../home/index');
 
 module.exports = {
@@ -19,26 +20,31 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        const db = new Database('unkoserver.db');
-        const user = message.mentions.users.first() || message.guild.member(args[0]);
-        if (!user) {
-            return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
+        try {
+            const db = new Database('unkoserver.db');
+            const user = message.mentions.users.first() || message.guild.member(args[0]);
+            if (!user) {
+                return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
+            }
+
+            const addxp = Number(args[1]);
+            if (!addxp) {
+                return message.reply('経験値を付与する数を第二引数に入れてください！');
+            }
+
+            const userleveldata = db.levelget(user.id, message.guild.id);
+
+            userleveldata.xp += addxp;
+            userleveldata.allxp += addxp;
+
+            db.levelset(userleveldata);
+
+            message.channel.send(`${user}に${addxp}経験値付与しました！`);
+        } catch (error) {
+            clienterrorlog(client, error);
         }
-
-        const addxp = Number(args[1]);
-        if (!addxp) {
-            return message.reply('経験値を付与する数を第二引数に入れてください！');
+        finally {
+            client.cooldown.set(message.author.id, false);
         }
-
-        const userleveldata = db.levelget(user.id, message.guild.id);
-
-        userleveldata.xp += addxp;
-        userleveldata.allxp += addxp;
-
-        db.levelset(userleveldata);
-
-        message.channel.send(`${user}に${addxp}経験値付与しました！`);
-
-        client.cooldown.set(message.author.id, false);
     }
 }

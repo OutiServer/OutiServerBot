@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const { clienterrorlog } = require("../../functions/error");
 
 /**
  * @param {Client} client 
@@ -6,12 +7,16 @@ const { Client, Message, MessageEmbed } = require("discord.js");
  */
 
 module.exports = (client, message) => {
-    if (message.guild.id !== '706452606918066237' || message.author.bot) return;
-    client.channels.cache.get('825394905572573184').send(
-        new MessageEmbed()
-            .setTitle('メッセージが削除されました')
-            .setDescription(`User: ${message.author.tag}\nMessage: ${message.content}`)
-            .setColor('RANDOM')
-            .setThumbnail()
-    );
+    try {
+        if (message.guild.id !== '706452606918066237' || message.author.bot) return;
+        client.channels.cache.get('825394905572573184').send(
+            new MessageEmbed()
+                .setTitle('メッセージが削除されました')
+                .setDescription(`User: ${message.author.tag}\nMessage: ${message.content}`)
+                .setColor('RANDOM')
+                .setThumbnail()
+        );
+    } catch (error) {
+        clienterrorlog(client, error);
+    }
 }

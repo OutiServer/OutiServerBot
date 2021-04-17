@@ -19,11 +19,16 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        if (message.channel.parentID !== '828268142820196372') return message.reply('そのコマンドはスレッドアーカイブカテゴリーのみで使用できます。');
-        message.channel.setParent('828266382277345310');
+        try {
+            if (message.channel.parentID !== '828268142820196372') return message.reply('そのコマンドはスレッドアーカイブカテゴリーのみで使用できます。');
+            message.channel.setParent('828266382277345310');
 
-        message.channel.send('このスレッドを再オープンしました。');
+            message.channel.send('このスレッドを再オープンしました。');
+        } catch (error) {
 
-        client.cooldown.set(message.author.id, false);
+        }
+        finally {
+            client.cooldown.set(message.author.id, false);
+        }
     }
 }

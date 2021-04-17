@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { errorlog } = require('../functions/error');
 
 module.exports = {
     info: {
@@ -18,8 +19,15 @@ module.exports = {
      */
 
     run: async function (client, message, args) {
-        message.react('✅')
-            .then(() => client.destroy())
-            .then(() => process.exit());
+        try {
+            message.react('✅')
+                .then(() => client.destroy())
+                .then(() => process.exit());
+        } catch (error) {
+            errorlog(client, message, error);
+        }
+        finally {
+            client.cooldown.set(message.author.id, false);
+        }
     },
 };

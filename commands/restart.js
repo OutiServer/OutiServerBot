@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { errorlog } = require('../functions/error');
 
 module.exports = {
     info: {
@@ -22,6 +23,7 @@ module.exports = {
             .then(() => client.destroy())
             .then(() => client.login(process.env.DISCORD_TOKEN))
             .then(() => message.channel.send('再接続が完了しました'))
-            .then(() => client.cooldown.set(message.author.id, false));
+            .catch(error => errorlog(client, message, error))
+            .finally(() => client.cooldown.set(message.author.id, false));
     },
 };

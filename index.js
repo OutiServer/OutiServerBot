@@ -60,4 +60,8 @@ fs.readdir(__dirname + "/events/cron/", (err, files) => {
   });
 });
 
-client.login();
+client.login()
+  .catch(error => {
+    console.error(error);
+    process.exit(-1);
+  });
