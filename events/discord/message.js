@@ -183,7 +183,7 @@ module.exports = async (client, message) => {
     if (!cmd || cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && usersettingdata.admin !== 1) {
       return message.reply('そんなコマンドないで。😉');
     }
-
+    else if (client.cooldown.get(message.author.id)) return message.reply('前のコマンドがまだ実行中やで。😉')
     client.cooldown.set(message.author.id, true);
     cmd.run(client, message, args);
   } catch (error) {
