@@ -34,26 +34,10 @@ class Database {
             this.sql.pragma("journal_mode = wal");
         }
 
-        const Serverjoindedtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'serverjoindeds';").get();
-        if (!Serverjoindedtable['count(*)']) {
-            this.sql.prepare("CREATE TABLE serverjoindeds (id TEXT PRIMARY KEY, serverjoindedcase INTEGER, time TEXT, joinded INTEGER);").run();
-            this.sql.prepare("CREATE UNIQUE INDEX idx_serverjoindeds_id ON serverjoindeds (id);").run();
-            this.sql.pragma("synchronous = 1");
-            this.sql.pragma("journal_mode = wal");
-        }
-
         const UserSettingtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'usersettings';").get();
         if (!UserSettingtable['count(*)']) {
             this.sql.prepare("CREATE TABLE usersettings (id TEXT PRIMARY KEY, user TEXT, ban INTEGER, admin INTEGER, todocount INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_usersettings_id ON usersettings (id);").run();
-            this.sql.pragma("synchronous = 1");
-            this.sql.pragma("journal_mode = wal");
-        }
-
-        const Ngwordtable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'ngwords';").get();
-        if (!Ngwordtable['count(*)']) {
-            this.sql.prepare("CREATE TABLE ngwords (id TEXT PRIMARY KEY, word TEXT);").run();
-            this.sql.prepare("CREATE UNIQUE INDEX idx_ngwords_id ON ngwords (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
@@ -70,14 +54,6 @@ class Database {
         if (!Todolisttable['count(*)']) {
             this.sql.prepare("CREATE TABLE todolists (id TEXT PRIMARY KEY, user TEXT, count INTEGER, title TEXT, description TEXT, completion INTEGER);").run();
             this.sql.prepare("CREATE UNIQUE INDEX idx_todolists_id ON todolists (id);").run();
-            this.sql.pragma("synchronous = 1");
-            this.sql.pragma("journal_mode = wal");
-        }
-
-        const GlobalChattable = this.sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'globalchats';").get();
-        if (!GlobalChattable['count(*)']) {
-            this.sql.prepare("CREATE TABLE globalchats (id TEXT PRIMARY KEY, channel TEXT);").run();
-            this.sql.prepare("CREATE UNIQUE INDEX idx_globalchats_id ON globalchats (id);").run();
             this.sql.pragma("synchronous = 1");
             this.sql.pragma("journal_mode = wal");
         }
@@ -154,34 +130,6 @@ class Database {
         }
 
         return { id: data.id, guild: data.guild, ticketid: data.ticketid, serverjoindedcase: data.serverjoindedcase };
-    }
-
-    /**
-     * サーバー設定保存関数
-     * @param {*} data 
-     */
-
-    ServerSettingSet(data) {
-        return this.sql.prepare('INSERT OR REPLACE INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, @serverjoindedcase);').run(data);
-    }
-
-    /**
-     * Minecraftサーバー参加数全取得関数
-     * @returns 
-     */
-
-    Serverjoindedallget() {
-        return this.sql.prepare('SELECT * FROM serverjoindeds ORDER BY case ASC;').all();
-    }
-
-    /**
-     * Minecraftサーバー参加数保存関数
-     * @param {*} data 
-     * @returns 
-     */
-
-    Serverjoindedset(data) {
-        return this.sql.prepare('INSERT OR REPLACE INTO serverjoindeds (id, serverjoindedcase, time, joinded) VALUES (@id, @serverjoindedcase, @time, @joinded);').run(data);
     }
 
     /**
@@ -275,35 +223,6 @@ class Database {
 
     Todolistremoveall(userid) {
         return this.sql.prepare('DELETE FROM todolists WHERE user = ?').run(userid);
-    }
-
-    /**
-     * グローバルチャットチャンネル設定関数
-     * @param {string} channelid 
-     */
-
-    globalchatset(channelid) {
-        let data = { id: `${channelid}`, channel: channelid };
-
-        return this.sql.prepare('INSERT OR REPLACE INTO globalchats (id, channel) VALUES (@id, @channel);').run(data);
-    }
-
-    /**
-     * グローバルチャットチャンネル削除関数
-     * @param {string} channelid
-     */
-
-    globalchatdelete(channelid) {
-        return this.sql.prepare('DELETE FROM globalchats WHERE channel = ?').run(channelid);
-    }
-
-    /**
-     * グローバルチャットチャンネル取得関数
-     * @returns 
-     */
-
-    globalchatall() {
-        return this.sql.prepare("SELECT * FROM globalchats ORDER BY channel DESC;").all();
     }
 
     /**
