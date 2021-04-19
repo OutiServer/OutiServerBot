@@ -76,39 +76,6 @@ module.exports = async (client, message) => {
 
     yomiage(client, message);
 
-    const globalchatchannels = db.globalchatall().map(channel => channel.channel);
-
-    if (globalchatchannels.includes(message.channel.id)) {
-      if (message.attachments.size <= 0) {
-        message.delete();
-      }
-
-      let username = message.author.tag;
-      let embed = new MessageEmbed();
-      if (message.member.nickname) username = message.member.nickname + `(${message.author.tag})`;
-      if (message.attachments.size <= 0) {
-        embed
-          .setAuthor(username, message.author.avatarURL())
-          .setDescription(message.content)
-          .setColor('RANDOM')
-          .setFooter(message.guild.name + ' | ' + message.channel.name, message.guild.iconURL())
-          .setTimestamp();
-      }
-      if (!message.attachments.forEach(attachment => {
-        embed
-          .setAuthor(username, message.author.avatarURL())
-          .setImage(attachment.url)
-          .setDescription(attachment.url)
-          .setColor('RANDOM')
-          .setFooter(message.guild.name + ' | ' + message.channel.name, message.guild.iconURL())
-          .setTimestamp();
-      }));
-
-      for (const data of globalchatchannels) {
-        client.channels.cache.get(data).send(embed);
-      }
-    }
-
     if (message.channel.id === '706469264638345227') {
       message.react('👍');
       message.react('👎');
