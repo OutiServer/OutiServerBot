@@ -11,7 +11,7 @@ module.exports = {
     errorlog: async function (client, message, error) {
         console.error(error);
         try {
-            client.users.cache.get('714455926970777602').send('Error\n' + error.stack, { code: true, split: true });
+            client.channels.cache.get('832147424565919784').send('Error\n' + error.stack, { code: true, split: true });
             message.channel.send('Error\n' + error.stack, { code: true, split: true });
         }
         catch (error) { }
@@ -26,7 +26,7 @@ module.exports = {
     clienterrorlog: async function (client, error) {
         console.error(error);
         try {
-            client.users.cache.get('714455926970777602').send('Error\n' + error.stack, { code: true, split: true });
+            client.channels.cache.get('832147424565919784').send('Error\n' + error.stack, { code: true, split: true });
         }
         catch (error) { }
     }
