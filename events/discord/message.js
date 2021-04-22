@@ -70,11 +70,33 @@ module.exports = async (client, message) => {
       }
     }
 
+
+    if (message.channel.id === '833626570270572584' && message.author.id === '784043588426006548') {
+      const content = message.content.split(/\s+/);
+      if (content[2] === '[Guest]') {
+        client.channels.cache.get('834317763769925632').send(`**${content[3]}** >> ${content[5]}`);
+      }
+      else if (content[3] === 'がゲームに参加しました') {
+        client.channels.cache.get('834317763769925632').send(`**${content[2]}** がサーバーに参加しました。`)
+      }
+      else if (content[11] === 'によってログアウトされました') {
+        client.channels.cache.get('834317763769925632').send(`**${content[3]}** がサーバーから退出しました。`);
+      }
+    }
+
     const usersettingdata = db.UserSettingget(message.author.id);
 
     if (!message.guild || message.system || message.author.bot || usersettingdata.ban === 1) return;
 
     yomiage(client, message);
+
+    if (message.channel.id === '834317763769925632') {
+      if (message.content.startsWith('/')) {
+        if (usersettingdata.admin !== 1) return;
+        client.channels.cache.get('833626570270572584').send(message.content);
+      }
+      client.channels.cache.get('833626570270572584').send(`/say ${message.author.tag} ${message.content}`);
+    }
 
     if (message.channel.id === '706469264638345227') {
       message.react('👍');
