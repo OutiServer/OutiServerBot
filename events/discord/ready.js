@@ -11,6 +11,11 @@ module.exports = async (client) => {
     const db = new Database('unkoserver.db');
     db.Initialize();
 
+    client.guilds.cache.get('706452606918066237').fetchInvites()
+      .then(invites => {
+        client.invites = invites;
+      })
+
     client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING' }, status: 'dnd' })
       .then(console.log());
     console.log(`Logged in as ${client.user.tag}`);

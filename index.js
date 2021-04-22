@@ -7,6 +7,7 @@ client.commands = new Collection();
 client.slashcommands = new Collection();
 client.cooldown = new Collection();
 client.levelcooldown = new Collection();
+client.invites = new Collection();
 
 fs.readdir(__dirname + "/events/process/", (err, files) => {
   if (err) return console.error(err);
