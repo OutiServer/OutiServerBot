@@ -80,7 +80,7 @@ module.exports = async (client, message) => {
         client.channels.cache.get('834317763769925632').send(`**${content[2]}** がサーバーに参加しました。`)
       }
       else if (content[10] === 'によってログアウトされました') {
-        client.channels.cache.get('834317763769925632').send(`**${content[3]}** がサーバーから退出しました。`);
+        client.channels.cache.get('834317763769925632').send(`**${content[2]}** がサーバーから退出しました。`);
       }
     }
 
