@@ -121,6 +121,7 @@ module.exports = async (client, message) => {
       let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
       if (!userleveldata) {
         userleveldata = { id: `${userid}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
+        client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
       }
       if (userleveldata.level >= 10) message.member.roles.add('824554360699879455');
       if (userleveldata.level >= 20) message.member.roles.add('825245951295225896');
