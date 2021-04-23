@@ -1,6 +1,5 @@
 const { Client, Message } = require("discord.js");
 const { errorlog } = require("../functions/error");
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -21,23 +20,39 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const db = new Database('unkoserver.db');
-            const usersettingsdata = db.UserSettingget(message.author.id);
-            if (usersettingsdata.admin !== 1) {
+            if (!message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571')) {
+                if (client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id)) return message.reply('あなたのゲーマータグは既に追加済みです！');
                 if (!args[0]) return message.reply('第一引数にあなたのゲーマータグを入れてください！');
-                db.GamertagSet(message.author.id, args[0]);
+                const data = {
+                    id: `${message.author.id}-${args[0]}`,
+                    user: message.author.id,
+                    tag: args[0]
+                };
+                client.db.prepare('INSERT INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
                 message.reply('あなたのゲーマータグをDiscordアカウントとリンクしました！');
             }
             else {
                 const user = client.users.cache.get(args[0]);
                 if (!user) {
+                    if (client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id)) return message.reply('あなたのゲーマータグは既に追加済みです！');
                     if (!args[0]) return message.reply('第一引数にあなたのゲーマータグを入れてください！');
-                    db.GamertagSet(message.author.id, args[0]);
+                    const data = {
+                        id: `${message.author.id}-${args[0]}`,
+                        user: message.author.id,
+                        tag: args[0]
+                    };
+                    client.db.prepare('INSERT INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
                     message.reply('あなたのゲーマータグをDiscordアカウントとリンクしました！');
                 }
                 else {
+                    if (client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(user.id)) return message.reply(`${user.tag}のゲーマータグは既に追加済みです！`);
                     if (!args[1]) return message.reply(`第二引数に${user.tag}のゲーマータグを入れてください！`);
-                    db.GamertagSet(user.id, args[1]);
+                    const data = {
+                        id: `${user.id}-${args[1]}`,
+                        user: user.id,
+                        tag: args[1]
+                    };
+                    client.db.prepare('INSERT INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
                     message.channel.send(`${user.tag}のゲーマータグをDiscordアカウントとリンクしました！`);
                 }
             }

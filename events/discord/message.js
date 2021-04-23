@@ -2,7 +2,6 @@ const { Client, Message, MessageEmbed } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const fetch = require('node-fetch');
-const { Database } = require('../../home/index');
 const { errorlog } = require('../../functions/error');
 
 /**
@@ -12,12 +11,16 @@ const { errorlog } = require('../../functions/error');
 
 module.exports = async (client, message) => {
   try {
-    const db = new Database('unkoserver.db');
     if (message.author.id === '825373463757193237') {
       message.channel.send(message.embeds[0].fields[1].value);
       const user = message.guild.members.cache.find(user => user.user.tag === message.embeds[0].fields[0].value);
       if (!user) return message.channel.send('ゲーマータグの自動追加に失敗しました、コマンドで手動追加してください。');
-      db.GamertagSet(user.id, message.embeds[0].fields[1].value);
+      const data = {
+        id: `${user.id}-${message.embeds[0].fields[1].value}`,
+        user: user.id,
+        tag: message.embeds[0].fields[1].value
+      };
+      client.db.prepare('INSERT INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
     }
     else if (message.author.id === '786343397807620106') {
       fetch(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`)
@@ -28,15 +31,12 @@ module.exports = async (client, message) => {
     if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
       if (message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
         const bump_user = message.embeds[0].description.split(',')[0];
-        const bumpcountdata = db.BumpUpCountGet(bump_user.split('<@')[1].split('>')[0]);
-        bumpcountdata.bump++;
         message.channel.send(bump_user,
           new MessageEmbed()
-            .setDescription(`${bumpcountdata.bump}回目のBumpです、二時間後にこのチャンネルで通知します`)
+            .setDescription(`Bumpを確認しました、二時間後にこのチャンネルで通知します`)
             .setColor('RANDOM')
             .setTimestamp()
         );
-        db.BumpUpCountSet(bumpcountdata);
         setTimeout(() => {
           message.channel.send(`Bumpしてから二時間経ちました\n\`!d bump\` を実行しましょう<:emoji_121:820198227147751474>`);
         }, 7200000);
@@ -50,15 +50,12 @@ module.exports = async (client, message) => {
     else if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
       if (message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
         const up_user = message.embeds[0].description.split(/\s+/)[0];
-        const upcountdata = db.BumpUpCountGet(up_user.split('<@')[1].split('>')[0]);
-        upcountdata.up++;
         message.channel.send(up_user,
           new MessageEmbed()
-            .setDescription(`${upcountdata.up}回目のupです、一時間後にこのチャンネルで通知します`)
+            .setDescription(`upを確認しました、一時間後にこのチャンネルで通知します`)
             .setColor('RANDOM')
             .setTimestamp()
         );
-        db.BumpUpCountSet(upcountdata);
         setTimeout(() => {
           message.channel.send(`Upしてから一時間経ちました\n\`/dissoku up!\` を実行しましょう<:emoji_121:820198227147751474>`);
         }, 3600000);
@@ -84,15 +81,13 @@ module.exports = async (client, message) => {
       }
     }
 
-    const usersettingdata = db.UserSettingget(message.author.id);
-
-    if (!message.guild || message.system || message.author.bot || usersettingdata.ban === 1) return;
+    if (!message.guild || message.system || message.author.bot) return;
 
     yomiage(client, message);
 
     if (message.channel.id === '834317763769925632') {
       if (message.content.startsWith('/')) {
-        if (usersettingdata.admin !== 1) return;
+        if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) return;
         client.channels.cache.get('833626570270572584').send(message.content);
       }
       client.channels.cache.get('833626570270572584').send(`/say ${message.author.tag} ${message.content}`);
@@ -122,9 +117,11 @@ module.exports = async (client, message) => {
         });
     }
 
-    const userleveldata = db.levelget(message.author.id, message.guild.id);
-
     if (message.guild.id === '706452606918066237') {
+      let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
+      if (!userleveldata) {
+        userleveldata = { id: `${userid}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
+      }
       if (userleveldata.level >= 10) message.member.roles.add('824554360699879455');
       if (userleveldata.level >= 20) message.member.roles.add('825245951295225896');
       if (userleveldata.level >= 30) message.member.roles.add('830368022916104203');
@@ -143,9 +140,9 @@ module.exports = async (client, message) => {
         let random = Math.floor(Math.random() * levelup.length);
         message.channel.send(levelup[random]);
       }
-    }
 
-    db.levelset(userleveldata);
+      client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
+    }
 
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
     let result;
@@ -169,7 +166,7 @@ module.exports = async (client, message) => {
     const command = args.shift().toLowerCase();
     if (!command) return;
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
-    if (!cmd || cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && usersettingdata.admin !== 1) {
+    if (!cmd || cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571')) {
       return message.reply('そんなコマンドないで。😉');
     }
     else if (client.cooldown.get(message.author.id)) return message.reply('前のコマンドがまだ実行中やで。😉')

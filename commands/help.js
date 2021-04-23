@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { errorlog } = require('../functions/error');
-const { Database } = require('../home/index');
 
 module.exports = {
   info: {
@@ -21,7 +20,6 @@ module.exports = {
 
   run: async function (client, message, args) {
     try {
-      const db = new Database('unkoserver.db');
       if (!args[0]) {
         const main = client.commands.filter(x => x.info.category == 'Main').map((x) => '`' + x.info.name + '`').join(', ');
         const minecraft = client.commands.filter(x => x.info.category == 'Minecraft').map((x) => '`' + x.info.name + '`').join(', ');
@@ -60,7 +58,7 @@ module.exports = {
             .setTimestamp()
 
         )
-        if (db.UserSettingget(message.author.id).admin === 1) {
+        if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) {
           embeds[0].addField('Admin', admin);
           embeds.push(
             new MessageEmbed()

@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { errorlog } = require("../functions/error");
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -21,6 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
+            return message.reply('Todo Listは現在改良中です！');
             const db = new Database('unkoserver.db');
             const command = args[0];
             if (command === 'add') {

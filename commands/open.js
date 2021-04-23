@@ -1,5 +1,4 @@
 const { Client, Message } = require("discord.js");
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {

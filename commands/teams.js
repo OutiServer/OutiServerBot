@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { errorlog } = require("../functions/error");
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -21,8 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const db = new Database('unkoserver.db');
-            const all = db.Countrygetall();
+            const all = client.db.prepare("SELECT * FROM countrys ORDER BY leader DESC;").all();
             let embeds = [];
             for (const data of all) {
                 const role = client.guilds.cache.get('706452606918066237').roles.cache.get(data.role);

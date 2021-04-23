@@ -1,7 +1,6 @@
 const { createCanvas, loadImage } = require('canvas');
 const { Client, Message, MessageAttachment } = require("discord.js");
 const { errorlog } = require('../functions/error');
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -23,13 +22,16 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             message.channel.startTyping();
-            const db = new Database('unkoserver.db');
             const user = message.mentions.users.first() || client.users.cache.get(args[0]);
             let rankimagebuffer;
 
             if (user) {
-                const userleveldata = db.levelget(user.id, message.guild.id);
-                const rankimagedata = db.Rankimageget(user.id);
+                let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(user.id);
+                if (userleveldata) {
+                    userleveldata = { id: `${user.id}`, user: user.id, guild: null, level: 0, xp: 0, allxp: 0 };
+                    client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
+                }
+                const rankimagedata = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(user.id);
 
                 if (!rankimagedata) {
                     const canvas = createCanvas(1500, 500);
@@ -68,8 +70,12 @@ module.exports = {
                 }
             }
             else {
-                const userleveldata = db.levelget(message.author.id, message.guild.id);
-                const rankimagedata = db.Rankimageget(message.author.id);
+                let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
+                if (userleveldata) {
+                    userleveldata = { id: `${message.author.id}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
+                    client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
+                }
+                const rankimagedata = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id);
 
                 if (!rankimagedata) {
                     const canvas = createCanvas(1500, 500);

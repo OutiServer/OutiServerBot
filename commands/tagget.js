@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { errorlog } = require("../functions/error");
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -21,16 +20,16 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const db = new Database('unkoserver.db');
             const user = message.mentions.users.first() || client.users.cache.get(args[0]);
             if (!user) {
-                const usergamertag = db.GamertagtagGet(args[0]);
+                let usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE tag = ?').get(args[0]);
                 if (!usergamertag) {
-                    const authorgamertag = db.GamertaguserGet(message.author.id);
+                    usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
+                    if (!usergamertag) return message.reply('あなたのゲーマータグはまだリンクされていません！');
                     message.channel.send(
                         new MessageEmbed()
                             .addField('DiscordUserTag', message.author.tag)
-                            .addField('XboxGamerTag', authorgamertag.tag)
+                            .addField('XboxGamerTag', usergamertag.tag)
                             .setColor('RANDOM')
                             .setTimestamp()
                     );
@@ -46,7 +45,18 @@ module.exports = {
                 }
             }
             else {
-                const usergamertag = db.GamertaguserGet(user.id);
+                let usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(user.id);
+                if (!usergamertag) {
+                    usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
+                    if (!usergamertag) return message.reply('あなたのゲーマータグはまだリンクされていません！');
+                    message.channel.send(
+                        new MessageEmbed()
+                            .addField('DiscordUserTag', message.author.tag)
+                            .addField('XboxGamerTag', usergamertag.tag)
+                            .setColor('RANDOM')
+                            .setTimestamp()
+                    );
+                }
                 message.channel.send(
                     new MessageEmbed()
                         .addField('DiscordUserTag', client.users.cache.get(usergamertag.user).tag)

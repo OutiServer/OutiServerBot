@@ -1,6 +1,5 @@
 const { Client, MessageEmbed } = require('discord.js');
 const { clienterrorlog } = require('./functions/error');
-const { Database } = require('./home/index');
 
 module.exports = {
 
@@ -108,9 +107,12 @@ module.exports = {
             });
 
             handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
-                const db = new Database('unkoserver.db');
                 if (reaction.emoji.name === '🎫') {
-                    let ticketdata = db.ServerSettingGet('706452606918066237');
+                    let ticketdata = client.db.prepare('SELECT * FROM serversettings WHERE guild = ?').get('706452606918066237');
+                    if (!ticketdata) {
+                        ticketdata = { id: '706452606918066237', guild: '706452606918066237', ticketid: 0, serverjoindedcase: 0 }
+                        client.db.prepare('INSERT INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, @serverjoindedcase)').run(ticketdata);
+                    }
                     client.guilds.cache.get('706452606918066237').channels.create(`${ticketdata.ticketid}-お問い合わせ`,
                         {
                             type: 'text',
@@ -137,8 +139,7 @@ module.exports = {
                                 .setColor('RANDOM')
                                 .setTimestamp())
                         );
-                    ticketdata.ticketid++;
-                    db.ServerSettingSet(ticketdata);
+                    client.db.prepare('UPDATE serversettings SET ticketid = ? WHERE id = ?').run(ticketdata.ticketid, ticketdata.id);
                 }
             });
         } catch (error) {

@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const { errorlog } = require('../functions/error');
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -21,8 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const db = new Database('unkoserver.db');
-            const all = db.levelallget(message.guild.id);
+            const all = client.db.prepare("SELECT * FROM levels WHERE guild = ? ORDER BY allxp DESC;").all(message.guild.id);
             let embeds = [];
             let ranknumber1 = 1;
             let ranknumber2 = 10;

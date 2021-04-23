@@ -1,7 +1,6 @@
 const fs = require('fs');
 const request = require('request');
 const { Message, Client } = require("discord.js");
-const { Database } = require('../home/index');
 const { errorlog } = require('../functions/error');
 
 module.exports = {
@@ -23,8 +22,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const db = new Database('unkoserver.db');
-            const userleveldata = db.levelget(message.author.id, message.guild.id);
+            const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
             if (userleveldata.level < 10) {
                 return message.reply('画像背景申請はLevel10以上になってから使用できます！');
             }
@@ -51,7 +49,7 @@ module.exports = {
                                 imagey: attachment.height,
                                 icon: 1
                             };
-                            db.Rankimageset(data);
+                            client.db.prepare('INSERT INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
                             message.channel.send('level画像を設定しました！');
                         }
                     }

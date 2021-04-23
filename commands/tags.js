@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { errorlog } = require("../functions/error");
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -21,8 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const db = new Database('unkoserver.db');
-            const all = db.GamertagGetall();
+            const all = client.db.prepare("SELECT * FROM gamertags ORDER BY id DESC;").all();
             let embeds = [];
             let count = 1;
 

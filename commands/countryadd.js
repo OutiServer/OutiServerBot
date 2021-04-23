@@ -1,6 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const { errorlog } = require("../functions/error");
-const { Database } = require('../home/index');
 
 module.exports = {
     info: {
@@ -25,9 +24,8 @@ module.exports = {
             const role = message.guild.roles.cache.get(args[1]);
             if (!leader || !role) return message.reply('第一引数に国リーダーのユーザーID、第二引数に国ロールIDを入れてください！');
 
-            const db = new Database('unkoserver.db');
-
-            db.Countryset(leader.id, role.id);
+            const data = { id: `${leader.id}-${role.id}`, leader: leader.id, role: role.id };
+            client.db.prepare('INSERT INTO countrys (id, leader, role) VALUES (@id, @leader, @role);').run(data);
 
             message.channel.send(
                 new MessageEmbed()

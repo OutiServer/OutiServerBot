@@ -1,6 +1,5 @@
-const { Client } = require('discord.js');
+const { Client, MessageAttachment } = require('discord.js');
 const { clienterrorlog } = require('../../functions/error');
-const { Database } = require('../../home/index');
 
 /**
  * @param {Client} client
@@ -8,8 +7,9 @@ const { Database } = require('../../home/index');
 
 module.exports = (client) => {
     try {
-        const db = new Database('unkoserver.db');
-        db.backup(client);
+        client.db.backup('backup.db')
+            .then(() => client.channels.cache.get('816555488694108170').send(new MessageAttachment(`backup.db`)))
+            .then(() => fs.unlinkSync('backup.db'));
     } catch (error) {
         clienterrorlog(client, error);
     }
