@@ -27,7 +27,7 @@ module.exports = {
 
             if (user) {
                 let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(user.id);
-                if (userleveldata) {
+                if (!userleveldata) {
                     userleveldata = { id: `${user.id}`, user: user.id, guild: null, level: 0, xp: 0, allxp: 0 };
                     client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
                 }
@@ -71,7 +71,7 @@ module.exports = {
             }
             else {
                 let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-                if (userleveldata) {
+                if (!userleveldata) {
                     userleveldata = { id: `${message.author.id}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
                     client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
                 }

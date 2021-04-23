@@ -20,7 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const all = client.db.prepare("SELECT * FROM levels WHERE guild = ? ORDER BY allxp DESC;").all(message.guild.id);
+            const all = client.db.prepare("SELECT * FROM levels ORDER BY allxp DESC;").all();
             let embeds = [];
             let ranknumber1 = 1;
             let ranknumber2 = 10;
