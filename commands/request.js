@@ -40,16 +40,18 @@ module.exports = {
                     function (error, response, body) {
                         if (!error && response.statusCode === 200) {
                             fs.writeFileSync(`./dat/images/${message.author.id}.png`, body, 'binary');
-                            const data = {
-                                id: `${message.author.id}`,
-                                user: message.author.id,
-                                font: 80,
-                                fillStyle: '#000000',
-                                imagex: attachment.width,
-                                imagey: attachment.height,
-                                icon: 1
-                            };
-                            client.db.prepare('INSERT INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
+                            if (!client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id)) {
+                                const data = {
+                                    id: `${message.author.id}`,
+                                    user: message.author.id,
+                                    font: 80,
+                                    fillStyle: '#000000',
+                                    imagex: attachment.width,
+                                    imagey: attachment.height,
+                                    icon: 1
+                                };
+                                client.db.prepare('INSERT INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
+                            }
                             message.channel.send('level画像を設定しました！');
                         }
                     }
