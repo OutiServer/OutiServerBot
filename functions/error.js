@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message, WebhookClient } = require("discord.js");
 
 module.exports = {
 
@@ -11,8 +11,10 @@ module.exports = {
     errorlog: async function (client, message, error) {
         console.error(error);
         try {
-            client.channels.cache.get('832147424565919784').send('Error\n' + error.stack, { code: true, split: true });
-            message.channel.send('Error\n' + error.stack, { code: true, split: true });
+            //https://discord.com/api/webhooks//
+            const webhook = new WebhookClient('835806322938216468', 'KkEyBU0QDVaiiYNea_gCWrv4-ulyT-vnuKAT9tu7vWleO-JqFa6fCDV5H2BDvY8jQBPf');
+            webhook.send(error.stack, { code: true, split: true });
+            message.channel.send('コマンド実行中にエラーが発生しました、もう一度コマンドを送信してください。');
         }
         catch (error) { }
     },
@@ -26,7 +28,8 @@ module.exports = {
     clienterrorlog: async function (client, error) {
         console.error(error);
         try {
-            client.channels.cache.get('832147424565919784').send('Error\n' + error.stack, { code: true, split: true });
+            const webhook = new WebhookClient('835744870114656256', '4YsFlIYycw-n_SvDq6awAQCobZ6n9CCo8IqzlZa4NiYhXvhlXLk1OSrx_BoEkf99cSqv');
+            webhook.send(error.stack, { code: true, split: true });
         }
         catch (error) { }
     }
