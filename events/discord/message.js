@@ -2,7 +2,7 @@ const { Client, Message, MessageEmbed } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const fetch = require('node-fetch');
-const { errorlog } = require('../../functions/error');
+const { errorlog, clienterrorlog } = require('../../functions/error');
 
 /**
  * @param {Client} client
@@ -174,7 +174,7 @@ module.exports = async (client, message) => {
     client.cooldown.set(message.author.id, true);
     cmd.run(client, message, args);
   } catch (error) {
-    errorlog(client, message, error);
+    clienterrorlog(client, error);
   }
 };
 
