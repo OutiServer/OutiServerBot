@@ -6,4 +6,5 @@ node_modules/
 slash-command.js
 .DS_Store
 dat/images/
+dat/backup
 .vscode/
