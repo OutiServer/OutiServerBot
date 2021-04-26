@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { Client, MessageAttachment } = require('discord.js');
 const { clienterrorlog } = require('../../functions/error');
 
