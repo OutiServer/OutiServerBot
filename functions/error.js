@@ -11,10 +11,9 @@ module.exports = {
     errorlog: async function (client, message, error) {
         console.error(error);
         try {
-            //https://discord.com/api/webhooks//
             const webhook = new WebhookClient('835806322938216468', 'KkEyBU0QDVaiiYNea_gCWrv4-ulyT-vnuKAT9tu7vWleO-JqFa6fCDV5H2BDvY8jQBPf');
             webhook.send(error.stack, { code: true, split: true });
-            message.channel.send('コマンド実行中にエラーが発生しました、もう一度コマンドを送信してください。');
+            message.channel.send('コマンド実行中にエラーが発生したみたいや、もう一度実行してな。😉');
         }
         catch (error) { }
     },
