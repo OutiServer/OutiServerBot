@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { Client, MessageAttachment } = require('discord.js');
 const { clienterrorlog } = require('../../functions/error');
 
@@ -8,9 +7,9 @@ const { clienterrorlog } = require('../../functions/error');
 
 module.exports = (client) => {
     try {
-        client.db.backup('backup.db')
-            .then(() => client.channels.cache.get('816555488694108170').send(new MessageAttachment(`backup.db`)))
-            .then(() => fs.unlinkSync('backup.db'));
+        const time = new Date();
+        client.db.backup(`dat/backup/${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`)
+            .then(() => client.channels.cache.get('816555488694108170').send(new MessageAttachment(`dat/backup/${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`)))
     } catch (error) {
         clienterrorlog(client, error);
     }
