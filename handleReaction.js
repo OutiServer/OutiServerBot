@@ -17,6 +17,7 @@ module.exports = {
             }
 
             handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
+                if (user.bot) return;
                 if (reaction.emoji.id === '790538555407597590') {
                     if (reaction.message.guild.member(user).roles.cache.has('717326376516190221')) {
                         reaction.message.guild.member(user).roles.remove('717326376516190221');
@@ -107,6 +108,7 @@ module.exports = {
             });
 
             handleReaction('821686383605055508', '821726639443673089', async (reaction, user) => {
+                if (user.bot) return;
                 if (reaction.emoji.name === '🎫') {
                     let ticketdata = client.db.prepare('SELECT * FROM serversettings WHERE guild = ?').get('706452606918066237');
                     if (!ticketdata) {
