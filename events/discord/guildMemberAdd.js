@@ -21,6 +21,8 @@ module.exports = async (client, member) => {
                     .addField('招待コード', invite.code)
                     .addField('招待した人', invite.inviter.tag)
                     .addField('使用回数', invite.uses)
+                    .setColor('RANDOM')
+                    .setTimestamp()
             );
         })
 
