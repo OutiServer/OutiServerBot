@@ -1,16 +1,16 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
-const { errorlog } = require('../functions/error');
+const { errorlog } = require('../../functions/error');
 
 module.exports = {
     info: {
-        name: "homeserverstatuspmmp",
-        description: "おうちサーバー(pmmp)の状態を表示するコマンド",
+        name: "homeserverstatus",
+        description: "おうちサーバーの状態を表示するコマンド",
         usage: "",
-        aliases: ["hsspmmp"],
+        aliases: ["hss"],
         owneronly: false,
-        adminonly: true,
-        category: 'Admin'
+        adminonly: false,
+        category: 'Minecraft'
     },
 
     /**
@@ -27,11 +27,11 @@ module.exports = {
                     .then(msg => message.delete());
             }
 
-            util.statusBedrock('126.235.33.140', { port: 19131, timeout: 1000 })
+            util.statusBedrock('126.235.33.140', { timeout: 1000 })
                 .then((result) => {
                     message.channel.send(
                         new MessageEmbed()
-                            .setTitle('🏠おうちサーバー(PMMP)の現在の状態🏠')
+                            .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                             .addField('IPアドレス', result.host)
                             .addField('ポート', result.port)
                             .addField('サーバーのバージョン', result.version)
@@ -45,8 +45,8 @@ module.exports = {
                 .catch(() => {
                     message.channel.send(
                         new MessageEmbed()
-                            .setTitle('🏠おうちサーバー(PMMP)の現在の状態🏠')
-                            .setDescription('おうちサーバー(PMMP)は現在落ちてます')
+                            .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
+                            .setDescription('おうちサーバー(BE)は現在落ちてます')
                             .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
                             .setColor('RANDOM')
                             .setTimestamp()

@@ -1,6 +1,6 @@
 const { createCanvas, loadImage } = require('canvas');
 const { Client, Message, MessageAttachment } = require("discord.js");
-const { errorlog } = require('../functions/error');
+const { errorlog } = require('../../functions/error');
 
 module.exports = {
     info: {

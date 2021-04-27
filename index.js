@@ -31,16 +31,15 @@ fs.readdir(__dirname + "/events/discord/", (err, files) => {
   });
 });
 
-fs.readdir("./commands/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach((file) => {
-    if (!file.endsWith(".js")) return;
-    let props = require(`./commands/${file}`);
-    let commandName = file.split(".")[0];
-    client.commands.set(commandName, props);
-    console.log(`${commandName} command is Loading completed`);
-  });
-});
+const commandFolders = fs.readdirSync('./commands');
+for (const folder of commandFolders) {
+  const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
+  for (const file of commandFiles) {
+    const command = require(`./commands/${folder}/${file}`);
+    client.commands.set(command.info.name, command);
+    console.log(`${command.info.name} command is Loading completed`);
+  }
+}
 
 fs.readdir("./slash-commands/", (err, files) => {
   if (err) return console.error(err);

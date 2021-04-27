@@ -1,5 +1,5 @@
 const { Client, Message } = require('discord.js');
-const { clienterrorlog } = require('../functions/error');
+const { clienterrorlog } = require('../../functions/error');
 
 module.exports = {
     info: {
