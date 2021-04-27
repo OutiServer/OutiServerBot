@@ -1,4 +1,4 @@
-const { Client, MessageEmbed } = require('discord.js');
+const { Client, WebhookClient } = require('discord.js');
 
 /**
  * @param {Client} client
@@ -7,6 +7,7 @@ const { Client, MessageEmbed } = require('discord.js');
 module.exports = (client, reason, promise) => {
     console.error(reason);
     try {
-        client.channels.cache.get('832147363430006796').send(reason.stack, { code: true, split: true })
+        const webhook = new WebhookClient('835744870114656256', '4YsFlIYycw-n_SvDq6awAQCobZ6n9CCo8IqzlZa4NiYhXvhlXLk1OSrx_BoEkf99cSqv');
+        webhook.send(reason.stack, { code: true, split: true });
     } catch (error) { }
 };
