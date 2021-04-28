@@ -23,9 +23,9 @@ module.exports = {
             const used = process.memoryUsage();
             const memory = Math.round(used.rss / 1024 / 1024 * 100) / 100;
             message.channel.send('Pong!')
-                .then(msg => msg.edit(
+                .then(msg => msg.edit('',
                     new MessageEmbed()
-                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${memory}MB`)
+                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${memory}MB`)
                         .setColor('RANDOM')
                         .setTimestamp()
                 ));
