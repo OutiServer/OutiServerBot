@@ -22,12 +22,13 @@ module.exports = {
         try {
             const used = process.memoryUsage();
             const memory = Math.round(used.rss / 1024 / 1024 * 100) / 100;
-            message.channel.send(
-                new MessageEmbed()
-                    .setDescription(`Ping値: ${client.ws.ping}ms\nメモリ使用率: ${memory}MB`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-            );
+            message.channel.send('Pong!')
+                .then(msg => msg.edit(
+                    new MessageEmbed()
+                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${memory}MB`)
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                ));
         } catch (error) {
             errorlog(client, message, error);
         }
