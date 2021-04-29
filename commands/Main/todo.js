@@ -4,7 +4,7 @@ const { errorlog } = require("../../functions/error");
 module.exports = {
     info: {
         name: "todo",
-        description: "to do うんこ",
+        description: "to do おうち",
         usage: "",
         aliases: [""],
         owneronly: false,
@@ -20,35 +20,31 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            return message.reply('Todo Listは現在改良中です！');
-            const db = new Database('unkoserver.db');
-            const command = args[0];
-            if (command === 'add') {
+            if (args[0] === 'add') {
                 const msg = await message.channel.send('Todoに追加する名前を送信してください');
                 const filter = msg => msg.author.id === message.author.id;
                 const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
                 const response = collected.first();
-                if (!response) return;
+                if (!response) return msg.edit('時間切れです...');
                 const title = response.content;
+                response.delete();
                 msg.edit('追加するTodoの説明を送信してください');
                 const filter2 = msg => msg.author.id === message.author.id;
                 const collected2 = await message.channel.awaitMessages(filter2, { max: 1, time: 30000 });
                 const response2 = collected2.first();
-                if (!response2) return;
+                if (!response2) return msg.edit('時間切れです...');
                 const description = response2.content;
+                response2.delete();
 
-                let usersettingsdata = db.UserSettingget(message.author.id);
-                usersettingsdata.todocount++;
-                let usertododata = {
-                    id: `${message.author.id}-${usersettingsdata.todocount}`,
+                const todo = client.db.prepare('SELECT * FROM todolists WHERE user = ? AND title = ?').get(message.author.id, title);
+                if (todo) return message.reply('その名前のTodoは既に登録済みのようです。');
+                const data = {
+                    id: `${message.author.id}-${title}`,
                     user: message.author.id,
-                    count: usersettingsdata.todocount,
                     title: title,
-                    description: description,
-                    completion: 0
-                }
-                db.Todolistset(usertododata);
-                db.UserSettingset(usersettingsdata);
+                    description: description
+                };
+                client.db.prepare('INSERT INTO todolists (id, user, title, description) VALUES (@id, @user, @title, @description);').run(data);
                 msg.edit('',
                     new MessageEmbed()
                         .setTitle('Todoうんこ登録完了')
@@ -59,12 +55,13 @@ module.exports = {
                         .setTimestamp()
                 );
             }
-            else if (command === 'list') {
-                const usertododata = db.Todolistgetall(message.author.id);
+            else if (args[0] === 'list') {
+                const all = client.db.prepare("SELECT * FROM todolists WHERE user = ? ORDER BY user DESC;").all(message.author.id);
+                if (all.length === 0) return message.reply('あなたはTodoに何も登録してないようです。');
                 let embeds = [];
                 let count = 1;
 
-                for (let i = 0; i < Math.ceil(usertododata.length / 10); i++) {
+                for (let i = 0; i < Math.ceil(all.length / 10); i++) {
                     embeds.push(
                         new MessageEmbed()
                             .setTitle(`${message.author.tag} TodoList ${i + 1}ページ目`)
@@ -73,8 +70,8 @@ module.exports = {
                     );
                 }
 
-                for (const data of usertododata) {
-                    embeds[Math.ceil(count / 10) - 1].addField(`識別番号${data.count}: ${data.title} `, data.description);
+                for (const data of all) {
+                    embeds[Math.ceil(count / 10) - 1].addField(`No. ${count}: ${data.title} `, data.description);
                     count++;
                 }
 
@@ -101,63 +98,27 @@ module.exports = {
                     }
                 }
             }
-            else if (command === 'remove') {
-                const todonumber = args[1];
-                if (!todonumber) {
-                    message.react('816282137065947136');
-                    message.reply('第二引数に削除するTodoの識別番号を入れてください！');
+            else if (args[0] === 'remove') {
+                const all = client.db.prepare("SELECT * FROM todolists WHERE user = ? ORDER BY user DESC;").all(message.author.id);
+                if (all.length === 0) return message.reply('あなたはTodoに何も登録してないようです。');
+                let embeds = [];
+                let count = 1;
+
+                for (let i = 0; i < Math.ceil(all.length / 10); i++) {
+                    embeds.push(
+                        new MessageEmbed()
+                            .setTitle(`${message.author.tag} TodoList ${i + 1}ページ目`)
+                            .setColor('RANDOM')
+                            .setTimestamp()
+                    );
                 }
 
-                if (!db.Todolistget(message.author.id, todonumber)) {
-                    message.react('816282137065947136');
-                    return message.reply('その識別番号のTodoは存在しないようです。');
+                for (const data of all) {
+                    embeds[Math.ceil(count / 10) - 1].addField(`No. ${count}: ${data.title} `, data.description);
+                    count++;
                 }
 
-                db.Todoremove(message.author.id, todonumber);
-
-                message.channel.send(`識別番号${todonumber}のTodoを削除しました`);
-            }
-            else if (command === 'completion') {
-                const todonumber = args[1];
-                if (!todonumber) {
-                    message.react('816282137065947136');
-                    return message.reply('第二引数に完了するTodoの識別番号を入れてください！');
-                }
-
-                const usertododata = db.Todolistget(message.author.id, todonumber);
-                if (!usertododata) {
-                    message.react('816282137065947136');
-                    return message.reply('その識別番号のTodoは存在しないようです。');
-                }
-
-                usertododata.completion = 1;
-                db.Todolistset(usertododata);
-
-                message.channel.send(`識別番号${todonumber}のTodoを完了しました！`);
-            }
-            else if (command === 'edit') {
-                const todonumber = args[1];
-                if (!todonumber) {
-                    message.react('816282137065947136');
-                    return message.reply('第二引数に完了するTodoの識別番号を入れてください！');
-                }
-
-                const usertododata = db.Todolistget(message.author.id, todonumber);
-                if (!usertododata) {
-                    message.react('816282137065947136');
-                    return message.reply('その識別番号のTodoは存在しないようです。');
-                }
-
-                const msg = await message.channel.send('変更する項目を送信してください、0で処理を止める\n`title`, `description` ',
-                    new MessageEmbed()
-                        .setTitle('現在の設定')
-                        .addField('title', usertododata.title)
-                        .addField('description', usertododata.description)
-                        .setColor('RANDOM')
-                        .setTimestamp()
-                );
-
-                let type = '';
+                const msg = await message.channel.send('```' + `1/${embeds.length}ページ目を表示中\n削除したい番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[0]);
                 while (true) {
                     const filter = msg => msg.author.id === message.author.id;
                     const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
@@ -171,88 +132,92 @@ module.exports = {
                         msg.edit('');
                         return;
                     }
-                    else if (response.content === 'title') {
+                    else {
+                        var selecttodo = Number(response.content);
+                        if (selecttodo > all.length || !selecttodo) continue;
                         response.delete();
-                        type = 'title';
-                        break;
-                    }
-                    else if (response.content === 'description') {
-                        response.delete();
-                        type = 'description';
                         break;
                     }
                 }
 
-                if (type === 'title') {
-                    msg.edit('新しいTitleを送信してください', '');
+                msg.edit(`以下のTodoを削除してよろしいですか？\n消す場合は1を、消さない場合は0を送信してください。`,
+                    new MessageEmbed()
+                        .setTitle('Todo削除最終確認')
+                        .addField('Todo名', all[selecttodo - 1].title)
+                        .addField('Todoの説明', all[selecttodo - 1].description)
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                );
+                while (true) {
                     const filter = msg => msg.author.id === message.author.id;
                     const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
                     const response = collected.first();
-                    if (!response) return;
-                    usertododata.title = response.content;
-                    response.delete();
-                    db.Todolistset(usertododata);
-
-                    msg.edit(`Titleを${usertododata.title}に変更しました`,
-                        new MessageEmbed()
-                            .setTitle('現在の設定')
-                            .addField('title', usertododata.title)
-                            .addField('description', usertododata.description)
-                            .setColor('RANDOM')
-                            .setTimestamp());
-                }
-                else if (type === 'description') {
-                    msg.edit('新しい説明を送信してください', '');
-                    const filter = msg => msg.author.id === message.author.id;
-                    const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
-                    const response = collected.first();
-                    if (!response) return;
-                    usertododata.description = response.content;
-                    response.delete();
-                    db.Todolistset(usertododata);
-
-                    msg.edit(`説明を${usertododata.description}に変更しました`,
-                        new MessageEmbed()
-                            .setTitle('現在の設定')
-                            .addField('title', usertododata.title)
-                            .addField('description', usertododata.description)
-                            .setColor('RANDOM')
-                            .setTimestamp());
+                    if (!response) {
+                        msg.edit('');
+                        break;
+                    }
+                    if (response.content === '0') {
+                        response.delete();
+                        msg.edit('');
+                        break;
+                    }
+                    else if (response.content === '1') {
+                        response.delete();
+                        client.db.prepare('DELETE FROM todolists WHERE id = ?').run(all[selecttodo - 1].id);
+                        msg.edit('削除しました');
+                        break;
+                    }
                 }
             }
-            else if (command === 'info') {
-                const todonumber = args[1];
-                if (!todonumber) {
+            else if (args[0] === 'info') {
+                if (!args[1]) {
                     message.react('816282137065947136');
-                    return message.reply('第二引数に完了するTodoの識別番号を入れてください！');
+                    return message.reply('第二引数にTodoの名前を入力してください！');
                 }
 
-                const usertododata = db.Todolistget(message.author.id, todonumber);
-                if (!usertododata) {
+                const todo = client.db.prepare('SELECT * FROM todolists WHERE user = ? AND title = ?').get(message.author.id, args[1]);
+                if (!todo) {
                     message.react('816282137065947136');
-                    return message.reply('その識別番号のTodoは存在しないようです。');
+                    return message.reply('その名前のTodoは存在しないようです。');
                 }
 
                 message.channel.send(
                     new MessageEmbed()
-                        .setTitle(`識別番号${usertododata.count}の詳細`)
-                        .addField('Todo名', usertododata.title)
-                        .addField('Todoの説明', usertododata.description)
-                        .addField('完了済み', usertododata.completion)
+                        .setTitle(`識別番号${todo.title}の詳細`)
+                        .addField('Todo名', todo.title)
+                        .addField('Todoの説明', todo.description)
                         .setColor('RANDOM')
                         .setTimestamp()
                 );
             }
-            else if (command === 'allremove') {
-                db.Todolistremoveall(message.author.id);
-
-                message.channel.send('あなたのTodoを全て削除しました')
+            else if (args[0] === 'allremove') {
+                const msg = await message.channel.send(`本当に全てのTodoを削除してよろしいですか？\n消す場合は1を、消さない場合は0を送信してください。`)
+                while (true) {
+                    const filter = msg => msg.author.id === message.author.id;
+                    const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
+                    const response = collected.first();
+                    if (!response) {
+                        msg.edit('');
+                        break;
+                    }
+                    if (response.content === '0') {
+                        response.delete();
+                        msg.edit('');
+                        break;
+                    }
+                    else if (response.content === '1') {
+                        response.delete();
+                        client.db.prepare('DELETE FROM todolists WHERE user = ?').run(message.author.id);
+                        msg.edit('削除しました');
+                        break;
+                    }
+                }
             }
             else {
                 message.channel.send(
                     new MessageEmbed()
                         .setTitle('To do うんこ')
-                        .setDescription(`\`${process.env.PREFIX}todo add\` TodoListに追加する\n\`${process.env.PREFIX}todo list\` TodoのList\n\`${process.env.PREFIX}todo remove [識別番号]\` TodoListから削除する\n\`${process.env.PREFIX}todo completion [識別番号]\` Todoを完了する\n\`${process.env.PREFIX}todo edit [識別番号]\` Todo編集コマンド\n\`${process.env.PREFIX}todo info [識別番号]\` Todoの詳細\n\`${process.env.PREFIX}todo allremove\` Todoから全て削除`)
+                        .setDescription(`\`${process.env.PREFIX}todo add\` TodoListに追加する\n\`${process.env.PREFIX}todo list\` TodoのList\n\`${process.env.PREFIX}todo remove\` TodoListから削除する\n\`${process.env.PREFIX}todo info [識別番号]\` Todoの詳細\n\`${process.env.PREFIX}todo allremove\` Todoから全て削除`)
                         .setColor('RANDOM')
                         .setTimestamp()
                 );

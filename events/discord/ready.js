@@ -23,14 +23,6 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
-    const UserSettingtable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'usersettings';").get();
-    if (!UserSettingtable['count(*)']) {
-      client.db.prepare("CREATE TABLE usersettings (id TEXT PRIMARY KEY, user TEXT, ban INTEGER, admin INTEGER, todocount INTEGER);").run();
-      client.db.prepare("CREATE UNIQUE INDEX idx_usersettings_id ON usersettings (id);").run();
-      client.db.pragma("synchronous = 1");
-      client.db.pragma("journal_mode = wal");
-    }
-
     const Rankimagetable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'rankimages';").get();
     if (!Rankimagetable['count(*)']) {
       client.db.prepare("CREATE TABLE rankimages (id TEXT PRIMARY KEY, user TEXT, font INTEGER, fillStyle TEXT, imagex INTEGER, imagey INTEGER, icon INTEGER);").run();
@@ -41,7 +33,7 @@ module.exports = async (client) => {
 
     const Todolisttable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'todolists';").get();
     if (!Todolisttable['count(*)']) {
-      client.db.prepare("CREATE TABLE todolists (id TEXT PRIMARY KEY, user TEXT, count INTEGER, title TEXT, description TEXT, completion INTEGER);").run();
+      client.db.prepare("CREATE TABLE todolists (id TEXT PRIMARY KEY, user TEXT, title TEXT, description TEXT);").run();
       client.db.prepare("CREATE UNIQUE INDEX idx_todolists_id ON todolists (id);").run();
       client.db.pragma("synchronous = 1");
       client.db.pragma("journal_mode = wal");
