@@ -14,7 +14,7 @@ module.exports = async (client, oldMember, newMember) => {
       conn.disconnect();
     }
 
-    if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot || !oldMember.channel || !newMember.channel) return;
+    if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot) return;
     if (oldMember.channelID === null) {
       client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${newMember.channel.name}に入室しました`);
     }
