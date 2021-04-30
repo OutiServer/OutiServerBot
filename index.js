@@ -27,7 +27,7 @@ fs.readdir(__dirname + "/events/discord/", (err, files) => {
     const event = require(__dirname + `/events/discord/${file}`);
     let eventName = file.split(".")[0];
     client.on(eventName, event.bind(null, client));
-    console.log(`Discord ${eventName} event is Loading completed`);
+    console.log(`Discord ${eventName} event is Loading`);
   });
 });
 
@@ -37,7 +37,7 @@ for (const folder of commandFolders) {
   for (const file of commandFiles) {
     const command = require(`./commands/${folder}/${file}`);
     client.commands.set(command.info.name, command);
-    console.log(`${command.info.name} command is Loading completed`);
+    console.log(`${command.info.name} command is Loading`);
   }
 }
 
@@ -48,7 +48,7 @@ fs.readdir("./slash-commands/", (err, files) => {
     let props = require(`./slash-commands/${file}`);
     let commandName = file.split(".")[0];
     client.slashcommands.set(commandName, props);
-    console.log(`${commandName} slash-command is Loading completed`);
+    console.log(`${commandName} slash-command is Loading`);
   });
 });
 
@@ -58,7 +58,7 @@ fs.readdir(__dirname + "/events/cron/", (err, files) => {
     const event = require(__dirname + `/events/cron/${file}`);
     let eventTime = file.split(".")[0];
     cron.schedule(eventTime, event.bind(null, client));
-    console.log(`time ${eventTime} event is Loading completed`);
+    console.log(`time ${eventTime} event is Loading`);
   });
 });
 
