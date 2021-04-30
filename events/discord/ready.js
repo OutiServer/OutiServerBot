@@ -39,14 +39,6 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
-    const BumpUpCounttable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'bumpupcounts';").get();
-    if (!BumpUpCounttable['count(*)']) {
-      client.db.prepare("CREATE TABLE bumpupcounts (id TEXT PRIMARY KEY, user TEXT, bump INTEGER, up INTEGER);").run();
-      client.db.prepare("CREATE UNIQUE INDEX idx_bumpupcounts_id ON bumpupcounts (id);").run();
-      client.db.pragma("synchronous = 1");
-      client.db.pragma("journal_mode = wal");
-    }
-
     const Countrytable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'countrys';").get();
     if (!Countrytable['count(*)']) {
       client.db.prepare("CREATE TABLE countrys (id TEXT PRIMARY KEY, leader TEXT, role TEXT);").run();
