@@ -21,7 +21,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            if (message.channel.id === '797008715646500865') {
+            if (message.channel.id !== '834317763769925632' && message.channel.id !== '836886086428524564' && message.channel.id !== '822852838363103283' && message.channel.id !== '778553199439118336') {
                 return message.reply('このチャンネルでそのコマンドは使用できません。')
                     .then(msg => msg.delete({ timeout: 5000 }))
                     .then(msg => message.delete());
