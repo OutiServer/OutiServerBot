@@ -1,4 +1,4 @@
-const { Client, MessageEmbed, MessageAttachment, Collection } = require('discord.js');
+const { Client, MessageEmbed, Collection } = require('discord.js');
 const util = require('minecraft-server-util');
 const { clienterrorlog } = require('../../functions/error');
 
@@ -14,14 +14,13 @@ module.exports = (client) => {
                     .then((result) => {
                         message.channel.send(
                             new MessageEmbed()
-                                .attachFiles([new MessageAttachment('dat/images/outisabakoiyo.png', 'outisabakoiyo.png')])
                                 .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                                 .addField('IPアドレス', result.host)
                                 .addField('ポート', result.port)
                                 .addField('サーバーのバージョン', result.version)
                                 .addField('デフォルトゲームモード', result.gameMode)
                                 .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-                                .setImage('attachment://outisabakoiyo.png')
+                                .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
                                 .setColor('RANDOM')
                                 .setTimestamp()
                         );
@@ -29,10 +28,9 @@ module.exports = (client) => {
                     .catch(() => {
                         message.channel.send(
                             new MessageEmbed()
-                                .attachFiles([new MessageAttachment('dat/images/setumeisitekudasai.png', 'setumeisitekudasai.png')])
                                 .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                                 .setDescription('おうちサーバー(BE)は現在落ちてます')
-                                .setImage('attachment://setumeisitekudasai.png')
+                                .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
                                 .setColor('RANDOM')
                                 .setTimestamp()
                         );
