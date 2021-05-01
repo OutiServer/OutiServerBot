@@ -12,7 +12,7 @@ module.exports = (client) => {
             .then(msg => {
                 util.statusBedrock('126.235.33.140', { timeout: 1000 })
                     .then((result) => {
-                        message.channel.send(
+                        msg.edit(
                             new MessageEmbed()
                                 .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                                 .addField('IPアドレス', result.host)
@@ -26,7 +26,7 @@ module.exports = (client) => {
                         );
                     })
                     .catch(() => {
-                        message.channel.send(
+                        msg.edit(
                             new MessageEmbed()
                                 .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                                 .setDescription('おうちサーバー(BE)は現在落ちてます')
