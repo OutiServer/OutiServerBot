@@ -1,6 +1,5 @@
 const { Client, Message } = require('discord.js');
 const { errorlog } = require('../../functions/error');
-const { execSync } = require('child_process');
 
 module.exports = {
     info: {
@@ -21,9 +20,12 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            if (!args[0]) return message.reply('第一引数におうち鯖Botのインスタンス番号を入れてください！');
-            client.channels.cache.get('706452607538954263').send(`${message.author.tag}がおうち鯖Botの強制再起動を開始しました！`)
-                .then(msg => execSync(`forever restart ${args[0]}`));
+            message.channel.send('再接続しています...')
+                .then(() => client.destroy())
+                .then(() => client.login(process.env.DISCORD_TOKEN))
+                .then(() => message.channel.send('再接続が完了しました'))
+                .catch(error => errorlog(client, message, error))
+                .finally(() => client.cooldown.set(message.author.id, false));
         } catch (error) {
             errorlog(client, message, error);
         }
