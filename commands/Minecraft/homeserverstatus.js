@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Client, Message, MessageEmbed, MessageAttachment } = require('discord.js');
 const util = require('minecraft-server-util');
 const { errorlog } = require('../../functions/error');
 
@@ -31,13 +31,14 @@ module.exports = {
                 .then((result) => {
                     message.channel.send(
                         new MessageEmbed()
+                            .attachFiles([new MessageAttachment('dat/images/outisabakoiyo.png', 'outisabakoiyo.png')])
                             .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                             .addField('IPアドレス', result.host)
                             .addField('ポート', result.port)
                             .addField('サーバーのバージョン', result.version)
                             .addField('デフォルトゲームモード', result.gameMode)
                             .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-                            .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
+                            .setImage('attachment://outisabakoiyo.png')
                             .setColor('RANDOM')
                             .setTimestamp()
                     );
@@ -45,9 +46,10 @@ module.exports = {
                 .catch(() => {
                     message.channel.send(
                         new MessageEmbed()
+                            .attachFiles([new MessageAttachment('dat/images/setumeisitekudasai.png', 'setumeisitekudasai.png')])
                             .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                             .setDescription('おうちサーバー(BE)は現在落ちてます')
-                            .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
+                            .setImage('attachment://setumeisitekudasai.png')
                             .setColor('RANDOM')
                             .setTimestamp()
                     );
