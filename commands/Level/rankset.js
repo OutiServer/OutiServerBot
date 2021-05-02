@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, Util } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 const { errorlog } = require('../../functions/error');
 
 module.exports = {
@@ -32,8 +32,8 @@ module.exports = {
             }
             else if (command === 'color') {
                 const color = args[1];
-                if (!color) return message.reply('第二引数に文字カラーを入れてください！');
-                userrankimagedata.fillStyle = Util.resolveColor(color);
+                if (!color) return message.reply('第二引数に文字カラーを16進数で入れてください！');
+                userrankimagedata.fillStyle = color;
                 client.db.prepare('UPDATE rankimages SET fillStyle = ? WHERE id = ?').run(userrankimagedata.fillStyle, userrankimagedata.id);
                 message.channel.send(`文字カラーを${userrankimagedata.fillStyle}に設定しました！`);
             }
