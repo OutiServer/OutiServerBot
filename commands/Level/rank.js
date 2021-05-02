@@ -50,14 +50,14 @@ module.exports = {
                     rankimagebuffer = canvas.toBuffer();
                 }
                 else {
-                    const canvas = createCanvas(rankimagedata.imagex, rankimagedata.imagey);
+                    const canvas = createCanvas(rankimagedata.defaultimagex, rankimagedata.defaultimagey);
                     const ctx = canvas.getContext('2d');
                     const background = await loadImage(`./dat/images/${user.id}.png`);
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                     ctx.font = `${rankimagedata.font}px Impact`;
                     ctx.fillStyle = rankimagedata.fillStyle;
                     ctx.rotate(0);
-                    ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
+                    ctx.fillText(`${user.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, rankimagedata.imagex, rankimagedata.imagey);
                     if (rankimagedata.icon) {
                         ctx.beginPath();
                         ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
@@ -97,7 +97,7 @@ module.exports = {
                     ctx.font = `${rankimagedata.font}px Impact`;
                     ctx.fillStyle = rankimagedata.fillStyle;
                     ctx.rotate(0);
-                    ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, canvas.width / 2, canvas.height / 2);
+                    ctx.fillText(`${message.author.username}\n${userleveldata.level}level ${userleveldata.xp}/${55 * userleveldata.level}xp`, rankimagedata.imagex, rankimagedata.imagey);
                     if (rankimagedata.icon) {
                         ctx.beginPath();
                         ctx.arc(125, 125, 100, 0, Math.PI * 2, true);

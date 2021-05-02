@@ -46,8 +46,8 @@ module.exports = {
                                     user: message.author.id,
                                     font: 80,
                                     fillStyle: '#000000',
-                                    imagex: attachment.width,
-                                    imagey: attachment.height,
+                                    imagex: attachment.width / 2,
+                                    imagey: attachment.height / 2,
                                     icon: 1,
                                     defaultimagex: attachment.width,
                                     defaultimagey: attachment.height
