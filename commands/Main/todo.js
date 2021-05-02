@@ -140,7 +140,7 @@ module.exports = {
                     }
                 }
 
-                msg.edit(`以下のTodoを削除してよろしいですか？\n消す場合は1を、消さない場合は0を送信してください。`,
+                msg.edit(`以下のTodoを削除してよろしいですか？\n消す場合はokを、消さない場合はnoを送信してください。`,
                     new MessageEmbed()
                         .setTitle('Todo削除最終確認')
                         .addField('Todo名', all[selecttodo - 1].title)
@@ -156,12 +156,12 @@ module.exports = {
                         msg.edit('');
                         break;
                     }
-                    if (response.content === '0') {
+                    if (response.content === 'ok') {
                         response.delete();
                         msg.edit('');
                         break;
                     }
-                    else if (response.content === '1') {
+                    else if (response.content === 'no') {
                         response.delete();
                         client.db.prepare('DELETE FROM todolists WHERE id = ?').run(all[selecttodo - 1].id);
                         msg.edit('削除しました');
