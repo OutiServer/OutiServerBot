@@ -9,8 +9,8 @@ module.exports = {
         usage: "",
         aliases: ["hsspmmp"],
         owneronly: false,
-        adminonly: true,
-        category: 'Admin'
+        adminonly: false,
+        category: 'Minecraft'
     },
 
     /**
