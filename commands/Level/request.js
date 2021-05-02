@@ -48,9 +48,14 @@ module.exports = {
                                     fillStyle: '#000000',
                                     imagex: attachment.width,
                                     imagey: attachment.height,
-                                    icon: 1
+                                    icon: 1,
+                                    defaultimagex: attachment.width,
+                                    defaultimagey: attachment.height
                                 };
-                                client.db.prepare('INSERT INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon);').run(data);
+                                client.db.prepare('INSERT INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon, defaultimagex, defaultimagey) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon, @defaultimagex, @defaultimagey);').run(data);
+                            }
+                            else {
+                                client.db.prepare('UPDATE rankimages SET defaultimagex = ?, defaultimagey = ? WHERE user = ?').run(attachment.width, attachment.height);
                             }
                             message.channel.send('level画像を設定しました！');
                         }

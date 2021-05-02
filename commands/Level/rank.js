@@ -71,10 +71,6 @@ module.exports = {
             }
             else {
                 let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-                if (!userleveldata) {
-                    userleveldata = { id: `${message.author.id}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
-                    client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
-                }
                 const rankimagedata = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id);
 
                 if (!rankimagedata) {
@@ -94,7 +90,7 @@ module.exports = {
                     rankimagebuffer = canvas.toBuffer();
                 }
                 else {
-                    const canvas = createCanvas(rankimagedata.imagex, rankimagedata.imagey);
+                    const canvas = createCanvas(rankimagedata.defaultimagex, rankimagedata.defaultimagey);
                     const ctx = canvas.getContext('2d');
                     const background = await loadImage(`./dat/images/${message.author.id}.png`);
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
