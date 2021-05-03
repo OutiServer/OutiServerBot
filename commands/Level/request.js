@@ -55,7 +55,7 @@ module.exports = {
                                 client.db.prepare('INSERT INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon, defaultimagex, defaultimagey) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon, @defaultimagex, @defaultimagey);').run(data);
                             }
                             else {
-                                client.db.prepare('UPDATE rankimages SET defaultimagex = ?, defaultimagey = ? WHERE user = ?').run(attachment.width, attachment.height);
+                                client.db.prepare('UPDATE rankimages SET defaultimagex = ?, defaultimagey = ? WHERE user = ?').run(attachment.width, attachment.height, message.author.id);
                             }
                             message.channel.send('level画像を設定しました！');
                         }
