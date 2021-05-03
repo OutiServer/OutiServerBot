@@ -53,7 +53,7 @@ module.exports = {
             }
             else if (command === 'icon') {
                 const icon = args[1];
-                if (!icon || icon !== 'yes' && icon !== 'no') return message.reply('第二引数にiconを表示するかどうかを`on` か `off` で入れてください！');
+                if (!icon || icon !== 'on' && icon !== 'off') return message.reply('第二引数にiconを表示するかどうかを`on` か `off` で入れてください！');
                 if (icon === 'on') userrankimagedata.icon = 1;
                 else if (icon === 'off') userrankimagedata.icon = 0;
                 client.db.prepare('UPDATE rankimages SET icon = ? WHERE id = ?').run(userrankimagedata.icon, userrankimagedata.id);
