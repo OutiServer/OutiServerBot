@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Client, Message, MessageEmbed, MessageReaction, User, ReactionCollector } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const fetch = require('node-fetch');
@@ -14,13 +14,19 @@ module.exports = async (client, message) => {
     if (message.author.id === '825373463757193237') {
       message.channel.send(message.embeds[0].fields[1].value);
       const user = message.guild.members.cache.find(user => user.user.tag === message.embeds[0].fields[0].value);
-      if (!user) return message.channel.send('ゲーマータグの自動追加に失敗しました、コマンドで手動追加してください。');
-      const data = {
-        id: `${user.id}-${message.embeds[0].fields[1].value}`,
-        user: user.id,
-        tag: message.embeds[0].fields[1].value
-      };
-      client.db.prepare('INSERT INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
+      if (!user) return client.channels.cache.get('797008715646500865').send(`ゲーマータグ: ${message.embeds[0].fields[1].value}で申請した方、ユーザーが見つかりませんでした。`);
+      client.channels.cache.get('797008715646500865').send(`${user}、申請を受け付けました、管理職による認証を待ちます。`);
+      message.channel.send('<@&822852335322923060>',
+        new MessageEmbed()
+          .setDescription(`<@${user.id}> のホワイトリスト申請を承諾しますか？`)
+          .setColor('RANDOM')
+          .setTimestamp()
+      ).then(msg => {
+        msg.react('741467219208437800');
+        msg.react('741467232869154907');
+        const collector = msg.createReactionCollector(() => true);
+        collector.on('collect', (reaction, user) => verify(client, msg, message.embeds[0].fields[1].value, user.id, reaction, user));
+      });
     }
     else if (message.author.id === '786343397807620106') {
       fetch(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`)
@@ -241,4 +247,33 @@ async function yomiage(client, message) {
   const shouldMove = !currentConnection || currentConnection.channel.id !== channel.id;
   const conn = shouldMove ? await channel.join() : currentConnection;
   conn.play(await textToSpeechReadableStream(text), { highWaterMark: 6, bitrate: 'auto' })
+}
+
+/**
+ * @param {Client} client
+ * @param {Message} message
+ * @param {string} gamertag
+ * @param {string} verifyuserid
+ * @param {MessageReaction} reaction 
+ * @param {User} user 
+ */
+
+async function verify(client, message, gamertag, verifyuserid, reaction, user) {
+  if (user.bot) return;
+  if (reaction.emoji.id === '741467219208437800') {
+    const data = {
+      id: `${verifyuserid}-${gamertag}`,
+      user: verifyuserid,
+      tag: gamertag
+    };
+    client.db.prepare('INSERT INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
+    client.guilds.cache.get('706452606918066237').member(verifyuserid).roles.add('821715178147020800');
+    message.edit('申請を承諾しました！');
+    message.reactions.removeAll();
+  }
+  else if (reaction.emoji.id === '741467232869154907') {
+    message.edit('申請を承諾しませんでした！');
+    message.reactions.removeAll();
+    client.channels.cache.get('797008715646500865').send(`<@${verifyuserid}>、申請が却下されました。`);
+  }
 }
