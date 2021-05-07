@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, MessageAttachment } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
 const { errorlog } = require('../../functions/error');
 
@@ -21,24 +21,22 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            if (message.channel.id === '797008715646500865' || message.channel.id === '833626570270572584') {
-                return message.reply('このチャンネルでそのコマンドは使用できません。')
-                    .then(msg => msg.delete({ timeout: 5000 }))
-                    .then(msg => message.delete());
+            if (message.channel.parentID !== '825170928237281311' || message.channel.id === '833626570270572584') {
+                return message.reply('このチャンネルでそのコマンドは使用できないで。😉')
+                    .then(msg => msg.delete({ timeout: 5000 }));
             }
 
             util.statusBedrock('126.235.33.140', { timeout: 1000 })
                 .then((result) => {
                     message.channel.send(
                         new MessageEmbed()
-                            .attachFiles([new MessageAttachment('dat/images/outisabakoiyo.png', 'outisabakoiyo.png')])
                             .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                             .addField('IPアドレス', result.host)
                             .addField('ポート', result.port)
                             .addField('サーバーのバージョン', result.version)
                             .addField('デフォルトゲームモード', result.gameMode)
                             .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-                            .setImage('attachment://outisabakoiyo.png')
+                            .setImage('https://media.discordapp.net/attachments/840154191036022794/840154293453062144/outisabakoiyo.png')
                             .setColor('RANDOM')
                             .setTimestamp()
                     );
@@ -46,10 +44,9 @@ module.exports = {
                 .catch(() => {
                     message.channel.send(
                         new MessageEmbed()
-                            .attachFiles([new MessageAttachment('dat/images/setumeisitekudasai.png', 'setumeisitekudasai.png')])
                             .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                             .setDescription('おうちサーバー(BE)は現在落ちてます')
-                            .setImage('attachment://setumeisitekudasai.png')
+                            .setImage('https://media.discordapp.net/attachments/840154191036022794/840154302605426698/setumeisitekudasai.png')
                             .setColor('RANDOM')
                             .setTimestamp()
                     );

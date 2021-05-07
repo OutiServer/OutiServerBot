@@ -8,6 +8,7 @@ const { clienterrorlog } = require('../../functions/error');
 
 module.exports = (client) => {
     try {
+        /*
         client.channels.cache.get('780012050163302420').messages.fetch('832504476262465586')
             .then(msg => {
                 util.statusBedrock('126.235.33.140', { timeout: 1000 })
@@ -20,7 +21,7 @@ module.exports = (client) => {
                                 .addField('サーバーのバージョン', result.version)
                                 .addField('デフォルトゲームモード', result.gameMode)
                                 .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-                                .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
+                                .setImage('https://media.discordapp.net/attachments/840154191036022794/840154293453062144/outisabakoiyo.png')
                                 .setColor('RANDOM')
                                 .setTimestamp()
                         );
@@ -30,12 +31,13 @@ module.exports = (client) => {
                             new MessageEmbed()
                                 .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                                 .setDescription('おうちサーバー(BE)は現在落ちてます')
-                                .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
+                                .setImage('https://media.discordapp.net/attachments/840154191036022794/840154302605426698/setumeisitekudasai.png')
                                 .setColor('RANDOM')
                                 .setTimestamp()
                         );
                     });
             });
+            */
 
         util.statusBedrock('126.235.33.140', { port: 19131, timeout: 1000 })
             .then(result => client.channels.cache.get('834317763769925632').setTopic(`現在のサーバー参加人数: ${result.onlinePlayers}/${result.maxPlayers}人`))
