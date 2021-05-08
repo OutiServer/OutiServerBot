@@ -134,20 +134,7 @@ module.exports = async (client, message) => {
       if (userleveldata.level >= 30) message.member.roles.add('830368022916104203');
 
       if (!client.levelcooldown.get(message.author.id)) {
-        const random = Math.round(Math.random() * 3);
-        var xp = 0
-        if (random === 0) {
-          xp = Math.ceil(Math.random() * 20);
-        }
-        else if (random === 1) {
-          xp = Math.ceil(Math.random() * 10);
-        }
-        else if (random === 2) {
-          xp = 100;
-        }
-        else if (random === 3) {
-          xp = 1;
-        }
+        const xp = Math.ceil(Math.random() * 20);
         userleveldata.xp += xp
         userleveldata.allxp += xp;
         client.levelcooldown.set(message.author.id, true);
