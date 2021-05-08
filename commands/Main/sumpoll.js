@@ -22,6 +22,7 @@ module.exports = {
         try {
             const messageid = args[0];
             if (!messageid) {
+                message.react('816282137065947136');
                 return message.reply('集計する投票のメッセージIDを入れてください！');
             }
 
@@ -29,6 +30,7 @@ module.exports = {
                 var msg = await message.channel.messages.fetch(messageid);
             }
             catch (e) {
+                message.react('816282137065947136');
                 return message.reply('投票が見つかりませんでした');
             }
 

@@ -20,8 +20,10 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            if (message.channel.parentID !== '828266382277345310' && message.channel.parentID !== '821684794056245258' && message.channel.id !== '828267048807039037' && message.channel.id !== '821686383605055508') return message.reply('そのコマンドは考案スレッドカテゴリー、お問い合わせカテゴリーでのみ使用できます。');
-
+            if (message.channel.parentID !== '828266382277345310' && message.channel.parentID !== '821684794056245258' && message.channel.id !== '828267048807039037' && message.channel.id !== '821686383605055508') {
+                message.react('816282137065947136');
+                return message.reply('そのコマンドは考案スレッドカテゴリー、お問い合わせカテゴリーでのみ使用できます。');
+            }
             message.channel.setParent('828268142820196372');
 
             message.channel.send('このスレッドをアーカイブしました。');

@@ -21,6 +21,7 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             if (!message.member.voice.channelID) {
+                message.react('816282137065947136');
                 return message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
             }
 

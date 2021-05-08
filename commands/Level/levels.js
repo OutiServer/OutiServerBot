@@ -41,7 +41,7 @@ module.exports = {
                 const user = message.guild.member(data.user);
                 let usertag = ''
                 if (!user) {
-                    usertag = '取得不可User';
+                    usertag = 'False';
                 }
                 else {
                     usertag = user.user.tag;
