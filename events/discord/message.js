@@ -132,6 +132,17 @@ module.exports = async (client, message) => {
       if (userleveldata.level >= 10) message.member.roles.add('824554360699879455');
       if (userleveldata.level >= 20) message.member.roles.add('825245951295225896');
       if (userleveldata.level >= 30) message.member.roles.add('830368022916104203');
+      if (userleveldata.level >= 50) {
+        if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 0)) {
+          message.reply('称号を獲得しました！\n```diff\n+ 自宅警備員\n```');
+          const verifydata = {
+            id: `${message.author.id}-0`,
+            user: message.author.id,
+            verifynumber: 0
+          };
+          client.db.prepare('INSERT INTO verifys (id, user, verifynumber) VALUES (@id, @user, @verifynumber);').run(verifydata);
+        }
+      }
 
       if (!client.levelcooldown.get(message.author.id)) {
         const xp = Math.ceil(Math.random() * 20);
@@ -149,6 +160,29 @@ module.exports = async (client, message) => {
       }
 
       client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
+    }
+
+    if (message.member.roles.cache.has('739473593674629120')) {
+      if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 1)) {
+        message.reply('称号を獲得しました！\n```diff\n+ おうち鯖貢献者\n```');
+        const verifydata = {
+          id: `${message.author.id}-1`,
+          user: message.author.id,
+          verifynumber: 1
+        };
+        client.db.prepare('INSERT INTO verifys (id, user, verifynumber) VALUES (@id, @user, @verifynumber);').run(verifydata);
+      }
+    }
+    if (message.member.roles.cache.size >= 5) {
+      if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 2)) {
+        message.reply('称号を獲得しました！\n```diff\n+ ロールは多い方がかっこいい\n```');
+        const verifydata = {
+          id: `${message.author.id}-2`,
+          user: message.author.id,
+          verifynumber: 2
+        };
+        client.db.prepare('INSERT INTO verifys (id, user, verifynumber) VALUES (@id, @user, @verifynumber);').run(verifydata);
+      }
     }
 
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;

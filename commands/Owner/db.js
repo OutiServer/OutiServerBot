@@ -57,7 +57,7 @@ module.exports = {
             else if (['INSERT', 'UPDATE', 'DELETE', 'ALTER', 'DROP'].includes(query)) {
                 msg.edit('この変更でいい場合はokを、取り消す場合はnoを送信してください',
                     new MessageEmbed()
-                        .setDescription('```\n' + response.content + '```')
+                        .setDescription('```sql\n' + response.content + '```')
                         .setColor('RANDOM')
                         .setTimestamp()
                 );

@@ -4,7 +4,7 @@ const { errorlog } = require('../../functions/error');
 module.exports = {
     info: {
         name: "levels",
-        description: "うんこlevelランキング",
+        description: "おうちlevelランキング",
         usage: "",
         aliases: [""],
         owneronly: false,
@@ -66,7 +66,7 @@ module.exports = {
                 }
                 else {
                     const selectembed = Number(response.content);
-                    if (selectembed > 0 && selectembed < embeds.length) {
+                    if (selectembed > 0 && selectembed < embeds.length + 1) {
                         response.delete();
                         msg.edit('```' + `${selectembed}/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[selectembed - 1]);
                     }

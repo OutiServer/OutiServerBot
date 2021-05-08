@@ -47,6 +47,14 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
+    const Verifytable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'verifys';").get();
+    if (!Verifytable['count(*)']) {
+      client.db.prepare("CREATE TABLE verifys (id TEXT PRIMARY KEY, user TEXT, verifynumber INTEGER);").run();
+      client.db.prepare("CREATE UNIQUE INDEX idx_verifys_id ON verifys (id);").run();
+      client.db.pragma("synchronous = 1");
+      client.db.pragma("journal_mode = wal");
+    }
+
     client.guilds.cache.get('706452606918066237').fetchInvites()
       .then(invites => {
         client.invites = invites;
