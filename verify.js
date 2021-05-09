@@ -10,7 +10,7 @@ module.exports = (client, message) => {
     let verifyRelease = false;
     let verifymessage = '称号を獲得しました！\n```diff\n';
 
-    if (client.db.prepare('SELECT level FROM levels WHERE user = ?').get(message.author.id).level >= 50) {
+    if (client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id).level >= 50) {
         if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 0)) {
             verifymessage += '+ 自宅警備員\n';
             verifyRelease = true;
@@ -23,7 +23,7 @@ module.exports = (client, message) => {
         }
     }
 
-    if (client.db.prepare('SELECT level FROM levels WHERE user = ?').get(message.author.id).level >= 30) {
+    if (client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id).level >= 30) {
         if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 3)) {
             verifymessage += '+ 必殺絵文字人\n';
             verifyRelease = true;
