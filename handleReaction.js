@@ -18,19 +18,7 @@ module.exports = {
 
             handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
                 if (user.bot) return;
-                if (reaction.emoji.id === '790538555407597590') {
-                    if (reaction.message.guild.member(user).roles.cache.has('717326376516190221')) {
-                        reaction.message.guild.member(user).roles.remove('717326376516190221');
-                        const reply = await client.channels.cache.get('774594290679545886').send(`${user} 必殺絵文字人を剥奪しました`);
-                        reply.delete({ timeout: 5000 });
-                    }
-                    else {
-                        reaction.message.guild.member(user).roles.add('717326376516190221');
-                        const reply = await client.channels.cache.get('774594290679545886').send(`${user} 必殺絵文字人を付与しました`);
-                        reply.delete({ timeout: 5000 });
-                    }
-                }
-                else if (reaction.emoji.id === '774598967459446784') {
+                if (reaction.emoji.id === '774598967459446784') {
                     if (reaction.message.guild.member(user).roles.cache.has('774593459034128395')) {
                         reaction.message.guild.member(user).roles.remove('774593459034128395');
                         const reply = await client.channels.cache.get('774594290679545886').send(`${user} among us crewを剥奪しました`);

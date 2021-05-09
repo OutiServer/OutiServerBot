@@ -12,7 +12,15 @@
         "description": "ロールを5個以上付ける"
     },
     {
-        "name": "＾＾",
-        "description": "R18チャンネルで発言する"
+        "name": "必殺絵文字人",
+        "description": "レベル30以上になる"
+    },
+    {
+        "name": "お前饒舌だな",
+        "description": "一文で30文字以上喋る"
+    },
+    {
+        "name": "TAOの勇者",
+        "description": "TAOをプレイする"
     }
 ]

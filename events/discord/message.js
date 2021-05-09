@@ -3,6 +3,7 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const fetch = require('node-fetch');
 const { errorlog, clienterrorlog } = require('../../functions/error');
+const verify = require('../../verify');
 
 /**
  * @param {Client} client
@@ -25,7 +26,7 @@ module.exports = async (client, message) => {
         msg.react('741467219208437800');
         msg.react('741467232869154907');
         const collector = msg.createReactionCollector(() => true);
-        collector.on('collect', (reaction, user) => verify(client, msg, message.embeds[0].fields[1].value, user.id, reaction, user));
+        collector.on('collect', (reaction, user) => gamertagverify(client, msg, message.embeds[0].fields[1].value, user.id, reaction, user));
       });
     }
     else if (message.author.id === '786343397807620106') {
@@ -132,17 +133,6 @@ module.exports = async (client, message) => {
       if (userleveldata.level >= 10) message.member.roles.add('824554360699879455');
       if (userleveldata.level >= 20) message.member.roles.add('825245951295225896');
       if (userleveldata.level >= 30) message.member.roles.add('830368022916104203');
-      if (userleveldata.level >= 50) {
-        if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 0)) {
-          message.reply('称号を獲得しました！\n```diff\n+ 自宅警備員\n```');
-          const verifydata = {
-            id: `${message.author.id}-0`,
-            user: message.author.id,
-            verifynumber: 0
-          };
-          client.db.prepare('INSERT INTO verifys (id, user, verifynumber) VALUES (@id, @user, @verifynumber);').run(verifydata);
-        }
-      }
 
       if (!client.levelcooldown.get(message.author.id)) {
         const xp = Math.ceil(Math.random() * 20);
@@ -160,6 +150,8 @@ module.exports = async (client, message) => {
       }
 
       client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
+
+      verify(client, message);
     }
 
     if (message.member.roles.cache.has('739473593674629120')) {
@@ -288,7 +280,7 @@ async function yomiage(client, message) {
  * @param {User} user 
  */
 
-async function verify(client, message, gamertag, verifyuserid, reaction, user) {
+async function gamertagverify(client, message, gamertag, verifyuserid, reaction, user) {
   if (user.bot) return;
   if (reaction.emoji.id === '741467219208437800') {
     const data = {
