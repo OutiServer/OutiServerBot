@@ -14,19 +14,19 @@ module.exports = async (client, message) => {
   try {
     if (message.author.id === '825373463757193237') {
       message.channel.send(message.embeds[0].fields[1].value);
-      const user = message.guild.members.cache.find(user => user.user.tag === message.embeds[0].fields[0].value);
-      if (!user) return client.channels.cache.get('797008715646500865').send(`ゲーマータグ: ${message.embeds[0].fields[1].value}で申請した方、ユーザーが見つかりませんでした。`);
-      client.channels.cache.get('797008715646500865').send(`${user}、申請を受け付けました、管理職による認証を待ちます。`);
+      const verifyuser = message.guild.members.cache.find(user => user.user.tag === message.embeds[0].fields[0].value);
+      if (!verifyuser) return client.channels.cache.get('797008715646500865').send(`ゲーマータグ: ${message.embeds[0].fields[1].value}で申請した方、ユーザーが見つかりませんでした。`);
+      client.channels.cache.get('797008715646500865').send(`${verifyuser}、申請を受け付けました、管理職による認証を待ちます。`);
       message.channel.send('<@&822852335322923060>',
         new MessageEmbed()
-          .setDescription(`<@${user.id}> のホワイトリスト申請を承諾しますか？`)
+          .setDescription(`<@${verifyuser.id}> のホワイトリスト申請を承諾しますか？`)
           .setColor('RANDOM')
           .setTimestamp()
       ).then(msg => {
         msg.react('741467219208437800');
         msg.react('741467232869154907');
         const collector = msg.createReactionCollector(() => true);
-        collector.on('collect', (reaction, user) => gamertagverify(client, msg, message.embeds[0].fields[1].value, user.id, reaction, user));
+        collector.on('collect', (reaction, user) => gamertagverify(client, msg, message.embeds[0].fields[1].value, verifyuser.id, reaction, user));
       });
     }
     else if (message.author.id === '786343397807620106') {
