@@ -4,6 +4,9 @@ const { Readable } = require('stream');
 const fetch = require('node-fetch');
 const { errorlog, clienterrorlog } = require('../../functions/error');
 const verify = require('../../verify');
+const level = require('../../level');
+const self = require('../../self');
+const lastSendTime = {}
 
 /**
  * @param {Client} client
@@ -92,6 +95,24 @@ module.exports = async (client, message) => {
 
     yomiage(client, message);
 
+    if (lastSendTime[message.channel.id]) {
+      if (Date.now() - lastSendTime[message.channel.id][message.author.id] <= 3000 && !client.db.prepare('SELECT * FROM bans WHERE user = ?').get(message.author.id)) {
+        lastSendTime[message.channel.id][message.author.id] = Date.now();
+        message.channel.send(
+          new MessageEmbed()
+            .setDescription(`<@${message.author.id}>さん、selfbot検知しました\n問答無用で永BANです＾＾`)
+            .setColor('RANDOM')
+            .setTimestamp()
+        );
+
+        const data = { id: `${message.author.id}`, user: message.author.id };
+        client.db.prepare('INSERT INTO bans (id, user) VALUES (@id, @user);').run(data);
+      } else {
+        lastSendTime[message.channel.id] = {}
+        lastSendTime[message.channel.id][message.author.id] = Date.now()
+      }
+    }
+
     if (message.channel.id === '834317763769925632') {
       if (message.content.startsWith('/')) {
         if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) return;
@@ -125,32 +146,8 @@ module.exports = async (client, message) => {
     }
 
     if (message.guild.id === '706452606918066237') {
-      let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-      if (!userleveldata) {
-        userleveldata = { id: `${message.author.id}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
-        client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
-      }
-      if (userleveldata.level >= 10) message.member.roles.add('824554360699879455');
-      if (userleveldata.level >= 20) message.member.roles.add('825245951295225896');
-      if (userleveldata.level >= 30) message.member.roles.add('830368022916104203');
-
-      if (!client.levelcooldown.get(message.author.id)) {
-        const xp = Math.ceil(Math.random() * 20);
-        userleveldata.xp += xp
-        userleveldata.allxp += xp;
-        client.levelcooldown.set(message.author.id, true);
-      }
-
-      if (userleveldata.xp >= userleveldata.level * 55) {
-        userleveldata.xp -= userleveldata.level * 55;
-        userleveldata.level++;
-        const levelup = [`${message.author}、あなたのレベルが${userleveldata.level}に上がりました！<:owoxv:816282137065947136>`, `${message.author}、あなたのレベルが${userleveldata.level}に上がっりました！<:owotukkomi:778507729517412402>`, `GG ${message.author}, you just advanced to level ${userleveldata.level}!<:emoji_106:790546684710223882>`, `${message.author} あなたのレベルが${userleveldata.level}に上がったで。😉`];
-        let random = Math.floor(Math.random() * levelup.length);
-        message.channel.send(levelup[random]);
-      }
-
-      client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
-
+      level(client, message);
+      self(client, message);
       verify(client, message);
     }
 

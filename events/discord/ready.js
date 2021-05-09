@@ -55,6 +55,14 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
+    const Bantable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'bans';").get();
+    if (!Bantable['count(*)']) {
+      client.db.prepare("CREATE TABLE bans (id TEXT PRIMARY KEY, user TEXT);").run();
+      client.db.prepare("CREATE UNIQUE INDEX idx_bans_id ON bans (id);").run();
+      client.db.pragma("synchronous = 1");
+      client.db.pragma("journal_mode = wal");
+    }
+
     client.guilds.cache.get('706452606918066237').fetchInvites()
       .then(invites => {
         client.invites = invites;

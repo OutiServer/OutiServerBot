@@ -6,7 +6,7 @@ const verify = require('./dat/json/verify.json');
  * @param {Message} message 
  */
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
     let verifyRelease = false;
     let verifymessage = '称号を獲得しました！\n```diff\n';
 
