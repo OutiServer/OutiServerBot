@@ -1,5 +1,5 @@
 const { Client, Message } = require("discord.js");
-const verify = require('./dat/json/verify.json');
+const verify = require('../dat/json/verify.json');
 
 /**
  * @param {Client} client 
