@@ -41,7 +41,7 @@ module.exports = async (client, message) => {
     if (userleveldata.xp >= userleveldata.level * 55) {
         userleveldata.xp -= userleveldata.level * 55;
         userleveldata.level++;
-        message.channel.send(levelupmessage);
+        message.channel.send(levelupmessage.replace('{level}', userleveldata.level));
     }
 
     client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
