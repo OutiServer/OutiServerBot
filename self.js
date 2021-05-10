@@ -16,7 +16,7 @@ module.exports = async (client, message) => {
     }
 
     count++;
-    if (count >= 100) {
+    if (count >= 2000) {
         if (!client.db.prepare('SELECT * FROM bans WHERE user = ?')) {
             message.channel.send(
                 new MessageEmbed()
