@@ -5,7 +5,6 @@ const cron = require('node-cron');
 const SQLite = require("better-sqlite3");
 const client = new Client({ messageCacheMaxSize: 20, messageSweepInterval: 30, fetchAllMembers: true, ws: { intents: Intents.ALL } });
 client.commands = new Collection();
-client.slashcommands = new Collection();
 client.cooldown = new Collection();
 client.levelcooldown = new Collection();
 client.invites = new Collection();
@@ -40,17 +39,6 @@ for (const folder of commandFolders) {
     console.log(`${command.info.name} command is Loading`);
   }
 }
-
-fs.readdir("./slash-commands/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach((file) => {
-    if (!file.endsWith(".js")) return;
-    let props = require(`./slash-commands/${file}`);
-    let commandName = file.split(".")[0];
-    client.slashcommands.set(commandName, props);
-    console.log(`${commandName} slash-command is Loading`);
-  });
-});
 
 fs.readdir(__dirname + "/events/cron/", (err, files) => {
   if (err) return console.error(err);
