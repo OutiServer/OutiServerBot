@@ -24,15 +24,17 @@ module.exports = {
         const main = client.commands.filter(x => x.info.category == 'Main').map((x) => '`' + x.info.name + '`').join(', ');
         const minecraft = client.commands.filter(x => x.info.category == 'Minecraft').map((x) => '`' + x.info.name + '`').join(', ');
         const level = client.commands.filter(x => x.info.category == 'Level').map((x) => '`' + x.info.name + '`').join(', ');
+        const omake = client.commands.filter(x => x.info.category == 'Omake').map((x) => '`' + x.info.name + '`').join(', ');
         const admin = client.commands.filter(x => x.info.category == 'Admin').map((x) => '`' + x.info.name + '`').join(', ');
         const owner = client.commands.filter(x => x.info.category == 'Owner').map((x) => '`' + x.info.name + '`').join(', ');
-        let embeds = [];
+        const embeds = [];
         embeds.push(
           new MessageEmbed()
             .setTitle(`${client.user.tag} helpページ`)
             .addField('Main', main)
             .addField('Minecraft', minecraft)
             .addField('Level', level)
+            .addField('Omake', omake)
             .setColor('RANDOM')
             .setTimestamp()
         );
@@ -57,7 +59,15 @@ module.exports = {
             .setColor('RANDOM')
             .setTimestamp()
 
-        )
+        );
+        embeds.push(
+          new MessageEmbed()
+            .setTitle('Omake')
+            .setDescription('```' + client.commands.filter(x => x.info.category == 'Omake').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+            .setColor('RANDOM')
+            .setTimestamp()
+        );
+
         if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) {
           embeds[0].addField('Admin', admin);
           embeds.push(
