@@ -7,7 +7,7 @@ const { Client, Message } = require("discord.js");
  */
 
 module.exports = async (client, message) => {
-    if (client.db.prepare('SELECT * FROM bans WHERE user = ?').get(message.author.id) || client.levelcooldown.get(message.author.id)) return;
+    if (client.levelcooldown.get(message.author.id)) return;
 
     const random = Math.random();
     let addxp = 0;

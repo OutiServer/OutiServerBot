@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, MessageReaction, User } = require('discord.js');
+const { Client, Message, MessageEmbed, MessageReaction, User, Collection } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const fetch = require('node-fetch');
@@ -128,29 +128,6 @@ module.exports = async (client, message) => {
     if (message.guild.id === '706452606918066237') {
       level(client, message);
       verify(client, message);
-    }
-
-    if (message.member.roles.cache.has('739473593674629120')) {
-      if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 1)) {
-        message.reply('称号を獲得しました！\n```diff\n+ おうち鯖貢献者\n```');
-        const verifydata = {
-          id: `${message.author.id}-1`,
-          user: message.author.id,
-          verifynumber: 1
-        };
-        client.db.prepare('INSERT INTO verifys (id, user, verifynumber) VALUES (@id, @user, @verifynumber);').run(verifydata);
-      }
-    }
-    if (message.member.roles.cache.size >= 5) {
-      if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 2)) {
-        message.reply('称号を獲得しました！\n```diff\n+ ロールは多い方がかっこいい\n```');
-        const verifydata = {
-          id: `${message.author.id}-2`,
-          user: message.author.id,
-          verifynumber: 2
-        };
-        client.db.prepare('INSERT INTO verifys (id, user, verifynumber) VALUES (@id, @user, @verifynumber);').run(verifydata);
-      }
     }
 
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
