@@ -16,6 +16,7 @@
     "@discordjs/opus": "^0.5.0",
     "@google-cloud/text-to-speech": "^3.2.0",
     "better-sqlite3": "^7.3.1",
+    "canvacord": "^5.2.0",
     "canvas": "^2.7.0",
     "discord.js": "^12.5.3",
     "dotenv": "^9.0.0",
