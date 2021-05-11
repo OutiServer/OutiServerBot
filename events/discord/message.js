@@ -152,11 +152,7 @@ module.exports = async (client, message) => {
     const command = args.shift().toLowerCase();
     if (!command) return;
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
-    if (!cmd) {
-      message.react('741467232869154907');
-      return message.reply('そんなコマンドないで。😉');
-    }
-    else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571')) {
+    if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571')) {
       message.react('741467232869154907');
       return message.reply('そのコマンドを使用するための権限が足りてないで。😉');
     }
