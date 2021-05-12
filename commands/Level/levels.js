@@ -25,6 +25,7 @@ module.exports = {
             let ranknumber1 = 1;
             let ranknumber2 = 10;
             let rank = 1;
+            const bans = await message.guild.fetchBans();
 
             for (let i = 0; i < Math.ceil(all.length / 10); i++) {
                 embeds.push(
@@ -38,15 +39,28 @@ module.exports = {
             }
 
             for (const data of all) {
-                const user = message.guild.member(data.user);
-                let usertag = ''
+                let user = client.users.cache.get(data.user);
                 if (!user) {
-                    usertag = 'False';
+                    user = (await client.users.fetch(data.user)).tag;
+                }
+
+                if (bans.get(data.user)) {
+                    embeds[Math.ceil(rank / 10) - 1].addField(`<:ban:842003176626192384> ${rank}位: ${user.tag}`, `${data.level}Level ${data.xp}経験値`);
+                }
+                else if (message.guild.member(user.id)) {
+                    if (message.guild.member(user.id).roles.cache.has('739473593674629120')) {
+                        embeds[Math.ceil(rank / 10) - 1].addField(`<:serverbooster:842067279160279081> ${rank}位: ${user.tag}`, `${data.level}Level ${data.xp}経験値`);
+                    }
+                    else if (message.guild.member(user.id).roles.cache.has('780381600751812638')) {
+                        embeds[Math.ceil(rank / 10) - 1].addField(`<:DeadCrew1:778271180888080394> ${rank}位: ${user.tag}`, `${data.level}Level ${data.xp}経験値`);
+                    }
+                    else {
+                        embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag}`, `${data.level}Level ${data.xp}経験値`);
+                    }
                 }
                 else {
-                    usertag = user.user.tag;
+                    embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag}`, `${data.level}Level ${data.xp}経験値`);
                 }
-                embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${usertag}`, `${data.level}Level ${data.xp}経験値`);
                 rank++;
             }
 
