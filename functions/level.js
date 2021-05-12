@@ -44,6 +44,25 @@ module.exports = async (client, message) => {
         client.channels.cache.get('841287448617287711').send(levelupmessage.replace('{level}', userleveldata.level));
     }
 
+    if (userleveldata.level >= 10) {
+        message.member.roles.add('824554360699879455');
+    }
+    if (userleveldata.level >= 20) {
+        message.member.roles.add('825245951295225896');
+    }
+    if (userleveldata.level >= 30) {
+        message.member.roles.add('830368022916104203');
+    }
+    if (userleveldata.level >= 40) {
+        message.member.roles.add('841544098895757323');
+    }
+    if (userleveldata.level >= 50) {
+        message.member.roles.add('841544161563901992');
+    }
+    if (userleveldata.level >= 60) {
+        message.member.roles.add('841544161563901992');
+    }
+
     client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
     client.levelcooldown.set(message.author.id, true);
 }
