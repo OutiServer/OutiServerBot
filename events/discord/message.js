@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, MessageReaction, User, Collection } = require('discord.js');
+const { Client, Message, MessageEmbed, MessageReaction, User } = require('discord.js');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const { Readable } = require('stream');
 const fetch = require('node-fetch');
