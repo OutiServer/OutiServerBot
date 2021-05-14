@@ -33,9 +33,9 @@ module.exports = {
             const collected = await message.channel.awaitMessages(filter, { max: 1, time: 60000 });
             const response = collected.first();
             if (!response) return msg.delete();
-            const query = response.content.split(/\s+/)[0];
+            const query = response.content.split(/\s+/)[0].toLowerCase();
             response.delete();
-            if (query === 'SELECT') {
+            if (query === 'select') {
                 try {
                     msg.edit(
                         new MessageEmbed()
@@ -54,7 +54,41 @@ module.exports = {
                     );
                 }
             }
-            else if (['INSERT', 'UPDATE', 'DELETE', 'ALTER', 'DROP'].includes(query)) {
+            else if (query === 'close') {
+                msg.edit('この変更でいい場合はokを、取り消す場合はnoを送信してください',
+                    new MessageEmbed()
+                        .setDescription('db接続を閉じて宜しいですか？')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                );
+
+                while (true) {
+                    const collected2 = await message.channel.awaitMessages(filter, { max: 1, time: 60000 });
+                    const response2 = collected2.first();
+                    if (!response2) {
+                        msg.edit('');
+                        return;
+                    }
+                    else if (response2.content === 'no') {
+                        response.delete();
+                        msg.edit('');
+                        return;
+                    }
+                    else if (response2.content === 'ok') {
+                        response2.delete();
+                        break;
+                    }
+                }
+
+                client.db.close();
+                msg.edit('',
+                    new MessageEmbed()
+                        .setDescription('db接続を閉じました！')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                );
+            }
+            else if (['inset', 'update', 'delete'].includes(query)) {
                 msg.edit('この変更でいい場合はokを、取り消す場合はnoを送信してください',
                     new MessageEmbed()
                         .setDescription('```sql\n' + response.content + '```')
@@ -98,7 +132,7 @@ module.exports = {
                     );
                 }
             } else {
-                msg.edit('その基本命令文は対応していません。\nSELECT・INSERT・UPDATE・DELETE・ALTER・DROP のみ対応しています');
+                msg.edit('その基本命令文は対応していません。\n`SELECT・INSERT・UPDATE・DELETE・CLOSE` のみ対応しています');
             }
         } catch (error) {
             errorlog(client, message, error);
