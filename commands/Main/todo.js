@@ -156,12 +156,12 @@ module.exports = {
                         msg.edit('');
                         break;
                     }
-                    if (response.content === 'ok') {
+                    if (response.content === 'no') {
                         response.delete();
                         msg.edit('');
                         break;
                     }
-                    else if (response.content === 'no') {
+                    else if (response.content === 'ok') {
                         response.delete();
                         client.db.prepare('DELETE FROM todolists WHERE id = ?').run(all[selecttodo - 1].id);
                         msg.edit('削除しました');
@@ -191,7 +191,7 @@ module.exports = {
                 );
             }
             else if (args[0] === 'allremove') {
-                const msg = await message.channel.send(`本当に全てのTodoを削除してよろしいですか？\n消す場合は1を、消さない場合は0を送信してください。`)
+                const msg = await message.channel.send(`本当に全てのTodoを削除してよろしいですか？\n消す場合はokを、消さない場合はnoを送信してください。`)
                 while (true) {
                     const filter = msg => msg.author.id === message.author.id;
                     const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
@@ -200,12 +200,12 @@ module.exports = {
                         msg.edit('');
                         break;
                     }
-                    if (response.content === '0') {
+                    if (response.content === 'no') {
                         response.delete();
                         msg.edit('');
                         break;
                     }
-                    else if (response.content === '1') {
+                    else if (response.content === 'ok') {
                         response.delete();
                         client.db.prepare('DELETE FROM todolists WHERE user = ?').run(message.author.id);
                         msg.edit('削除しました');
