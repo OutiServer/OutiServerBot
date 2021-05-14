@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const SQLite = require("better-sqlite3");
 const { errorlog } = require('../../functions/error');
 
 module.exports = {
@@ -21,8 +22,10 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             message.channel.send('再接続しています...')
+                .then(() => client.db.close())
                 .then(() => client.destroy())
                 .then(() => client.login(process.env.DISCORD_TOKEN))
+                .then(() => client.db = new SQLite('outiserver.db'))
                 .then(() => message.channel.send('再接続が完了しました'))
                 .catch(error => errorlog(client, message, error))
                 .finally(() => client.cooldown.set(message.author.id, false));
@@ -32,7 +35,5 @@ module.exports = {
         finally {
             client.cooldown.set(message.author.id, false);
         }
-
-
     },
 };
