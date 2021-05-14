@@ -7,5 +7,6 @@ const { Client, WebhookClient } = require('discord.js');
 module.exports = (client, code) => {
     try {
         client.db.close();
+        client.destroy();
     } catch (error) { }
 };
