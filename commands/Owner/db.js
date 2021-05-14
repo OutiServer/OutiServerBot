@@ -70,7 +70,7 @@ module.exports = {
                         return;
                     }
                     else if (response2.content === 'no') {
-                        response.delete();
+                        response2.delete();
                         msg.edit('');
                         return;
                     }
@@ -104,7 +104,7 @@ module.exports = {
                         return;
                     }
                     else if (response2.content === 'no') {
-                        response.delete();
+                        response2.delete();
                         msg.edit('');
                         return;
                     }
