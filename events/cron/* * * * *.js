@@ -37,11 +37,11 @@ module.exports = (client) => {
                         );
                     });
             });
-            */
 
         util.statusBedrock('126.235.33.140', { port: 19131, timeout: 1000 })
             .then(result => client.channels.cache.get('834317763769925632').setTopic(`現在のサーバー参加人数: ${result.onlinePlayers}/${result.maxPlayers}人`))
             .catch();
+            */
 
         client.levelcooldown = new Collection();
     } catch (error) {
