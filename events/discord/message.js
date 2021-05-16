@@ -91,8 +91,6 @@ module.exports = async (client, message) => {
 
     if (!message.guild || message.system || message.author.bot) return;
 
-    yomiage(client, message);
-
     if (message.channel.id === '834317763769925632') {
       if (message.content.startsWith('/')) {
         if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) return;
@@ -167,59 +165,6 @@ module.exports = async (client, message) => {
     clienterrorlog(client, error);
   }
 };
-
-async function textToSpeechReadableStream(text) {
-  const request = {
-    input: { text },
-    voice: {
-      languageCode: 'ja-JP',
-      name: 'ja-JP-Wavenet-A'
-    },
-    audioConfig: {
-      audioEncoding: 'OGG_OPUS',
-      speakingRate: 1.2
-    }
-  };
-
-  const [response] = await textclient.synthesizeSpeech(request);
-  const stream = new Readable({ read() { } });
-  stream.push(response.audioContent);
-
-  return stream;
-}
-const textclient = new textToSpeech.TextToSpeechClient({
-  credentials: {
-    client_email: process.env.GOOGLE_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
-  }
-});
-
-/**
- * @param {Client} client
- * @param {Message} message
- */
-
-async function yomiage(client, message) {
-  const guild = message.guild;
-  const channel = message.member.voice.channel;
-  if (!message.member.voice.selfMute || guild.id !== process.env.DISCORD_GUILD_ID || !channel || message.channel.id !== '706458716320432198' && message.channel.id !== '825674456470519809') {
-    return;
-  }
-  const text = message
-    .content
-    .replace(/https?:\/\/\S+/g, 'URL省略')
-    .replace(/<a?:.*?:\d+>/g, '絵文字省略')
-    .replace(/<@!?.*?>/g, 'メンション省略')
-    .replace(/<#.*?>/g, 'メンション省略')
-    .replace(/<@&.*?>/g, 'メンション省略')
-    .slice(0, 50);
-  if (!text) { return; }
-  if (channel.members.array().length < 1) { return; }
-  const currentConnection = client.voice.connections.get(process.env.DISCORD_GUILD_ID);
-  const shouldMove = !currentConnection || currentConnection.channel.id !== channel.id;
-  const conn = shouldMove ? await channel.join() : currentConnection;
-  conn.play(await textToSpeechReadableStream(text), { highWaterMark: 6, bitrate: 'auto' })
-}
 
 /**
  * @param {Client} client
