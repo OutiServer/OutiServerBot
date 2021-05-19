@@ -72,7 +72,7 @@ module.exports = async (client) => {
 
     handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
       if (user.bot) return;
-      if (reaction.emoji.id === '774598967459446784') {
+      if (reaction.emoji.id === '844473484579307540') {
         if (reaction.message.guild.member(user).roles.cache.has('774593459034128395')) {
           reaction.message.guild.member(user).roles.remove('774593459034128395');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} among us crewを剥奪しました`);
@@ -84,7 +84,7 @@ module.exports = async (client) => {
           reply.delete({ timeout: 5000 });
         }
       }
-      else if (reaction.emoji.id === '790546684710223882') {
+      else if (reaction.emoji.id === '844473484788498442') {
         if (reaction.message.guild.member(user).roles.cache.has('780217228649562113')) {
           reaction.message.guild.member(user).roles.remove('780217228649562113');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 臨時お知らせを剥奪しました`);
@@ -99,31 +99,7 @@ module.exports = async (client) => {
           }, 600000)
         }
       }
-      else if (reaction.emoji.id === '798179606166634516') {
-        if (reaction.message.guild.member(user).roles.cache.has('814095138443100191')) {
-          reaction.message.guild.member(user).roles.remove('814095138443100191');
-          const reply = await client.channels.cache.get('774594290679545886').send(`${user} 生活要素班を剥奪しました`);
-          reply.delete({ timeout: 5000 });
-        }
-        else {
-          reaction.message.guild.member(user).roles.add('814095138443100191');
-          const reply = await client.channels.cache.get('774594290679545886').send(`${user} 生活要素班を付与しました`);
-          reply.delete({ timeout: 5000 });
-        }
-      }
-      else if (reaction.emoji.id === '798179591582908446') {
-        if (reaction.message.guild.member(user).roles.cache.has('814070465064599593')) {
-          reaction.message.guild.member(user).roles.remove('814070465064599593');
-          const reply = await client.channels.cache.get('774594290679545886').send(`${user} ミニゲーム班を剥奪しました`);
-          reply.delete({ timeout: 5000 });
-        }
-        else {
-          reaction.message.guild.member(user).roles.add('814070465064599593');
-          const reply = await client.channels.cache.get('774594290679545886').send(`${user} ミニゲーム班を付与しました`);
-          reply.delete({ timeout: 5000 });
-        }
-      }
-      else if (reaction.emoji.id === '741467052950159361') {
+      else if (reaction.emoji.id === '844473484369461298') {
         if (reaction.message.guild.member(user).roles.cache.has('825232499151470643')) {
           reaction.message.guild.member(user).roles.remove('825232499151470643');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 雑談を剥奪しました`);
@@ -135,7 +111,7 @@ module.exports = async (client) => {
           reply.delete({ timeout: 5000 });
         }
       }
-      else if (reaction.emoji.id === '826629936194387988') {
+      else if (reaction.emoji.id === '844473484645367818') {
         if (reaction.message.guild.member(user).roles.cache.has('826994784614219846')) {
           reaction.message.guild.member(user).roles.remove('826994784614219846');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} お知らせを剥奪しました`);

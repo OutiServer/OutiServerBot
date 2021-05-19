@@ -13,11 +13,10 @@ module.exports = (client) => {
 
         client.channels.cache.get('774594290679545886').messages.fetch('794246738881019915')
             .then(msg => msg.reactions.removeAll())
-            .then(msg => msg.react('774598967459446784'))
-            .then(react => react.message.react('790538555407597590'))
-            .then(react => react.message.react('790546684710223882'))
-            .then(react => react.message.react('741467052950159361'))
-            .then(react => react.message.react('826629936194387988'));
+            .then(msg => msg.react('844473484579307540'))
+            .then(react => react.message.react('844473484788498442'))
+            .then(react => react.message.react('844473484369461298'))
+            .then(react => react.message.react('844473484645367818'));
 
         client.channels.cache.get('821686383605055508').messages.fetch('821726639443673089')
             .then(msg => msg.reactions.removeAll())
