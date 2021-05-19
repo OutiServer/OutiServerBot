@@ -24,8 +24,8 @@ module.exports = async (client, message) => {
           .setColor('RANDOM')
           .setTimestamp()
       ).then(msg => {
-        msg.react('741467219208437800');
-        msg.react('741467232869154907');
+        msg.react('844586134423076904');
+        msg.react('844586134536323122');
         const collector = msg.createReactionCollector(() => true);
         collector.on('collect', (reaction, user) => gamertagverify(client, msg, message.embeds[0].fields[1].value, verifyuser.id, reaction, user));
       });
@@ -152,11 +152,11 @@ module.exports = async (client, message) => {
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
     if (!cmd) return;
     else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571')) {
-      message.react('741467232869154907');
+      message.react('844586134536323122');
       return message.reply('そのコマンドを使用するための権限が足りてないで。😉');
     }
     else if (client.cooldown.get(message.author.id)) {
-      message.react('741467232869154907');
+      message.react('844586134536323122');
       return message.reply('前のコマンドがまだ実行中やで。😉');
     }
     client.cooldown.set(message.author.id, true);
@@ -177,7 +177,7 @@ module.exports = async (client, message) => {
 
 async function gamertagverify(client, message, gamertag, verifyuserid, reaction, user) {
   if (user.bot) return;
-  if (reaction.emoji.id === '741467219208437800') {
+  if (reaction.emoji.id === '844586134423076904') {
     const data = {
       id: `${verifyuserid}-${gamertag}`,
       user: verifyuserid,
@@ -188,7 +188,7 @@ async function gamertagverify(client, message, gamertag, verifyuserid, reaction,
     message.edit('申請を承諾しました！');
     message.reactions.removeAll();
   }
-  else if (reaction.emoji.id === '741467232869154907') {
+  else if (reaction.emoji.id === '844586134536323122') {
     message.edit('申請を承諾しませんでした！');
     message.reactions.removeAll();
     client.channels.cache.get('797008715646500865').send(`<@${verifyuserid}>、申請が却下されました。`);

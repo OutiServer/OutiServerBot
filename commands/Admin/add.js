@@ -22,13 +22,13 @@ module.exports = {
         try {
             const user = message.mentions.users.first() || message.guild.member(args[0]);
             if (!user) {
-                message.react('816282137065947136');
+                message.react('844473484745637888');
                 return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
             }
 
             const addxp = Number(args[1]);
             if (!addxp) {
-                message.react('816282137065947136');
+                message.react('844473484745637888');
                 return message.reply('経験値を付与する数を第二引数に入れてください！');
             }
 

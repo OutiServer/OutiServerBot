@@ -20,7 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            message.react('741467219208437800');
+            message.react('844586134423076904');
             const msg = await message.channel.send(
                 new MessageEmbed()
                     .setTitle('dbに接続しました！')

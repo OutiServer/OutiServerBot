@@ -171,7 +171,7 @@ module.exports = {
             }
             else if (args[0] === 'info') {
                 if (!args[1]) {
-                    message.react('816282137065947136');
+                    message.react('844473484745637888');
                     return message.reply('第二引数にTodoの名前を入力してください！');
                 }
 

@@ -36,7 +36,7 @@ module.exports = {
                 if (!user) {
                     if (client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id)) return message.reply('あなたのゲーマータグは既に追加済みです！');
                     if (!args[0]) {
-                        message.react('816282137065947136');
+                        message.react('844473484745637888');
                         return message.reply('第一引数にあなたのゲーマータグを入れてください！');
                     }
                     const data = {
@@ -50,7 +50,7 @@ module.exports = {
                 else {
                     if (client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(user.id)) return message.reply(`${user.tag}のゲーマータグは既に追加済みです！`);
                     if (!args[1]) {
-                        message.react('816282137065947136');
+                        message.react('844473484745637888');
                         return message.reply(`第二引数に${user.tag}のゲーマータグを入れてください！`);
                     }
                     const data = {

@@ -22,7 +22,7 @@ module.exports = {
         try {
             const userrankimagedata = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id);
             if (!userrankimagedata) {
-                message.react('816282137065947136');
+                message.react('844473484745637888');
                 return message.reply('あなたはまだrank画像を設定していないようです');
             }
             const command = args[0];

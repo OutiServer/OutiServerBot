@@ -22,13 +22,13 @@ module.exports = {
     try {
       const [title, ...choices] = args;
       if (!title) {
-        message.react('816282137065947136');
+        message.react('844473484745637888');
         return message.channel.send('タイトルを指定してください');
       }
 
       const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
       if (choices.length < 2 || choices.length > emojis.length) {
-        message.react('816282137065947136');
+        message.react('844473484745637888');
         return message.channel.send(`選択肢は2から${emojis.length}つを指定してください`);
       }
 

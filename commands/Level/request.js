@@ -24,12 +24,12 @@ module.exports = {
         try {
             const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
             if (userleveldata.level < 10) {
-                message.react('816282137065947136');
+                message.react('844473484745637888');
                 return message.reply('画像背景申請はLevel10以上になってから使用できます！');
             }
 
             if (message.attachments.size <= 0) {
-                message.react('816282137065947136');
+                message.react('844473484745637888');
                 return message.reply('リクエストする画像を一緒に送信してください！');
             }
             message.attachments.forEach(attachment => {

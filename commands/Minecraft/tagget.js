@@ -26,7 +26,7 @@ module.exports = {
                 if (!usergamertag) {
                     usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
                     if (!usergamertag) {
-                        message.react('816282137065947136');
+                        message.react('844473484745637888');
                         return message.reply('あなたのゲーマータグはまだリンクされていません！');
                     }
                     message.channel.send(
@@ -52,7 +52,7 @@ module.exports = {
                 if (!usergamertag) {
                     usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
                     if (!usergamertag) {
-                        message.react('816282137065947136');
+                        message.react('844473484745637888');
                         return message.reply('あなたのゲーマータグはまだリンクされていません！');
                     }
                     message.channel.send(
