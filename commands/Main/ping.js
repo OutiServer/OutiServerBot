@@ -21,14 +21,10 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const used = process.memoryUsage();
-            let memory = 0;
-            memory = Math.round(used.rss / 1024 / 1024 * 100) / 100;
-            memory += Math.round(used.heapUsed / 1024 / 1024 * 100) / 100;
-            memory += Math.round(used.heapTotal / 1024 / 1024 * 100) / 100;
-            message.channel.send('Pong!')
+            message.channel.send('Pong')
                 .then(msg => msg.edit('',
                     new MessageEmbed()
-                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${memory}MB`)
+                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${Math.round(used.rss / 1024 / 1024 * 100) / 100}MB`)
                         .setColor('RANDOM')
                         .setTimestamp()
                 ));
