@@ -41,7 +41,12 @@ module.exports = {
             userleveldata.xp += addxp;
             userleveldata.allxp += addxp;
 
-            client.db.prepare('UPDATE levels SET xp = ?, allxp = ? WHERE user = ?').run(userleveldata.xp, userleveldata.allxp, userleveldata.user);
+            while (userleveldata.xp >= userleveldata.level * 55) {
+                userleveldata.xp -= userleveldata.level * 55;
+                userleveldata.level++;
+            }
+
+            client.db.prepare('UPDATE levels SET level, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
 
             message.channel.send(`${user}に${addxp}経験値付与しました！`);
         } catch (error) {

@@ -12,6 +12,7 @@ module.exports = async (client, message) => {
     const random = Math.random();
     let addxp = 0;
     let levelupmessage = '';
+    let levelupflag = false;
     if (random < 0.01) { // 0.01％
         addxp = Math.ceil(Math.random() * 500) + 300;
         levelupmessage = `${message.author} あなたのレベルが{level}に上がりました！<:owoxv:816282137065947136>`;
@@ -38,9 +39,12 @@ module.exports = async (client, message) => {
     userleveldata.xp += addxp;
     userleveldata.allxp += addxp;
 
-    if (userleveldata.xp >= userleveldata.level * 55) {
+    while (userleveldata.xp >= userleveldata.level * 55) {
         userleveldata.xp -= userleveldata.level * 55;
         userleveldata.level++;
+    }
+
+    if (levelupflag) {
         client.channels.cache.get('841287448617287711').send(levelupmessage.replace('{level}', userleveldata.level));
     }
 
