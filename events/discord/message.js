@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 const { clienterrorlog } = require('../../functions/error');
 const verify = require('../../functions/verify');
 const level = require('../../functions/level');
+const whitelistadd = require('../../functions/whitelistadd');
 
 /**
  * @param {Client} client
@@ -27,7 +28,7 @@ module.exports = async (client, message) => {
         msg.react('844586134423076904');
         msg.react('844586134536323122');
         const collector = msg.createReactionCollector(() => true);
-        collector.on('collect', (reaction, user) => gamertagverify(client, msg, message.embeds[0].fields[1].value, verifyuser.id, reaction, user));
+        collector.on('collect', (reaction, user) => whitelistadd(client, msg, message.embeds[0].fields[1].value, verifyuser.id, reaction, user));
       });
     }
     else if (message.author.id === '786343397807620106') {
@@ -35,8 +36,7 @@ module.exports = async (client, message) => {
         .then(res => res.text())
         .then(content => message.channel.send(content));
     }
-
-    if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
+    else if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
       if (message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
         const bump_user = message.embeds[0].description.split(',')[0];
         message.channel.send(bump_user,
@@ -74,9 +74,7 @@ module.exports = async (client, message) => {
         message.channel.send(`${up_user}、Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
       }
     }
-
-
-    if (message.channel.id === '833626570270572584' && message.author.id === '784043588426006548') {
+    else if (message.channel.id === '833626570270572584' && message.author.id === '784043588426006548') {
       const content = message.content.split(/\s+/);
       if (content[2] === '[Guest]') {
         client.channels.cache.get('834317763769925632').send(`**${content[3]}** >> ${content[5]}`);
@@ -91,24 +89,22 @@ module.exports = async (client, message) => {
 
     if (!message.guild || message.system || message.author.bot) return;
 
-    if (message.channel.id === '834317763769925632') {
+    if (message.guild.id === '706452606918066237') {
+      level(client, message);
+      verify(client, message);
+    }
+    else if (message.channel.id === '834317763769925632') {
       if (message.content.startsWith('/')) {
         if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) return;
         client.channels.cache.get('833626570270572584').send(message.content);
       }
       client.channels.cache.get('833626570270572584').send(`/say ${message.author.tag} ${message.content}`);
     }
-
-    if (message.channel.id === '706469264638345227') {
+    else if (message.channel.id === '706469264638345227') {
       message.react('👍');
       message.react('👎');
     }
-
-    if (message.channel.parentID === '801057223139917884') {
-      message.member.roles.add('801796340057112589');
-    }
-
-    if (message.channel.id === '828267048807039037') {
+    else if (message.channel.id === '828267048807039037') {
       message.delete();
       message.guild.channels.create(message.content, { type: 'text', topic: `${message.author.tag}さんのスレッドです。\n${message.content}`, parent: '828266382277345310' })
         .then(channel => {
@@ -121,11 +117,6 @@ module.exports = async (client, message) => {
           )
             .then(msg => msg.pin());
         });
-    }
-
-    if (message.guild.id === '706452606918066237') {
-      level(client, message);
-      verify(client, message);
     }
 
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
@@ -163,34 +154,5 @@ module.exports = async (client, message) => {
     cmd.run(client, message, args);
   } catch (error) {
     clienterrorlog(client, error);
-  }
-};
-
-/**
- * @param {Client} client
- * @param {Message} message
- * @param {string} gamertag
- * @param {string} verifyuserid
- * @param {MessageReaction} reaction 
- * @param {User} user 
- */
-
-async function gamertagverify(client, message, gamertag, verifyuserid, reaction, user) {
-  if (user.bot) return;
-  if (reaction.emoji.id === '844586134423076904') {
-    const data = {
-      id: `${verifyuserid}-${gamertag}`,
-      user: verifyuserid,
-      tag: gamertag
-    };
-    client.db.prepare('INSERT INTO gamertags (id, user, tag) VALUES (@id, @user, @tag);').run(data);
-    client.guilds.cache.get('706452606918066237').member(verifyuserid).roles.add('821715178147020800');
-    message.edit('申請を承諾しました！');
-    message.reactions.removeAll();
-  }
-  else if (reaction.emoji.id === '844586134536323122') {
-    message.edit('申請を承諾しませんでした！');
-    message.reactions.removeAll();
-    client.channels.cache.get('797008715646500865').send(`<@${verifyuserid}>、申請が却下されました。`);
   }
 }
