@@ -14,7 +14,7 @@ module.exports = (client, oldMessage, newMessage) => {
             new MessageEmbed()
                 .setTitle('メッセージが編集されました')
                 .setDescription(`User: ${oldMessage.author.tag}\noldMessage: ${oldMessage.content}\nnewMessage: ${newMessage.content}`)
-                .setThumbnail(message.author.avatarURL())
+                .setThumbnail(newMessage.author.avatarURL())
                 .setColor('RANDOM')
                 .setThumbnail()
         );
