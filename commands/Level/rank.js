@@ -50,7 +50,11 @@ module.exports = {
                     });
             }
             else {
-                const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
+                let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
+                if (!userleveldata) {
+                    userleveldata = { id: `${message.author.id}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
+                    client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
+                }
                 const rank = new canvacord.Rank()
                     .setAvatar(message.author.avatarURL({ format: 'png' }))
                     .setLevel(userleveldata.level)

@@ -1,4 +1,5 @@
 const { Client, Message } = require("discord.js");
+const verify = require("./verify");
 
 /**
  * 
@@ -42,6 +43,7 @@ module.exports = async (client, message) => {
     while (userleveldata.xp >= userleveldata.level * 55) {
         userleveldata.xp -= userleveldata.level * 55;
         userleveldata.level++;
+        levelupflag = true;
     }
 
     if (levelupflag) {
@@ -69,4 +71,6 @@ module.exports = async (client, message) => {
 
     client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
     client.levelcooldown.set(message.author.id, true);
+
+    verify(client, message);
 }

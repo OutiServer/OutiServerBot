@@ -1,9 +1,6 @@
-const { Client, Message, MessageEmbed, MessageReaction, User } = require('discord.js');
-const textToSpeech = require('@google-cloud/text-to-speech');
-const { Readable } = require('stream');
+const { Client, Message, MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 const { clienterrorlog } = require('../../functions/error');
-const verify = require('../../functions/verify');
 const level = require('../../functions/level');
 const whitelistadd = require('../../functions/whitelistadd');
 
@@ -91,7 +88,6 @@ module.exports = async (client, message) => {
 
     if (message.guild.id === '706452606918066237') {
       level(client, message);
-      verify(client, message);
     }
     else if (message.channel.id === '834317763769925632') {
       if (message.content.startsWith('/')) {
