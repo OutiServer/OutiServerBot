@@ -1,4 +1,4 @@
-const { Client, MessageAttachment } = require('discord.js');
+const { Client, MessageAttachment, WebhookClient } = require('discord.js');
 const { clienterrorlog } = require('../../functions/error');
 
 /**
@@ -9,7 +9,10 @@ module.exports = (client) => {
     try {
         const time = new Date();
         client.db.backup(`dat/backup/${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}.backup.db`)
-            .then(() => client.channels.cache.get('816555488694108170').send(new MessageAttachment(`dat/backup/${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}.backup.db`)));
+            .then(() => {
+                const webhook = new WebhookClient('847789617386094602', '7165d2iwgA9eCT3zJkJ0KaWfvlviOVpk2prQdYW0Axp2kHXin4GBUh7ZMjs0HpUYfFSk');
+                webhook.send(new MessageAttachment(`dat/backup/${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}.backup.db`));
+            });
 
         client.channels.cache.get('774594290679545886').messages.fetch('794246738881019915')
             .then(msg => msg.reactions.removeAll())
