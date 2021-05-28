@@ -28,12 +28,12 @@ module.exports = async (client, message) => {
         collector.on('collect', (reaction, user) => whitelistadd(client, msg, message.embeds[0].fields[1].value, verifyuser.id, reaction, user));
       });
     }
-    else if (message.author.id === '786343397807620106') {
+    if (message.author.id === '786343397807620106') {
       fetch(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`)
         .then(res => res.text())
         .then(content => message.channel.send(content));
     }
-    else if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
+    if (message.author.id == "302050872383242240" && message.guild.id === '706452606918066237') {
       if (message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
         const bump_user = message.embeds[0].description.split(',')[0];
         message.channel.send(bump_user,
@@ -52,7 +52,7 @@ module.exports = async (client, message) => {
         message.channel.send(`${bump_user}、Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
       }
     }
-    else if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
+    if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
       if (message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
         const up_user = message.embeds[0].description.split(/\s+/)[0];
         message.channel.send(up_user,
@@ -71,7 +71,7 @@ module.exports = async (client, message) => {
         message.channel.send(`${up_user}、Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
       }
     }
-    else if (message.channel.id === '833626570270572584' && message.author.id === '784043588426006548') {
+    if (message.channel.id === '833626570270572584' && message.author.id === '784043588426006548') {
       const content = message.content.split(/\s+/);
       if (content[2] === '[Guest]') {
         client.channels.cache.get('834317763769925632').send(`**${content[3]}** >> ${content[5]}`);
@@ -89,18 +89,18 @@ module.exports = async (client, message) => {
     if (message.guild.id === '706452606918066237') {
       level(client, message);
     }
-    else if (message.channel.id === '834317763769925632') {
+    if (message.channel.id === '834317763769925632') {
       if (message.content.startsWith('/')) {
         if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) return;
         client.channels.cache.get('833626570270572584').send(message.content);
       }
       client.channels.cache.get('833626570270572584').send(`/say ${message.author.tag} ${message.content}`);
     }
-    else if (message.channel.id === '706469264638345227') {
+    if (message.channel.id === '706469264638345227') {
       message.react('👍');
       message.react('👎');
     }
-    else if (message.channel.id === '828267048807039037') {
+    if (message.channel.id === '828267048807039037') {
       message.delete();
       message.guild.channels.create(message.content, { type: 'text', topic: `${message.author.tag}さんのスレッドです。\n${message.content}`, parent: '828266382277345310' })
         .then(channel => {
