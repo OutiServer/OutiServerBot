@@ -1,6 +1,6 @@
 const fs = require('fs');
 const request = require('request');
-const { Message, Client } = require("discord.js");
+const { Message, Client, MessageEmbed } = require("discord.js");
 const { errorlog } = require('../../functions/error');
 
 module.exports = {
@@ -25,12 +25,12 @@ module.exports = {
             const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
             if (userleveldata.level < 10) {
                 message.react('844473484745637888');
-                return message.reply('画像背景申請はLevel10以上になってから使用できます！');
+                return message.reply('レベル背景申請はLevel10以上になってから使用できます！');
             }
 
             if (message.attachments.size <= 0) {
                 message.react('844473484745637888');
-                return message.reply('リクエストする画像を一緒に送信してください！');
+                return message.reply('設定する画像を一緒に送信してください！');
             }
             message.attachments.forEach(attachment => {
                 request(
@@ -43,23 +43,18 @@ module.exports = {
                         if (!error && response.statusCode === 200) {
                             fs.writeFileSync(`./dat/images/${message.author.id}.png`, body, 'binary');
                             if (!client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id)) {
-                                const data = {
-                                    id: `${message.author.id}`,
-                                    user: message.author.id,
-                                    font: 80,
-                                    fillStyle: '#000000',
-                                    imagex: attachment.width / 2,
-                                    imagey: attachment.height / 2,
-                                    icon: 1,
-                                    defaultimagex: attachment.width,
-                                    defaultimagey: attachment.height
-                                };
-                                client.db.prepare('INSERT INTO rankimages (id, user, font, fillStyle, imagex, imagey, icon, defaultimagex, defaultimagey) VALUES (@id, @user, @font, @fillStyle, @imagex, @imagey, @icon, @defaultimagex, @defaultimagey);').run(data);
-                            }
-                            else {
-                                client.db.prepare('UPDATE rankimages SET imagex = ?, imagey = ?, defaultimagex = ?, defaultimagey = ? WHERE user = ?').run(attachment.width / 2, attachment.height / 2, attachment.width, attachment.height, message.author.id);
+                                client.db.prepare('INSERT INTO rankimages VALUES (?, ?, ?)').run(message.author.id, message.author.id, '#ffffff');
                             }
                             message.channel.send('level画像を設定しました！');
+                        }
+                        else {
+                            message.channel.send(
+                                new MessageEmbed()
+                                    .setTitle('画像保存中にエラーが発生しました')
+                                    .setDescription(`statusCode: ${response.statusCode}\n${error}`)
+                                    .setColor('RANDOM')
+                                    .setTimestamp()
+                            );
                         }
                     }
                 );

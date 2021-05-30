@@ -25,7 +25,7 @@ module.exports = async (client) => {
 
     const Rankimagetable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'rankimages';").get();
     if (!Rankimagetable['count(*)']) {
-      client.db.prepare("CREATE TABLE rankimages (id TEXT PRIMARY KEY, user TEXT, font INTEGER, fillStyle TEXT, imagex INTEGER, imagey INTEGER, icon INTEGER, defaultimagex INTEGER, defaultimagey INTEGER);").run();
+      client.db.prepare("CREATE TABLE rankimages (id TEXT PRIMARY KEY, user TEXT, barcolor TEXT);").run();
       client.db.prepare("CREATE UNIQUE INDEX idx_rankimages_id ON rankimages (id);").run();
       client.db.pragma("synchronous = 1");
       client.db.pragma("journal_mode = wal");
