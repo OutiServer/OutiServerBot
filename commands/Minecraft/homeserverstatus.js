@@ -26,31 +26,31 @@ module.exports = {
                     .then(msg => msg.delete({ timeout: 5000 }));
             }
 
-            util.statusBedrock('126.235.33.140', { timeout: 1000 })
-                .then((result) => {
-                    message.channel.send(
-                        new MessageEmbed()
-                            .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
-                            .addField('IPアドレス', result.host)
-                            .addField('ポート', result.port)
-                            .addField('サーバーのバージョン', result.version)
-                            .addField('デフォルトゲームモード', result.gameMode)
-                            .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
-                            .setImage('https://media.discordapp.net/attachments/840154191036022794/840154293453062144/outisabakoiyo.png')
-                            .setColor('RANDOM')
-                            .setTimestamp()
-                    );
-                })
-                .catch(() => {
-                    message.channel.send(
-                        new MessageEmbed()
-                            .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
-                            .setDescription('おうちサーバー(BE)は現在落ちてます')
-                            .setImage('https://media.discordapp.net/attachments/840154191036022794/840154302605426698/setumeisitekudasai.png')
-                            .setColor('RANDOM')
-                            .setTimestamp()
-                    );
-                });
+            util.statusBedrock('126.235.33.140', { timeout: 5000 })
+                .then((result) => message.channel.send(
+                    new MessageEmbed()
+                        .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
+                        .addField('IPアドレス', result.host)
+                        .addField('ポート', result.port)
+                        .addField('サーバーのバージョン', result.version)
+                        .addField('デフォルトゲームモード', result.gameMode)
+                        .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)
+                        .setImage('https://media.discordapp.net/attachments/840154191036022794/840154293453062144/outisabakoiyo.png')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                ))
+                .then(msg => msg.delete({ timeout: 5000 }))
+                .catch(() => message.channel.send(
+                    new MessageEmbed()
+                        .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
+                        .setDescription('おうちサーバー(BE)は現在落ちてます')
+                        .setImage('https://media.discordapp.net/attachments/840154191036022794/840154302605426698/setumeisitekudasai.png')
+                        .setColor('RANDOM')
+                        .setTimestamp()
+
+                )
+                    .then(msg => msg.delete({ timeout: 5000 }))
+                )
         } catch (error) {
             errorlog(client, message, error);
         }
