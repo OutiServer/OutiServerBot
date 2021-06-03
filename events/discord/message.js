@@ -43,13 +43,13 @@ module.exports = async (client, message) => {
             .setTimestamp()
         );
         setTimeout(() => {
-          message.channel.send(`Bumpしてから二時間経ちました\n\`!d bump\` を実行しましょう<:emoji_121:820198227147751474>`);
+          message.channel.send(`Bumpしてから二時間経ちました\n\`!d bump\` を実行しましょう`);
         }, 7200000);
       }
       else if (message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/このサーバーを上げられるようになるまで/) || message.embeds[0].description.match(/あなたがサーバーを上げられるようになるまで/))) {
         const waittime_bump = message.embeds[0].description.split("と")[1].split("分")[0];
         const bump_user = message.embeds[0].description.split(',')[0]
-        message.channel.send(`${bump_user}、Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
+        message.channel.send(`${bump_user}、Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！`);
       }
     }
     if (message.author.id == "761562078095867916" && message.guild.id === '706452606918066237') {
@@ -62,13 +62,13 @@ module.exports = async (client, message) => {
             .setTimestamp()
         );
         setTimeout(() => {
-          message.channel.send(`Upしてから一時間経ちました\n\`/dissoku up!\` を実行しましょう<:emoji_121:820198227147751474>`);
+          message.channel.send(`Upしてから一時間経ちました\n\`/dissoku up!\` を実行しましょう`);
         }, 3600000);
       }
       else if (message.embeds[0].url == "https://dissoku.net/" && message.embeds[0].fields[0].value.startsWith('間隔をあけてください')) {
         const waittime_up = message.embeds[0].fields[0].value.split("間隔をあけてください")[1].split('(')[1].split(')')[0];
         const up_user = message.embeds[0].description.split(/\s+/)[0];
-        message.channel.send(`${up_user}、Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！<:unkooo:790538555407597590>`);
+        message.channel.send(`${up_user}、Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！`);
       }
     }
     if (message.channel.id === '833626570270572584' && message.author.id === '784043588426006548') {
@@ -82,6 +82,21 @@ module.exports = async (client, message) => {
       else if (content[10] === 'によってログアウトされました') {
         client.channels.cache.get('834317763769925632').send(`**${content[2]}** がサーバーから退出しました。`);
       }
+    }
+    if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION') {
+      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
+    }
+    if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1') {
+      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
+      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル1を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
+    }
+    else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2') {
+      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
+      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル2を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
+    }
+    else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3') {
+      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
+      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル1を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
     }
 
     if (!message.guild || message.system || message.author.bot) return;
