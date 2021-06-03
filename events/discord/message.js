@@ -114,6 +114,10 @@ module.exports = async (client, message) => {
             .then(msg => msg.pin());
         });
     }
+    if (message.channel.id === '794203640054153237') {
+      if (message.attachments.size < 1) return;
+      message.react('♥️');
+    }
 
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
     let result;
