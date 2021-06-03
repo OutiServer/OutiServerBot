@@ -10,6 +10,7 @@ const { Client, Message, MessageReaction, User } = require('discord.js');
  */
 
 module.exports = async (client, message, gamertag, verifyuserid, reaction, user) => {
+    if (user.bot) return;
     if (reaction.emoji.id === '844586134423076904') {
         const data = {
             id: `${verifyuserid}-${gamertag}`,
