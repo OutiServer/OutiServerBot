@@ -20,10 +20,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            if (!message.member.voice.channelID) {
-                message.react('844473484745637888');
-                return message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
-            }
+            if (!message.member.voice.channelID) return message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
 
             const voicemember = message.member.voice.guild.voiceStates.cache.map(member => member);
             for (const data of voicemember) {

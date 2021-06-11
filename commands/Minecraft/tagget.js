@@ -25,10 +25,7 @@ module.exports = {
                 let usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE tag = ?').get(args[0]);
                 if (!usergamertag) {
                     usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
-                    if (!usergamertag) {
-                        message.react('844473484745637888');
-                        return message.reply('あなたのゲーマータグはまだリンクされていません！');
-                    }
+                    if (!usergamertag) return message.reply('あなたのゲーマータグはまだリンクされていません！');
                     message.channel.send(
                         new MessageEmbed()
                             .addField('DiscordUserTag', message.author.tag)
@@ -51,10 +48,7 @@ module.exports = {
                 let usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(user.id);
                 if (!usergamertag) {
                     usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
-                    if (!usergamertag) {
-                        message.react('844473484745637888');
-                        return message.reply('あなたのゲーマータグはまだリンクされていません！');
-                    }
+                    if (!usergamertag) return message.reply('あなたのゲーマータグはまだリンクされていません！');
                     message.channel.send(
                         new MessageEmbed()
                             .addField('DiscordUserTag', message.author.tag)

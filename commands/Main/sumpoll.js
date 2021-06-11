@@ -21,16 +21,12 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const messageid = args[0];
-            if (!messageid) {
-                message.react('844473484745637888');
-                return message.reply('集計する投票のメッセージIDを入れてください！');
-            }
+            if (!messageid) return message.reply('集計する投票のメッセージIDを入れてください！');
 
             try {
                 var msg = await message.channel.messages.fetch(messageid);
             }
             catch (e) {
-                message.react('844473484745637888');
                 return message.reply('投票が見つかりませんでした');
             }
 

@@ -170,16 +170,10 @@ module.exports = {
                 }
             }
             else if (args[0] === 'info') {
-                if (!args[1]) {
-                    message.react('844473484745637888');
-                    return message.reply('第二引数にTodoの名前を入力してください！');
-                }
+                if (!args[1]) return message.reply('第二引数にTodoの名前を入力してください！');
 
                 const todo = client.db.prepare('SELECT * FROM todolists WHERE user = ? AND title = ?').get(message.author.id, args[1]);
-                if (!todo) {
-                    message.react('816282137065947136');
-                    return message.reply('その名前のTodoは存在しないようです。');
-                }
+                if (!todo) return message.reply('その名前のTodoは存在しないようです。');
 
                 message.channel.send(
                     new MessageEmbed()

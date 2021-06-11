@@ -21,10 +21,7 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const userrankimagedata = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id);
-            if (!userrankimagedata) {
-                message.react('844473484745637888');
-                return message.reply('あなたはまだrank画像を設定していないようです');
-            }
+            if (!userrankimagedata) return message.reply('あなたはまだrank画像を設定していないようです');
             const command = args[0];
             if (command === 'color') {
                 const color = args[1];

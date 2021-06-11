@@ -21,16 +21,10 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const user = message.mentions.users.first() || message.guild.member(args[0]);
-            if (!user) {
-                message.react('844473484745637888');
-                return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
-            }
+            if (!user) return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
 
             const addxp = Number(args[1]);
-            if (!addxp) {
-                message.react('844473484745637888');
-                return message.reply('経験値を付与する数を第二引数に入れてください！');
-            }
+            if (!addxp) return message.reply('経験値を付与する数を第二引数に入れてください！');
 
             let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(user.id);
             if (!userleveldata) {
