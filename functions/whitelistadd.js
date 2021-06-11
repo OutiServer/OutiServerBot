@@ -11,7 +11,7 @@ const { Client, Message, MessageReaction, User } = require('discord.js');
 
 module.exports = async (client, message, gamertag, verifyuserid, reaction, user) => {
     if (user.bot) return;
-    if (reaction.emoji.id === '844586134423076904') {
+    if (reaction.emoji.id === '810436146718441483') {
         const data = {
             id: `${verifyuserid}-${gamertag}`,
             user: verifyuserid,
@@ -22,7 +22,7 @@ module.exports = async (client, message, gamertag, verifyuserid, reaction, user)
         message.edit('申請を承諾しました！');
         message.reactions.removeAll();
     }
-    else if (reaction.emoji.id === '844586134536323122') {
+    else if (reaction.emoji.id === '810436146978619392') {
         message.edit('申請を承諾しませんでした！');
         message.reactions.removeAll();
         client.channels.cache.get('797008715646500865').send(`<@${verifyuserid}>、申請が却下されました。`);

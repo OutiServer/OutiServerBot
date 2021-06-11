@@ -72,7 +72,7 @@ module.exports = async (client) => {
 
     handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
       if (user.bot) return;
-      if (reaction.emoji.id === '844473484579307540') {
+      if (reaction.emoji.id === '848488213580218409') {
         if (reaction.message.guild.member(user).roles.cache.has('774593459034128395')) {
           reaction.message.guild.member(user).roles.remove('774593459034128395');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} among us crewを剥奪しました`);
@@ -84,7 +84,7 @@ module.exports = async (client) => {
           reply.delete({ timeout: 5000 });
         }
       }
-      else if (reaction.emoji.id === '844473484788498442') {
+      else if (reaction.emoji.id === '848488215043112980') {
         if (reaction.message.guild.member(user).roles.cache.has('780217228649562113')) {
           reaction.message.guild.member(user).roles.remove('780217228649562113');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 臨時お知らせを剥奪しました`);
@@ -99,7 +99,7 @@ module.exports = async (client) => {
           }, 600000)
         }
       }
-      else if (reaction.emoji.id === '844473484369461298') {
+      else if (reaction.emoji.id === '848488225554300929') {
         if (reaction.message.guild.member(user).roles.cache.has('825232499151470643')) {
           reaction.message.guild.member(user).roles.remove('825232499151470643');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 雑談を剥奪しました`);
@@ -111,7 +111,7 @@ module.exports = async (client) => {
           reply.delete({ timeout: 5000 });
         }
       }
-      else if (reaction.emoji.id === '844473484645367818') {
+      else if (reaction.emoji.id === '848488218478641182') {
         if (reaction.message.guild.member(user).roles.cache.has('826994784614219846')) {
           reaction.message.guild.member(user).roles.remove('826994784614219846');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} お知らせを剥奪しました`);
@@ -162,8 +162,6 @@ module.exports = async (client) => {
         client.db.prepare('UPDATE serversettings SET ticketid = ? WHERE id = ?').run(ticketdata.ticketid, ticketdata.id);
       }
     });
-
-    require('../../server').run(client);
   } catch (error) {
     clienterrorlog(client, error);
   }

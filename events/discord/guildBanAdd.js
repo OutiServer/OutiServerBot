@@ -15,7 +15,7 @@ module.exports = async (client, guild, user) => {
         const random = Math.floor(Math.random() * replys.length);
 
         client.channels.cache.get('706459931351711775').send(user.tag + replys[random]);
-        client.channels.cache.get('825231334657884161').send(`${user.tag}は反逆者だ！ <:emoji_106:790546684710223882>`);
+        client.channels.cache.get('825231334657884161').send(`${user.tag}は反逆者だ！ <:outi_7:848488215043112980>`);
     } catch (error) {
         clienterrorlog(client, error);
     }

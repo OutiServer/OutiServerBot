@@ -22,8 +22,8 @@ module.exports = async (client, message) => {
           .setColor('RANDOM')
           .setTimestamp()
       ).then(msg => {
-        msg.react('844586134423076904');
-        msg.react('844586134536323122');
+        msg.react('810436146718441483');
+        msg.react('810436146978619392');
         const collector = msg.createReactionCollector(() => true);
         collector.on('collect', (reaction, user) => whitelistadd(client, msg, message.embeds[0].fields[1].value, verifyuser.id, reaction, user));
       });
@@ -71,45 +71,23 @@ module.exports = async (client, message) => {
         message.channel.send(`${up_user}、Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！`);
       }
     }
-    if (message.channel.id === '833626570270572584' && message.author.id === '784043588426006548') {
-      const content = message.content.split(/\s+/);
-      if (content[2] === '[Guest]') {
-        client.channels.cache.get('834317763769925632').send(`**${content[3]}** >> ${content[5]}`);
-      }
-      else if (content[3] === 'がゲームに参加しました') {
-        client.channels.cache.get('834317763769925632').send(`**${content[2]}** がサーバーに参加しました。`)
-      }
-      else if (content[10] === 'によってログアウトされました') {
-        client.channels.cache.get('834317763769925632').send(`**${content[2]}** がサーバーから退出しました。`);
-      }
-    }
     if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
     }
-    if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1') {
+    else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
-      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル1を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
     }
     else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
-      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル2を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
     }
     else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
-      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル1を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
     }
 
     if (!message.guild || message.system || message.author.bot) return;
 
     if (message.guild.id === '706452606918066237') {
       level(client, message);
-    }
-    if (message.channel.id === '834317763769925632') {
-      if (message.content.startsWith('/')) {
-        if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) return;
-        client.channels.cache.get('833626570270572584').send(message.content);
-      }
-      client.channels.cache.get('833626570270572584').send(`/say ${message.author.tag} ${message.content}`);
     }
     if (message.channel.id === '706469264638345227') {
       message.react('👍');
@@ -158,11 +136,9 @@ module.exports = async (client, message) => {
     const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
     if (!cmd) return;
     else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571')) {
-      message.react('844586134536323122');
       return message.reply('そのコマンドを使用するための権限が足りてないで。😉');
     }
     else if (client.cooldown.get(message.author.id)) {
-      message.react('844586134536323122');
       return message.reply('前のコマンドがまだ実行中やで。😉');
     }
     client.cooldown.set(message.author.id, true);
