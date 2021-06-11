@@ -86,17 +86,14 @@ module.exports = async (client, message) => {
     if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
     }
-    if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1') {
+    else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
-      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル1を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
     }
     else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
-      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル2を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
     }
     else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`);
-      client.channels.cache.get('706469264638345227').send(`<@&826994784614219846> おうち鯖がブーストレベル1を達成しました！\nサーバーブーストをしている\n${message.guild.roles.cache.get('739473593674629120').members.map(user => `<@${user.id}> さん`).join('\n')}\nありがとうございます！`);
     }
 
     if (!message.guild || message.system || message.author.bot) return;
