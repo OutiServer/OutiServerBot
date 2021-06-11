@@ -21,16 +21,10 @@ module.exports = {
   run: async function (client, message, args) {
     try {
       const [title, ...choices] = args;
-      if (!title) {
-        message.react('844473484745637888');
-        return message.channel.send('タイトルを指定してください');
-      }
+      if (!title) return message.channel.send('タイトルを指定してください');
 
       const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
-      if (choices.length < 2 || choices.length > emojis.length) {
-        message.react('844473484745637888');
-        return message.channel.send(`選択肢は2から${emojis.length}つを指定してください`);
-      }
+      if (choices.length < 2 || choices.length > emojis.length) return message.channel.send(`選択肢は2から${emojis.length}つを指定してください`);
 
       const poll = await message.channel.send(
         new MessageEmbed()

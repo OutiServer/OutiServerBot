@@ -23,15 +23,9 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-            if (userleveldata.level < 10) {
-                message.react('844473484745637888');
-                return message.reply('レベル背景申請はLevel10以上になってから使用できます！');
-            }
+            if (userleveldata.level < 10) return message.reply('レベル背景申請はLevel10以上になってから使用できます！');
 
-            if (message.attachments.size <= 0) {
-                message.react('844473484745637888');
-                return message.reply('設定する画像を一緒に送信してください！');
-            }
+            if (message.attachments.size <= 0) return message.reply('設定する画像を一緒に送信してください！');
             message.attachments.forEach(attachment => {
                 request(
                     {

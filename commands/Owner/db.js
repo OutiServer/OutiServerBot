@@ -20,7 +20,6 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            message.react('844586134423076904');
             const msg = await message.channel.send(
                 new MessageEmbed()
                     .setTitle('dbに接続しました！')
@@ -88,7 +87,7 @@ module.exports = {
                         .setTimestamp()
                 );
             }
-            else if (['inset', 'update', 'delete'].includes(query)) {
+            else if (['insert', 'update', 'delete'].includes(query)) {
                 msg.edit('この変更でいい場合はokを、取り消す場合はnoを送信してください',
                     new MessageEmbed()
                         .setDescription('```sql\n' + response.content + '```')

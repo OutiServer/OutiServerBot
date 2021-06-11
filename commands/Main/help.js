@@ -116,10 +116,7 @@ module.exports = {
         let cmd = args[0]
         let command = client.commands.get(cmd)
         if (!command) command = client.commands.find(x => x.info.aliases.includes(cmd))
-        if (!command) {
-          message.react('844473484745637888');
-          return message.channel.send("そんなコマンドないで。😉");
-        }
+        if (!command) return message.channel.send("そんなコマンドないで。😉");
         let commandinfo = new MessageEmbed()
           .setTitle("コマンド名: " + command.info.name + " の詳細")
           .setColor("RANDOM")
