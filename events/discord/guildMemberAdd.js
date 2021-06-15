@@ -1,5 +1,5 @@
 const { Client, GuildMember, MessageEmbed } = require('discord.js');
-const { clienterrorlog } = require('../../functions/error');
+const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
  * @param {Client} client
@@ -27,6 +27,6 @@ module.exports = async (client, member) => {
         })
 
     } catch (error) {
-        clienterrorlog(client, error);
+        clienterrorlog(error);
     }
 };

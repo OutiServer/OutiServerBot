@@ -1,6 +1,6 @@
 const { Client, Message } = require('discord.js');
 const SQLite = require("better-sqlite3");
-const { errorlog } = require('../../functions/error');
+const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -30,7 +30,7 @@ module.exports = {
                 .catch(error => errorlog(client, message, error))
                 .finally(() => client.cooldown.set(message.author.id, false));
         } catch (error) {
-            errorlog(client, message, error);
+            errorlog(message, error);
         }
         finally {
             client.cooldown.set(message.author.id, false);

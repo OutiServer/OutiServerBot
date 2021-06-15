@@ -1,5 +1,5 @@
 const { Client, GuildMember } = require("discord.js");
-const { clienterrorlog } = require("../../functions/error");
+const { clienterrorlog } = require("../../functions/logs/error");
 
 /**
  * @param {Client} client 
@@ -13,6 +13,6 @@ module.exports = async (client, oldMember, newMember) => {
             client.channels.cache.get('825231334657884161').send(`${newMember} 認証されました、ようこそ！おうち鯖へ！`);
         }
     } catch (error) {
-        clienterrorlog(client, error);
+        cclienterrorlog(error);
     }
 }

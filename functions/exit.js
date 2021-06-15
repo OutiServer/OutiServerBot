@@ -1,4 +1,5 @@
 const { Client } = require('discord.js');
+const { clienterrorlog } = require('./logs/error');
 
 /**
  * 終了関数
@@ -6,7 +7,11 @@ const { Client } = require('discord.js');
  */
 
 module.exports = (client) => {
-    client.db.close();
-    client.destroy();
-    process.exit();
+    try {
+        client.db.close();
+        client.destroy();
+        process.exit();
+    } catch (error) {
+        clienterrorlog(error);
+    }
 }

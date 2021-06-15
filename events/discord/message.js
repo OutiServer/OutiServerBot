@@ -1,8 +1,9 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
-const { clienterrorlog } = require('../../functions/error');
+const { clienterrorlog } = require('../../functions/logs/error');
 const level = require('../../functions/level');
 const whitelistadd = require('../../functions/whitelistadd');
+const commandlog = require('../../functions/logs/command');
 
 /**
  * @param {Client} client
@@ -143,7 +144,8 @@ module.exports = async (client, message) => {
     }
     client.cooldown.set(message.author.id, true);
     cmd.run(client, message, args);
+    commandlog(message, cmd.info.name);
   } catch (error) {
-    clienterrorlog(client, error);
+    // clienterrorlog(error);
   }
 }

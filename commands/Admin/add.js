@@ -1,5 +1,5 @@
 const { Client, Message } = require("discord.js");
-const { errorlog } = require("../../functions/error");
+const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -44,7 +44,7 @@ module.exports = {
 
             message.channel.send(`${user}に${addxp}経験値付与しました！`);
         } catch (error) {
-            errorlog(client, message, error);
+            errorlog(message, error);
         }
         finally {
             client.cooldown.set(message.author.id, false);

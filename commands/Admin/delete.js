@@ -1,4 +1,5 @@
 const { Client, Message } = require("discord.js");
+const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -24,7 +25,7 @@ module.exports = {
             await message.channel.bulkDelete(count + 1);
             message.channel.send(`${count} messages is deleted`);
         } catch (error) {
-
+            errorlog(message, error);
         }
         finally {
             client.cooldown.set(message.author.id, false);

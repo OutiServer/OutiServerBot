@@ -1,5 +1,5 @@
 const { Client, Message } = require('discord.js');
-const { clienterrorlog } = require('../../functions/error');
+const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -30,7 +30,7 @@ module.exports = {
 
             message.channel.send(`ボイスチャンネルに接続されている全員のミュートが完了しました！`);
         } catch (error) {
-            clienterrorlog(client, error);
+            errorlog(message, error);
         }
         finally {
             client.cooldown.set(message.author.id, false);

@@ -1,11 +1,11 @@
 const { Client, MessageEmbed } = require('discord.js');
-const { clienterrorlog } = require('../../functions/error');
+const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
  * @param {Client} client
  */
 
-module.exports = (client) => {
+module.exports = async (client) => {
     try {
         client.channels.cache.get('825231334657884161').send(
             new MessageEmbed()
@@ -15,6 +15,6 @@ module.exports = (client) => {
                 .setTimestamp()
         );
     } catch (error) {
-        clienterrorlog(client, error);
+        clienterrorlog(error);
     }
 }
