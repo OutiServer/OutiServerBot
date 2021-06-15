@@ -1,5 +1,5 @@
 const { Client, Message } = require("discord.js");
-const { errorlog } = require("../../functions/error");
+const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -26,7 +26,7 @@ module.exports = {
             client.db.prepare('DELETE FROM levels WHERE user = ?').run(user.id);
             message.channel.send(`${user.tag}のレベルデータを削除しました`);
         } catch (error) {
-            errorlog(client, message, error);
+            errorlog(message, error);
         }
         finally {
             client.cooldown.set(message.author.id, false);

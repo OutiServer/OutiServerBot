@@ -1,6 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const util = require('minecraft-server-util');
-const { errorlog } = require('../../functions/error');
+const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -52,7 +52,7 @@ module.exports = {
                     .then(msg => msg.delete({ timeout: 5000 }))
                 )
         } catch (error) {
-            errorlog(client, message, error);
+            errorlog(message, error);
         }
         finally {
             client.cooldown.set(message.author.id, false);

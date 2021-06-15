@@ -1,12 +1,12 @@
 const { Client, MessageEmbed, Collection } = require('discord.js');
 const util = require('minecraft-server-util');
-const { clienterrorlog } = require('../../functions/error');
+const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
  * @param {Client} client
  */
 
-module.exports = (client) => {
+module.exports = async (client) => {
     try {
         /*
         client.channels.cache.get('780012050163302420').messages.fetch('832504476262465586')
@@ -45,6 +45,6 @@ module.exports = (client) => {
 
         client.levelcooldown = new Collection();
     } catch (error) {
-        clienterrorlog(client, error);
+        clienterrorlog(error);
     }
 };

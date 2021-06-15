@@ -1,5 +1,5 @@
-const { Client, MessageEmbed } = require('discord.js');
-const { clienterrorlog } = require('../../functions/error');
+const { Client, MessageEmbed, WebhookClient } = require('discord.js');
+const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
  * @param {Client} client
@@ -7,6 +7,15 @@ const { clienterrorlog } = require('../../functions/error');
 
 module.exports = async (client) => {
   try {
+    const webhook = new WebhookClient('854285096516976671', 'jBVbq6SZuFMUHgym86i8FsZdXQW8vpitLksjuUQhuscempLozfxJjhZ_U7fxj85LxKcT');
+    webhook.send(
+      new MessageEmbed()
+        .setTitle(`${client.user.tag}が起動しました！`)
+        .setDescription('```\nBotが認識できるユーザー数: ' + client.users.cache.size + '人\nBotが認識できるチャンネル: ' + client.channels.cache.size + '個\n```')
+        .setColor('RANDOM')
+        .setTimestamp()
+    );
+
     const Leveltable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'levels';").get();
     if (!Leveltable['count(*)']) {
       client.db.prepare("CREATE TABLE levels (id TEXT PRIMARY KEY, user TEXT, guild TEXT, level INTEGER, xp INTEGER, allxp INTEGER);").run();
@@ -55,12 +64,9 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
-    client.guilds.cache.get('706452606918066237').fetchInvites()
-      .then(invites => {
-        client.invites = invites;
-      });
+    client.invites = await client.guilds.cache.get('706452606918066237').fetchInvites();
 
-    client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING' }, status: 'dnd' });
+    await client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING' }, status: 'dnd' });
     console.log(`Logged in as ${client.user.tag}`);
 
     const handleReaction = async (channelID, messageID, callback) => {
@@ -74,53 +80,53 @@ module.exports = async (client) => {
       if (user.bot) return;
       if (reaction.emoji.id === '848488213580218409') {
         if (reaction.message.guild.member(user).roles.cache.has('774593459034128395')) {
-          reaction.message.guild.member(user).roles.remove('774593459034128395');
+          await reaction.message.guild.member(user).roles.remove('774593459034128395');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} among us crewを剥奪しました`);
-          reply.delete({ timeout: 5000 });
+          await reply.delete({ timeout: 5000 });
         }
         else {
-          reaction.message.guild.member(user).roles.add('774593459034128395');
+          await reaction.message.guild.member(user).roles.add('774593459034128395');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} among us crewを付与しました`);
-          reply.delete({ timeout: 5000 });
+          await reply.delete({ timeout: 5000 });
         }
       }
       else if (reaction.emoji.id === '848488215043112980') {
         if (reaction.message.guild.member(user).roles.cache.has('780217228649562113')) {
-          reaction.message.guild.member(user).roles.remove('780217228649562113');
+          await reaction.message.guild.member(user).roles.remove('780217228649562113');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 臨時お知らせを剥奪しました`);
-          reply.delete({ timeout: 5000 });
+          await reply.delete({ timeout: 5000 });
         }
         else {
-          reaction.message.guild.member(user).roles.add('780217228649562113');
+          await reaction.message.guild.member(user).roles.add('780217228649562113');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 臨時お知らせを付与しました\n10分後自動で剥奪します`);
-          reply.delete({ timeout: 5000 });
-          setTimeout(() => {
-            reaction.message.guild.member(user).roles.remove('780217228649562113');
+          await reply.delete({ timeout: 5000 });
+          setTimeout(async () => {
+            await reaction.message.guild.member(user).roles.remove('780217228649562113');
           }, 600000)
         }
       }
       else if (reaction.emoji.id === '848488225554300929') {
         if (reaction.message.guild.member(user).roles.cache.has('825232499151470643')) {
-          reaction.message.guild.member(user).roles.remove('825232499151470643');
+          await reaction.message.guild.member(user).roles.remove('825232499151470643');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 雑談を剥奪しました`);
-          reply.delete({ timeout: 5000 });
+          await reply.delete({ timeout: 5000 });
         }
         else {
-          reaction.message.guild.member(user).roles.add('825232499151470643');
+          await reaction.message.guild.member(user).roles.add('825232499151470643');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 雑談を付与しました`);
-          reply.delete({ timeout: 5000 });
+          await reply.delete({ timeout: 5000 });
         }
       }
       else if (reaction.emoji.id === '848488218478641182') {
         if (reaction.message.guild.member(user).roles.cache.has('826994784614219846')) {
-          reaction.message.guild.member(user).roles.remove('826994784614219846');
+          await reaction.message.guild.member(user).roles.remove('826994784614219846');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} お知らせを剥奪しました`);
-          reply.delete({ timeout: 5000 });
+          await reply.delete({ timeout: 5000 });
         }
         else {
-          reaction.message.guild.member(user).roles.add('826994784614219846');
+          await reaction.message.guild.member(user).roles.add('826994784614219846');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} お知らせを付与しました`);
-          reply.delete({ timeout: 5000 });
+          await reply.delete({ timeout: 5000 });
         }
       }
     });
@@ -133,7 +139,7 @@ module.exports = async (client) => {
           ticketdata = { id: '706452606918066237', guild: '706452606918066237', ticketid: 0, serverjoindedcase: 0 }
           client.db.prepare('INSERT INTO serversettings (id, guild, ticketid, serverjoindedcase) VALUES (@id, @guild, @ticketid, @serverjoindedcase)').run(ticketdata);
         }
-        client.guilds.cache.get('706452606918066237').channels.create(`${ticketdata.ticketid}-お問い合わせ`,
+        const channel = await client.guilds.cache.get('706452606918066237').channels.create(`${ticketdata.ticketid}-お問い合わせ`,
           {
             type: 'text',
             parent: '821684794056245258',
@@ -152,17 +158,16 @@ module.exports = async (client) => {
                 allow: ['VIEW_CHANNEL']
               }
             ]
-          })
-          .then(channel => channel.send(`${user}さん専用のお問い合わせチャンネルを作成しました！`,
-            new MessageEmbed()
-              .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします')
-              .setColor('RANDOM')
-              .setTimestamp())
-          );
+          });
+        await channel.send(`${user}さん専用のお問い合わせチャンネルを作成しました！`,
+          new MessageEmbed()
+            .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします')
+            .setColor('RANDOM')
+            .setTimestamp());
         client.db.prepare('UPDATE serversettings SET ticketid = ? WHERE id = ?').run(ticketdata.ticketid, ticketdata.id);
       }
     });
   } catch (error) {
-    clienterrorlog(client, error);
+    clienterrorlog(error);
   }
 };

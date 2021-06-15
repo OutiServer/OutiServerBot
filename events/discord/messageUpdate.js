@@ -1,5 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-const { clienterrorlog } = require('../../functions/error');
+const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
  * @param {Client} client 
@@ -19,6 +19,6 @@ module.exports = (client, oldMessage, newMessage) => {
                 .setThumbnail()
         );
     } catch (error) {
-        clienterrorlog(client, error);
+        clienterrorlog(error);
     }
 }
