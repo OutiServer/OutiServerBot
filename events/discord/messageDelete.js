@@ -9,14 +9,30 @@ const { clienterrorlog } = require("../../functions/logs/error");
 module.exports = (client, message) => {
     try {
         if (message.guild.id !== '706452606918066237' || message.author.bot) return;
-        client.channels.cache.get('825394905572573184').send(
-            new MessageEmbed()
-                .setTitle('メッセージが削除されました')
-                .setDescription(`User: ${message.author.tag}\nMessage: ${message.content}`)
-                .setThumbnail(message.author.avatarURL())
-                .setColor('RANDOM')
-                .setThumbnail()
-        );
+        const embed = new MessageEmbed()
+            .setTitle('メッセージが削除されました')
+            .addField('メッセージが削除されたチャンネル', message.channel.name)
+            .addField('メッセージを送信したユーザー', message.author.tag)
+            .setThumbnail(message.author.avatarURL({ format: 'webp' }))
+            .setColor('RANDOM')
+            .setFooter(`messageid: ${message.id}`, message.author.avatarURL({ format: 'webp' }))
+            .setTimestamp();
+
+        if (!message.content) {
+            embed
+                .addField('削除された画像URL', message.attachments.map(attachment => attachment.url).join('\n'))
+                .setImage(message.attachments.first().url)
+        }
+        else if (message.attachments.size < 1) {
+            embed.addField('削除されたメッセージ', message.content);
+        }
+        else {
+            embed
+                .addField('削除されたメッセージ', message.content)
+                .addField('削除された画像URL', message.attachments.map(attachment => attachment.url).join('\n'))
+                .setImage(message.attachments.first().url)
+        }
+        client.channels.cache.get('825394905572573184').send(embed);
     } catch (error) {
         clienterrorlog(error);
     }
