@@ -78,7 +78,7 @@ module.exports = async (client) => {
 
     handleReaction('774594290679545886', '794246738881019915', async (reaction, user) => {
       if (user.bot) return;
-      if (reaction.emoji.id === '848488213580218409') {
+      if (reaction.emoji.id === '852517396224278529') {
         if (reaction.message.guild.member(user).roles.cache.has('774593459034128395')) {
           await reaction.message.guild.member(user).roles.remove('774593459034128395');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} among us crewを剥奪しました`);
@@ -90,7 +90,7 @@ module.exports = async (client) => {
           await reply.delete({ timeout: 5000 });
         }
       }
-      else if (reaction.emoji.id === '848488215043112980') {
+      else if (reaction.emoji.id === '852517397020934166') {
         if (reaction.message.guild.member(user).roles.cache.has('780217228649562113')) {
           await reaction.message.guild.member(user).roles.remove('780217228649562113');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 臨時お知らせを剥奪しました`);
@@ -105,7 +105,7 @@ module.exports = async (client) => {
           }, 600000)
         }
       }
-      else if (reaction.emoji.id === '848488225554300929') {
+      else if (reaction.emoji.id === '810436146261131306') {
         if (reaction.message.guild.member(user).roles.cache.has('825232499151470643')) {
           await reaction.message.guild.member(user).roles.remove('825232499151470643');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} 雑談を剥奪しました`);
@@ -117,7 +117,7 @@ module.exports = async (client) => {
           await reply.delete({ timeout: 5000 });
         }
       }
-      else if (reaction.emoji.id === '848488218478641182') {
+      else if (reaction.emoji.id === '852517399604494367') {
         if (reaction.message.guild.member(user).roles.cache.has('826994784614219846')) {
           await reaction.message.guild.member(user).roles.remove('826994784614219846');
           const reply = await client.channels.cache.get('774594290679545886').send(`${user} お知らせを剥奪しました`);

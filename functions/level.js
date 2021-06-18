@@ -18,15 +18,15 @@ module.exports = async (client, message) => {
         let levelupflag = false;
         if (random < 0.01) { // 0.01％
             addxp = Math.ceil(Math.random() * 500) + 300;
-            levelupmessage = `${message.author} あなたのレベルが{level}に上がりました！<:outi_6:848488216147394570>`;
+            levelupmessage = `${message.author} あなたのレベルが{level}に上がりました！<:owovvv:855097168947314698>`;
         }
         else if (random < 0.11) { // 0.1%
             addxp += Math.ceil(Math.random() * 100) + 50;
-            levelupmessage = `${message.author} あなたのレベルが{level}に上がっりました！<:outi_5:848488223633702923>`;
+            levelupmessage = `${message.author} あなたのレベルが{level}に上がっりました！<:owotukkomi:810436146823561256>`;
         }
         else if (random < 0.61) { //0.5%
             addxp += Math.ceil(Math.random() * 50) + 10;
-            levelupmessage = `GG ${message.author}, you just advanced to level {level}!<:outi_7:848488215043112980>`;
+            levelupmessage = `GG ${message.author}, you just advanced to level {level}!<:unkosaba:852517397020934166>`;
         }
         else {
             addxp = Math.ceil(Math.random() * 20);

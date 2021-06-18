@@ -4,6 +4,7 @@ const { clienterrorlog } = require('../../functions/logs/error');
 const level = require('../../functions/level');
 const whitelistadd = require('../../functions/whitelistadd');
 const commandlog = require('../../functions/logs/command');
+const verify = require('../../functions/verify');
 
 /**
  * @param {Client} client
@@ -88,7 +89,8 @@ module.exports = async (client, message) => {
     if (!message.guild || message.system || message.author.bot) return;
 
     if (message.guild.id === '706452606918066237') {
-      level(client, message);
+      await level(client, message);
+      await verify(client, message);
     }
     if (message.channel.id === '706469264638345227') {
       message.react('👍');
