@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const { ReactionController } = require('discord.js-reaction-controller');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -21,7 +22,7 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const all = client.db.prepare("SELECT * FROM gamertags ORDER BY id DESC;").all();
-            let embeds = [];
+            const embeds = [];
             let count = 1;
 
             for (let i = 0; i < Math.ceil(all.length / 10); i++) {
@@ -46,28 +47,10 @@ module.exports = {
                 count++;
             }
 
-            const msg = await message.channel.send('```' + `1/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[0]);
-            while (true) {
-                const filter = msg => msg.author.id === message.author.id;
-                const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
-                const response = collected.first();
-                if (!response) {
-                    msg.edit('');
-                    break;
-                }
-                else if (response.content === '0') {
-                    response.delete();
-                    msg.edit('');
-                    break;
-                }
-                else {
-                    const selectembed = Number(response.content);
-                    if (selectembed > 0 && selectembed < embeds.length + 1) {
-                        response.delete();
-                        msg.edit('```' + `${selectembed}/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[selectembed - 1]);
-                    }
-                }
-            }
+            const controller = new ReactionController(client);
+            controller.addPages(embeds);
+            controller.sendTo(message.channel, message.author)
+                .catch(console.error);
         } catch (error) {
             errorlog(message, error);
         }
