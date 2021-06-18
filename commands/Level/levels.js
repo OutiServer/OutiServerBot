@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
+const { ReactionController } = require('discord.js-reaction-controller');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -21,7 +22,7 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const all = client.db.prepare("SELECT * FROM levels ORDER BY allxp DESC;").all();
-            let embeds = [];
+            const embeds = [];
             let ranknumber1 = 1;
             let ranknumber2 = 10;
             let rank = 1;
@@ -45,14 +46,14 @@ module.exports = {
                 }
 
                 if (bans.get(data.user)) {
-                    embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:ban:842003176626192384>`, `${data.level}Level ${data.xp}経験値`);
+                    embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:banned:852517393636917258>`, `${data.level}Level ${data.xp}経験値`);
                 }
                 else if (message.guild.member(user.id)) {
                     if (message.guild.member(user.id).roles.cache.has('739473593674629120')) {
-                        embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:serverbooster:842067279160279081>`, `${data.level}Level ${data.xp}経験値`);
+                        embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:boost:855244574430461972>`, `${data.level}Level ${data.xp}経験値`);
                     }
                     else if (message.guild.member(user.id).roles.cache.has('780381600751812638')) {
-                        embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:DeadCrew1:778271180888080394>`, `${data.level}Level ${data.xp}経験値`);
+                        embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:DeadCrew:852517409331609610>`, `${data.level}Level ${data.xp}経験値`);
                     }
                     else {
                         embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag}`, `${data.level}Level ${data.xp}経験値`);
@@ -64,28 +65,10 @@ module.exports = {
                 rank++;
             }
 
-            const msg = await message.channel.send('```' + `1/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[0]);
-            while (true) {
-                const filter = msg => msg.author.id === message.author.id;
-                const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
-                const response = collected.first();
-                if (!response) {
-                    msg.edit('');
-                    break;
-                }
-                else if (response.content === '0') {
-                    response.delete();
-                    msg.edit('');
-                    break;
-                }
-                else {
-                    const selectembed = Number(response.content);
-                    if (selectembed > 0 && selectembed < embeds.length + 1) {
-                        response.delete();
-                        msg.edit('```' + `${selectembed}/${embeds.length}ページ目を表示中\nみたいページ番号を発言してください\n0を送信するか30秒経つと処理が止まります` + '```', embeds[selectembed - 1]);
-                    }
-                }
-            }
+            const controller = new ReactionController(client);
+            controller.addPages(embeds);
+            controller.sendTo(message.channel, message.author)
+                .catch(console.error);
         } catch (error) {
             errorlog(message, error);
         }
