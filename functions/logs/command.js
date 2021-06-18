@@ -7,7 +7,7 @@ const { Message, WebhookClient, MessageEmbed } = require('discord.js');
  */
 
 module.exports = async (message, commandname) => {
-    const webhook = new WebhookClient('851442443139416074', '1-R4hG_WPZqEJORtziWvY05oQtaewZZnmsAWznD64EMSxvGA_13DyopLenM-GXad3Od2');
+    const webhook = new WebhookClient('855242376141209610', 'teyKNpeOorWv_SGrA_uGzAbr1gU3xKZTKHO0_WmExUMHVSONygix14LAH-V-LlI1MiVx');
     webhook.send(
         new MessageEmbed()
             .addField('コマンド実行者', message.author.tag)
