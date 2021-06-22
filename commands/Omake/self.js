@@ -1,4 +1,5 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,14 +14,14 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
-            message.channel.send(
+            await message.channel.send(
                 new MessageEmbed()
                     .setDescription(`<@${message.author.id}>さん、selfbot検知しました\n問答無用で永BANです＾＾`)
                     .setColor('RANDOM')

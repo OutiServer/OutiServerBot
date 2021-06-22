@@ -1,6 +1,6 @@
-const { createCanvas, loadImage } = require('canvas');
-const { Client, Message, MessageAttachment } = require("discord.js");
+const { Message, MessageAttachment } = require("discord.js");
 const canvacord = require("canvacord");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -15,15 +15,14 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client
+     * @param {bot} client
      * @param {Message} message 
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
-
-            message.channel.startTyping();
+            await message.channel.startTyping();
             const user = message.mentions.users.first() || client.users.cache.get(args[0]);
 
             if (user) {
@@ -46,11 +45,9 @@ module.exports = {
                         .setProgressBar(rankimage.barcolor)
 
 
-                    rank.build()
-                        .then(data => {
-                            message.channel.send(new MessageAttachment(data, 'rank.png'));
-                            message.channel.stopTyping();
-                        });
+                    const data = await rank.build();
+                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
+                    message.channel.stopTyping();
                 }
                 else {
                     const rank = new canvacord.Rank()
@@ -65,11 +62,10 @@ module.exports = {
                         .setProgressBar('#ffffff');
 
 
-                    rank.build()
-                        .then(data => {
-                            message.channel.send(new MessageAttachment(data, 'rank.png'));
-                            message.channel.stopTyping();
-                        });
+                    const data = await rank.build();
+                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
+                    message.channel.stopTyping();
+
                 }
             }
             else {
@@ -92,11 +88,9 @@ module.exports = {
                         .setProgressBar(rankimage.barcolor)
 
 
-                    rank.build()
-                        .then(data => {
-                            message.channel.send(new MessageAttachment(data, 'rank.png'));
-                            message.channel.stopTyping();
-                        });
+                    const data = await rank.build();
+                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
+                    message.channel.stopTyping();
                 }
                 else {
                     const rank = new canvacord.Rank()
@@ -111,11 +105,9 @@ module.exports = {
                         .setProgressBar('#ffffff');
 
 
-                    rank.build()
-                        .then(data => {
-                            message.channel.send(new MessageAttachment(data, 'rank.png'));
-                            message.channel.stopTyping();
-                        });
+                    const data = await rank.build()
+                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
+                    message.channel.stopTyping();
                 }
             }
         } catch (error) {

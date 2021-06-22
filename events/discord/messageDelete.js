@@ -1,12 +1,13 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js");
+const bot = require('../../bot');
 const { clienterrorlog } = require("../../functions/logs/error");
 
 /**
- * @param {Client} client 
+ * @param {bot} client 
  * @param {Message} message 
  */
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
     try {
         if (message.guild.id !== '706452606918066237' || message.author.bot) return;
         const embed = new MessageEmbed()
@@ -32,7 +33,8 @@ module.exports = (client, message) => {
                 .addField('削除された画像URL', message.attachments.map(attachment => attachment.url).join('\n'))
                 .setImage(message.attachments.first().url)
         }
-        client.channels.cache.get('825394905572573184').send(embed);
+
+        await client.channels.cache.get('825394905572573184').send(embed);
     } catch (error) {
         clienterrorlog(error);
     }

@@ -1,5 +1,6 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js");
 const { ReactionController } = require('discord.js-reaction-controller');
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -14,9 +15,9 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
@@ -35,13 +36,13 @@ module.exports = {
             }
 
             for (const data of all) {
-                const user = message.guild.member(data.user);
+                const user = client.users.cache.get(data.user);
                 let usertag = ''
                 if (!user) {
-                    usertag = '取得不可User';
+                    usertag = `User left[$${data.user}]`;
                 }
                 else {
-                    usertag = user.user.tag;
+                    usertag = user.tag;
                 }
                 embeds[Math.ceil(count / 10) - 1].addField(usertag, data.tag);
                 count++;
@@ -49,8 +50,7 @@ module.exports = {
 
             const controller = new ReactionController(client);
             controller.addPages(embeds);
-            controller.sendTo(message.channel, message.author)
-                .catch(console.error);
+            await controller.sendTo(message.channel, message.author);
         } catch (error) {
             errorlog(message, error);
         }

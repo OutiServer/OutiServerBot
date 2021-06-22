@@ -1,4 +1,5 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,14 +14,14 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
-            message.channel.send('https://media.discordapp.net/attachments/840154191036022794/841298027960729671/fuck.png');
+            await message.channel.send('https://media.discordapp.net/attachments/840154191036022794/841298027960729671/fuck.png');
         } catch (error) {
             errorlog(message, error);
         }

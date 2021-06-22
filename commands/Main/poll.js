@@ -1,4 +1,5 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,18 +14,18 @@ module.exports = {
   },
 
   /**
-   * @param {Client} client
+   * @param {bot} client
    * @param {Message} message
-   * @param {Array} args
+   * @param {string[]} args
    */
 
   run: async function (client, message, args) {
     try {
       const [title, ...choices] = args;
-      if (!title) return message.channel.send('タイトルを指定してください');
+      if (!title) return await message.channel.send('タイトルを指定してください');
 
       const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
-      if (choices.length < 2 || choices.length > emojis.length) return message.channel.send(`選択肢は2から${emojis.length}つを指定してください`);
+      if (choices.length < 2 || choices.length > emojis.length) return await message.channel.send(`選択肢は2から${emojis.length}つを指定してください`);
 
       const poll = await message.channel.send(
         new MessageEmbed()
@@ -33,7 +34,7 @@ module.exports = {
           .setTimestamp()
       );
       emojis.slice(0, choices.length).forEach(emoji => poll.react(emoji));
-      poll.edit(`${message.author.tag}が作成した投票です`,
+      await poll.edit(`${message.author.tag}が作成した投票です`,
         new MessageEmbed()
           .setTitle(title)
           .setDescription(choices.map((c, i) => `${emojis[i]} ${c}`).join('\n'))

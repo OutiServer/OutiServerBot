@@ -1,5 +1,6 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 const { ReactionController } = require('discord.js-reaction-controller');
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -14,9 +15,9 @@ module.exports = {
   },
 
   /**
-   * @param {Client} client
+   * @param {bot} client
    * @param {Message} message
-   * @param {Array} args
+   * @param {string[]} args
    */
 
   run: async function (client, message, args) {
@@ -69,7 +70,7 @@ module.exports = {
             .setTimestamp()
         );
 
-        if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) {
+        if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571') || message.member.hasPermission('ADMINISTRATOR')) {
           embeds[0].addField('Admin', admin);
           embeds.push(
             new MessageEmbed()
@@ -92,19 +93,19 @@ module.exports = {
 
         const controller = new ReactionController(client);
         controller.addPages(embeds);
-        controller.sendTo(message.channel, message.author)
-          .catch(console.error);
+        await controller.sendTo(message.channel, message.author);
       }
       else {
-        let cmd = args[0]
-        let command = client.commands.get(cmd)
+        let cmd = args[0];
+        let command = client.commands.get(cmd);
         if (!command) command = client.commands.find(x => x.info.aliases.includes(cmd))
-        if (!command) return message.channel.send("そんなコマンドないで。😉");
+        if (!command) return await message.reply("そんなコマンドないで。😉");
         let commandinfo = new MessageEmbed()
           .setTitle("コマンド名: " + command.info.name + " の詳細")
-          .setColor("RANDOM")
           .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(", ")}\n\nカテゴリー: ${command.info.category}\nBotOwnerコマンド: ${command.info.owneronly}\nBotAdminコマンド: ${command.info.adminonly}`)
-        message.channel.send(commandinfo)
+          .setColor("RANDOM")
+          .setTimestamp();
+        await message.channel.send(commandinfo);
       }
     } catch (error) {
       errorlog(message, error);

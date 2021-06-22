@@ -1,4 +1,5 @@
-const { Client, Message } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,17 +14,16 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
-            if (message.channel.parentID !== '828268142820196372') return message.reply('そのコマンドはスレッドアーカイブカテゴリーのみで使用できます。');
-            message.channel.setParent('828266382277345310');
-
-            message.channel.send('このスレッドを再オープンしました。');
+            if (message.channel.parentID !== '828268142820196372') return await message.reply('そのコマンドはスレッドアーカイブカテゴリーのみで使用できます。');
+            await message.channel.setParent('828266382277345310');
+            await message.channel.send('このスレッドを再オープンしました。');
         } catch (error) {
             errorlog(message, error);
         }

@@ -1,4 +1,5 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,16 +14,16 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
             const user = message.mentions.users.first() || client.users.cache.get(args[0]);
             if (!user) {
-                message.channel.send(
+                await message.channel.send(
                     new MessageEmbed()
                         .setTitle(`${message.author.tag}のアバター`)
                         .setImage(message.author.avatarURL())
@@ -31,7 +32,7 @@ module.exports = {
                 );
             }
             else {
-                message.channel.send(
+                await message.channel.send(
                     new MessageEmbed()
                         .setTitle(`${user.tag}のアバター`)
                         .setImage(user.avatarURL())

@@ -1,4 +1,5 @@
-const { Client, Message } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,18 +14,18 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
             const user = message.mentions.users.first() || message.guild.member(args[0]);
-            if (!user) return message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
+            if (!user) return await message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
 
             const addxp = Number(args[1]);
-            if (!addxp) return message.reply('経験値を付与する数を第二引数に入れてください！');
+            if (!addxp) return await message.reply('経験値を付与する数を第二引数に入れてください！');
 
             let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(user.id);
             if (!userleveldata) {
@@ -42,7 +43,7 @@ module.exports = {
 
             client.db.prepare('UPDATE levels SET level, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
 
-            message.channel.send(`${user}に${addxp}経験値付与しました！`);
+            await message.channel.send(`${user}に${addxp}経験値付与しました！`);
         } catch (error) {
             errorlog(message, error);
         }

@@ -1,14 +1,15 @@
-const { Client, MessageEmbed, WebhookClient } = require('discord.js');
+const { MessageEmbed, WebhookClient } = require('discord.js');
+const bot = require('../../bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
- * @param {Client} client
+ * @param {bot} client
  */
 
 module.exports = async (client) => {
   try {
     const webhook = new WebhookClient('854285096516976671', 'jBVbq6SZuFMUHgym86i8FsZdXQW8vpitLksjuUQhuscempLozfxJjhZ_U7fxj85LxKcT');
-    webhook.send(
+    await webhook.send(
       new MessageEmbed()
         .setTitle(`${client.user.tag}が起動しました！`)
         .setDescription('```\nBotが認識できるユーザー数: ' + client.users.cache.size + '人\nBotが認識できるチャンネル: ' + client.channels.cache.size + '個\n```')

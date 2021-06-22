@@ -1,7 +1,8 @@
 const fs = require('fs');
 const request = require('request');
-const { Message, Client, MessageEmbed } = require("discord.js");
-const { errorlog } = require("../../functions/logs/error");
+const { Message, MessageEmbed } = require("discord.js");
+const bot = require('../../bot');
+const { errorlog, clienterrorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -15,17 +16,17 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
             const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-            if (userleveldata.level < 10) return message.reply('レベル背景申請はLevel10以上になってから使用できます！');
+            if (userleveldata.level < 10) return await message.reply('レベル背景申請はLevel10以上になってから使用できます！');
 
-            if (message.attachments.size <= 0) return message.reply('設定する画像を一緒に送信してください！');
+            if (message.attachments.size <= 0) return await message.reply('設定する画像を一緒に送信してください！');
             message.attachments.forEach(attachment => {
                 request(
                     {
@@ -33,22 +34,23 @@ module.exports = {
                         url: attachment.url,
                         encoding: null
                     },
-                    function (error, response, body) {
+                    async function (error, response, body) {
                         if (!error && response.statusCode === 200) {
                             fs.writeFileSync(`./dat/images/${message.author.id}.png`, body, 'binary');
                             if (!client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id)) {
                                 client.db.prepare('INSERT INTO rankimages VALUES (?, ?, ?)').run(message.author.id, message.author.id, '#ffffff');
                             }
-                            message.channel.send('level画像を設定しました！');
+                            await message.channel.send('level画像を設定しました！');
                         }
                         else {
-                            message.channel.send(
+                            await message.channel.send(
                                 new MessageEmbed()
                                     .setTitle('画像保存中にエラーが発生しました')
                                     .setDescription(`statusCode: ${response.statusCode}\n${error}`)
                                     .setColor('RANDOM')
                                     .setTimestamp()
                             );
+                            clienterrorlog(error);
                         }
                     }
                 );

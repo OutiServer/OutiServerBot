@@ -1,5 +1,6 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 const { ReactionController } = require('discord.js-reaction-controller');
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -14,9 +15,9 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
@@ -62,13 +63,13 @@ module.exports = {
                 else {
                     embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag}`, `${data.level}Level ${data.xp}経験値`);
                 }
+
                 rank++;
             }
 
             const controller = new ReactionController(client);
             controller.addPages(embeds);
-            controller.sendTo(message.channel, message.author)
-                .catch(console.error);
+            await controller.sendTo(message.channel, message.author);
         } catch (error) {
             errorlog(message, error);
         }

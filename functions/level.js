@@ -1,10 +1,11 @@
-const { Client, Message } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../bot');
 const verify = require("./verify");
 const { clienterrorlog } = require('./logs/error');
 
 /**
  * 
- * @param {Client} client 
+ * @param {bot} client 
  * @param {Message} message 
  */
 
@@ -48,11 +49,24 @@ module.exports = async (client, message) => {
             levelupflag = true;
         }
 
+        client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
+        verify(client, message);
+
         if (levelupflag) {
             await client.channels.cache.get('841287448617287711').send(levelupmessage.replace('{level}', userleveldata.level));
         }
 
+        if (userleveldata.level >= 70) {
+            await message.member.roles.add('856489888035897374');
+            await message.member.roles.remove('842029135915909200');
+            await message.member.roles.remove('841544161563901992');
+            await message.member.roles.remove('841544098895757323');
+            await message.member.roles.remove('830368022916104203');
+            await message.member.roles.remove('825245951295225896');
+            await message.member.roles.remove('824554360699879455');
+        }
         if (userleveldata.level >= 60) {
+            await message.member.roles.remove('856489888035897374');
             await message.member.roles.add('842029135915909200');
             await message.member.roles.remove('841544161563901992');
             await message.member.roles.remove('841544098895757323');
@@ -61,6 +75,7 @@ module.exports = async (client, message) => {
             await message.member.roles.remove('824554360699879455');
         }
         else if (userleveldata.level >= 50) {
+            await message.member.roles.remove('856489888035897374');
             await message.member.roles.remove('842029135915909200');
             await message.member.roles.add('841544161563901992');
             await message.member.roles.remove('841544098895757323');
@@ -69,6 +84,7 @@ module.exports = async (client, message) => {
             await message.member.roles.remove('824554360699879455');
         }
         else if (userleveldata.level >= 40) {
+            await message.member.roles.remove('856489888035897374');
             await message.member.roles.remove('842029135915909200');
             await message.member.roles.remove('841544161563901992');
             await message.member.roles.add('841544098895757323');
@@ -77,6 +93,7 @@ module.exports = async (client, message) => {
             await message.member.roles.remove('824554360699879455');
         }
         else if (userleveldata.level >= 30) {
+            await message.member.roles.remove('856489888035897374');
             await message.member.roles.remove('842029135915909200');
             await message.member.roles.remove('841544161563901992');
             await message.member.roles.remove('841544098895757323');
@@ -85,6 +102,7 @@ module.exports = async (client, message) => {
             await message.member.roles.remove('824554360699879455');
         }
         else if (userleveldata.level >= 20) {
+            await message.member.roles.remove('856489888035897374');
             await message.member.roles.remove('842029135915909200');
             await message.member.roles.remove('841544161563901992');
             await message.member.roles.remove('841544098895757323');
@@ -93,6 +111,7 @@ module.exports = async (client, message) => {
             await message.member.roles.remove('824554360699879455');
         }
         else if (userleveldata.level >= 10) {
+            await message.member.roles.remove('856489888035897374');
             await message.member.roles.remove('842029135915909200');
             await message.member.roles.remove('841544161563901992');
             await message.member.roles.remove('841544098895757323');
@@ -101,7 +120,6 @@ module.exports = async (client, message) => {
             await message.member.roles.add('824554360699879455');
         }
 
-        client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
         client.levelcooldown.set(message.author.id, true);
     } catch (error) {
         clienterrorlog(error);

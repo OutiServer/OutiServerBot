@@ -1,4 +1,5 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,21 +14,21 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client
+     * @param {bot} client
      * @param {Message} message
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
             const used = process.memoryUsage();
-            message.channel.send('Pong')
-                .then(msg => msg.edit('',
-                    new MessageEmbed()
-                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${Math.round(used.rss / 1024 / 1024 * 100) / 100}MB`)
-                        .setColor('RANDOM')
-                        .setTimestamp()
-                ));
+            const msg = await message.channel.send('Pong!');
+            await msg.edit('',
+                new MessageEmbed()
+                    .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${Math.round(used.rss / 1024 / 1024 * 100) / 100}MB`)
+                    .setColor('RANDOM')
+                    .setTimestamp()
+            );
         } catch (error) {
             errorlog(message, error);
         }

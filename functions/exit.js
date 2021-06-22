@@ -1,9 +1,9 @@
-const { Client } = require('discord.js');
+const bot = require('../bot');
 const { clienterrorlog } = require('./logs/error');
 
 /**
  * 終了関数
- * @param {Client} client 
+ * @param {bot} client 
  */
 
 module.exports = (client) => {
