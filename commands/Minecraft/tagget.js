@@ -1,4 +1,5 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,9 +14,9 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
@@ -25,8 +26,8 @@ module.exports = {
                 let usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE tag = ?').get(args[0]);
                 if (!usergamertag) {
                     usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
-                    if (!usergamertag) return message.reply('あなたのゲーマータグはまだリンクされていません！');
-                    message.channel.send(
+                    if (!usergamertag) return await message.reply('あなたのゲーマータグはまだリンクされていません！');
+                    await message.channel.send(
                         new MessageEmbed()
                             .addField('DiscordUserTag', message.author.tag)
                             .addField('XboxGamerTag', usergamertag.tag)
@@ -35,7 +36,7 @@ module.exports = {
                     );
                 }
                 else {
-                    message.channel.send(
+                    await message.channel.send(
                         new MessageEmbed()
                             .addField('DiscordUserTag', client.users.cache.get(usergamertag.user).tag)
                             .addField('XboxGamerTag', usergamertag.tag)
@@ -48,8 +49,8 @@ module.exports = {
                 let usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(user.id);
                 if (!usergamertag) {
                     usergamertag = client.db.prepare('SELECT * FROM gamertags WHERE user = ?').get(message.author.id);
-                    if (!usergamertag) return message.reply('あなたのゲーマータグはまだリンクされていません！');
-                    message.channel.send(
+                    if (!usergamertag) return await message.reply('あなたのゲーマータグはまだリンクされていません！');
+                    await message.channel.send(
                         new MessageEmbed()
                             .addField('DiscordUserTag', message.author.tag)
                             .addField('XboxGamerTag', usergamertag.tag)
@@ -57,7 +58,7 @@ module.exports = {
                             .setTimestamp()
                     );
                 }
-                message.channel.send(
+                await message.channel.send(
                     new MessageEmbed()
                         .addField('DiscordUserTag', client.users.cache.get(usergamertag.user).tag)
                         .addField('XboxGamerTag', usergamertag.tag)

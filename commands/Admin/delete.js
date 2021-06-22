@@ -1,4 +1,5 @@
-const { Client, Message } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,17 +14,17 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
             const count = Number(args[0]);
-            if (!count) return message.reply('第一引数に削除するメッセージ数を入れてください');
+            if (!count) return await message.reply('第一引数に削除するメッセージ数を入れてください');
             await message.channel.bulkDelete(count + 1);
-            message.channel.send(`${count} messages is deleted`);
+            await message.channel.send(`${count} messages is deleted`);
         } catch (error) {
             errorlog(message, error);
         }

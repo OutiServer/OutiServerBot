@@ -1,4 +1,5 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 const verify = require('../../dat/json/verify.json');
 
@@ -14,9 +15,9 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
@@ -30,7 +31,7 @@ module.exports = {
                 embed.addField(verify[i].name, verify[i].description);
             }
 
-            message.channel.send(embed);
+            await message.channel.send(embed);
         } catch (error) {
             errorlog(message, error);
         }

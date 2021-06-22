@@ -1,9 +1,9 @@
-const { Client } = require('discord.js');
+const bot = require('../../bot');
 const status = require('../../dat/json/status.json');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
- * @param {Client} client
+ * @param {bot} client
  */
 
 module.exports = async (client) => {

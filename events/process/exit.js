@@ -1,8 +1,8 @@
-const { Client } = require('discord.js');
+const bot = require('../../bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
- * @param {Client} client
+ * @param {bot} client
  */
 
 module.exports = (client, code) => {

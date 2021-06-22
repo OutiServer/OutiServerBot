@@ -1,4 +1,5 @@
-const { Client, Message } = require('discord.js');
+const { Message } = require('discord.js');
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,22 +14,21 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client
+     * @param {bot} client
      * @param {Message} message
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
-            if (!message.member.voice.channelID) return message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
+            if (!message.member.voice.channelID) return await message.reply("このコマンドを使用するには、ボイスチャンネルに参加する必要があります！");
 
             const voicemember = message.member.voice.guild.voiceStates.cache.map(member => member);
             for (const data of voicemember) {
                 if (data.member.user.bot) continue;
-                data.member.voice.setMute(true);
+                await data.member.voice.setMute(true);
             }
-
-            message.channel.send(`ボイスチャンネルに接続されている全員のミュートが完了しました！`);
+            await message.channel.send(`ボイスチャンネルに接続されている全員のミュートが完了しました！`);
         } catch (error) {
             errorlog(message, error);
         }

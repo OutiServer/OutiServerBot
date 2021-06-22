@@ -1,9 +1,10 @@
-const { Client, Message } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../bot');
 const { clienterrorlog } = require('./logs/error');
 const verify = require('../dat/json/verify.json');
 
 /**
- * @param {Client} client 
+ * @param {bot} client 
  * @param {Message} message 
  */
 

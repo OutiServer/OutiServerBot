@@ -1,4 +1,5 @@
-const { Client, Message } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,17 +14,17 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
-            if (message.channel.parentID !== '828266382277345310' && message.channel.parentID !== '821684794056245258' && message.channel.id !== '828267048807039037' && message.channel.id !== '821686383605055508') return message.reply('そのコマンドは考案スレッドカテゴリー、お問い合わせカテゴリーでのみ使用できます。');
-            message.channel.setParent('828268142820196372');
+            if (message.channel.parentID !== '828266382277345310' && message.channel.parentID !== '821684794056245258' && message.channel.id !== '828267048807039037' && message.channel.id !== '821686383605055508') return await message.reply('そのコマンドは考案スレッドカテゴリー、お問い合わせカテゴリーでのみ使用できます。');
+            await message.channel.setParent('828268142820196372');
 
-            message.channel.send('このスレッドをアーカイブしました。');
+            await message.channel.send('このスレッドをアーカイブしました。');
         } catch (error) {
             errorlog(message, error);
         }

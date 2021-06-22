@@ -1,4 +1,5 @@
-const { Client, Message } = require("discord.js");
+const { Message } = require("discord.js");
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -13,18 +14,18 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client 
+     * @param {bot} client 
      * @param {Message} message 
-     * @param {Array} args 
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
         try {
             const user = message.mentions.users.first() || client.users.cache.get(args[0]);
-            if (!user) return message.reply('第一引数にリセットするユーザーをメンションするか、IDを入れてください！');
+            if (!user) return await message.reply('第一引数にリセットするユーザーをメンションするか、IDを入れてください！');
 
             client.db.prepare('DELETE FROM levels WHERE user = ?').run(user.id);
-            message.channel.send(`${user.tag}のレベルデータを削除しました`);
+            await message.channel.send(`${user.tag}のレベルデータを削除しました`);
         } catch (error) {
             errorlog(message, error);
         }

@@ -1,5 +1,6 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
-const { errorlog } = require("../../functions/logs/error");
+const { Message, MessageEmbed } = require('discord.js');
+const bot = require('../../bot');
+const { errorlog, clienterrorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
@@ -13,9 +14,9 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client
+     * @param {bot} client
      * @param {Message} message
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {
@@ -27,7 +28,8 @@ module.exports = {
                 var msg = await message.channel.messages.fetch(messageid);
             }
             catch (e) {
-                return message.reply('投票が見つかりませんでした');
+                clienterrorlog(e);
+                return await message.reply('投票が見つかりませんでした');
             }
 
             const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name);
@@ -39,7 +41,7 @@ module.exports = {
                 count++;
             }
 
-            message.channel.send(
+            await message.channel.send(
                 new MessageEmbed()
                     .setTitle(msg.embeds[0].title + 'の投票結果')
                     .setDescription(msgcontent)

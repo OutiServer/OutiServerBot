@@ -1,11 +1,12 @@
-const { Client, Message } = require('discord.js');
+const { Message } = require('discord.js');
+const bot = require('../../bot');
 const exit = require('../../functions/exit');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
         name: "exit",
-        description: "終了",
+        description: "再起動コマンド\nVPSに接続するのがめんどくさいからこのコマンドは作られた",
         usage: "",
         aliases: [""],
         owneronly: true,
@@ -14,9 +15,9 @@ module.exports = {
     },
 
     /**
-     * @param {Client} client
+     * @param {bot} client
      * @param {Message} message
-     * @param {Array} args
+     * @param {string[]} args
      */
 
     run: async function (client, message, args) {

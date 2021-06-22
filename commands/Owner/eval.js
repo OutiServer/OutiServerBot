@@ -1,11 +1,12 @@
-const { Client, Message } = require('discord.js');
+const { Message } = require('discord.js');
 const { inspect } = require('util');
+const bot = require('../../bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
   info: {
     name: "eval",
-    description: "jsのコードを実行するなんか",
+    description: "環境破壊をするために作られたコマンド(大嘘)\n開発者がいちいちテストプログラムを実行するのがめんどくさいからこのコマンドは作られた",
     usage: "",
     aliases: [""],
     owneronly: true,
@@ -14,9 +15,9 @@ module.exports = {
   },
 
   /**
-   * @param {Client} client
+   * @param {bot} client
    * @param {Message} message
-   * @param {Array} args
+   * @param {string[]} args
    */
 
   run: async function (client, message, args) {
@@ -26,30 +27,27 @@ module.exports = {
         const filter = msg => msg.author.id === message.author.id;
         const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
         const response = collected.first();
-        if (!response) {
-          msg.delete();
-          break;
-        }
+        if (!response) return await msg.delete();
         if (response.content === 'ok') {
-          response.delete();
           let evaled;
           try {
             evaled = await eval(args.join(' '));
             const evalinsoext = inspect(evaled).length;
-            message.react('✅');
+            await message.react('844941572679794688');
             if (evalinsoext <= 2000) {
-              msg.edit(inspect(evaled), { code: true });
+              await msg.edit(inspect(evaled), { code: true });
             }
           }
           catch (error) {
-            message.react('❌');
-            msg.edit(error, { code: true });
+            await message.react('844941573422186497');
+            await msg.edit(error, { code: true });
           }
+          await response.delete();
           break;
         }
         else if (response.content === 'no') {
-          response.delete();
-          msg.delete();
+          await response.delete();
+          await msg.delete();
           break;
         }
       }

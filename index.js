@@ -1,14 +1,8 @@
 require('dotenv').config();
 const fs = require("fs");
-const { Client, Intents, Collection } = require('discord.js');
 const cron = require('node-cron');
-const SQLite = require("better-sqlite3");
-const client = new Client({ messageCacheMaxSize: 20, messageSweepInterval: 30, fetchAllMembers: true, ws: { intents: Intents.ALL } });
-client.commands = new Collection();
-client.cooldown = new Collection();
-client.levelcooldown = new Collection();
-client.invites = new Collection();
-client.db = new SQLite('outiserver.db');
+const bot = require('./bot');
+const client = new bot('outiserver.db');
 
 fs.readdir(__dirname + "/events/process/", (err, files) => {
   if (err) return console.error(err);
@@ -16,7 +10,7 @@ fs.readdir(__dirname + "/events/process/", (err, files) => {
     const event = require(__dirname + `/events/process/${file}`);
     let eventName = file.split(".")[0];
     process.on(eventName, event.bind(null, client))
-    console.log(`Process ${eventName} event is Loading completed`);
+    console.log(`Process ${eventName} event is Loading`);
   });
 });
 
