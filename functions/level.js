@@ -65,7 +65,7 @@ module.exports = async (client, message) => {
             await message.member.roles.remove('825245951295225896');
             await message.member.roles.remove('824554360699879455');
         }
-        if (userleveldata.level >= 60) {
+        else if (userleveldata.level >= 60) {
             await message.member.roles.remove('856489888035897374');
             await message.member.roles.add('842029135915909200');
             await message.member.roles.remove('841544161563901992');
