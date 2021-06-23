@@ -22,7 +22,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            await message.channel.startTyping();
+            message.channel.startTyping();
             const user = message.mentions.users.first() || client.users.cache.get(args[0]);
 
             if (user) {
@@ -105,7 +105,7 @@ module.exports = {
                         .setProgressBar('#ffffff');
 
 
-                    const data = await rank.build()
+                    const data = await rank.build();
                     await message.channel.send(new MessageAttachment(data, 'rank.png'));
                     message.channel.stopTyping();
                 }
