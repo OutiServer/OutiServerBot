@@ -29,7 +29,7 @@ module.exports = {
             }
 
             util.statusBedrock('126.235.33.140', { timeout: 5000 })
-                    .then(result => {
+                    .then(async result => {
                         const msg = await message.channel.send(
                             new MessageEmbed()
                                 .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
@@ -44,7 +44,7 @@ module.exports = {
                         );
                         await msg.delete({ timeout: 5000 });
                     })
-                .catch(error => {
+                .catch(async error => {
                     clienterrorlog(error);
                     const msg = await message.channel.send(
                     new MessageEmbed()
