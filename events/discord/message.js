@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 const bot = require('../../bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 const level = require('../../functions/level');
-const whitelistadd = require('../../functions/whitelistadd');
 const commandlog = require('../../functions/logs/command');
 
 /**
@@ -13,22 +12,6 @@ const commandlog = require('../../functions/logs/command');
 
 module.exports = async (client, message) => {
   try {
-    if (message.author.id === '825373463757193237') {
-      await message.channel.send(message.embeds[0].fields[1].value);
-      const verifyuser = message.guild.members.cache.find(user => user.user.tag === message.embeds[0].fields[0].value);
-      if (!verifyuser) return await client.channels.cache.get('797008715646500865').send(`ゲーマータグ: ${message.embeds[0].fields[1].value}で申請した方、ユーザーが見つかりませんでした。`);
-      await client.channels.cache.get('797008715646500865').send(`${verifyuser}、申請を受け付けました、管理職による認証を待ちます。`);
-      const whitemsg = await message.channel.send('<@&822852335322923060>',
-        new MessageEmbed()
-          .setDescription(`<@${verifyuser.id}> のホワイトリスト申請を承諾しますか？`)
-          .setColor('RANDOM')
-          .setTimestamp()
-      );
-      await whitemsg.react('844941572679794688');
-      await whitemsg.react('844941573422186497');
-      const collector = whitemsg.createReactionCollector(() => true);
-      collector.on('collect', (reaction, user) => whitelistadd(client, msg, message.embeds[0].fields[1].value, verifyuser.id, reaction, user, collector));
-    }
     if (message.author.id === '786343397807620106') {
       fetch(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`)
         .then(res => res.text())

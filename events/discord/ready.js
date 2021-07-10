@@ -49,14 +49,6 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
-    const Gamertagtable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'gamertags';").get();
-    if (!Gamertagtable['count(*)']) {
-      client.db.prepare("CREATE TABLE gamertags (id TEXT PRIMARY KEY, user TEXT, tag TEXT);").run();
-      client.db.prepare("CREATE UNIQUE INDEX idx_gamertags_id ON gamertags (id);").run();
-      client.db.pragma("synchronous = 1");
-      client.db.pragma("journal_mode = wal");
-    }
-
     const Verifytable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'verifys';").get();
     if (!Verifytable['count(*)']) {
       client.db.prepare("CREATE TABLE verifys (id TEXT PRIMARY KEY, user TEXT, verifynumber INTEGER);").run();
