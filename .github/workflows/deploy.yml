@@ -22,4 +22,4 @@ jobs:
             source .bashrc
             git pull origin master -f
         env:
-          DIR: public_html/hoge
+          DIR: public_html/test
