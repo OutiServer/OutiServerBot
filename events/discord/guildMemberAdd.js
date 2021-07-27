@@ -11,7 +11,7 @@ module.exports = async (client, member) => {
     try {
         if (member.user.bot || member.guild.id !== '706452606918066237') return;
 
-        await client.channels.cache.get('797008715646500865').send(`${member}さん、よろしくお願いします。`);
+        await client.channels.cache.get('797008715646500865').send(`${member}さん、よろしくお願いします！\nおうちサーバー シーズン11のオープンベータテストは 8月1日に開催予定です！`);
         const invites = await member.guild.fetchInvites();
         const oldInvites = client.invites;
         client.invites = invites;
