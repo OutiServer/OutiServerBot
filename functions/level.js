@@ -19,19 +19,19 @@ module.exports = async (client, message) => {
         let levelupflag = false;
         if (random < 0.01) { // 0.01％
             addxp = Math.ceil(Math.random() * 500) + 300;
-            levelupmessage = `${message.author} あなたのレベルが{level}に上がりました！<:owovvv:855097168947314698>`;
+            levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がりました！<:owovvv:855097168947314698>`;
         }
         else if (random < 0.11) { // 0.1%
             addxp += Math.ceil(Math.random() * 100) + 50;
-            levelupmessage = `${message.author} あなたのレベルが{level}に上がっりました！<:owotukkomi:810436146823561256>`;
+            levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がっりました！<:owotukkomi:810436146823561256>`;
         }
         else if (random < 0.61) { //0.5%
             addxp += Math.ceil(Math.random() * 50) + 10;
-            levelupmessage = `GG ${message.author}, you just advanced to level {level}!<:unkosaba:852517397020934166>`;
+            levelupmessage = `GG ${message.author.tag}, you just advanced to level {level}!<:unkosaba:852517397020934166>`;
         }
         else {
             addxp = Math.ceil(Math.random() * 20);
-            levelupmessage = `${message.author} あなたのレベルが{level}に上がったで。😉`;
+            levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がったで。😉`;
         }
 
         let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
@@ -53,7 +53,7 @@ module.exports = async (client, message) => {
         verify(client, message);
 
         if (levelupflag) {
-            await client.channels.cache.get('841287448617287711').send(levelupmessage.replace('{level}', userleveldata.level));
+            await message.channel.send(levelupmessage.replace('{level}', userleveldata.level));
         }
 
         if (userleveldata.level >= 70) {
