@@ -10,6 +10,7 @@ const { clienterrorlog } = require('../../functions/logs/error');
 module.exports = async (client) => {
     try {
         client.levelcooldown = new Collection();
+        /*
         const msg = await client.channels.cache.get('780012050163302420').messages.fetch('870272924974727209');
         util.statusBedrock('126.235.33.140', { port: 19131, timeout: 5000 })
             .then(async result => {
@@ -37,6 +38,7 @@ module.exports = async (client) => {
                         .setTimestamp()
                 );
             })
+            */
     } catch (error) {
         clienterrorlog(error);
     }
