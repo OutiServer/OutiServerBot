@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require("discord.js");
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -21,17 +21,24 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            await message.channel.send(
-                new MessageEmbed()
-                    .setDescription(`<@${message.author.id}>さん、selfbot検知しました\n問答無用で永BANです＾＾`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-            );
+            message.channel.send(
+                {
+                    embeds: [
+                        new MessageEmbed()
+                            .setDescription(`<@${message.author.id}>さん、selfbot検知しました\n問答無用で永BANです＾＾`)
+                            .setColor('RANDOM')
+                            .setTimestamp()
+                    ],
+                    allowedMentions: {
+                        repliedUser: false
+                    }
+                }
+            ).catch(error => errorlog(message, error));
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     }
 }

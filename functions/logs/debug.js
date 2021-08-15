@@ -8,7 +8,7 @@ const { clienterrorlog } = require('./error');
 
 module.exports = async (info) => {
     try {
-        const webhook = new WebhookClient('856886037703557140', 'OWEgXnHeY8S1HAf2FumMHWkRXtxCBvnbtc1p7WY9lvGl6S7xYLYueRzKokir_ffeHLl3');
+        const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873218671063998464/FUEOTnUoNisLELgp5u8LOMwFVVBf5mhN-IOYPu8N28ambp7EDV5Icg5LLoxSv1AcJBJJ' });
         await webhook.send('```' + info + '```');
     } catch (error) {
         clienterrorlog(error);

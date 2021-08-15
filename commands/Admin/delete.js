@@ -1,5 +1,5 @@
 const { Message } = require("discord.js");
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -22,14 +22,14 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const count = Number(args[0]);
-            if (!count) return await message.reply('第一引数に削除するメッセージ数を入れてください');
+            if (!count) return message.reply({ content: '第一引数に削除するメッセージ数を入れてください', allowedMentions: { repliedUser: false } }).catch(error => errorlog(message, error));
             await message.channel.bulkDelete(count + 1);
-            await message.channel.send(`${count} messages is deleted`);
+            message.channel.send(`${count} messages is deleted`).catch(error => errorlog(message, error));
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     }
 }

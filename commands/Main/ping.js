@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -22,18 +22,25 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const used = process.memoryUsage();
-            const msg = await message.channel.send('Pong!');
-            await msg.edit('',
-                new MessageEmbed()
-                    .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${Math.round(used.rss / 1024 / 1024 * 100) / 100}MB`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
-            );
+            const msg = await message.reply({
+                content: 'Pong!',
+                allowedMentions: {
+                    repliedUser: false
+                }
+            });
+            await msg.edit({
+                embeds: [
+                    new MessageEmbed()
+                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${Math.round(used.rss / 1024 / 1024 * 100) / 100}MB`)
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                ]
+            }).catch(error => errorlog(message, error));
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     },
 };

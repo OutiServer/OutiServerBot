@@ -1,4 +1,4 @@
-const bot = require('../bot');
+const bot = require('../Utils/Bot');
 
 /**
  * 

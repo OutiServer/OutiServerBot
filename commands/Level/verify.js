@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require("discord.js");
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 const verify = require('../../dat/json/verify.json');
 
@@ -33,12 +33,17 @@ module.exports = {
                 }
             }
 
-            await message.channel.send(embed);
+            message.reply({
+                embeds: [embed],
+                allowedMentions: {
+                    repliedUser: false
+                }
+            }).catch(error => errorlog(message, error));
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     }
 }

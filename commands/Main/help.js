@@ -1,6 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
-const { ReactionController } = require('discord.js-reaction-controller');
-const bot = require('../../bot');
+const { Message, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -70,7 +69,7 @@ module.exports = {
             .setTimestamp()
         );
 
-        if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571') || message.member.hasPermission('ADMINISTRATOR')) {
+        if (message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571') || message.member.permissions.has('ADMINISTRATOR')) {
           embeds[0].addField('Admin', admin);
           embeds.push(
             new MessageEmbed()
@@ -91,9 +90,76 @@ module.exports = {
           );
         }
 
-        const controller = new ReactionController(client);
-        controller.addPages(embeds);
-        await controller.sendTo(message.channel, message.author);
+        let select = 0;
+        const buttons = new MessageActionRow()
+          .addComponents(
+            [
+              new MessageButton()
+                .setCustomId('left')
+                .setLabel('◀️')
+                .setStyle('PRIMARY')
+                .setDisabled(),
+              new MessageButton()
+                .setCustomId('right')
+                .setLabel('▶️')
+                .setStyle('PRIMARY'),
+              new MessageButton()
+                .setCustomId('stop')
+                .setLabel('⏹️')
+                .setStyle('DANGER')
+            ]
+          );
+        const msg = await message.reply({
+          embeds: [
+            embeds[0]
+          ],
+          components: [buttons],
+          allowedMentions: {
+            repliedUser: false
+          }
+        });
+        const collector = msg.createMessageComponentCollector({ componentType: 'BUTTON' });
+        collector.on('collect', async interaction => {
+          if (interaction.user.id !== message.author.id) return;
+          if (interaction.customId === 'left') {
+            select--;
+            buttons.components[1].setDisabled(false);
+            if (select < 1) {
+              buttons.components[0].setDisabled();
+            }
+            await msg.edit(
+              {
+                embeds: [embeds[select]],
+                components: [buttons]
+              }
+            );
+          }
+          else if (interaction.customId === 'right') {
+            select++;
+            buttons.components[0].setDisabled(false);
+            if (select >= embeds.length - 1) {
+              buttons.components[1].setDisabled();
+            }
+            await msg.edit(
+              {
+                embeds: [embeds[select]],
+                components: [buttons]
+              }
+            );
+          }
+          else if (interaction.customId === 'stop') {
+            buttons.components[0].setDisabled();
+            buttons.components[1].setDisabled();
+            buttons.components[2].setDisabled();
+            await msg.edit(
+              {
+                embeds: [embeds[select]],
+                components: [buttons]
+              }
+            );
+            collector.stop();
+          }
+        });
       }
       else {
         let cmd = args[0];
@@ -111,7 +177,7 @@ module.exports = {
       errorlog(message, error);
     }
     finally {
-      client.cooldown.set(message.author.id, false);
+      client.cooldown.delete(message.author.id);
     }
   },
 };

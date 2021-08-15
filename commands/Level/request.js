@@ -1,7 +1,7 @@
 const fs = require('fs');
 const request = require('request');
 const { Message, MessageEmbed } = require("discord.js");
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog, clienterrorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -24,9 +24,19 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-            if (userleveldata.level < 10) return await message.reply('レベル背景申請はLevel10以上になってから使用できます！');
+            if (userleveldata.level < 10) return message.reply({
+                content: 'レベル背景申請はLevel10以上になってから使用できます！',
+                allowedMentions: {
+                    repliedUser: false
+                }
+            }).catch(error => errorlog(message, error));
 
-            if (message.attachments.size <= 0) return await message.reply('設定する画像を一緒に送信してください！');
+            if (message.attachments.size <= 0) return message.reply({
+                content: '設定する画像を一緒に送信してください！',
+                allowedMentions: {
+                    repliedUser: false
+                }
+            }).catch(error => errorlog(message, error));
             message.attachments.forEach(attachment => {
                 request(
                     {
@@ -40,16 +50,28 @@ module.exports = {
                             if (!client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id)) {
                                 client.db.prepare('INSERT INTO rankimages VALUES (?, ?, ?)').run(message.author.id, message.author.id, '#ffffff');
                             }
-                            await message.channel.send('level画像を設定しました！');
+                            message.reply({
+                                content: 'level画像を設定しました！',
+                                allowedMentions: {
+                                    repliedUser: false
+                                }
+                            }).catch(error => errorlog(message, error));
                         }
                         else {
-                            await message.channel.send(
-                                new MessageEmbed()
-                                    .setTitle('画像保存中にエラーが発生しました')
-                                    .setDescription(`statusCode: ${response.statusCode}\n${error}`)
-                                    .setColor('RANDOM')
-                                    .setTimestamp()
-                            );
+                            message.reply(
+                                {
+                                    embeds: [
+                                        new MessageEmbed()
+                                            .setTitle('画像保存中にエラーが発生しました')
+                                            .setDescription(`statusCode: ${response.statusCode}\n${error}`)
+                                            .setColor('RANDOM')
+                                            .setTimestamp()
+                                    ],
+                                    allowedMentions: {
+                                        repliedUser: false
+                                    }
+                                }
+                            ).catch(error => errorlog(message, error));
                             clienterrorlog(error);
                         }
                     }
@@ -59,7 +81,7 @@ module.exports = {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     }
 }

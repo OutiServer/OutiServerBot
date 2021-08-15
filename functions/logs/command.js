@@ -10,7 +10,7 @@ const { clienterrorlog } = require('./error');
 
 module.exports = async (message, commandname, args) => {
     try {
-        const webhook = new WebhookClient('855242376141209610', 'teyKNpeOorWv_SGrA_uGzAbr1gU3xKZTKHO0_WmExUMHVSONygix14LAH-V-LlI1MiVx');
+        const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873903295331205170/kiuj7x2uJUWkPeovgX1LrDYDXegmG5SA28gJHN6Joc9dMRgz4CIPNGHMeLA3dJKbBrZR' });
         const embed = new MessageEmbed()
             .addField('コマンド実行者', message.author.tag)
             .addField('コマンド実行者ID', message.author.id)
@@ -26,7 +26,12 @@ module.exports = async (message, commandname, args) => {
         if (args.length > 0) {
             embed.addField('引数', args.join(' '));
         }
-        await webhook.send(embed);
+
+        await webhook.send({
+            embeds: [
+                embed
+            ]
+        });
     } catch (error) {
         clienterrorlog(error);
     }

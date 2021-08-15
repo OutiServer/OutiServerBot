@@ -6,9 +6,9 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const http = require('http');
-const bot = require('./bot');
+const Bot = require('./Utils/Bot');
 const indexRouter = require('./routes/index');
-const client = new bot('outiserver.db');
+const client = new Bot('outiserver.db');
 const app = express();
 const port = process.env.PORT || 3000;
 

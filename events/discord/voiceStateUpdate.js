@@ -1,5 +1,5 @@
 const { VoiceState } = require('discord.js');
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
@@ -11,6 +11,7 @@ const { clienterrorlog } = require('../../functions/logs/error');
 module.exports = async (client, oldMember, newMember) => {
   try {
     if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot) return;
+    console.log(oldMember);
     if (oldMember.channelID === null) {
       await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${newMember.channel.name}に入室しました`);
     }

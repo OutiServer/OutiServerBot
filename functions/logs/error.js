@@ -11,11 +11,12 @@ module.exports = {
     errorlog: async function (message, error) {
         console.error(error);
         try {
-            const webhook = new WebhookClient('852833626860945438', 'IaO4hTwc0Audu7FD6p2RfrisM9xvPICLlaCr1JM0pHPP7YpuxWxc8QcvjEHDBWA5eA-4');
+            const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873217393407713341/lWLnKOWbXQKuULgw83jmeiuphfH9AqYU6y1RLPJqxp2Qov6nQDULKsUVWS7BbL5XcyIq' });
             await webhook.send('<@' + process.env.OWNERID + '>\n```\n' + error.stack + '\n```', { split: true });
-            await message.channel.send('コマンド実行中にエラーが発生したみたいや、もう一度実行してな。😉', {
+            await message.channel.send({
+                content: 'コマンド実行中にエラーが発生したみたいや、もう一度実行してな。😉',
                 embed: new MessageEmbed()
-                    .setDescription(`ErrprMessage: ${error.message}`)
+                    .setDescription(`ErrorMessage: ${error.message}`)
                     .setColor('RANDOM')
                     .setTimestamp()
             });
@@ -34,7 +35,7 @@ module.exports = {
     clienterrorlog: async function (error) {
         console.error(error);
         try {
-            const webhook = new WebhookClient('852833626860945438', 'IaO4hTwc0Audu7FD6p2RfrisM9xvPICLlaCr1JM0pHPP7YpuxWxc8QcvjEHDBWA5eA-4');
+            const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873217393407713341/lWLnKOWbXQKuULgw83jmeiuphfH9AqYU6y1RLPJqxp2Qov6nQDULKsUVWS7BbL5XcyIq' });
             await webhook.send('<@' + process.env.OWNERID + '>\n```\n' + error.stack + '\n```', { split: true });
         }
         catch (error) {
