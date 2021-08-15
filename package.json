@@ -18,7 +18,6 @@
     "canvacord": "^5.2.3",
     "cookie-parser": "^1.4.5",
     "discord.js": "^13.0.1",
-    "discord.js-reaction-controller": "^2.1.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
