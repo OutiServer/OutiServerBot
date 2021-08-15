@@ -4,8 +4,8 @@ const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
-        name: "fuck",
-        description: "fuckbird",
+        name: "donatu",
+        description: "どーなつ",
         usage: "",
         aliases: [""],
         owneronly: false,
@@ -21,8 +21,8 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            message.channel.send({
-                content: 'https://media.discordapp.net/attachments/840154191036022794/841298027960729671/fuck.png',
+            message.reply({
+                content: 'https://media.discordapp.net/attachments/876114531418529793/876114710406238308/875912850646925332.png',
                 allowedMentions: {
                     repliedUser: false
                 }

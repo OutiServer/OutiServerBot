@@ -1,6 +1,5 @@
 const { Message } = require('discord.js');
-const bot = require('../../bot');
-const exit = require('../../functions/exit');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -22,12 +21,14 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            exit(client);
+            client.db.close();
+            client.destroy();
+            process.exit();
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     },
 };

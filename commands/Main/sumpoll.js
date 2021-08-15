@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog, clienterrorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -22,14 +22,13 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const messageid = args[0];
-            if (!messageid) return message.reply('集計する投票のメッセージIDを入れてください！');
+            if (!messageid) return message.reply('集計する投票のメッセージIDを入れてください！').catch(error => errorlog(message, error));
 
             try {
                 var msg = await message.channel.messages.fetch(messageid);
             }
             catch (e) {
-                clienterrorlog(e);
-                return await message.reply('投票が見つかりませんでした');
+                return message.reply('投票が見つかりませんでした').catch(error => errorlog(message, error));
             }
 
             const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name);
@@ -41,19 +40,26 @@ module.exports = {
                 count++;
             }
 
-            await message.channel.send(
-                new MessageEmbed()
-                    .setTitle(msg.embeds[0].title + 'の投票結果')
-                    .setDescription(msgcontent)
-                    .setURL(`https://discord.com/channels/${message.guild.id}/${message.channel.id}/${messageid}`)
-                    .setColor(msg.embeds[0].color)
-                    .setTimestamp(msg.embeds[0].timestamp)
-            );
+            message.reply(
+                {
+                    embeds: [
+                        new MessageEmbed()
+                            .setTitle(msg.embeds[0].title + 'の投票結果')
+                            .setDescription(msgcontent)
+                            .setURL(`https://discord.com/channels/${message.guild.id}/${message.channel.id}/${messageid}`)
+                            .setColor(msg.embeds[0].color)
+                            .setTimestamp(msg.embeds[0].timestamp)
+                    ],
+                    allowedMentions: {
+                        repliedUser: false
+                    }
+                }
+            ).catch(error => errorlog(message, error));
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     },
 };

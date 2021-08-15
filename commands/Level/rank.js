@@ -1,6 +1,6 @@
 const { Message, MessageAttachment } = require("discord.js");
 const canvacord = require("canvacord");
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -22,7 +22,6 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            message.channel.startTyping();
             const user = message.mentions.users.first() || client.users.cache.get(args[0]);
 
             if (user) {
@@ -46,8 +45,12 @@ module.exports = {
 
 
                     const data = await rank.build();
-                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
-                    message.channel.stopTyping();
+                    message.reply({
+                        files: [new MessageAttachment(data, 'rank.png')],
+                        allowedMentions: {
+                            repliedUser: false
+                        }
+                    }).catch(error => errorlog(message, error));
                 }
                 else {
                     const rank = new canvacord.Rank()
@@ -57,15 +60,17 @@ module.exports = {
                         .setDiscriminator(user.discriminator)
                         .setLevel(userleveldata.level)
                         .setRequiredXP(userleveldata.level * 55)
-                        .setStatus(user.presence.status)
                         .setUsername(user.username)
                         .setProgressBar('#ffffff');
 
 
                     const data = await rank.build();
-                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
-                    message.channel.stopTyping();
-
+                    message.reply({
+                        files: [new MessageAttachment(data, 'rank.png')],
+                        allowedMentions: {
+                            repliedUser: false
+                        }
+                    }).catch(error => errorlog(message, error));
                 }
             }
             else {
@@ -83,14 +88,17 @@ module.exports = {
                         .setDiscriminator(message.author.discriminator)
                         .setLevel(userleveldata.level)
                         .setRequiredXP(userleveldata.level * 55)
-                        .setStatus(message.author.presence.status)
                         .setUsername(message.author.username)
                         .setProgressBar(rankimage.barcolor)
 
 
                     const data = await rank.build();
-                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
-                    message.channel.stopTyping();
+                    message.reply({
+                        files: [new MessageAttachment(data, 'rank.png')],
+                        allowedMentions: {
+                            repliedUser: false
+                        }
+                    }).catch(error => errorlog(message, error));
                 }
                 else {
                     const rank = new canvacord.Rank()
@@ -106,15 +114,19 @@ module.exports = {
 
 
                     const data = await rank.build();
-                    await message.channel.send(new MessageAttachment(data, 'rank.png'));
-                    message.channel.stopTyping();
+                    message.reply({
+                        files: [new MessageAttachment(data, 'rank.png')],
+                        allowedMentions: {
+                            repliedUser: false
+                        }
+                    }).catch(error => errorlog(message, error));
                 }
             }
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     }
 };

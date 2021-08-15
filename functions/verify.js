@@ -13,9 +13,9 @@ module.exports = async (client, message) => {
         let verifyRelease = false;
         let verifymessage = '称号を獲得しました！\n```diff\n';
 
-        if (client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id).level >= 50) {
+        if (client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id).level >= 50 && !client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 0)) {
             if (!client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, 0)) {
-                verifymessage += '+ 自宅警備員\n';
+                verifymessage += `+ ${verify[0].name}\n`;
                 verifyRelease = true;
                 const verifydata = {
                     id: `${message.author.id}-0`,
@@ -94,7 +94,7 @@ module.exports = async (client, message) => {
         }
 
         if (verifyRelease) {
-            await message.reply(verifymessage + '\n```');
+            await message.reply({ content: verifymessage + '\n```', });
         }
     } catch (error) {
         clienterrorlog(error);

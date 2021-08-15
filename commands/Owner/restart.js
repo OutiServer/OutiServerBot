@@ -1,5 +1,5 @@
 const { Message } = require('discord.js');
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const SQLite = require("better-sqlite3");
 const { errorlog } = require("../../functions/logs/error");
 
@@ -22,7 +22,12 @@ module.exports = {
 
     run: async function (client, message, args) {
         try {
-            const msg = await message.channel.send('再接続しています...');
+            const msg = await message.channel.send({
+                content: '再接続しています...',
+                allowedMentions: {
+                    repliedUser: false
+                }
+            });
             client.db.close();
             client.destroy();
             client.db = new SQLite('outiserver.db');
@@ -32,7 +37,7 @@ module.exports = {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     },
 };

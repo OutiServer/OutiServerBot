@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require("discord.js");
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { clienterrorlog } = require("../../functions/logs/error");
 
 /**
@@ -9,7 +9,7 @@ const { clienterrorlog } = require("../../functions/logs/error");
 
 module.exports = async (client, message) => {
     try {
-        if (message.guild.id !== '706452606918066237' || message.author.bot) return;
+        if (message.guild.id !== '706452606918066237' || message.system || message.author.bot) return;
         const embed = new MessageEmbed()
             .setTitle('メッセージが削除されました')
             .addField('メッセージが削除されたチャンネル', message.channel.name)
@@ -34,7 +34,7 @@ module.exports = async (client, message) => {
                 .setImage(message.attachments.first().url)
         }
 
-        await client.channels.cache.get('825394905572573184').send(embed);
+        await client.channels.cache.get('825394905572573184').send({ embeds: [embed] });
     } catch (error) {
         clienterrorlog(error);
     }

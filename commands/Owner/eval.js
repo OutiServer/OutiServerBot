@@ -1,6 +1,6 @@
 const { Message } = require('discord.js');
 const { inspect } = require('util');
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -22,32 +22,42 @@ module.exports = {
 
   run: async function (client, message, args) {
     try {
-      const msg = await message.channel.send('```以下のコードを実行してもいいですか？\n実行していい場合はokを、キャンセルする場合はnoを送信してください\n30秒経つと強制キャンセルされます```\n```js\n' + args.join(' ') + '\n```');
+      const msg = await message.channel.send({
+        content: '```以下のコードを実行してもいいですか？\n実行していい場合はokを、キャンセルする場合はnoを送信してください\n30秒経つと強制キャンセルされます```\n```js\n' + args.join(' ') + '\n```',
+        allowedMentions: {
+          repliedUser: false
+        }
+      });
       while (true) {
         const filter = msg => msg.author.id === message.author.id;
-        const collected = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
+        const collected = await message.channel.awaitMessages({ filter: filter, max: 1, time: 30000 });
         const response = collected.first();
-        if (!response) return await msg.delete();
+        if (!response) return msg.delete().catch(error => errorlog(message, error));
         if (response.content === 'ok') {
           let evaled;
           try {
             evaled = await eval(args.join(' '));
             const evalinsoext = inspect(evaled).length;
-            await message.react('844941572679794688');
+            message.react('844941572679794688').catch(error => errorlog(message, error));
             if (evalinsoext <= 2000) {
-              await msg.edit(inspect(evaled), { code: true });
+              msg.edit(inspect(evaled), { code: true }).catch(error => errorlog(message, error));
+            }
+            else {
+              msg.edit({
+                content: '実行結果が2000文字を超えているため送信出来ません'
+              }).catch(error => errorlog(message, error));
             }
           }
           catch (error) {
-            await message.react('844941573422186497');
-            await msg.edit(error, { code: true });
+            message.react('844941573422186497').catch(error => errorlog(message, error));
+            msg.edit(error, { code: true }).catch(error => errorlog(message, error));
           }
-          await response.delete();
+          response.delete().catch(error => errorlog(message, error));
           break;
         }
         else if (response.content === 'no') {
-          await response.delete();
-          await msg.delete();
+          response.delete().catch(error => errorlog(message, error));
+          msg.delete().catch(error => errorlog(message, error));
           break;
         }
       }
@@ -55,7 +65,7 @@ module.exports = {
       errorlog(message, error);
     }
     finally {
-      client.cooldown.set(message.author.id, false);
+      client.cooldown.delete(message.author.id);
     }
   },
 };

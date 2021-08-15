@@ -1,6 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
-const { ReactionController } = require('discord.js-reaction-controller');
-const bot = require('../../bot');
+const { Message, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -27,7 +26,7 @@ module.exports = {
             let ranknumber1 = 1;
             let ranknumber2 = 10;
             let rank = 1;
-            const bans = await message.guild.fetchBans();
+            const bans = await message.guild.bans.fetch();
 
             for (let i = 0; i < Math.ceil(all.length / 10); i++) {
                 embeds.push(
@@ -49,11 +48,11 @@ module.exports = {
                 if (bans.get(data.user)) {
                     embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:banned:852517393636917258>`, `${data.level}Level ${data.xp}経験値`);
                 }
-                else if (message.guild.member(user.id)) {
-                    if (message.guild.member(user.id).roles.cache.has('739473593674629120')) {
+                else if (message.guild.members.cache.get(user.id)) {
+                    if (message.guild.members.cache.get(user.id).roles.cache.has('739473593674629120')) {
                         embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:boost:855244574430461972>`, `${data.level}Level ${data.xp}経験値`);
                     }
-                    else if (message.guild.member(user.id).roles.cache.has('780381600751812638')) {
+                    else if (message.guild.members.cache.get(user.id).roles.cache.has('780381600751812638')) {
                         embeds[Math.ceil(rank / 10) - 1].addField(`${rank}位: ${user.tag} <:DeadCrew:852517409331609610>`, `${data.level}Level ${data.xp}経験値`);
                     }
                     else {
@@ -67,14 +66,79 @@ module.exports = {
                 rank++;
             }
 
-            const controller = new ReactionController(client);
-            controller.addPages(embeds);
-            await controller.sendTo(message.channel, message.author);
+            let select = 0;
+            const buttons = new MessageActionRow()
+                .addComponents(
+                    [
+                        new MessageButton()
+                            .setCustomId('left')
+                            .setLabel('◀️')
+                            .setStyle('PRIMARY')
+                            .setDisabled(),
+                        new MessageButton()
+                            .setCustomId('right')
+                            .setLabel('▶️')
+                            .setStyle('PRIMARY'),
+                        new MessageButton()
+                            .setCustomId('stop')
+                            .setLabel('⏹️')
+                            .setStyle('DANGER')
+                    ]
+                );
+            const msg = await message.reply({
+                embeds: [embeds[0]],
+                components: [buttons],
+                allowedMentions: {
+                    repliedUser: false
+                }
+            }).catch(error => errorlog(message, error));
+            const collector = msg.createMessageComponentCollector({ componentType: 'BUTTON' });
+            collector.on('collect', async interaction => {
+                if (interaction.user.id !== message.author.id) return;
+                if (interaction.customId === 'left') {
+                    select--;
+                    buttons.components[1].setDisabled(false);
+                    if (select < 1) {
+                        buttons.components[0].setDisabled();
+                    }
+                    await msg.edit(
+                        {
+                            embeds: [embeds[select]],
+                            components: [buttons]
+                        }
+                    );
+                }
+                else if (interaction.customId === 'right') {
+                    select++;
+                    buttons.components[0].setDisabled(false);
+                    if (select >= embeds.length - 1) {
+                        buttons.components[1].setDisabled();
+                    }
+                    await msg.edit(
+                        {
+                            embeds: [embeds[select]],
+                            components: [buttons]
+                        }
+                    );
+                }
+                else if (interaction.customId === 'stop') {
+                    buttons.components[0].setDisabled();
+                    buttons.components[1].setDisabled();
+                    buttons.components[2].setDisabled();
+                    await msg.edit(
+                        {
+                            embeds: [embeds[select]],
+                            components: [buttons]
+                        }
+                    );
+                    collector.stop();
+                }
+            });
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     }
 }

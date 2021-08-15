@@ -1,5 +1,5 @@
 const { Message } = require("discord.js");
-const bot = require('../../bot');
+const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
@@ -22,10 +22,21 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             const user = message.mentions.users.first() || message.guild.member(args[0]);
-            if (!user) return await message.reply('経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！');
+            if (!user) return message.reply({
+                content: '経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！',
+                allowedMentions: {
+                    repliedUser: false
+                }
+            }).catch(error => errorlog(message, error));
+
 
             const addxp = Number(args[1]);
-            if (!addxp) return await message.reply('経験値を付与する数を第二引数に入れてください！');
+            if (!addxp) return message.reply({
+                content: '経験値を付与する数を第二引数に入れてください！',
+                allowedMentions: {
+                    repliedUser: false
+                }
+            }).catch(error => errorlog(message, error));
 
             let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(user.id);
             if (!userleveldata) {
@@ -42,13 +53,17 @@ module.exports = {
             }
 
             client.db.prepare('UPDATE levels SET level, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
-
-            await message.channel.send(`${user}に${addxp}経験値付与しました！`);
+            message.reply({
+                content: `${user}に${addxp}経験値付与しました！`,
+                allowedMentions: {
+                    repliedUser: false
+                }
+            }).catch(error => errorlog(message, error));
         } catch (error) {
             errorlog(message, error);
         }
         finally {
-            client.cooldown.set(message.author.id, false);
+            client.cooldown.delete(message.author.id);
         }
     }
 }

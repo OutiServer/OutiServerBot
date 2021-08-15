@@ -1,14 +1,18 @@
 const { Client, Intents, Collection, Message, Invite } = require('discord.js');
 const SQLite = require("better-sqlite3");
 
-module.exports = class extends Client {
+class Bot extends Client {
 
     /**
      * @param {string} dbname 
      */
 
     constructor(dbname) {
-        super({ ws: { intents: Intents.ALL } });
+        super({
+            intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_BANS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Intents.FLAGS.GUILD_INTEGRATIONS, Intents.FLAGS.GUILD_WEBHOOKS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+            partials: ['GUILD_MEMBER', 'CHANNEL', 'MESSAGE', 'REACTION', 'USER']
+        });
+
         /**
          * @type {Collection <string, { info: { name: string, description: string, usage: string, aliases: string[], owneronly: boolean, adminonly: boolean, category: string }, run: function(Client, Message, string[]): Promise<Message> }}
          */
@@ -28,6 +32,9 @@ module.exports = class extends Client {
          * @type {Collection<string, Invite>}
          */
         this.invites = new Collection();
+
         this.db = new SQLite(dbname);
     }
 }
+
+module.exports = Bot;
