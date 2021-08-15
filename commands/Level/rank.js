@@ -39,7 +39,6 @@ module.exports = {
                         .setDiscriminator(user.discriminator)
                         .setLevel(userleveldata.level)
                         .setRequiredXP(userleveldata.level * 55)
-                        .setStatus(user.presence.status)
                         .setUsername(user.username)
                         .setProgressBar(rankimage.barcolor)
 
@@ -108,7 +107,6 @@ module.exports = {
                         .setDiscriminator(message.author.discriminator)
                         .setLevel(userleveldata.level)
                         .setRequiredXP(userleveldata.level * 55)
-                        .setStatus(message.author.presence.status)
                         .setUsername(message.author.username)
                         .setProgressBar('#ffffff');
 

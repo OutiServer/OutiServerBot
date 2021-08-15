@@ -128,6 +128,7 @@ module.exports = async (client, message) => {
           ]
         }))
         .then(msg => msg.pin())
+        .then(msg => client.db.prepare('INSERT INTO threads (userid, channelid) VALUES (?, ?)').run(message.author.id, msg.channelId))
         .catch(error => clienterrorlog(error));
     }
     else if (message.channel.id === '794203640054153237') {
@@ -146,7 +147,7 @@ module.exports = async (client, message) => {
           {
             embeds: [
               new MessageEmbed()
-                .setTitle(`${targetMessage.author.username} + 'のメッセージを展開します'`)
+                .setTitle(`${targetMessage.author.username}のメッセージを展開します`)
                 .setDescription(targetMessage.cleanContent)
                 .setColor('RANDOM')
                 .setTimestamp()
@@ -160,7 +161,7 @@ module.exports = async (client, message) => {
         .catch(error => clienterrorlog(error));
     }
 
-    if (!message.member.permissions.has('ADMINISTRATOR')) return;
+    //if (!message.member.permissions.has('ADMINISTRATOR')) return;
     if (!message.content.startsWith(process.env.PREFIX)) return;
     const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();

@@ -13,12 +13,17 @@ module.exports = {
         try {
             const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873217393407713341/lWLnKOWbXQKuULgw83jmeiuphfH9AqYU6y1RLPJqxp2Qov6nQDULKsUVWS7BbL5XcyIq' });
             await webhook.send('<@' + process.env.OWNERID + '>\n```\n' + error.stack + '\n```', { split: true });
-            await message.channel.send({
+            await message.reply({
                 content: 'コマンド実行中にエラーが発生したみたいや、もう一度実行してな。😉',
-                embed: new MessageEmbed()
-                    .setDescription(`ErrorMessage: ${error.message}`)
-                    .setColor('RANDOM')
-                    .setTimestamp()
+                embeds: [
+                    new MessageEmbed()
+                        .setDescription(`ErrorMessage: ${error.message}`)
+                        .setColor('RANDOM')
+                        .setTimestamp()
+                ],
+                allowedMentions: {
+                    repliedUser: false
+                }
             });
         }
         catch (error) {

@@ -51,6 +51,14 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
+    const Threadtable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'threads';").get();
+    if (!Threadtable['count(*)']) {
+      client.db.prepare("CREATE TABLE threads (id INTEGER PRIMARY KEY AUTOINCREMENT, userid TEXT, channelid TEXT);").run();
+      client.db.prepare("CREATE UNIQUE INDEX idx_threads_id ON threads (id);").run();
+      client.db.pragma("synchronous = 1");
+      client.db.pragma("journal_mode = wal");
+    }
+
     client.invites = await client.guilds.cache.get('706452606918066237').invites.fetch();
     client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING' }, status: 'dnd' });
     console.log(`Logged in as ${client.user.tag}`);
