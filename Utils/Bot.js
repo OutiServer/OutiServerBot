@@ -1,4 +1,5 @@
 const { Client, Intents, Collection, Message, Invite } = require('discord.js');
+const { VoiceConnection } = require('@discordjs/voice');
 const SQLite = require("better-sqlite3");
 
 class Bot extends Client {
@@ -34,6 +35,18 @@ class Bot extends Client {
         this.invites = new Collection();
 
         this.db = new SQLite(dbname);
+
+        /**
+         * @type {VoiceConnection | null}
+         */
+
+        this.connection = null;
+
+        /**
+         * @type {{ channel: string[], message: string[], flag: boolean }}
+         */
+
+        this.speekqueue = {};
     }
 }
 

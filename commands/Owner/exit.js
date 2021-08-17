@@ -22,6 +22,7 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             client.db.close();
+            client.connection.destroy();
             client.destroy();
             process.exit();
         } catch (error) {
