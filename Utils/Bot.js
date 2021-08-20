@@ -1,4 +1,4 @@
-const { Client, Intents, Collection, Message, Invite } = require('discord.js');
+const { Client, Intents, Collection, Message } = require('discord.js');
 const { VoiceConnection } = require('@discordjs/voice');
 const SQLite = require("better-sqlite3");
 
@@ -11,7 +11,11 @@ class Bot extends Client {
     constructor(dbname) {
         super({
             intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_BANS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Intents.FLAGS.GUILD_INTEGRATIONS, Intents.FLAGS.GUILD_WEBHOOKS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
-            partials: ['GUILD_MEMBER', 'CHANNEL', 'MESSAGE', 'REACTION', 'USER']
+            partials: ['GUILD_MEMBER', 'CHANNEL', 'MESSAGE', 'REACTION', 'USER'],
+            allowedMentions: {
+                parse: ['users'],
+                repliedUser: false
+            }
         });
 
         /**
@@ -28,11 +32,6 @@ class Bot extends Client {
          * @type {Collection<string, boolean>}
          */
         this.levelcooldown = new Collection();
-
-        /**
-         * @type {Collection<string, Invite>}
-         */
-        this.invites = new Collection();
 
         this.db = new SQLite(dbname);
 

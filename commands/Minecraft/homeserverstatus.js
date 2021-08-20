@@ -42,7 +42,7 @@ module.exports = {
                                 new MessageEmbed()
                                     .setTitle('🏠おうちサーバー(BE)の現在の状態🏠')
                                     .addField('IPアドレス', result.host)
-                                    .addField('ポート', result.port)
+                                    .addField('ポート', result.port.toString())
                                     .addField('サーバーのバージョン', result.version)
                                     .addField('デフォルトゲームモード', result.gameMode)
                                     .addField('現在参加中のメンバー', `${result.onlinePlayers}/${result.maxPlayers}人`)

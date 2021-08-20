@@ -4,11 +4,15 @@
         "playingtype": "PLAYING"
     },
     {
-        "name": "おうちサーバー",
+        "name": "おうち鯖公式チャンネル",
+        "playingtype": "WATCHING"
+    },
+    {
+        "name": "PMMP",
         "playingtype": "COMPETING"
     },
     {
-        "name": "SekiTonami",
-        "playingtype": "WATCHING"
+        "name": "RPG",
+        "playingtype": "COMPETING"
     }
 ]
