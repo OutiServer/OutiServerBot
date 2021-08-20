@@ -15,7 +15,7 @@ class Bot extends Client {
         });
 
         /**
-         * @type {Collection <string, { info: { name: string, description: string, usage: string, aliases: string[], owneronly: boolean, adminonly: boolean, category: string }, run: function(Client, Message, string[]): Promise<Message> }}
+         * @type {Collection <string, { info: { name: string, description: string, usage: string, aliases: string[], owneronly: boolean, adminonly: boolean, category: string }, data: SlashCommandBuilder, run: function(Client, Message, string[]): Promise<Message> }}
          */
         this.commands = new Collection();
 

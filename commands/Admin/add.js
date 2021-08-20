@@ -1,4 +1,5 @@
-const { Message } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
@@ -12,31 +13,29 @@ module.exports = {
         adminonly: true,
         category: 'Admin'
     },
+    data: new SlashCommandBuilder()
+        .setName('add')
+        .setDescription('ユーザーに経験値追加')
+        .addUserOption(option => {
+            return option.setName('user')
+                .setDescription('経験値を追加するユーザー')
+                .setRequired(true)
+        })
+        .addIntegerOption(option => {
+            return option.setName('xp')
+                .setDescription('付与する経験値')
+                .setRequired(true)
+        }),
 
     /**
      * @param {bot} client 
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
-            const user = message.mentions.users.first() || message.guild.member(args[0]);
-            if (!user) return message.reply({
-                content: '経験値を付与するユーザーをメンションするかIDを第一引数に入れてください！',
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
-
-
-            const addxp = Number(args[1]);
-            if (!addxp) return message.reply({
-                content: '経験値を付与する数を第二引数に入れてください！',
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
+            const user = interaction.options.getUser('user');
+            const addxp = interaction.options.getInteger('xp');
 
             let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(user.id);
             if (!userleveldata) {
@@ -52,18 +51,10 @@ module.exports = {
                 userleveldata.level++;
             }
 
-            client.db.prepare('UPDATE levels SET level, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
-            message.reply({
-                content: `${user}に${addxp}経験値付与しました！`,
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
+            client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
+            await interaction.followUp(`${user}に${addxp}経験値付与しました`);
         } catch (error) {
-            errorlog(message, error);
-        }
-        finally {
-            client.cooldown.delete(message.author.id);
+            errorlog(interaction, error);
         }
     }
 }

@@ -29,7 +29,7 @@ module.exports = async (client, oldMessage, newMessage) => {
                 await newMessage.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！`);
             }
         }
-        if (oldMessage.guild.id !== '706452606918066237' || oldMessage.author.bot || oldMessage.system) return;
+        if (oldMessage.guild.id !== '706452606918066237' || oldMessage.author?.bot || oldMessage.system) return;
         const embed = new MessageEmbed()
             .setTitle('メッセージが編集されました')
             .addField('メッセージが編集されたチャンネル', oldMessage.channel.name)

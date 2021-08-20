@@ -34,7 +34,7 @@ module.exports = {
             await client.login(process.env.DISCORD_TOKEN);
             await msg.edit('再接続が完了しました');
         } catch (error) {
-            errorlog(message, error);
+            errorlog(interaction, error);
         }
         finally {
             client.cooldown.delete(message.author.id);

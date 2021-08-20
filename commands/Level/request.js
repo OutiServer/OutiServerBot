@@ -1,6 +1,7 @@
 const fs = require('fs');
 const request = require('request');
-const { Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed, CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog, clienterrorlog } = require("../../functions/logs/error");
 
@@ -8,80 +9,65 @@ module.exports = {
     info: {
         name: "request",
         description: "rank画像リクエスト",
-        usage: "",
+        usage: "[imageurl]",
         aliases: [""],
         owneronly: false,
         adminonly: false,
         category: 'Level'
     },
+    data: new SlashCommandBuilder()
+        .setName('request')
+        .setDescription('rank画像リクエスト')
+        .addStringOption(option => {
+            return option
+                .setName('imageurl')
+                .setDescription('画像URL')
+                .setRequired(true)
+        }),
 
     /**
-     * @param {bot} client 
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {bot} client
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
             const userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-            if (userleveldata.level < 10) return message.reply({
-                content: 'レベル背景申請はLevel10以上になってから使用できます！',
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
+            if (userleveldata.level < 10) return await interaction.followUp('レベル背景申請はLevel10以上になってから使用できます！');
 
-            if (message.attachments.size <= 0) return message.reply({
-                content: '設定する画像を一緒に送信してください！',
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
-            message.attachments.forEach(attachment => {
-                request(
-                    {
-                        method: 'GET',
-                        url: attachment.url,
-                        encoding: null
-                    },
-                    async function (error, response, body) {
-                        if (!error && response.statusCode === 200) {
-                            fs.writeFileSync(`./dat/images/${message.author.id}.png`, body, 'binary');
-                            if (!client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id)) {
-                                client.db.prepare('INSERT INTO rankimages VALUES (?, ?, ?)').run(message.author.id, message.author.id, '#ffffff');
-                            }
-                            message.reply({
-                                content: 'level画像を設定しました！',
-                                allowedMentions: {
-                                    repliedUser: false
-                                }
-                            }).catch(error => errorlog(message, error));
+            request(
+                {
+                    method: 'GET',
+                    url: interaction.options.getString('imageurl'),
+                    encoding: null
+                },
+                async function (error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        fs.writeFileSync(`./dat/images/${interaction.user.id}.png`, body, 'binary');
+                        if (!client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(interaction.user.id)) {
+                            client.db.prepare('INSERT INTO rankimages VALUES (?, ?, ?)').run(interaction.user.id, interaction.guildId, '#ffffff');
                         }
-                        else {
-                            message.reply(
-                                {
-                                    embeds: [
-                                        new MessageEmbed()
-                                            .setTitle('画像保存中にエラーが発生しました')
-                                            .setDescription(`statusCode: ${response.statusCode}\n${error}`)
-                                            .setColor('RANDOM')
-                                            .setTimestamp()
-                                    ],
-                                    allowedMentions: {
-                                        repliedUser: false
-                                    }
-                                }
-                            ).catch(error => errorlog(message, error));
-                            clienterrorlog(error);
-                        }
+
+                        await interaction.followUp('level画像を設定しました！');
                     }
-                );
-            });
+                    else {
+                        await interaction.followUp(
+                            {
+                                embeds: [
+                                    new MessageEmbed()
+                                        .setTitle('画像保存中にエラーが発生しました')
+                                        .setDescription(`statusCode: ${response.statusCode}\n${error}`)
+                                        .setColor('RANDOM')
+                                        .setTimestamp()
+                                ]
+                            }
+                        );
+                        clienterrorlog(error);
+                    }
+                }
+            );
         } catch (error) {
-            errorlog(message, error);
-        }
-        finally {
-            client.cooldown.delete(message.author.id);
+            errorlog(interaction, error);
         }
     }
 }

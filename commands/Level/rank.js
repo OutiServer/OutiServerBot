@@ -1,5 +1,6 @@
-const { Message, MessageAttachment } = require("discord.js");
-const canvacord = require("canvacord");
+const { MessageAttachment, CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Rank } = require("canvacord");
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
@@ -7,22 +8,29 @@ module.exports = {
     info: {
         name: "rank",
         description: "MyrankとLevel確認",
-        usage: "",
+        usage: "[ユーザー]",
         aliases: [""],
         owneronly: false,
         adminonly: false,
         category: 'Level'
     },
+    data: new SlashCommandBuilder()
+        .setName('rank')
+        .setDescription('MyrankとLevel確認')
+        .addUserOption(option => {
+            return option.setName('user')
+                .setDescription('レベルを確認するユーザー')
+                .setRequired(false)
+        }),
 
     /**
      * @param {bot} client
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
-            const user = message.mentions.users.first() || client.users.cache.get(args[0]);
+            const user = interaction.options.getUser('user', false);
 
             if (user) {
                 let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(user.id);
@@ -32,7 +40,7 @@ module.exports = {
                 }
                 const rankimage = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(user.id);
                 if (rankimage) {
-                    const rank = new canvacord.Rank()
+                    const rank = new Rank()
                         .setAvatar(user.avatarURL({ format: 'png' }))
                         .setBackground('IMAGE', `./dat/images/${user.id}.png`)
                         .setCurrentXP(userleveldata.xp)
@@ -44,15 +52,12 @@ module.exports = {
 
 
                     const data = await rank.build();
-                    message.reply({
-                        files: [new MessageAttachment(data, 'rank.png')],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
-                    }).catch(error => errorlog(message, error));
+                    await interaction.followUp({
+                        files: [new MessageAttachment(data, 'rank.png')]
+                    });
                 }
                 else {
-                    const rank = new canvacord.Rank()
+                    const rank = new Rank()
                         .setAvatar(user.avatarURL({ format: 'png' }))
                         .setBackground('IMAGE', `./dat/images/default.png`)
                         .setCurrentXP(userleveldata.xp)
@@ -64,12 +69,9 @@ module.exports = {
 
 
                     const data = await rank.build();
-                    message.reply({
-                        files: [new MessageAttachment(data, 'rank.png')],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
-                    }).catch(error => errorlog(message, error));
+                    await interaction.followUp({
+                        files: [new MessageAttachment(data, 'rank.png')]
+                    });
                 }
             }
             else {
@@ -80,7 +82,7 @@ module.exports = {
                 }
                 const rankimage = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id);
                 if (rankimage) {
-                    const rank = new canvacord.Rank()
+                    const rank = new Rank()
                         .setAvatar(message.author.avatarURL({ format: 'png' }))
                         .setBackground('IMAGE', `./dat/images/${message.author.id}.png`)
                         .setCurrentXP(userleveldata.xp)
@@ -92,15 +94,12 @@ module.exports = {
 
 
                     const data = await rank.build();
-                    message.reply({
-                        files: [new MessageAttachment(data, 'rank.png')],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
-                    }).catch(error => errorlog(message, error));
+                    await interaction.followUp({
+                        files: [new MessageAttachment(data, 'rank.png')]
+                    });
                 }
                 else {
-                    const rank = new canvacord.Rank()
+                    const rank = new Rank()
                         .setAvatar(message.author.avatarURL({ format: 'png' }))
                         .setBackground('IMAGE', `./dat/images/default.png`)
                         .setCurrentXP(userleveldata.xp)
@@ -112,19 +111,13 @@ module.exports = {
 
 
                     const data = await rank.build();
-                    message.reply({
-                        files: [new MessageAttachment(data, 'rank.png')],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
-                    }).catch(error => errorlog(message, error));
+                    await interaction.followUp({
+                        files: [new MessageAttachment(data, 'rank.png')]
+                    });
                 }
             }
         } catch (error) {
-            errorlog(message, error);
-        }
-        finally {
-            client.cooldown.delete(message.author.id);
+            errorlog(interaction, error);
         }
     }
 };

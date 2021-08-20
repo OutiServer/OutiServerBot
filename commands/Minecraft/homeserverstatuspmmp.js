@@ -65,7 +65,7 @@ module.exports = {
                         .catch(error => errorlog(message, error));
                 })
         } catch (error) {
-            errorlog(message, error);
+            errorlog(interaction, error);
         }
         finally {
             client.cooldown.delete(message.author.id);

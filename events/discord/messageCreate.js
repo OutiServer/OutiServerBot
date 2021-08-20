@@ -59,7 +59,7 @@ module.exports = async (client, message) => {
       client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\n<#872501771254263829>をよく読んで、<#873767707525410867>からサーバーに参加してください！`);
     }
 
-    if (!message.guild || message.system || message.author.bot) return;
+    if (!message.guild || message.system || message.author?.bot) return;
 
     if (message.guild.id === '706452606918066237') {
       if (!client.levelcooldown.get(message.author.id)) {
@@ -69,15 +69,15 @@ module.exports = async (client, message) => {
         let levelupflag = false;
         if (random < 0.01) { // 0.01％
           addxp = Math.ceil(Math.random() * 500) + 300;
-          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がりました！<:owovvv:855097168947314698>`;
+          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がりました！<:owovvv:877630196436566047>`;
         }
         else if (random < 0.11) { // 0.1%
           addxp += Math.ceil(Math.random() * 100) + 50;
-          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がっりました！<:owotukkomi:810436146823561256>`;
+          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がっりました！<:owotukkomi:877630167898542120>`;
         }
         else if (random < 0.61) { //0.5%
           addxp += Math.ceil(Math.random() * 50) + 10;
-          levelupmessage = `GG ${message.author.tag}, you just advanced to level {level}!<:unkosaba:852517397020934166>`;
+          levelupmessage = `GG ${message.author.tag}, you just advanced to level {level}!<:outiserver:877630208021246013>`;
         }
         else {
           addxp = Math.ceil(Math.random() * 20);
@@ -164,6 +164,7 @@ module.exports = async (client, message) => {
         .catch(error => clienterrorlog(error));
     }
 
+    return;
     //if (!message.member.permissions.has('ADMINISTRATOR')) return;
     if (!message.content.startsWith(process.env.PREFIX)) return createyomiage(client, message);
     const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);

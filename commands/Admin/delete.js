@@ -1,35 +1,39 @@
-const { Message } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
 module.exports = {
     info: {
         name: "delete",
-        description: "メッセージ削除",
+        description: "メッセージ一括削除",
         usage: "[削除するメッセージ数]",
         aliases: [""],
         owneronly: false,
         adminonly: true,
         category: 'Admin'
     },
+    data: new SlashCommandBuilder()
+        .setName('delete')
+        .setDescription('メッセージ一括削除')
+        .addIntegerOption(option => {
+            return option.setName('delete')
+                .setDescription('削除するメッセージ数')
+                .setRequired(true)
+        }),
 
     /**
-     * @param {bot} client 
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {bot} client
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
-            const count = Number(args[0]);
-            if (!count) return message.reply({ content: '第一引数に削除するメッセージ数を入れてください', allowedMentions: { repliedUser: false } }).catch(error => errorlog(message, error));
-            await message.channel.bulkDelete(count + 1);
-            message.channel.send(`${count} messages is deleted`).catch(error => errorlog(message, error));
+            const messages = await interaction.channel.messages.fetch({ limit: interaction.options.getInteger('delete') });
+            await interaction.channel.bulkDelete(messages);
+            await interaction.channel.send(`${interaction.options.getInteger('delete')} messages is deleted`);
         } catch (error) {
-            errorlog(message, error);
-        }
-        finally {
-            client.cooldown.delete(message.author.id);
+            errorlog(interaction, error);
         }
     }
 }

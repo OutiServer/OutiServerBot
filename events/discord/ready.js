@@ -59,7 +59,6 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
-    client.invites = await client.guilds.cache.get('706452606918066237').invites.fetch();
     client.user.setPresence({ activity: { name: '再起動しました', type: 'PLAYING' }, status: 'dnd' });
     console.log(`Logged in as ${client.user.tag}`);
   } catch (error) {

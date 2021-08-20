@@ -46,7 +46,7 @@ module.exports = {
                 client.channels.cache.get('870145872762126437').threads.cache.get(message.channel.id).setArchived(true, `Archived By ${message.author.tag}`).catch(error => errorlog(message, error));
             }
         } catch (error) {
-            errorlog(message, error);
+            errorlog(interaction, error);
         }
         finally {
             client.cooldown.delete(message.author.id);

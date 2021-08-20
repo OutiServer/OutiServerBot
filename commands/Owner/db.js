@@ -166,7 +166,7 @@ module.exports = {
                 msg.edit('その基本命令文は対応していません。\n`SELECT・INSERT・UPDATE・DELETE・CLOSE` のみ対応しています').catch(error => errorlog(message, error));
             }
         } catch (error) {
-            errorlog(message, error);
+            errorlog(interaction, error);
         }
         finally {
             client.cooldown.delete(message.author.id);
