@@ -1,6 +1,7 @@
 const { Client, Intents, Collection, Message } = require('discord.js');
 const { VoiceConnection } = require('@discordjs/voice');
 const SQLite = require("better-sqlite3");
+const Twitter = require('twitter');
 
 class Bot extends Client {
 
@@ -46,6 +47,13 @@ class Bot extends Client {
          */
 
         this.speekqueue = {};
+
+        this.twitter = new Twitter({
+            consumer_key: process.env.TWITTER_KET,
+            consumer_secret: process.env.TWITTER_SECRET,
+            access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+            access_token_secret: process.env.TWITTER_ACCESS_SECRET
+        });
     }
 }
 
