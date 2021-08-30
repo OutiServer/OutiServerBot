@@ -196,10 +196,6 @@ module.exports = async (client, message) => {
       message.reply('Prefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
     }
 
-    message.reactions.removeAll();
-    message.edit(
-
-    )
     createyomiage(client, message);
 
     if (!message.content.startsWith('?')) return;
