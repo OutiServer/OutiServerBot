@@ -29,21 +29,31 @@ module.exports = async (client, oldMessage, newMessage) => {
                 await newMessage.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！`);
             }
         }
-        if (oldMessage.guild.id !== '706452606918066237' || oldMessage.author?.bot || oldMessage.system) return;
+        if (oldMessage.partial) {
+            oldMessage = await oldMessage.fetch();
+        }
+        if (newMessage.partial) {
+            newMessage = await newMessage.fetch();
+        }
+
+        if (oldMessage.author.bot || oldMessage.system || oldMessage.guildId !== '706452606918066237') return;
         const embed = new MessageEmbed()
             .setTitle('メッセージが編集されました')
-            .addField('メッセージが編集されたチャンネル', oldMessage.channel.name)
-            .addField('メッセージを送信したユーザー', oldMessage.author.tag)
+            .setURL(`https://discord.com/channels/${oldMessage.guildId}/${oldMessage.channelId}/${oldMessage.id}`)
+            .addField('メッセージが編集されたチャンネル', `${oldMessage.channel.name} (<#${oldMessage.channelId}>)`)
+            .addField('メッセージを送信したユーザー', `${oldMessage.author.tag} (<@${oldMessage.author.id}>) [${oldMessage.author.id}]`)
             .setThumbnail(oldMessage.author.avatarURL({ format: 'webp' }))
             .setColor('RANDOM')
             .setFooter(`messageid: ${oldMessage.id}`, oldMessage.author.avatarURL({ format: 'webp' }))
             .setTimestamp();
 
+        // content が空の場合は画像
         if (!oldMessage.content) {
             embed
                 .addField('編集される前の画像URL', newMessage.attachments.map(attachment => attachment.url).join('\n'))
-                .setImage(oldMessage.attachments.first().url)
+                .setImage(oldMessage.attachments.first().url);
         }
+        // 画像がからの場合
         else if (oldMessage.attachments.size < 1) {
             embed.addField('編集される前のメッセージ', oldMessage.content);
         }
@@ -53,6 +63,7 @@ module.exports = async (client, oldMessage, newMessage) => {
                 .addField('編集される前の画像URL', oldMessage.attachments.map(attachment => attachment.url).join('\n'))
                 .setImage(oldMessage.attachments.first().url)
         }
+
         if (!newMessage.content) {
             embed
                 .addField('編集された後の画像URL', newMessage.attachments.map(attachment => attachment.url).join('\n'))

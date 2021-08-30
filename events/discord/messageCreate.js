@@ -55,7 +55,7 @@ module.exports = async (client, message) => {
     else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3') {
       client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`).catch(error => clienterrorlog(error));
     }
-    else if (message.type === 'GUILD_MEMBER_JOIN') {
+    else if (message.type === 'GUILD_MEMBER_JOIN' && message.guildId === '706452606918066237') {
       client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\n<#872501771254263829>をよく読んで、<#873767707525410867>からサーバーに参加してください！`);
     }
 
@@ -138,6 +138,28 @@ module.exports = async (client, message) => {
       if (message.attachments.size > 0) {
         message.react('♥️').catch(error => clienterrorlog(error));
       }
+    }
+    else if (message.channelId === '878322897821794414') {
+      const msg = await message.reply('ツイートを送信します、よろしいですか？');
+      await msg.react('844941572679794688');
+      await msg.react('844941573422186497');
+      const filter = (reaction, user) => {
+        return (reaction.emoji.id === '844941572679794688' || reaction.emoji.id === '844941573422186497') && user.id === message.author.id;
+      };
+      const collector = msg.createReactionCollector({ filter });
+      collector.on('collect', async (reaction, user) => {
+        try {
+          if (reaction.emoji.id === '844941572679794688') {
+            const tweet = await twitter.post('statuses/update', { status: message.content });
+            await message.reply(`ツイートを送信しました\nhttps://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+          }
+          else await message.reply('ツイート送信をキャンセルしました');
+
+          collector.stop();
+        } catch (error) {
+          clienterrorlog(error);
+        }
+      });
     }
 
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;

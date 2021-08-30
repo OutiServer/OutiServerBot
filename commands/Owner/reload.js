@@ -1,5 +1,6 @@
-const fs = require('fs');
+const { readdirSync } = require('fs');
 const { Message } = require('discord.js');
+const cron = require('node-cron');
 const bot = require('../../Utils/Bot');
 
 const { errorlog } = require("../../functions/logs/error");
@@ -24,9 +25,9 @@ module.exports = {
     run: async function (client, message, args) {
         try {
             client.commands.clear();
-            const commandFolders = fs.readdirSync('./commands');
+            const commandFolders = readdirSync('./commands');
             for (const folder of commandFolders) {
-                const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
+                const commandFiles = readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
                 for (const file of commandFiles) {
                     delete require.cache[require.resolve(`../../commands/${folder}/${file}`)];
                     const command = require(`../../commands/${folder}/${file}`);

@@ -9,11 +9,12 @@ const { clienterrorlog } = require("../../functions/logs/error");
 
 module.exports = async (client, message) => {
     try {
-        if (message.guild.id !== '706452606918066237' || message.system || message.author?.bot) return;
+        if (message.partial) return;
+        if (message.guild.id !== '706452606918066237' || message.system || message.author.bot) return;
         const embed = new MessageEmbed()
             .setTitle('メッセージが削除されました')
-            .addField('メッセージが削除されたチャンネル', message.channel.name)
-            .addField('メッセージを送信したユーザー', message.author.tag)
+            .addField('メッセージが削除されたチャンネル', `${message.channel.name} (<#${message.channelId}>)`)
+            .addField('メッセージを送信したユーザー', `${message.author.tag} (<@${message.author.id}>) [${message.author.id}]`)
             .setThumbnail(message.author.avatarURL({ format: 'webp' }))
             .setColor('RANDOM')
             .setFooter(`messageid: ${message.id}`, message.author.avatarURL({ format: 'webp' }))
