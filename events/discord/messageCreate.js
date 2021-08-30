@@ -5,7 +5,6 @@ const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@
 const { exec } = require('child_process');
 const bot = require('../../Utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
-const commandlog = require('../../functions/logs/command');
 
 /**
  * @param {bot} client
@@ -59,7 +58,7 @@ module.exports = async (client, message) => {
       client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\n<#872501771254263829>をよく読んで、<#873767707525410867>からサーバーに参加してください！`);
     }
 
-    if (!message.guild || message.system || message.author?.bot) return;
+    if (!message.guild || message.system || message.author.bot) return;
 
     if (message.guild.id === '706452606918066237') {
       if (!client.levelcooldown.get(message.author.id)) {
@@ -176,43 +175,40 @@ module.exports = async (client, message) => {
                 .setDescription(targetMessage.cleanContent)
                 .setColor('RANDOM')
                 .setTimestamp()
-            ],
-            allowedMentions: {
-              repliedUser: false
-            }
+            ]
           }
         ))
         .catch(error => message.reply(error))
         .catch(error => clienterrorlog(error));
+
+      createyomiage(client, message);
+
+
+      if (!message.member.permissions.has('ADMINISTRATOR')) return;
+      if (!message.content.startsWith('?')) return;
+      const args = message.content.slice('?'.length).trim().split(/ +/g);
+      console.log(args);
+      const command = args.shift().toLowerCase();
+      console.log(command);
+      if (!command) return;
+      const cmd = client.commands.get(command);
+      if (!cmd) return;
+      message.reply('Prefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
     }
 
-    return;
-    //if (!message.member.permissions.has('ADMINISTRATOR')) return;
-    if (!message.content.startsWith(process.env.PREFIX)) return createyomiage(client, message);
-    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
+    message.reactions.removeAll();
+    message.edit(
+
+    )
+    createyomiage(client, message);
+
+    if (!message.content.startsWith('?')) return;
+    const args = message.content.slice('?'.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    if (!command) return createyomiage(client, message);
-    const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
-    if (!cmd) return createyomiage(client, message);
-    else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571') && !message.member.hasPermission('ADMINISTRATOR')) {
-      return await message.reply({
-        content: 'そのコマンドを使用するための権限が足りてないで。😉',
-        allowedMentions: {
-          repliedUser: false
-        }
-      });
-    }
-    else if (client.cooldown.get(message.author.id)) {
-      return await message.reply({
-        content: '前のコマンドがまだ実行中やで。😉',
-        allowedMentions: {
-          repliedUser: false
-        }
-      });
-    }
-    client.cooldown.set(message.author.id, true);
-    cmd.run(client, message, args);
-    commandlog(message, cmd.info.name, args);
+    if (!command) return;
+    const cmd = client.commands.get(command);
+    if (!cmd) return;
+    await message.reply('コマンドPrefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
   } catch (error) {
     clienterrorlog(error);
   }

@@ -1,4 +1,5 @@
-const { Message, MessageEmbed } = require("discord.js");
+const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
@@ -7,38 +8,38 @@ module.exports = {
         name: "self",
         description: "selfbot検知しました",
         usage: "",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Omake'
     },
 
+    data: new SlashCommandBuilder()
+        .setName('self')
+        .setDescription('selfbot検知しました'),
+
     /**
-     * @param {bot} client 
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {bot} client
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
-            message.channel.send(
+            await interaction.followUp(
                 {
                     embeds: [
                         new MessageEmbed()
-                            .setDescription(`<@${message.author.id}>さん、selfbot検知しました\n問答無用で永BANです＾＾`)
+                            .setDescription(`<@${interaction.user.id}>さん、selfbot検知しました\n問答無用で永BANです＾＾`)
                             .setColor('RANDOM')
                             .setTimestamp()
-                    ],
-                    allowedMentions: {
-                        repliedUser: false
-                    }
+                    ]
                 }
-            ).catch(error => errorlog(message, error));
+            );
         } catch (error) {
             errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     }
 }

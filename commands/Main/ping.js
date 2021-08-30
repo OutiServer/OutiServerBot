@@ -1,4 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
+const { CommandInteraction, MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
@@ -7,40 +8,44 @@ module.exports = {
         name: "ping",
         description: "BotのPing値とメモリ使用率を表示",
         usage: "",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Main'
     },
 
+    data: new SlashCommandBuilder()
+        .setName('ping')
+        .setDescription('BotのPing値とメモリ使用率を表示'),
+
     /**
      * @param {bot} client
-     * @param {Message} message
-     * @param {string[]} args
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
             const used = process.memoryUsage();
-            const msg = await message.reply({
+            const msg = await interaction.followUp({
                 content: 'Pong!',
                 allowedMentions: {
                     repliedUser: false
                 }
             });
-            await msg.edit({
+
+            await interaction.editReply({
                 embeds: [
                     new MessageEmbed()
-                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${Math.round(used.rss / 1024 / 1024 * 100) / 100}MB`)
+                        .setDescription(`APIPing: ${msg.createdTimestamp - interaction.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${Math.round(used.rss / 1024 / 1024 * 100) / 100}MB`)
                         .setColor('RANDOM')
                         .setTimestamp()
                 ]
-            }).catch(error => errorlog(message, error));
+            });
         } catch (error) {
             errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     },
 };

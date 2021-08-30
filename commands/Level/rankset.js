@@ -8,11 +8,12 @@ module.exports = {
         name: "rankset",
         description: "rank画像画像の調整",
         usage: "",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Level'
     },
+
     data: new SlashCommandBuilder()
         .setName('rankset')
         .setDescription('rank画像画像の調整')
@@ -24,7 +25,7 @@ module.exports = {
                     return option
                         .setName('color')
                         .setDescription('16進数色')
-                        .setRequired(true)
+                        .setRequired(true);
                 })
         }),
 
@@ -39,7 +40,7 @@ module.exports = {
             if (!userrankimagedata) return await interaction.followUp('あなたはまだrank画像を設定していないようです');
             const command = interaction.options.getSubcommand();
             if (command === 'color') {
-                const color = interaction.options.getString('color');
+                const color = interaction.options.getString('color', true);
                 userrankimagedata.barcolor = color;
                 client.db.prepare('UPDATE rankimages SET barcolor = ? WHERE id = ?').run(userrankimagedata.barcolor, userrankimagedata.id);
                 await interaction.followUp({

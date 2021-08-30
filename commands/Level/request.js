@@ -10,7 +10,7 @@ module.exports = {
         name: "request",
         description: "rank画像リクエスト",
         usage: "[imageurl]",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Level'
@@ -22,7 +22,7 @@ module.exports = {
             return option
                 .setName('imageurl')
                 .setDescription('画像URL')
-                .setRequired(true)
+                .setRequired(true);
         }),
 
     /**
@@ -38,7 +38,7 @@ module.exports = {
             request(
                 {
                     method: 'GET',
-                    url: interaction.options.getString('imageurl'),
+                    url: interaction.options.getString('imageurl', true),
                     encoding: null
                 },
                 async function (error, response, body) {

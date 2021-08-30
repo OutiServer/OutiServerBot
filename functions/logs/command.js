@@ -1,3 +1,4 @@
+const { codeBlock } = require('@discordjs/builders');
 const { CommandInteraction, WebhookClient, MessageEmbed } = require('discord.js');
 const { clienterrorlog } = require('./error');
 
@@ -5,10 +6,9 @@ const { clienterrorlog } = require('./error');
  * コマンドログ関数
  * @param {CommandInteraction} interaction
  * @param {string} commandname
- * @param {string[]} args
  */
 
-module.exports = async (interaction, commandname, args) => {
+module.exports = async (interaction, commandname) => {
     try {
         const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873903295331205170/kiuj7x2uJUWkPeovgX1LrDYDXegmG5SA28gJHN6Joc9dMRgz4CIPNGHMeLA3dJKbBrZR' });
         const embed = new MessageEmbed()
@@ -18,7 +18,7 @@ module.exports = async (interaction, commandname, args) => {
             .addField('コマンド実行ギルドID', interaction.guild.id)
             .addField('コマンド実行チャンネル', interaction.channel.name)
             .addField('コマンド実行チャンネルID', interaction.channel.id)
-            .addField('コマンド', '```' + commandname + '```')
+            .addField('コマンド', codeBlock(commandname))
             .setImage(interaction.user.avatarURL({ format: 'webp' }))
             .setColor('RANDOM')
             .setFooter(`messageid: ${interaction.id}`, interaction.user.avatarURL({ format: 'webp' }))

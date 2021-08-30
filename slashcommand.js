@@ -1,8 +1,7 @@
 require('dotenv').config();
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { readdirSync, } = require('fs');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { readdirSync } = require('fs');
 const commands = [];
 
 const commandFolders = readdirSync('./commands');
@@ -10,7 +9,7 @@ for (const folder of commandFolders) {
     const commandFiles = readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
         /**
-         * @type { info: { name: string, description: string, usage: string, aliases: string[], owneronly: boolean, adminonly: boolean, category: string }, data: SlashCommandBuilder, run: function(Client, Message, string[]): Promise<Message>}
+         * @type { info: { name: string, description: string, usage: string, owneronly: boolean, adminonly: boolean, category: string }, data: SlashCommandBuilder, run: function(Client, Message, string[]): Promise<Message>}
          */
         const command = require(`./commands/${folder}/${file}`);
         if (!command.data) continue;
@@ -25,7 +24,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
         console.log('Started refreshing application (/) commands.');
 
         await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENTID, '872880984205430834'),
+            Routes.applicationGuildCommands(process.env.CLIENTID, '877587515677237258'),
             { body: commands },
         );
 

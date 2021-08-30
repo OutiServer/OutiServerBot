@@ -1,4 +1,5 @@
-const { Message } = require("discord.js");
+const { CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
@@ -7,31 +8,31 @@ module.exports = {
         name: "fuck",
         description: "fuckbird",
         usage: "",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Omake'
     },
 
+    data: new SlashCommandBuilder()
+        .setName('fuck')
+        .setDescription('fuckbird'),
+
     /**
-     * @param {bot} client 
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {bot} client
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
-            message.channel.send({
-                content: 'https://media.discordapp.net/attachments/840154191036022794/841298027960729671/fuck.png',
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
+            await interaction.followUp({
+                content: 'https://media.discordapp.net/attachments/840154191036022794/841298027960729671/fuck.png'
+            });
         } catch (error) {
             errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     }
 }

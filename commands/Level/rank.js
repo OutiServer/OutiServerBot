@@ -7,20 +7,21 @@ const { errorlog } = require("../../functions/logs/error");
 module.exports = {
     info: {
         name: "rank",
-        description: "MyrankとLevel確認",
-        usage: "[ユーザー]",
-        aliases: [""],
+        description: "自分のLevel確認",
+        usage: "(レベルを確認するユーザー)",
+
         owneronly: false,
         adminonly: false,
         category: 'Level'
     },
+
     data: new SlashCommandBuilder()
         .setName('rank')
-        .setDescription('MyrankとLevel確認')
+        .setDescription('自分のLevel確認')
         .addUserOption(option => {
             return option.setName('user')
                 .setDescription('レベルを確認するユーザー')
-                .setRequired(false)
+                .setRequired(false);
         }),
 
     /**
@@ -75,21 +76,21 @@ module.exports = {
                 }
             }
             else {
-                let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
+                let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(interaction.user.id);
                 if (!userleveldata) {
-                    userleveldata = { id: `${message.author.id}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
+                    userleveldata = { id: `${interaction.user.id}`, user: interaction.user.id, guild: null, level: 0, xp: 0, allxp: 0 };
                     client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
                 }
-                const rankimage = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(message.author.id);
+                const rankimage = client.db.prepare('SELECT * FROM rankimages WHERE user = ?').get(interaction.user.id);
                 if (rankimage) {
                     const rank = new Rank()
-                        .setAvatar(message.author.avatarURL({ format: 'png' }))
-                        .setBackground('IMAGE', `./dat/images/${message.author.id}.png`)
+                        .setAvatar(interaction.user.avatarURL({ format: 'png' }))
+                        .setBackground('IMAGE', `./dat/images/${interaction.user.id}.png`)
                         .setCurrentXP(userleveldata.xp)
-                        .setDiscriminator(message.author.discriminator)
+                        .setDiscriminator(interaction.user.discriminator)
                         .setLevel(userleveldata.level)
                         .setRequiredXP(userleveldata.level * 55)
-                        .setUsername(message.author.username)
+                        .setUsername(interaction.user.username)
                         .setProgressBar(rankimage.barcolor)
 
 
@@ -100,13 +101,13 @@ module.exports = {
                 }
                 else {
                     const rank = new Rank()
-                        .setAvatar(message.author.avatarURL({ format: 'png' }))
+                        .setAvatar(interaction.user.avatarURL({ format: 'png' }))
                         .setBackground('IMAGE', `./dat/images/default.png`)
                         .setCurrentXP(userleveldata.xp)
-                        .setDiscriminator(message.author.discriminator)
+                        .setDiscriminator(interaction.user.discriminator)
                         .setLevel(userleveldata.level)
                         .setRequiredXP(userleveldata.level * 55)
-                        .setUsername(message.author.username)
+                        .setUsername(interaction.user.username)
                         .setProgressBar('#ffffff');
 
 

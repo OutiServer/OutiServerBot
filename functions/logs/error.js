@@ -1,4 +1,5 @@
-const { Message, WebhookClient, MessageEmbed, CommandInteraction } = require("discord.js");
+const { codeBlock } = require("@discordjs/builders");
+const { WebhookClient, MessageEmbed, CommandInteraction } = require("discord.js");
 
 module.exports = {
 
@@ -12,7 +13,7 @@ module.exports = {
         console.error(error);
         try {
             const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873217393407713341/lWLnKOWbXQKuULgw83jmeiuphfH9AqYU6y1RLPJqxp2Qov6nQDULKsUVWS7BbL5XcyIq' });
-            await webhook.send('<@' + process.env.OWNERID + '>\n```\n' + error.stack + '\n```', { split: true });
+            await webhook.send(codeBlock(error.stack));
             await interaction.followUp({
                 content: 'コマンド実行中にエラーが発生したみたいや、もう一度実行してな。😉',
                 embeds: [
@@ -38,7 +39,7 @@ module.exports = {
         console.error(error);
         try {
             const webhook = new WebhookClient({ url: 'https://discord.com/api/webhooks/873217393407713341/lWLnKOWbXQKuULgw83jmeiuphfH9AqYU6y1RLPJqxp2Qov6nQDULKsUVWS7BbL5XcyIq' });
-            await webhook.send('<@' + process.env.OWNERID + '>\n```\n' + error.stack + '\n```', { split: true });
+            await webhook.send(codeBlock(error.stack));
         }
         catch (error) {
             console.error(error);

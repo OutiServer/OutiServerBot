@@ -6,16 +6,17 @@ const { errorlog } = require("../../functions/logs/error");
 module.exports = {
     info: {
         name: "levels",
-        description: "おうちlevelランキング",
+        description: "おうち鯖levelランキング",
         usage: "",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Level'
     },
+
     data: new SlashCommandBuilder()
         .setName('levels')
-        .setDescription('おうちlevelランキング'),
+        .setDescription('おうち鯖levelランキング'),
 
     /**
      * @param {bot} client
@@ -45,7 +46,7 @@ module.exports = {
             for (const data of all) {
                 let user = client.users.cache.get(data.user);
                 if (!user) {
-                    user = (await client.users.fetch(data.user)).tag;
+                    user = (await client.users.fetch(data.user));
                 }
 
                 if (bans.get(data.user)) {

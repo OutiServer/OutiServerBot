@@ -1,4 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
+const { CommandInteraction, MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
@@ -6,40 +7,46 @@ module.exports = {
     info: {
         name: "avatar",
         description: "ユーザーのアバター画像を表示",
-        usage: "[アバターを表示するユーザー]",
-        aliases: [""],
+        usage: "(アバターを表示するユーザー)",
+
         owneronly: false,
         adminonly: false,
         category: 'Main'
     },
 
+    data: new SlashCommandBuilder()
+        .setName('avatar')
+        .setDescription('ユーザーのアバター画像を表示')
+        .addUserOption(option => {
+            return option
+                .setName('user')
+                .setDescription('アバターを表示するユーザー')
+                .setRequired(false);
+        }),
+
     /**
-     * @param {bot} client 
-     * @param {Message} message 
-     * @param {string[]} args
+     * @param {bot} client
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
-            const user = message.mentions.users.first() || client.users.cache.get(args[0]);
+            const user = interaction.options.getUser('user', false);
             if (!user) {
-                message.reply(
+                await interaction.followUp(
                     {
                         embeds: [
                             new MessageEmbed()
-                                .setTitle(`${message.author.tag}のアバター`)
-                                .setImage(message.author.avatarURL())
+                                .setTitle(`${interaction.user.tag}のアバター`)
+                                .setImage(interaction.user.avatarURL())
                                 .setColor('RANDOM')
                                 .setTimestamp()
-                        ],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
+                        ]
                     }
-                ).catch(error => errorlog(message, error));
+                );
             }
             else {
-                message.reply(
+                await interaction.followUp(
                     {
                         embeds: [
                             new MessageEmbed()
@@ -52,13 +59,13 @@ module.exports = {
                             repliedUser: false
                         }
                     }
-                ).catch(error => errorlog(message, error));
+                );
             }
         } catch (error) {
             errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     }
 }

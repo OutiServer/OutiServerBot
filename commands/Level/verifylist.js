@@ -7,13 +7,14 @@ const verify = require('../../dat/json/verify.json');
 module.exports = {
     info: {
         name: "verifylist",
-        description: "全実績",
+        description: "全実績確認",
         usage: "",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Level'
     },
+
     data: new SlashCommandBuilder()
         .setName('verifylist')
         .setDescription('全実績確認'),
@@ -34,21 +35,18 @@ module.exports = {
                 embed.addField(verify[i].name, verify[i].description);
             }
 
-            message.reply(
+            await interaction.followUp(
                 {
                     embeds: [
                         embed
-                    ],
-                    allowedMentions: {
-                        repliedUser: false
-                    }
+                    ]
                 }
-            ).catch(error => errorlog(message, error));
+            );
         } catch (error) {
             errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     }
 }

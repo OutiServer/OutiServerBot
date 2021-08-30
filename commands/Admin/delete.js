@@ -8,18 +8,19 @@ module.exports = {
         name: "delete",
         description: "メッセージ一括削除",
         usage: "[削除するメッセージ数]",
-        aliases: [""],
+
         owneronly: false,
         adminonly: true,
         category: 'Admin'
     },
+
     data: new SlashCommandBuilder()
         .setName('delete')
         .setDescription('メッセージ一括削除')
         .addIntegerOption(option => {
             return option.setName('delete')
                 .setDescription('削除するメッセージ数')
-                .setRequired(true)
+                .setRequired(true);
         }),
 
     /**
@@ -29,7 +30,7 @@ module.exports = {
 
     run: async function (client, interaction) {
         try {
-            const messages = await interaction.channel.messages.fetch({ limit: interaction.options.getInteger('delete') });
+            const messages = await interaction.channel.messages.fetch({ limit: interaction.options.getInteger('delete', true) });
             await interaction.channel.bulkDelete(messages);
             await interaction.channel.send(`${interaction.options.getInteger('delete')} messages is deleted`);
         } catch (error) {

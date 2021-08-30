@@ -9,7 +9,7 @@ module.exports = {
         name: "verify",
         description: "実績確認",
         usage: "",
-        aliases: [""],
+
         owneronly: false,
         adminonly: false,
         category: 'Level'
@@ -31,22 +31,19 @@ module.exports = {
                 .setTimestamp();
 
             for (let i = 0; i < verify.length; i++) {
-                if (client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(message.author.id, i)) {
+                if (client.db.prepare('SELECT * FROM verifys WHERE user = ? AND verifynumber = ?').get(interaction.user.id, i)) {
                     embed.addField(verify[i].name, verify[i].description);
                 }
             }
 
-            message.reply({
-                embeds: [embed],
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
+            await interaction.followUp({
+                embeds: [embed]
+            });
         } catch (error) {
             errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     }
 }
