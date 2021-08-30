@@ -31,11 +31,11 @@ module.exports = {
 
     run: async function (client, interaction) {
         try {
-            if (!message.channel.isThread()) return await interaction.followUp({ content: 'そのコマンドはスレッドでのみ使用できます' });
+            if (!interaction.channel.isThread()) return await interaction.followUp({ content: 'そのコマンドはスレッドでのみ使用できます' });
             const name = interaction.options.getString('threadname', true);
             const threads = client.db.prepare('SELECT * FROM threads WHERE channelid = ? AND userid = ?').get(interaction.channelId, interaction.user.id);
-            if (!message.member.permissions.has('ADMINISTRATOR') && !message.member.roles.cache.has('822852335322923060') && !threads) return await interaction.followUp({ content: 'このスレッドの名前を変更することができません' });
-            await client.channels.cache.get('870145872762126437').threads.cache.get(message.channel.id).setName(name, `Renamed By ${interaction.user.tag}`);
+            if (!interaction.member.permissions.has('ADMINISTRATOR') && !interaction.member.roles.cache.has('822852335322923060') && !threads) return await interaction.followUp({ content: 'このスレッドの名前を変更することができません' });
+            await client.channels.cache.get('870145872762126437').threads.cache.get(interaction.channelId).setName(name, `Renamed By ${interaction.user.tag}`);
             await interaction.followUp({
                 content: `このスレッド名を${name}に変更しました`
             });
