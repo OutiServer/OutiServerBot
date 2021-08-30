@@ -1,5 +1,6 @@
 const { readdirSync } = require('fs');
-const { Message } = require('discord.js');
+const { CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const cron = require('node-cron');
 const bot = require('../../Utils/Bot');
 
@@ -10,19 +11,22 @@ module.exports = {
         name: "reload",
         description: "全てのコマンドを読み込み直すコマンド",
         usage: "",
-        aliases: [""],
+
         owneronly: true,
         adminonly: false,
         category: 'Owner'
     },
 
+    data: new SlashCommandBuilder()
+        .setName('reload')
+        .setDescription('全てのコマンドを読み込み直すコマンド'),
+
     /**
      * @param {bot} client
-     * @param {Message} message
-     * @param {string[]} args
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
             client.commands.clear();
             const commandFolders = readdirSync('./commands');
@@ -36,17 +40,14 @@ module.exports = {
                 }
             }
 
-            message.reply({
-                content: `計${client.commands.size}個のコマンドをリロードしました`,
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
+            await interaction.followUp({
+                content: `計${client.commands.size}個のコマンドをリロードしました`
+            });
         } catch (error) {
-            errorlog(message, error);
+            errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     },
 };

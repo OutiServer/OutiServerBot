@@ -5,7 +5,6 @@ const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@
 const { exec } = require('child_process');
 const bot = require('../../Utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
-const commandlog = require('../../functions/logs/command');
 
 /**
  * @param {bot} client
@@ -69,15 +68,15 @@ module.exports = async (client, message) => {
         let levelupflag = false;
         if (random < 0.01) { // 0.01％
           addxp = Math.ceil(Math.random() * 500) + 300;
-          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がりました！<:owovvv:855097168947314698>`;
+          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がりました！<:owovvv:877630196436566047>`;
         }
         else if (random < 0.11) { // 0.1%
           addxp += Math.ceil(Math.random() * 100) + 50;
-          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がっりました！<:owotukkomi:810436146823561256>`;
+          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がっりました！<:owotukkomi:877630167898542120>`;
         }
         else if (random < 0.61) { //0.5%
           addxp += Math.ceil(Math.random() * 50) + 10;
-          levelupmessage = `GG ${message.author.tag}, you just advanced to level {level}!<:unkosaba:852517397020934166>`;
+          levelupmessage = `GG ${message.author.tag}, you just advanced to level {level}!<:outiserver:877630208021246013>`;
         }
         else {
           addxp = Math.ceil(Math.random() * 20);
@@ -176,42 +175,36 @@ module.exports = async (client, message) => {
                 .setDescription(targetMessage.cleanContent)
                 .setColor('RANDOM')
                 .setTimestamp()
-            ],
-            allowedMentions: {
-              repliedUser: false
-            }
+            ]
           }
         ))
         .catch(error => message.reply(error))
         .catch(error => clienterrorlog(error));
+
+      createyomiage(client, message);
+
+
+      if (!message.member.permissions.has('ADMINISTRATOR')) return;
+      if (!message.content.startsWith('?')) return;
+      const args = message.content.slice('?'.length).trim().split(/ +/g);
+      console.log(args);
+      const command = args.shift().toLowerCase();
+      console.log(command);
+      if (!command) return;
+      const cmd = client.commands.get(command);
+      if (!cmd) return;
+      message.reply('Prefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
     }
 
-    //if (!message.member.permissions.has('ADMINISTRATOR')) return;
-    if (!message.content.startsWith(process.env.PREFIX)) return createyomiage(client, message);
-    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
+    createyomiage(client, message);
+
+    if (!message.content.startsWith('?')) return;
+    const args = message.content.slice('?'.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    if (!command) return createyomiage(client, message);
-    const cmd = client.commands.get(command) || client.commands.find(cmd => cmd.info.aliases && cmd.info.aliases.includes(command));
-    if (!cmd) return createyomiage(client, message);
-    else if (cmd.info.owneronly && message.author.id !== process.env.OWNERID || cmd.info.adminonly && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571') && !message.member.hasPermission('ADMINISTRATOR')) {
-      return await message.reply({
-        content: 'そのコマンドを使用するための権限が足りてないで。😉',
-        allowedMentions: {
-          repliedUser: false
-        }
-      });
-    }
-    else if (client.cooldown.get(message.author.id)) {
-      return await message.reply({
-        content: '前のコマンドがまだ実行中やで。😉',
-        allowedMentions: {
-          repliedUser: false
-        }
-      });
-    }
-    client.cooldown.set(message.author.id, true);
-    cmd.run(client, message, args);
-    commandlog(message, cmd.info.name, args);
+    if (!command) return;
+    const cmd = client.commands.get(command);
+    if (!cmd) return;
+    await message.reply('コマンドPrefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
   } catch (error) {
     clienterrorlog(error);
   }

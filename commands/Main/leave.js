@@ -1,5 +1,5 @@
-const { Message, MessageEmbed } = require('discord.js');
-const { joinVoiceChannel } = require('@discordjs/voice');
+const { CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const bot = require('../../Utils/Bot');
 const { errorlog } = require("../../functions/logs/error");
 
@@ -8,54 +8,50 @@ module.exports = {
         name: "leave",
         description: "読み上げを終わる",
         usage: "",
-        aliases: ["dc"],
         owneronly: false,
         adminonly: false,
         category: 'Main'
     },
 
+    data: new SlashCommandBuilder()
+        .setName('leave')
+        .setDescription('読み上げを終了する'),
+
     /**
      * @param {bot} client
-     * @param {Message} message
-     * @param {string[]} args
+     * @param {CommandInteraction} interaction
      */
 
-    run: async function (client, message, args) {
+    run: async function (client, interaction) {
         try {
-            if (!message.member.voice.channelId) return message.reply(
+            if (!interaction.member.voice.channelId) return await interaction.followUp(
                 {
                     content: 'VCに接続してからこのコマンドを送信してください！',
                     allowedMentions: {
                         repliedUser: false
                     }
                 }
-            ).catch(error => errorlog(message, error));
+            );
             else if (!client.connection) {
-                return message.reply(
+                return await interaction.followUp(
                     {
-                        content: '読み上げを開始していません',
-                        allowedMentions: {
-                            repliedUser: false
-                        }
+                        content: '読み上げを開始していません'
                     }
-                ).catch(error => errorlog(message, error));
+                )
             }
 
             client.connection.destroy();
             client.connection = null;
             client.speekqueue = {};
 
-            message.reply({
-                content: `読み上げを終了しました`,
-                allowedMentions: {
-                    repliedUser: false
-                }
-            }).catch(error => errorlog(message, error));
+            await interaction.followUp({
+                content: `読み上げを終了しました`
+            });
         } catch (error) {
-            errorlog(message, error);
+            errorlog(interaction, error);
         }
         finally {
-            client.cooldown.delete(message.author.id);
+
         }
     },
 };

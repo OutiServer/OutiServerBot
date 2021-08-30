@@ -59,6 +59,14 @@ module.exports = async (client) => {
       client.db.pragma("journal_mode = wal");
     }
 
+    const Polltable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'polls';").get();
+    if (!Polltable['count(*)']) {
+      client.db.prepare("CREATE TABLE polls (id INTEGER PRIMARY KEY AUTOINCREMENT, userid TEXT, guildid TEXT, channelid TEXT, messageid TEXT, endtime INTEGER);").run();
+      client.db.prepare("CREATE UNIQUE INDEX idx_polls_id ON polls (id);").run();
+      client.db.pragma("synchronous = 1");
+      client.db.pragma("journal_mode = wal");
+    }
+
     client.user.setStatus('dnd');
     client.user.setActivity({ name: '再起動しました', type: 'PLAYING' });
     console.log(`Logged in as ${client.user.tag}`);
@@ -78,6 +86,14 @@ module.exports = async (client) => {
       });
     });
 
+    await client.guilds.cache.get('706452606918066237').commands.fetch();
+    client.guilds.cache.get('706452606918066237').commands.cache.forEach(async command => {
+      if (command.name === 'homeserverstatus') {
+        await command.edit({
+          defaultPermission: false
+        });
+      }
+    })
   } catch (error) {
     clienterrorlog(error);
   }

@@ -29,7 +29,6 @@ module.exports = async (client, oldMessage, newMessage) => {
                 await newMessage.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！`);
             }
         }
-
         if (oldMessage.partial) {
             oldMessage = await oldMessage.fetch();
         }
@@ -38,7 +37,6 @@ module.exports = async (client, oldMessage, newMessage) => {
         }
 
         if (oldMessage.author.bot || oldMessage.system || oldMessage.guildId !== '706452606918066237') return;
-
         const embed = new MessageEmbed()
             .setTitle('メッセージが編集されました')
             .setURL(`https://discord.com/channels/${oldMessage.guildId}/${oldMessage.channelId}/${oldMessage.id}`)

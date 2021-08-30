@@ -1,4 +1,4 @@
-const { Guild, User, GuildBan } = require('discord.js');
+const { GuildBan } = require('discord.js');
 const bot = require('../../Utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
