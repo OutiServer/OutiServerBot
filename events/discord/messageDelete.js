@@ -37,6 +37,6 @@ module.exports = async (client, message) => {
 
         await client.channels.cache.get('825394905572573184').send({ embeds: [embed] });
     } catch (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
     }
 }

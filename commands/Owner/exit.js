@@ -31,7 +31,7 @@ module.exports = {
             client.destroy();
             process.exit();
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

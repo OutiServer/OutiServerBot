@@ -10,6 +10,6 @@ module.exports = (client, code) => {
         client.db.close();
         client.destroy();
     } catch (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
     }
 };

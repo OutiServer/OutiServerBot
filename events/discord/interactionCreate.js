@@ -1,7 +1,7 @@
 const { Interaction, MessageEmbed } = require('discord.js');
 const bot = require('../../Utils/Bot');
 const commandlog = require('../../functions/logs/command');
-const { errorlog } = require('../../functions/logs/error');
+const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
  * @param {bot} client 
@@ -101,10 +101,10 @@ module.exports = async (client, interaction) => {
             }
 
             cmd.run(client, interaction);
-            commandlog(interaction, cmd.info.name);
+            commandlog(client, interaction, cmd.info.name);
         }
     } catch (error) {
-        errorlog(interaction, error);
+        clienterrorlog(client, error);
     }
 
 }

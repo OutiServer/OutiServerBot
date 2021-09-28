@@ -34,7 +34,7 @@ module.exports = {
             await interaction.channel.bulkDelete(messages);
             await interaction.channel.send(`${interaction.options.getInteger('delete')} messages is deleted`);
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
     }
 }

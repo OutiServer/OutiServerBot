@@ -55,7 +55,7 @@ module.exports = {
                 content: `${interaction.member.voice.channel.name}で読み上げを開始しました！`
             });
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

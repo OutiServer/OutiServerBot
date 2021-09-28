@@ -18,6 +18,6 @@ module.exports = async (client) => {
         });
 
     } catch (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
     }
 };

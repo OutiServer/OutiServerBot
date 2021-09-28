@@ -163,7 +163,7 @@ module.exports = {
               collector.stop();
             }
           } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
           }
         });
       }
@@ -180,7 +180,7 @@ module.exports = {
         await message.channel.send(commandinfo);
       }
     } catch (error) {
-      errorlog(interaction, error);
+      errorlog(client, interaction, error);
     }
     finally {
 

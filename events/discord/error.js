@@ -7,5 +7,5 @@ const { clienterrorlog } = require('../../functions/logs/error');
  */
 
 module.exports = async (client, error) => {
-    clienterrorlog(error);
+    clienterrorlog(client, error);
 }

@@ -42,7 +42,7 @@ module.exports = {
             try {
                 var msg = await pollchannel.messages.fetch(poll.messageid);
             } catch (error) {
-                clienterrorlog(error);
+                clienterrorlog(client, error);
                 client.db.prepare('DELETE FROM polls WHERE id = ?').run(id);
                 return await interaction.followUp('投票のメッセージが見つかりません、投票のメッセージが削除されたか、Botが取得できません');
             }
@@ -76,7 +76,7 @@ module.exports = {
                 }
             );
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

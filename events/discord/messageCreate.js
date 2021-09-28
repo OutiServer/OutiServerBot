@@ -156,7 +156,7 @@ module.exports = async (client, message) => {
 
           collector.stop();
         } catch (error) {
-          clienterrorlog(error);
+          clienterrorlog(client, error);
         }
       });
     }
@@ -206,7 +206,7 @@ module.exports = async (client, message) => {
     if (!cmd) return;
     await message.reply('コマンドPrefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
   } catch (error) {
-    clienterrorlog(error);
+    clienterrorlog(client, error);
   }
 }
 
@@ -279,7 +279,7 @@ function yomiage(client, message) {
     player.play(resource);
     client.connection.subscribe(player);
     player.on('error', error => {
-      clienterrorlog(error);
+      clienterrorlog(client, error);
       message.channel.send('読み上げ中にエラーが発生しました');
       fs.unlink(`dat/voices/${message.guildId}/${messageid}.wav`, function (err) {
         if (err) console.error(err);

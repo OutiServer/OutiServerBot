@@ -27,7 +27,7 @@ module.exports = {
         try {
             await interaction.followUp('FF外から失礼するゾ～（謝罪） このツイート面白スギィ！！！！！自分、RTいいっすか？ 淫夢知ってそうだから淫夢のリストにぶち込んでやるぜー いきなりリプしてすみません！許してください！なんでもしますから！(なんでもするとは言ってない)');
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

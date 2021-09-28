@@ -43,7 +43,7 @@ module.exports = {
                 await client.channels.cache.get('870145872762126437').threads.cache.get(interaction.channelId).setArchived(true, `Archived By ${interaction.user.tag}`);
             }
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

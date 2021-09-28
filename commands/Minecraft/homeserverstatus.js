@@ -60,7 +60,7 @@ module.exports = {
                                 .catch(error => errorlog(interaction, error));
                         })
                         .catch(async error => {
-                            clienterrorlog(error);
+                            clienterrorlog(client, error);
                             await interaction.followUp(
                                 {
                                     embeds: [
@@ -100,7 +100,7 @@ module.exports = {
                                 .catch(error => errorlog(interaction, error));
                         })
                         .catch(async error => {
-                            clienterrorlog(error);
+                            clienterrorlog(client, error);
                             await interaction.followUp(
                                 {
                                     embeds: [
@@ -140,7 +140,7 @@ module.exports = {
                                 .catch(error => errorlog(interaction, error));
                         })
                         .catch(async error => {
-                            clienterrorlog(error);
+                            clienterrorlog(client, error);
                             await interaction.followUp(
                                 {
                                     embeds: [
@@ -163,7 +163,7 @@ module.exports = {
             }
 
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

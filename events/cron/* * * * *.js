@@ -18,7 +18,7 @@ module.exports = async (client) => {
                 try {
                     var msg = await pollchannel.messages.fetch(poll.messageid);
                 } catch (error) {
-                    clienterrorlog(error);
+                    clienterrorlog(client, error);
                     client.db.prepare('DELETE FROM polls WHERE id = ?').run(poll.id);
                 }
 
@@ -54,6 +54,6 @@ module.exports = async (client) => {
             }
         }
     } catch (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
     }
 };

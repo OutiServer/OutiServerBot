@@ -8,5 +8,5 @@ const debug = require('../../functions/logs/debug');
 
 module.exports = async (client, info) => {
     console.debug(info);
-    debug(`デバッグ:\n${info}`);
+    debug(client, `デバッグ:\n${info}`);
 }

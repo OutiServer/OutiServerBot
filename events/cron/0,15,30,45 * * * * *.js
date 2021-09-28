@@ -13,6 +13,6 @@ module.exports = async (client) => {
         client.user.setStatus('online');
         client.user.setActivity({ name: status[random].name, type: status[random].playingtype, url: 'https://www.youtube.com/watch?v=3_S-ANkSr60' });
     } catch (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
     }
 };

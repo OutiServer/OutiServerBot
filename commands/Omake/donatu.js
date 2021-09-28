@@ -29,7 +29,7 @@ module.exports = {
                 content: 'https://media.discordapp.net/attachments/876114531418529793/876114710406238308/875912850646925332.png'
             });
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

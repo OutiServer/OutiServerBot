@@ -12,6 +12,6 @@ module.exports = (client) => {
         client.destroy();
         process.exit();
     } catch (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
     }
 }

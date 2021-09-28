@@ -40,7 +40,7 @@ module.exports = {
                 content: `このスレッド名を${name}に変更しました`
             });
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 

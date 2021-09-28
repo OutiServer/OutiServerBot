@@ -16,7 +16,9 @@ module.exports = async (client) => {
           .setDescription('```\nBotが認識できるユーザー数: ' + client.users.cache.size + '人\nBotが認識できるチャンネル: ' + client.channels.cache.size + '個\n```')
           .setColor('RANDOM')
           .setTimestamp()
-      ]
+      ],
+      username: `${client.user.username}-起動ログ`,
+      avatarURL: client.user.avatarURL({ format: 'webp' })
     });
 
     const Leveltable = client.db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'levels';").get();
@@ -77,24 +79,15 @@ module.exports = async (client) => {
           if (event.text.startsWith('@') || event.text.startsWith('RT')) return;
           await client.channels.cache.get('736608546468266095').send(`${event.user.screen_name}の新規ツイートです\nhttps://twitter.com/${event.user.screen_name}/status/${event.id_str}`);
         } catch (error) {
-          clienterrorlog(error);
+          clienterrorlog(client, error);
         }
       });
 
       stream.on('error', function (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
       });
     });
-
-    await client.guilds.cache.get('706452606918066237').commands.fetch();
-    client.guilds.cache.get('706452606918066237').commands.cache.forEach(async command => {
-      if (command.name === 'homeserverstatus') {
-        await command.edit({
-          defaultPermission: false
-        });
-      }
-    })
   } catch (error) {
-    clienterrorlog(error);
+    clienterrorlog(client, error);
   }
 };

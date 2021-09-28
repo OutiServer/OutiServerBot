@@ -97,6 +97,6 @@ module.exports = async (client, message) => {
             await message.reply({ content: verifymessage + '\n```', });
         }
     } catch (error) {
-        clienterrorlog(error);
+        clienterrorlog(client, error);
     }
 }

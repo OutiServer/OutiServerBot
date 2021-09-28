@@ -8,5 +8,5 @@ const debug = require('../../functions/logs/debug');
 
 module.exports = async (client, info) => {
     console.warn(info);
-    debug(`警告:\n${info}`);
+    debug(client, `警告:\n${info}`);
 }

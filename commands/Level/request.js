@@ -62,12 +62,12 @@ module.exports = {
                                 ]
                             }
                         );
-                        clienterrorlog(error);
+                        clienterrorlog(client, error);
                     }
                 }
             );
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
     }
 }

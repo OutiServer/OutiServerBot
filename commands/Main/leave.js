@@ -48,7 +48,7 @@ module.exports = {
                 content: `読み上げを終了しました`
             });
         } catch (error) {
-            errorlog(interaction, error);
+            errorlog(client, interaction, error);
         }
         finally {
 
