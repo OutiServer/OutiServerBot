@@ -59,7 +59,7 @@ module.exports = {
         try {
           evaled = await eval(interaction.options.getString('code'));
           const evalinsoext = inspect(evaled).length;
-          if (evalinsoext <= 4000) {
+          if (evalinsoext <= 2000) {
             await interaction.editReply({
               content: codeBlock(inspect(evaled)),
               components: []
@@ -83,9 +83,6 @@ module.exports = {
       }
     } catch (error) {
       errorlog(client, interaction, error);
-    }
-    finally {
-
     }
   },
 };

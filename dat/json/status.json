@@ -2,17 +2,5 @@
     {
         "name": "/help おうち鯖",
         "playingtype": "PLAYING"
-    },
-    {
-        "name": "おうち鯖公式チャンネル",
-        "playingtype": "WATCHING"
-    },
-    {
-        "name": "PMMP",
-        "playingtype": "COMPETING"
-    },
-    {
-        "name": "RPG",
-        "playingtype": "COMPETING"
     }
 ]
