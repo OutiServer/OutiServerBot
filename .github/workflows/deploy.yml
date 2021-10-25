@@ -1,4 +1,4 @@
-name: deploy to server
+name: deploy to server and reboot the bot
 
 on:
   push:
