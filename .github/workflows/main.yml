@@ -14,10 +14,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Install Node v16
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
-          cache: npm
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+        cache: npm
     - name: Start build
       run: echo Build started.
     - name: Npm install
