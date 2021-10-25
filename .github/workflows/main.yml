@@ -20,8 +20,6 @@ jobs:
         cache: npm
     - name: Start build
       run: echo Build started.
-    - name: Npm install
-      run: npm install
     - name: Install dependencies
       run: npm ci
     - name: Generate ssh key
