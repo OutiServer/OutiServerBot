@@ -33,3 +33,11 @@ jobs:
         SSH_PORT: ${{ secrets.SSH_PORT }}
         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         SSH_HOST: ${{ secrets.SSH_HOST }}
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key_path: ./key
+        port: ${{ secrets.SSH_PORT }}
+        script: ls
