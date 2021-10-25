@@ -3,7 +3,7 @@ name: deploy to server and reboot the bot
 on:
   push:
     branches:
-      - master
+      - deploy
 
 jobs:
   build:
