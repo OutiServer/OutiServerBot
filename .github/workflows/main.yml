@@ -1,0 +1,37 @@
+name: deploy to server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Install Node v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: npm
+    - name: Start build
+      run: echo Build started.
+    - name: Npm install
+      run: npm install
+    - name: Install dependencies
+      run: npm ci
+    - name: Generate ssh key
+      run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Deploy
+      run: rsync -rlptgoD --delete --exclude ".git/" -e "ssh -i ./key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${SSH_PORT}" ./ $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+        DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
