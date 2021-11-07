@@ -63,14 +63,3 @@ jobs:
           project: ${{env.PROJECT_NAME}}
           column: 進行中 or 作業中Issue・Pull Request
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-  move_the_card_when_the_issue_is_closed:
-    runs-on: ubuntu-latest
-    name: Move the card when the issue is closed
-    steps:
-      - uses: alex-page/github-project-automation-plus@v0.8.1
-        if: "github.event.action == 'closed'"
-        with:
-          project: ${{env.PROJECT_NAME}}
-          column: 完了済み
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
