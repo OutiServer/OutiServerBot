@@ -1,8 +1,8 @@
 const { Message, MessageEmbed } = require('discord.js');
-const fetch = require('node-fetch');
 const fs = require('fs');
 const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const { exec } = require('child_process');
+const request = require('request');
 const bot = require('../../Utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
@@ -14,10 +14,13 @@ const { clienterrorlog } = require('../../functions/logs/error');
 module.exports = async (client, message) => {
   try {
     if (message.author.id === '786343397807620106') {
-      fetch(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`)
-        .then(res => res.text())
-        .then(content => message.reply(content))
-        .catch(error => clienterrorlog(error));
+      request({
+        uri: `https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`
+      },
+        async function (err, resource, body) {
+          message.reply(body);
+        }
+      )
     }
     else if (message.author.id == "302050872383242240") {
       if (message.embeds[0].url == "https://disboard.org/" && (message.embeds[0].description.match(/表示順をアップしたよ/) || message.embeds[0].description.match(/Bump done/) || message.embeds[0].description.match(/Bump effectué/) || message.embeds[0].description.match(/Bump fatto/) || message.embeds[0].description.match(/Podbito serwer/) || message.embeds[0].description.match(/Успешно поднято/) || message.embeds[0].description.match(/갱신했어/) || message.embeds[0].description.match(/Patlatma tamamlandı/))) {
