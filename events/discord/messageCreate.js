@@ -160,6 +160,11 @@ module.exports = async (client, message) => {
         }
       });
     }
+    else if (message.channel.id === '714404103224164423') {
+      if (message.attachments.size > 0) {
+        message.react('👮').catch(error => clienterrorlog(error));
+      }
+    }
 
     const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
     let result;
