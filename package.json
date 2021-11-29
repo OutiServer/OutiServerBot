@@ -34,6 +34,6 @@
     "twitter": "^1.3.0"
   },
   "devDependencies": {
-    "@azu/github-label-setup": "^2.2.0"
+    "@azu/github-label-setup": "^4.1.0"
   }
 }
