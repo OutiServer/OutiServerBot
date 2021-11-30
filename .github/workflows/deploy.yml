@@ -1,13 +1,13 @@
-name: deploy to server and reboot the bot
+name: deploy to server
 
 on:
-  release:
-    types:
-      - published
+  push:
+    branches:
+      - deploy
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
