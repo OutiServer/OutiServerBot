@@ -5,28 +5,22 @@
     "node": "16.x"
   },
   "description": "おうち鯖専属Bot",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node .",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^0.8.2",
     "@discordjs/opus": "^0.7.0",
-    "@discordjs/rest": "^0.1.0-canary.0",
     "@discordjs/voice": "^0.7.5",
     "better-sqlite3": "^7.4.5",
     "canvacord": "^5.2.3",
-    "cookie-parser": "^1.4.6",
-    "discord-api-types": "^0.25.0",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "http-errors": "^1.8.1",
-    "libsodium-wrappers": "^0.7.9",
     "minecraft-server-util": "^5.1.0",
     "ms": "^2.1.3",
     "node-cron": "^3.0.0",
@@ -34,6 +28,8 @@
     "twitter": "^1.7.1"
   },
   "devDependencies": {
-    "@azu/github-label-setup": "^2.2.0"
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.25.0",
+    "eslint": "^8.3.0"
   }
 }
