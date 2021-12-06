@@ -1,7 +1,7 @@
 const { CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { joinVoiceChannel } = require('@discordjs/voice');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog } = require('../../functions/logs/error');
 
 module.exports = {

@@ -1,5 +1,5 @@
 const { Message, MessageEmbed } = require('discord.js');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
@@ -37,7 +37,7 @@ module.exports = async (client, message) => {
 
         await client.channels.cache.get('825394905572573184').send({ embeds: [embed] });
     }
- catch (error) {
+    catch (error) {
         clienterrorlog(client, error);
     }
 };

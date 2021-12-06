@@ -1,5 +1,5 @@
 const { GuildBan } = require('discord.js');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
@@ -15,7 +15,7 @@ module.exports = async (client, ban) => {
         await client.channels.cache.get('706459931351711775').send(ban.user.tag + replys[random]);
         await client.channels.cache.get('825231334657884161').send(`Banned **${ban.user.tag}**`);
     }
- catch (error) {
+    catch (error) {
         clienterrorlog(client, error);
     }
 };

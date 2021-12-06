@@ -1,6 +1,6 @@
 const { codeBlock } = require('@discordjs/builders');
 const { CommandInteraction, WebhookClient, MessageEmbed } = require('discord.js');
-const Bot = require('../../Utils/Bot');
+const Bot = require('../../utils/Bot');
 const { clienterrorlog } = require('./error');
 
 /**
@@ -33,7 +33,7 @@ module.exports = async (client, interaction, commandname) => {
             avatarURL: client.user.avatarURL({ format: 'webp' }),
         });
     }
- catch (error) {
+    catch (error) {
         clienterrorlog(client, error);
     }
 };

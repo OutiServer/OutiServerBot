@@ -1,7 +1,7 @@
 const { CommandInteraction, MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const util = require('minecraft-server-util');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog, clienterrorlog } = require('../../functions/logs/error');
 
 module.exports = {

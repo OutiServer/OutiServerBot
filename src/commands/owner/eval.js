@@ -1,7 +1,7 @@
 const { CommandInteraction, MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 const { inspect } = require('util');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog } = require('../../functions/logs/error');
 
 module.exports = {
@@ -52,8 +52,8 @@ module.exports = {
 
       const filter = (i) => (i.customId === 'ok' || i.customId === 'no') && i.user.id === interaction.user.id;
       const response2 = await msg.awaitMessageComponent({ filter, componentType: 'BUTTON', max: 1, time: 60000 });
-      if (!response2) {return await interaction.deleteReply();}
-      else if (response2.customId === 'no') {await interaction.deleteReply();}
+      if (!response2) { return await interaction.deleteReply(); }
+      else if (response2.customId === 'no') { await interaction.deleteReply(); }
       else if (response2.customId === 'ok') {
         let evaled;
         try {
@@ -82,7 +82,7 @@ module.exports = {
         }
       }
     }
- catch (error) {
+    catch (error) {
       errorlog(client, interaction, error);
     }
   },

@@ -2,7 +2,7 @@ const { readdirSync } = require('fs');
 const { CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const cron = require('node-cron');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 
 const { errorlog } = require('../../functions/logs/error');
 

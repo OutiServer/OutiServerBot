@@ -1,5 +1,5 @@
 const { MessageAttachment, WebhookClient } = require('discord.js');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
@@ -18,7 +18,7 @@ module.exports = async (client) => {
         });
 
     }
- catch (error) {
+    catch (error) {
         clienterrorlog(client, error);
     }
 };

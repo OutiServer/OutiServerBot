@@ -1,4 +1,4 @@
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
@@ -10,7 +10,7 @@ module.exports = (client, code) => {
         client.db.close();
         client.destroy();
     }
- catch (error) {
+    catch (error) {
         clienterrorlog(client, error);
     }
 };

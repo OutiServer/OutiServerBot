@@ -1,7 +1,7 @@
 const { CommandInteraction, MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder, codeBlock, time } = require('@discordjs/builders');
 const ms = require('ms');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog } = require('../../functions/logs/error');
 
 module.exports = {
@@ -82,7 +82,7 @@ module.exports = {
         },
       );
     }
- catch (error) {
+    catch (error) {
       errorlog(client, interaction, error);
     }
   },

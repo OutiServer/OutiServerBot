@@ -1,5 +1,5 @@
 const { MessageEmbed, WebhookClient, MessageActionRow, MessageButton } = require('discord.js');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**
@@ -79,7 +79,7 @@ module.exports = async (client) => {
           if (event.text.startsWith('@') || event.text.startsWith('RT')) return;
           await client.channels.cache.get('736608546468266095').send(`${event.user.screen_name}の新規ツイートです\nhttps://twitter.com/${event.user.screen_name}/status/${event.id_str}`);
         }
- catch (error) {
+        catch (error) {
           clienterrorlog(client, error);
         }
       });
@@ -89,7 +89,7 @@ module.exports = async (client) => {
       });
     });
   }
- catch (error) {
+  catch (error) {
     clienterrorlog(client, error);
   }
 };

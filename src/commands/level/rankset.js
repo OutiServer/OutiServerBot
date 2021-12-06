@@ -1,6 +1,6 @@
 const { MessageEmbed, CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog } = require('../../functions/logs/error');
 
 module.exports = {
@@ -60,7 +60,7 @@ module.exports = {
                 );
             }
         }
- catch (error) {
+        catch (error) {
             errorlog(client, interaction, error);
         }
     },

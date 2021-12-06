@@ -1,6 +1,6 @@
 const { Message, MessageEmbed, CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog } = require('../../functions/logs/error');
 const verify = require('../../../dat/json/verify.json');
 

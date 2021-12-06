@@ -3,7 +3,7 @@ const fs = require('fs');
 const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const { exec } = require('child_process');
 const request = require('request');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**

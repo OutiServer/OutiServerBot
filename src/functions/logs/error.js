@@ -1,6 +1,6 @@
 const { codeBlock, userMention } = require('@discordjs/builders');
 const { WebhookClient, MessageEmbed, CommandInteraction } = require('discord.js');
-const Bot = require('../../Utils/Bot');
+const Bot = require('../../utils/Bot');
 
 module.exports = {
 

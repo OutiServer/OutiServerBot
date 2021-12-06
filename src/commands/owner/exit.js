@@ -1,6 +1,6 @@
 const { CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog } = require('../../functions/logs/error');
 
 module.exports = {

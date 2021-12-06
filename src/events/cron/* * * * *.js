@@ -1,5 +1,5 @@
 const { Collection, MessageEmbed } = require('discord.js');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { clienterrorlog } = require('../../functions/logs/error');
 
 /**

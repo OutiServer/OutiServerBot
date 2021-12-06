@@ -2,7 +2,7 @@ require('dotenv').config();
 const { readdir, readdirSync } = require('fs');
 const cron = require('node-cron');
 const path = require('path');
-const Bot = require('./Utils/Bot');
+const Bot = require('./utils/Bot');
 const client = new Bot('outiserver.db');
 
 // Processイベント読み込み

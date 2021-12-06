@@ -2,7 +2,7 @@ const fs = require('fs');
 const request = require('request');
 const { Message, MessageEmbed, CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const { errorlog, clienterrorlog } = require('../../functions/logs/error');
 
 module.exports = {

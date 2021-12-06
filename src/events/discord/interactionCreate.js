@@ -1,5 +1,5 @@
 const { Interaction, MessageEmbed } = require('discord.js');
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const commandlog = require('../../functions/logs/command');
 const { clienterrorlog } = require('../../functions/logs/error');
 

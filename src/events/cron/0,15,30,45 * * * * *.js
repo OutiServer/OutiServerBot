@@ -1,4 +1,4 @@
-const bot = require('../../Utils/Bot');
+const bot = require('../../utils/Bot');
 const status = require('../../../dat/json/status.json');
 const { clienterrorlog } = require('../../functions/logs/error');
 
