@@ -1,28 +1,31 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageAttachment } = require('discord.js');
 const { errorlog, commanderror_message } = require('../../functions/error');
 
 module.exports = {
     info: {
-        name: 'fuck',
-        description: 'fuckbird',
+        name: 'shutdown',
+        description: '再起動コマンド\nVPSに接続するのがめんどくさいからこのコマンドは作られた',
         usage: '',
         aliases: [],
-        category: 'omake',
+        category: 'owner',
     },
 
     data: new SlashCommandBuilder()
-        .setName('fuck')
-        .setDescription('fuckbird'),
+        .setName('shutdown')
+        .setDescription('再起動コマンド\nVPSに接続するのがめんどくさいからこのコマンドは作られた'),
 
     /**
      * @param {import('../../utils/Bot')} client
-     * @param {import('discord.js').CommandInteraction} interaction
+     * @param {CommandInteraction} interaction
      */
 
     run: async function (client, interaction) {
         try {
-            await interaction.followUp(new MessageAttachment('https://media.discordapp.net/attachments/840154191036022794/841298027960729671/fuck.png'));
+            await interaction.followUp('シャットダウンしています...');
+            client.db.close();
+            client.connection?.destroy();
+            client.destroy();
+            process.exit();
         }
         catch (error) {
             errorlog(client, interaction, error);
@@ -38,7 +41,11 @@ module.exports = {
     // eslint-disable-next-line no-unused-vars
     run_message: async function (client, message, args) {
         try {
-            await message.reply(new MessageAttachment('https://media.discordapp.net/attachments/840154191036022794/841298027960729671/fuck.png'));
+            await message.description('シャットダウンしています...');
+            client.db.close();
+            client.connection?.destroy();
+            client.destroy();
+            process.exit();
         }
         catch (error) {
             commanderror_message(client, message, error);

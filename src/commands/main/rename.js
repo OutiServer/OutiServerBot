@@ -1,17 +1,13 @@
-const { CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const bot = require('../../utils/Bot');
-const { errorlog } = require('../../functions/logs/error');
+const { errorlog, commanderror_message } = require('../../functions/error');
 
 module.exports = {
     info: {
         name: 'rename',
         description: 'スレッド名変更',
-        usage: '',
-
-        owneronly: false,
-        adminonly: false,
-        category: 'Main',
+        usage: '[新しいスレッド名]',
+        aliases: [],
+        category: 'main',
     },
 
     data: new SlashCommandBuilder()
@@ -20,28 +16,48 @@ module.exports = {
         .addStringOption(option => {
             return option
                 .setName('threadname')
-                .setDescription('スレッド名')
+                .setDescription('新しいスレッド名')
                 .setRequired(true);
         }),
 
     /**
-     * @param {bot} client
-     * @param {CommandInteraction} interaction
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').CommandInteraction} interaction
      */
 
     run: async function (client, interaction) {
         try {
-            if (!interaction.channel.isThread()) return await interaction.followUp({ content: 'そのコマンドはスレッドでのみ使用できます' });
+            if (!interaction.channel.isThread()) return await interaction.followUp('このコマンドはスレッドチャンネルで使用できます');
             const name = interaction.options.getString('threadname', true);
-            const threads = client.db.prepare('SELECT * FROM threads WHERE channelid = ? AND userid = ?').get(interaction.channelId, interaction.user.id);
-            if (!interaction.member.permissions.has('ADMINISTRATOR') && !interaction.member.roles.cache.has('822852335322923060') && !threads) return await interaction.followUp({ content: 'このスレッドの名前を変更することができません' });
-            await client.channels.cache.get('870145872762126437').threads.cache.get(interaction.channelId).setName(name, `Renamed By ${interaction.user.tag}`);
-            await interaction.followUp({
-                content: `このスレッド名を${name}に変更しました`,
-            });
+            if (!interaction.member.permissions.has('ADMINISTRATOR') && !interaction.member.roles.cache.has('822852335322923060') && interaction.channel.ownerId !== interaction.user.id) return await interaction.followUp('このスレッドの名前を変更することができません');
+            await interaction.channel.setName(name, `Renamed By ${interaction.user.tag}`);
+            await interaction.followUp(`このスレッド名を${name}に変更しました`);
         }
         catch (error) {
             errorlog(client, interaction, error);
+        }
+    },
+
+    /**
+     *
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').Message} message
+     * @param {Array<string>} args
+     */
+    run_message: async function (client, message, args) {
+        try {
+            if (!message.channel.isThread()) {
+                return await message.reply('このコマンドはスレッドチャンネルで使用できます');
+            }
+            else if (!args[0]) {
+                return await message.reply('引数に新しいスレッド名を入れてください');
+            }
+            if (!message.member.permissions.has('ADMINISTRATOR') && !message.member.roles.cache.has('822852335322923060') && message.channel.ownerId !== message.user.id) return await message.reply('このスレッドの名前を変更することができません');
+            await message.channel.setName(args.join(' '), `Renamed By ${message.author.tag}`);
+            await message.reply(`このスレッド名を${args.join(' ')}に変更しました`);
+        }
+        catch (error) {
+            commanderror_message(client, message, error);
         }
     },
 };

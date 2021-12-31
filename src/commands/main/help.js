@@ -1,17 +1,14 @@
-const { CommandInteraction, MessageEmbed, MessageActionRow, MessageButton, InteractionCollector } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton, InteractionCollector } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const bot = require('../../utils/Bot');
-const { errorlog } = require('../../functions/logs/error');
+const { errorlog, commanderror_message } = require('../../functions/error');
 
 module.exports = {
   info: {
     name: 'help',
     description: 'コマンドの詳細を表示します',
     usage: '(commandname)',
-
-    owneronly: false,
-    adminonly: false,
-    category: 'Main',
+    aliases: [],
+    category: 'main',
   },
 
   data: new SlashCommandBuilder()
@@ -19,76 +16,47 @@ module.exports = {
     .setDescription('コマンドの詳細を表示します'),
 
   /**
-     * @param {bot} client
-     * @param {CommandInteraction} interaction
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').CommandInteraction} interaction
      */
   run: async function (client, interaction) {
     try {
       if (!interaction.options.getString('commandname', false)) {
-        const main = client.commands.filter(x => x.info.category == 'Main').map((x) => '`' + x.info.name + '`').join(', ');
-        const minecraft = client.commands.filter(x => x.info.category == 'Minecraft').map((x) => '`' + x.info.name + '`').join(', ');
-        const level = client.commands.filter(x => x.info.category == 'Level').map((x) => '`' + x.info.name + '`').join(', ');
-        const omake = client.commands.filter(x => x.info.category == 'Omake').map((x) => '`' + x.info.name + '`').join(', ');
-        const admin = client.commands.filter(x => x.info.category == 'Admin').map((x) => '`' + x.info.name + '`').join(', ');
-        const owner = client.commands.filter(x => x.info.category == 'Owner').map((x) => '`' + x.info.name + '`').join(', ');
+        const main = client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', ');
+        const minecraft = client.commands.filter(x => x.info.category == 'minecraft').map((x) => '`' + x.info.name + '`').join(', ');
+        const omake = client.commands.filter(x => x.info.category == 'omake').map((x) => '`' + x.info.name + '`').join(', ');
+        const owner = client.commands.filter(x => x.info.category == 'owner').map((x) => '`' + x.info.name + '`').join(', ');
         const embeds = [];
         embeds.push(
           new MessageEmbed()
             .setTitle(`${client.user.tag} helpページ`)
-            .addField('Main', main)
-            .addField('Minecraft', minecraft)
-            .addField('Level', level)
-            .addField('Omake', omake)
+            .addField('main', main)
+            .addField('minecraft', minecraft)
+            .addField('omake', omake)
             .setColor('RANDOM')
             .setTimestamp(),
         );
         embeds.push(
           new MessageEmbed()
-            .setTitle('Main')
-            .setDescription('```' + client.commands.filter(x => x.info.category == 'Main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+            .setTitle('main')
+            .setDescription('```' + client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
             .setColor('RANDOM')
             .setTimestamp(),
         );
         embeds.push(
           new MessageEmbed()
-            .setTitle('Minecraft')
-            .setDescription('```' + client.commands.filter(x => x.info.category == 'Minecraft').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
-            .setColor('RANDOM')
-            .setTimestamp(),
-        );
-        embeds.push(
-          new MessageEmbed()
-            .setTitle('Level')
-            .setDescription('```' + client.commands.filter(x => x.info.category == 'Level').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
-            .setColor('RANDOM')
-            .setTimestamp(),
-
-        );
-        embeds.push(
-          new MessageEmbed()
-            .setTitle('Omake')
-            .setDescription('```' + client.commands.filter(x => x.info.category == 'Omake').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+            .setTitle('omake')
+            .setDescription('```' + client.commands.filter(x => x.info.category == 'omake').map((x) => `/${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
             .setColor('RANDOM')
             .setTimestamp(),
         );
 
-        if (interaction.member.roles.cache.has('822852335322923060') || interaction.member.roles.cache.has('771015602180587571') || interaction.member.permissions.has('ADMINISTRATOR')) {
-          embeds[0].addField('Admin', admin);
-          embeds.push(
-            new MessageEmbed()
-              .setTitle('Admin')
-              .setDescription('```' + client.commands.filter(x => x.info.category == 'Admin').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
-              .setColor('RANDOM')
-              .setTimestamp(),
-          );
-        }
-        console.log(interaction.user.id);
         if (interaction.user.id === process.env.OWNERID) {
-          embeds[0].addField('Owner', owner);
+          embeds[0].addField('owner', owner);
           embeds.push(
             new MessageEmbed()
-              .setTitle('Owner')
-              .setDescription('```' + client.commands.filter(x => x.info.category == 'Owner').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+              .setTitle('owner')
+              .setDescription('```' + client.commands.filter(x => x.info.category == 'owner').map((x) => `/${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
               .setColor('RANDOM')
               .setTimestamp(),
           );
@@ -175,7 +143,7 @@ module.exports = {
         if (!command) return await interaction.followUp('そんなコマンドないで。😉');
         const commandinfo = new MessageEmbed()
           .setTitle('コマンド名: ' + command.info.name + ' の詳細')
-          .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}\nBotOwnerコマンド: ${command.info.owneronly}\nBotAdminコマンド: ${command.info.adminonly}`)
+          .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}\nBotOwnerコマンド: ${command.info.owneronly}\nBotAdminコマンド: ${command.info.adminonly}`)
           .setColor('RANDOM')
           .setTimestamp();
         await interaction.followUp(commandinfo);
@@ -183,6 +151,148 @@ module.exports = {
     }
     catch (error) {
       errorlog(client, interaction, error);
+    }
+  },
+
+  /**
+   *
+   * @param {import('../../utils/Bot')} client
+   * @param {import('discord.js').Message} message
+   * @param {Array<string>} args
+   * @returns
+   */
+  run_message: async function (client, message, args) {
+    try {
+      if (!args[0]) {
+        const main = client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', ');
+        const minecraft = client.commands.filter(x => x.info.category == 'minecraft').map((x) => '`' + x.info.name + '`').join(', ');
+        const omake = client.commands.filter(x => x.info.category == 'omake').map((x) => '`' + x.info.name + '`').join(', ');
+        const owner = client.commands.filter(x => x.info.category == 'owner').map((x) => '`' + x.info.name + '`').join(', ');
+        const embeds = [];
+        embeds.push(
+          new MessageEmbed()
+            .setTitle(`${client.user.tag} helpページ`)
+            .addField('main', main)
+            .addField('minecraft', minecraft)
+            .addField('omake', omake)
+            .setColor('RANDOM')
+            .setTimestamp(),
+        );
+        embeds.push(
+          new MessageEmbed()
+            .setTitle('main')
+            .setDescription('```' + client.commands.filter(x => x.info.category == 'main').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+            .setColor('RANDOM')
+            .setTimestamp(),
+        );
+        embeds.push(
+          new MessageEmbed()
+            .setTitle('omake')
+            .setDescription('```' + client.commands.filter(x => x.info.category == 'omake').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+            .setColor('RANDOM')
+            .setTimestamp(),
+        );
+
+        if (message.author.id === process.env.OWNERID) {
+          embeds[0].addField('owner', owner);
+          embeds.push(
+            new MessageEmbed()
+              .setTitle('owner')
+              .setDescription('```' + client.commands.filter(x => x.info.category == 'owner').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+              .setColor('RANDOM')
+              .setTimestamp(),
+          );
+        }
+
+        const buttons = new MessageActionRow()
+          .addComponents(
+            [
+              new MessageButton()
+                .setCustomId('left')
+                .setLabel('◀️')
+                .setStyle('PRIMARY')
+                .setDisabled(),
+              new MessageButton()
+                .setCustomId('right')
+                .setLabel('▶️')
+                .setStyle('PRIMARY'),
+              new MessageButton()
+                .setCustomId('stop')
+                .setLabel('⏹️')
+                .setStyle('DANGER'),
+            ],
+          );
+
+        const msg = await message.reply({
+          embeds: [embeds[0]],
+          components: [buttons],
+          fetchReply: true,
+        });
+
+        let select = 0;
+
+        const collector = new InteractionCollector(client, { componentType: 'BUTTON', message: msg });
+        collector.on('collect', async i => {
+          try {
+            if (i.customId === 'left') {
+              select--;
+              buttons.components[1].setDisabled(false);
+              if (select < 1) {
+                buttons.components[0].setDisabled();
+              }
+              await i.update(
+                {
+                  embeds: [embeds[select]],
+                  components: [buttons],
+                },
+              );
+            }
+            else if (i.customId === 'right') {
+              select++;
+              buttons.components[0].setDisabled(false);
+              if (select >= embeds.length - 1) {
+                buttons.components[1].setDisabled();
+              }
+              await i.update(
+                {
+                  embeds: [embeds[select]],
+                  components: [buttons],
+                },
+              );
+            }
+            else if (i.customId === 'stop') {
+              buttons.components[0].setDisabled();
+              buttons.components[1].setDisabled();
+              buttons.components[2].setDisabled();
+              await i.update(
+                {
+                  embeds: [embeds[select]],
+                  components: [buttons],
+                },
+              );
+              collector.stop();
+            }
+          }
+          catch (error) {
+            commanderror_message(client, message, error);
+          }
+        });
+      }
+      else {
+        const cmd = args[0];
+        let command = client.commands.get(cmd);
+        if (!command) command = client.commands.find(x => x.info.aliases.includes(cmd));
+        if (!command) return await message.reply('そんなコマンドないで。😉');
+        const commandinfo = new MessageEmbed()
+          .setTitle('コマンド名: ' + command.info.name + ' の詳細')
+          .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}\nBotOwnerコマンド: ${command.info.owneronly}\nBotAdminコマンド: ${command.info.adminonly}`)
+          .setColor('RANDOM')
+          .setTimestamp();
+        await message.reply(commandinfo);
+      }
+    }
+    catch (error) {
+      commanderror_message(client, message, error);
     }
   },
 };

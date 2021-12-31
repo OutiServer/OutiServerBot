@@ -1,17 +1,13 @@
-const { CommandInteraction } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const bot = require('../../utils/Bot');
-const { errorlog } = require('../../functions/logs/error');
+const { errorlog, commanderror_message } = require('../../functions/error');
 
 module.exports = {
     info: {
         name: 'donatu',
         description: 'どーなつ',
         usage: '',
-
-        owneronly: false,
-        adminonly: false,
-        category: 'Omake',
+        aliases: [],
+        category: 'omake',
     },
 
     data: new SlashCommandBuilder()
@@ -19,18 +15,40 @@ module.exports = {
         .setDescription('どーなつ'),
 
     /**
-     * @param {bot} client
-     * @param {CommandInteraction} interaction
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').CommandInteraction} interaction
      */
 
     run: async function (client, interaction) {
         try {
             await interaction.followUp({
-                content: 'https://media.discordapp.net/attachments/876114531418529793/876114710406238308/875912850646925332.png',
+                stickers: [
+                    '875774088738656336',
+                ],
             });
         }
         catch (error) {
             errorlog(client, interaction, error);
+        }
+    },
+
+    /**
+     *
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').Message} message
+     * @param {Array<string>} args
+     */
+    // eslint-disable-next-line no-unused-vars
+    run_message: async function (client, message, args) {
+        try {
+            await message.reply({
+                stickers: [
+                    '875774088738656336',
+                ],
+            });
+        }
+        catch (error) {
+            commanderror_message(client, message, error);
         }
     },
 };

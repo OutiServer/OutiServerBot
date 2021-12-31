@@ -1,10 +1,8 @@
-const { GuildBan } = require('discord.js');
-const bot = require('../../utils/Bot');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
- * @param {GuildBan} ban
+ * @param {import('../../utils/Bot')} client
+ * @param {import('discord.js').GuildBan} ban
  */
 
 module.exports = async (client, ban) => {

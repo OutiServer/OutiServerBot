@@ -1,9 +1,7 @@
-const { VoiceState } = require('discord.js');
-const bot = require('../../utils/Bot');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
+ * @param {import('../../utils/Bot')} client
  * @param {VoiceState} oldMember
  * @param {VoiceState} newMember
  */

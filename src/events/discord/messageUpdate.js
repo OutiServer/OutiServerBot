@@ -1,15 +1,21 @@
-const { Message, MessageEmbed } = require('discord.js');
-const bot = require('../../utils/Bot');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { MessageEmbed } = require('discord.js');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
- * @param {Message} oldMessage
- * @param {Message} newMessage
+ * @param {import('../../utils/Bot')} client
+ * @param {import('discord.js').Message} oldMessage
+ * @param {import('discord.js').Message} newMessage
  */
 
 module.exports = async (client, oldMessage, newMessage) => {
     try {
+        if (oldMessage.partial) {
+            oldMessage = await oldMessage.fetch();
+        }
+        if (newMessage.partial) {
+            newMessage = await newMessage.fetch();
+        }
+
         if (newMessage.author.id == '761562078095867916') {
             if (newMessage.embeds[0].url == 'https://dissoku.net/' && newMessage.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
                 await newMessage.channel.send({
@@ -28,12 +34,6 @@ module.exports = async (client, oldMessage, newMessage) => {
                 const waittime_up = newMessage.embeds[0].fields[0].value.split('間隔をあけてください')[1].split('(')[1].split(')')[0];
                 await newMessage.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！`);
             }
-        }
-        if (oldMessage.partial) {
-            oldMessage = await oldMessage.fetch();
-        }
-        if (newMessage.partial) {
-            newMessage = await newMessage.fetch();
         }
 
         if (oldMessage.author.bot || oldMessage.system || oldMessage.guildId !== '706452606918066237') return;
