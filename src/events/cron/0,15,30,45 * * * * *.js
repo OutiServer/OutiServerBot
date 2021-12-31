@@ -7,6 +7,7 @@ const { clienterrorlog } = require('../../functions/error');
 
 module.exports = async (client) => {
     try {
+        if (!client.user) return;
         const random = Math.floor(Math.random() * status.length);
         client.user.setPresence({ activity: { name: status[random].name, type: status[random].playingtype }, status: 'online' });
         client.user.setStatus('online');
