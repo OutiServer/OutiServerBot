@@ -102,11 +102,11 @@ module.exports = {
         .addComponents(
           new MessageButton()
             .setCustomId('ok')
-            .setEmoji('810436146718441483')
+            .setLabel('OK')
             .setStyle('PRIMARY'),
           new MessageButton()
             .setCustomId('no')
-            .setEmoji('810436146978619392')
+            .setLabel('NO')
             .setStyle('PRIMARY'),
         );
 
