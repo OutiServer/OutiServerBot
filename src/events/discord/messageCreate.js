@@ -142,7 +142,7 @@ module.exports = async (client, message) => {
       if (!command) return;
       const cmd = client.commands.get(command);
       if (!cmd) return;
-      if ((cmd.info.category === 'owner' && message.author.id !== process.env.OWNERID) || (cmd.info.category === 'admin' && !message.member.permissions.has('ADMINISTRATOR') && !message.member.roles.cache.has('822852335322923060'))) return await message.reply('このコマンドを実行する権限が足りていません');
+      if ((cmd.info.category === 'owner' && message.author.id !== process.env.OWNERID) || (cmd.info.category === 'admin' && !message.member.permissions.has('ADMINISTRATOR') && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571'))) return await message.reply('このコマンドを実行する権限が足りていません');
       cmd.run_message(client, message, args);
     }
 

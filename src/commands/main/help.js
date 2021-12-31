@@ -25,6 +25,7 @@ module.exports = {
         const main = client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', ');
         const minecraft = client.commands.filter(x => x.info.category == 'minecraft').map((x) => '`' + x.info.name + '`').join(', ');
         const omake = client.commands.filter(x => x.info.category == 'omake').map((x) => '`' + x.info.name + '`').join(', ');
+        const admin = client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', ');
         const owner = client.commands.filter(x => x.info.category == 'owner').map((x) => '`' + x.info.name + '`').join(', ');
         const embeds = [];
         embeds.push(
@@ -51,6 +52,16 @@ module.exports = {
             .setTimestamp(),
         );
 
+        if (interaction.member.roles.cache.has('822852335322923060') || interaction.member.roles.cache.has('771015602180587571') || interaction.member.permissions.has('ADMINISTRATOR')) {
+          embeds[0].addField('admin', admin);
+          embeds.push(
+            new MessageEmbed()
+              .setTitle('admin')
+              .setDescription('```' + client.commands.filter(x => x.info.category == 'admin').map((x) => `/${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+              .setColor('RANDOM')
+              .setTimestamp(),
+          );
+        }
         if (interaction.user.id === process.env.OWNERID) {
           embeds[0].addField('owner', owner);
           embeds.push(
@@ -167,6 +178,7 @@ module.exports = {
         const main = client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', ');
         const minecraft = client.commands.filter(x => x.info.category == 'minecraft').map((x) => '`' + x.info.name + '`').join(', ');
         const omake = client.commands.filter(x => x.info.category == 'omake').map((x) => '`' + x.info.name + '`').join(', ');
+        const admin = client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', ');
         const owner = client.commands.filter(x => x.info.category == 'owner').map((x) => '`' + x.info.name + '`').join(', ');
         const embeds = [];
         embeds.push(
@@ -193,6 +205,16 @@ module.exports = {
             .setTimestamp(),
         );
 
+        if (message.member.permissions.has('ADMINISTRATOR') || message.member.roles.cache.has('822852335322923060') || message.member.roles.cache.has('771015602180587571')) {
+          embeds[0].addField('admin', admin);
+          embeds.push(
+            new MessageEmbed()
+              .setTitle('admin')
+              .setDescription('```' + client.commands.filter(x => x.info.category == 'admin').map((x) => `${process.env.PREFIX}${x.info.name} ${x.info.usage}: ${x.info.description}`).join('\n') + '```')
+              .setColor('RANDOM')
+              .setTimestamp(),
+          );
+        }
         if (message.author.id === process.env.OWNERID) {
           embeds[0].addField('owner', owner);
           embeds.push(
