@@ -1,17 +1,14 @@
-const { CommandInteraction, MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const bot = require('../../utils/Bot');
-const { errorlog } = require('../../functions/logs/error');
+const { errorlog, commanderror_message } = require('../../functions/error');
 
 module.exports = {
     info: {
         name: 'avatar',
         description: 'ユーザーのアバター画像を表示',
         usage: '(アバターを表示するユーザー)',
-
-        owneronly: false,
-        adminonly: false,
-        category: 'Main',
+        aliases: [],
+        category: 'main',
     },
 
     data: new SlashCommandBuilder()
@@ -55,15 +52,53 @@ module.exports = {
                                 .setColor('RANDOM')
                                 .setTimestamp(),
                         ],
-                        allowedMentions: {
-                            repliedUser: false,
-                        },
                     },
                 );
             }
         }
         catch (error) {
             errorlog(client, interaction, error);
+        }
+    },
+
+    /**
+     *
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').Message} message
+     * @param {Array<string>} args
+     */
+    run_message: async function (client, message, args) {
+        try {
+            const user = client.users.cache.get(args[0]);
+            if (!user) {
+                await message.reply(
+                    {
+                        embeds: [
+                            new MessageEmbed()
+                                .setTitle(`${message.author.tag}のアバター`)
+                                .setImage(message.author.avatarURL())
+                                .setColor('RANDOM')
+                                .setTimestamp(),
+                        ],
+                    },
+                );
+            }
+            else {
+                await message.reply(
+                    {
+                        embeds: [
+                            new MessageEmbed()
+                                .setTitle(`${user.tag}のアバター`)
+                                .setImage(user.avatarURL())
+                                .setColor('RANDOM')
+                                .setTimestamp(),
+                        ],
+                    },
+                );
+            }
+        }
+        catch (error) {
+            commanderror_message(client, message, error);
         }
     },
 };

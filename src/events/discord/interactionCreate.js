@@ -1,11 +1,9 @@
-const { Interaction, MessageEmbed } = require('discord.js');
-const bot = require('../../utils/Bot');
-const commandlog = require('../../functions/logs/command');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { MessageEmbed } = require('discord.js');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
- * @param {Interaction} interaction
+ * @param {import('../../utils/Bot')} client
+ * @param {import('discord.js').Interaction} interaction
  */
 
 module.exports = async (client, interaction) => {
@@ -97,13 +95,14 @@ module.exports = async (client, interaction) => {
         else if (interaction.isCommand()) {
             await interaction.deferReply();
             const cmd = client.commands.get(interaction.commandName);
-            if (!cmd) { return await interaction.followUp('Error: コマンドデータが見つかりませんでした'); }
-            else if (cmd.info.owneronly && interaction.user.id !== process.env.OWNERID || cmd.info.adminonly && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) {
+            if (!cmd) {
+                return await interaction.followUp('Error: コマンドデータが見つかりませんでした');
+            }
+            else if (cmd.info.category === 'owner' && interaction.user.id !== process.env.OWNERID || cmd.info.category === 'admin' && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) {
                 return await interaction.followUp('そのコマンドを使用するための権限が足りてないで。😉');
             }
 
             cmd.run(client, interaction);
-            commandlog(client, interaction, cmd.info.name);
         }
     }
     catch (error) {

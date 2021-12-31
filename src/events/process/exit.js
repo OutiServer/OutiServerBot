@@ -1,12 +1,11 @@
-const bot = require('../../utils/Bot');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
  * @param {bot} client
  */
-
 module.exports = (client, code) => {
     try {
+        console.log(`おうち鯖Botはコード${code}で終了しました`);
         client.db.close();
         client.destroy();
     }

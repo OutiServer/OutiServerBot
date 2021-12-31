@@ -1,10 +1,9 @@
-const { Message, MessageEmbed } = require('discord.js');
-const bot = require('../../utils/Bot');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { MessageEmbed } = require('discord.js');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
- * @param {Message} message
+ * @param {import('../../utils/Bot')} client
+ * @param {import('discord.js').Message} message
  */
 
 module.exports = async (client, message) => {
