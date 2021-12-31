@@ -1,9 +1,8 @@
-const bot = require('../../utils/Bot');
 const status = require('../../../dat/json/status.json');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
+ * @param {import('../../utils/Bot')} client
  */
 
 module.exports = async (client) => {

@@ -1,14 +1,13 @@
-const { Message, MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
 const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const { exec } = require('child_process');
 const request = require('request');
-const bot = require('../../utils/Bot');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
- * @param {Message} message
+ * @param {import('../../utils/Bot')} client
+ * @param {import('discord.js').Message} message
  */
 
 module.exports = async (client, message) => {
@@ -18,7 +17,7 @@ module.exports = async (client, message) => {
         uri: `https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`,
       },
         async function (err, resource, body) {
-          message.reply(body);
+          await message.reply(body);
         },
       );
     }
@@ -45,87 +44,24 @@ module.exports = async (client, message) => {
         }).catch(error => clienterrorlog(error));
       }
     }
-    if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION') {
-      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`).catch(error => clienterrorlog(error));
-    }
-    else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1') {
-      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`).catch(error => clienterrorlog(error));
-    }
-    else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2') {
-      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`).catch(error => clienterrorlog(error));
-    }
-    else if (message.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3') {
-      client.channels.cache.get('825231334657884161').send(`${message.author} サーバーブーストありがとうございます！`).catch(error => clienterrorlog(error));
-    }
-    else if (message.type === 'GUILD_MEMBER_JOIN' && message.guildId === '706452606918066237') {
-      client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\n<#872501771254263829>をよく読んで、<#873767707525410867>からサーバーに参加してください！`);
+
+    if (message.type === 'GUILD_MEMBER_JOIN' && message.guildId === '706452606918066237') {
+      client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\nまずは<#872501771254263829>を読みましょう。\nマイクラサーバーは現在停止中です`);
     }
 
     if (!message.guild || message.system || message.author.bot) return;
 
-    if (message.guild.id === '706452606918066237') {
-      if (!client.levelcooldown.get(message.author.id)) {
-        const random = Math.random();
-        let addxp = 0;
-        let levelupmessage = '';
-        let levelupflag = false;
-        // 0.01％
-        if (random < 0.01) {
-          addxp = Math.ceil(Math.random() * 500) + 300;
-          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がりました！<:owovvv:877630196436566047>`;
-        }
-        // 0.1%
-        else if (random < 0.11) {
-          addxp += Math.ceil(Math.random() * 100) + 50;
-          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がっりました！<:owotukkomi:877630167898542120>`;
-        }
-        // 0.5%
-        else if (random < 0.61) {
-          addxp += Math.ceil(Math.random() * 50) + 10;
-          levelupmessage = `GG ${message.author.tag}, you just advanced to level {level}!<:outiserver:877630208021246013>`;
-        }
-        else {
-          addxp = Math.ceil(Math.random() * 20);
-          levelupmessage = `${message.author.tag} あなたのレベルが{level}に上がったで。😉`;
-        }
-
-        let userleveldata = client.db.prepare('SELECT * FROM levels WHERE user = ?').get(message.author.id);
-        if (!userleveldata) {
-          userleveldata = { id: `${message.author.id}`, user: message.author.id, guild: null, level: 0, xp: 0, allxp: 0 };
-          client.db.prepare('INSERT INTO levels (id, user, guild, level, xp, allxp) VALUES (@id, @user, @guild, @level, @xp, @allxp);').run(userleveldata);
-        }
-
-        userleveldata.xp += addxp;
-        userleveldata.allxp += addxp;
-
-        while (userleveldata.xp >= userleveldata.level * 55) {
-          userleveldata.xp -= userleveldata.level * 55;
-          userleveldata.level++;
-          levelupflag = true;
-        }
-
-        client.db.prepare('UPDATE levels SET level = ?, xp = ?, allxp = ? WHERE user = ?').run(userleveldata.level, userleveldata.xp, userleveldata.allxp, userleveldata.user);
-
-        if (levelupflag) {
-          message.channel.send(levelupmessage.replace('{level}', userleveldata.level)).catch(error => clienterrorlog(error));
-        }
-
-        client.levelcooldown.set(message.author.id, true);
-      }
-    }
     if (message.channel.id === '706469264638345227') {
       message.react('👍').catch(error => clienterrorlog(error));
       message.react('👎').catch(error => clienterrorlog(error));
     }
-    if (message.channel.id === '914386198489874433') {
+    else if (message.channel.id === '914386198489874433') {
       message.react('⚙️').catch(error => clienterrorlog(error));
     }
-    // スレッドを作るー
     else if (message.channel.id === '870145872762126437') {
       message.channel.threads.create(
         {
           name: message.content,
-          autoArchiveDuration: 10080,
         },
       )
         .then(thread => thread.send({
@@ -139,7 +75,7 @@ module.exports = async (client, message) => {
           ],
         }))
         .then(msg => msg.pin())
-        .then(msg => client.db.prepare('INSERT INTO threads (userid, channelid) VALUES (?, ?)').run(message.author.id, msg.channelId))
+        .then(msg => client.db.prepare('INSERT INTO threads VALUES (?, ?, ?)').run(msg.channelId, 0, 0))
         .catch(error => clienterrorlog(error));
     }
     else if (message.channel.id === '794203640054153237') {
@@ -155,6 +91,7 @@ module.exports = async (client, message) => {
         return (reaction.emoji.id === '844941572679794688' || reaction.emoji.id === '844941573422186497') && user.id === message.author.id;
       };
       const collector = msg.createReactionCollector({ filter });
+      // eslint-disable-next-line no-unused-vars
       collector.on('collect', async (reaction, user) => {
         try {
           if (reaction.emoji.id === '844941572679794688') {
@@ -199,16 +136,14 @@ module.exports = async (client, message) => {
       createyomiage(client, message);
 
 
-      if (!message.member.permissions.has('ADMINISTRATOR')) return;
       if (!message.content.startsWith('?')) return;
       const args = message.content.slice('?'.length).trim().split(/ +/g);
-      console.log(args);
       const command = args.shift().toLowerCase();
-      console.log(command);
       if (!command) return;
       const cmd = client.commands.get(command);
       if (!cmd) return;
-      message.reply('Prefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
+      if ((cmd.info.category === 'owner' && message.author.id !== process.env.OWNERID) || (cmd.info.category === 'admin' && !message.member.permissions.has('ADMINISTRATOR') && !message.member.roles.cache.has('822852335322923060'))) return await message.reply('このコマンドを実行する権限が足りていません');
+      cmd.run_message(client, message, args);
     }
 
     createyomiage(client, message);
@@ -219,7 +154,7 @@ module.exports = async (client, message) => {
     if (!command) return;
     const cmd = client.commands.get(command);
     if (!cmd) return;
-    await message.reply('コマンドPrefix `?` は廃止されました\n代わりにスラッシュコマンドを使用してください<:owo_jobutsu:881890363244163134>');
+    cmd.run_message(client, message, args);
   }
   catch (error) {
     clienterrorlog(client, error);
@@ -254,7 +189,7 @@ function createyomiage(client, message) {
       fs.writeFile(`dat/texts/${message.guildId}/${message.id}.txt`, text, function (err) {
         if (err) return;
 
-        // eslint-disable-next-line no-useless-escape
+        // eslint-disable-next-line no-unused-vars,  no-useless-escape
         exec(`open_jtalk \-x /var/lib/mecab/dic/open-jtalk/naist-jdic \-m ~/MMDAgent_Example-1.7/Voice/mei/mei_normal.htsvoice \-ow dat/voices/${message.guildId}/${message.id}.wav dat/texts/${message.guildId}/${message.id}.txt`, (err, stdout, stderr) => {
           if (err) {
             // エラーが発生したらそのwavとtxtはけす

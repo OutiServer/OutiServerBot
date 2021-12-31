@@ -1,14 +1,12 @@
-const { Collection, MessageEmbed } = require('discord.js');
-const bot = require('../../utils/Bot');
-const { clienterrorlog } = require('../../functions/logs/error');
+const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {bot} client
+ * @param {import('../../utils/Bot')} client
  */
 
 module.exports = async (client) => {
     try {
-        client.levelcooldown = new Collection();
+        /*
         const polls = client.db.prepare('SELECT * FROM polls ORDER BY id ASC;').all();
         for (const poll of polls) {
             if (poll.endtime <= Date.now()) {
@@ -55,6 +53,7 @@ module.exports = async (client) => {
                 );
             }
         }
+        */
     }
     catch (error) {
         clienterrorlog(client, error);
