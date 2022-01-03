@@ -20,7 +20,7 @@ jobs:
       - name: Start build
         run: echo Build started.
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --production
       - name: Generate ssh key
         run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
         env:
