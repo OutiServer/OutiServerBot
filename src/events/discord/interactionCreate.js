@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const { clienterrorlog } = require('../../functions/error');
 
 /**
@@ -51,7 +51,7 @@ module.exports = async (client, interaction) => {
                     {
                         await interaction.deferReply({ ephemeral: true });
                         const ticketid = client.db.prepare('SELECT * FROM sqlite_sequence WHERE name = ?').get('inquirys');
-                        const channel = await client.guilds.cache.get('706452606918066237').channels.create(`${ticketid.seq + 1}-お問い合わせ`,
+                        const channel = await client.guilds.cache.get('706452606918066237').channels.create(`${ticketid ? ticketid?.seq + 1 : 1}-お問い合わせ`,
                             {
                                 type: 'text',
                                 parent: '821684794056245258',
@@ -77,16 +77,34 @@ module.exports = async (client, interaction) => {
                             });
 
 
-                        client.db.prepare('INSERT INTO inquirys (userid, channelid) VALUES (?, ?)').run(interaction.user.id, channel.id);
-                        await channel.send({
-                            content: `${interaction.user}さん専用のお問い合わせチャンネルを作成しました！`,
-                            embeds: [new MessageEmbed()
-                                .setDescription(`こちらのチャンネルでお問い合わせ内容の記載をお願いします\n解決した場合は \`${process.env.PREFIX}close\` でお問い合わせを閉じることができます`)
-                                .setColor('RANDOM')
-                                .setTimestamp()],
-                        });
+                        client.db.prepare('INSERT INTO inquirys (channelid) VALUES (?)').run(channel.id);
                         await interaction.editReply(`お問い合わせチャンネルを作成しました ${channel}`);
+                        const msg = await channel.send({
+                            content: `${interaction.user}さん専用のお問い合わせチャンネルを作成しました！`,
+                            embeds: [
+                                new MessageEmbed()
+                                    .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします\n解決した場合は `/close` でお問い合わせを閉じることができます')
+                                    .setColor('RANDOM')
+                                    .setTimestamp(),
+                            ],
+                            components: [
+                                new MessageActionRow()
+                                    .addComponents(
+                                        new MessageButton()
+                                            .setCustomId('close')
+                                            .setLabel('このお問い合わせを閉じる')
+                                            .setStyle('DANGER'),
+                                    ),
+                            ],
+                        });
+                        await msg.pin();
                     }
+                    break;
+                case 'close':
+                    if (interaction.channel.parentId !== '821684794056245258') return;
+                    await interaction.reply('このお問い合わせをクローズしました');
+                    await interaction.channel.setParent('828268142820196372');
+                    client.db.prepare('DELETE FROM inquirys WHERE channelid = ?;').run(interaction.channelId);
                     break;
                 default:
                     break;

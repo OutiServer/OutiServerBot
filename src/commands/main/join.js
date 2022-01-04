@@ -8,7 +8,7 @@ module.exports = {
         description: '読み上げを開始',
         usage: '',
         aliases: [],
-        category: 'Main',
+        category: 'main',
     },
 
     data: new SlashCommandBuilder()
@@ -23,18 +23,10 @@ module.exports = {
     run: async function (client, interaction) {
         try {
             if (!interaction.member.voice.channelId) {
-                return await interaction.followUp(
-                    {
-                        content: 'VCに接続してからこのコマンドを送信してください！',
-                    },
-                );
+                return await interaction.followUp('VCに接続してからこのコマンドを送信してください！');
             }
             else if (client.connection) {
-                return await interaction.followUp(
-                    {
-                        content: '既に読み上げを開始しています',
-                    },
-                );
+                return await interaction.followUp('既に読み上げを開始しています');
             }
 
             client.connection = joinVoiceChannel({
@@ -48,9 +40,7 @@ module.exports = {
                 flag: false,
             };
 
-            await interaction.followUp({
-                content: `${interaction.member.voice.channel.name}で読み上げを開始しました！`,
-            });
+            await interaction.followUp(`${interaction.member.voice.channel.name}で読み上げを開始しました！`);
         }
         catch (error) {
             errorlog(client, interaction, error);

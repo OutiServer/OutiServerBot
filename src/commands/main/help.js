@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton, InteractionCollector } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { errorlog, commanderror_message } = require('../../functions/error');
 
@@ -100,7 +100,8 @@ module.exports = {
 
         let select = 0;
 
-        const collector = new InteractionCollector(client, { componentType: 'BUTTON', message: message });
+        const filter = (i) => i.user.id === message.author.id;
+        const collector = message.createMessageComponentCollector({ filter: filter, componentType: 'BUTTON' });
         collector.on('collect', async i => {
           try {
             if (i.customId === 'left') {
@@ -253,7 +254,8 @@ module.exports = {
 
         let select = 0;
 
-        const collector = new InteractionCollector(client, { componentType: 'BUTTON', message: msg });
+        const filter = (i) => i.user.id === message.author.id;
+        const collector = msg.createMessageComponentCollector({ filter: filter, componentType: 'BUTTON' });
         collector.on('collect', async i => {
           try {
             if (i.customId === 'left') {

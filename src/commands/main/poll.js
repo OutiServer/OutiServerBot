@@ -95,7 +95,7 @@ module.exports = {
    */
   run_message: async function (client, message, args) {
     try {
-      if (!args.length < 3) return await message.reply('引数は最低3つ(投票タイトル・選択肢2つ以上)必要です');
+      if (args.length < 3) return await message.reply('引数は最低3つ(投票タイトル・選択肢2つ以上)必要です');
       const title = args.shift();
 
       const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
@@ -120,7 +120,7 @@ module.exports = {
       emojis.slice(0, args.length).forEach(emoji => poll.react(emoji));
       client.db.prepare('INSERT INTO polls (guildid, userid, channelid, messageid, endtime) VALUES (?, ?, ?, ?, ?)').run(message.guildId, message.author.id, message.channelId, poll.id, null);
       const pollid = client.db.prepare('SELECT * FROM sqlite_sequence WHERE name = ?').get('polls');
-      await message.reply(
+      await poll.edit(
         {
           content: `${message.author.tag}が作成した投票です`,
           embeds: [

@@ -8,7 +8,7 @@ module.exports = async (client) => {
   try {
     const Inquirytable = client.db.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'inquirys\';').get();
     if (!Inquirytable['count(*)']) {
-      client.db.prepare('CREATE TABLE inquirys (id INTEGER PRIMARY KEY AUTOINCREMENT, userid TEXT, channelid TEXT, closed INTEGER, locked INTEGER);').run();
+      client.db.prepare('CREATE TABLE inquirys (id INTEGER PRIMARY KEY AUTOINCREMENT, channelid TEXT);').run();
       client.db.prepare('CREATE UNIQUE INDEX idx_inquirys_id ON inquirys (id);').run();
       client.db.pragma('synchronous = 1');
       client.db.pragma('journal_mode = wal');
@@ -16,7 +16,7 @@ module.exports = async (client) => {
 
     const Threadtable = client.db.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'threads\';').get();
     if (!Threadtable['count(*)']) {
-      client.db.prepare('CREATE TABLE threads (threadid TEXT PRIMARY KEY, archived INTEGER, locked INTEGER);').run();
+      client.db.prepare('CREATE TABLE threads (threadid TEXT PRIMARY KEY);').run();
       client.db.prepare('CREATE UNIQUE INDEX idx_threads_id ON threads (threadid);').run();
       client.db.pragma('synchronous = 1');
       client.db.pragma('journal_mode = wal');

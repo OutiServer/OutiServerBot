@@ -23,7 +23,7 @@ module.exports = {
     run: async function (client, interaction) {
         try {
             client.commands.clear();
-            const commandFolders = readdirSync('${__dirname}/../../commands');
+            const commandFolders = readdirSync(`${__dirname}/../../commands`);
             for (const folder of commandFolders) {
                 const commandFiles = readdirSync(`${__dirname}/../../commands/${folder}`).filter(file => file.endsWith('.js'));
                 for (const file of commandFiles) {

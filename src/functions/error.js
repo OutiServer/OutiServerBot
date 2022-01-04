@@ -10,8 +10,9 @@ module.exports = {
      * @param {Error} error
      */
     errorlog: async function (client, interaction, error) {
-        console.error(error);
         try {
+            if (['Collector received no interactions before ending with reason: time', 'Collector received no interactions before ending with reason: messageDelete'].includes(error.message)) return;
+            console.error(error);
             if (!client.user) return;
             const webhook = new WebhookClient({ url: process.env.ERRORLOG_WEBHOOK_URL });
             await webhook.send({
@@ -41,8 +42,9 @@ module.exports = {
      * @param {Error} error
      */
     async commanderror_message(client, message, error) {
-        console.error(error);
         try {
+            if (['Collector received no interactions before ending with reason: time', 'Collector received no interactions before ending with reason: messageDelete'].includes(error.message)) return;
+            console.error(error);
             if (!client.user) return;
             const webhook = new WebhookClient({ url: process.env.ERRORLOG_WEBHOOK_URL });
             await webhook.send({
@@ -71,8 +73,9 @@ module.exports = {
      * @param {Error} error
      */
     clienterrorlog: async function (client, error) {
-        console.error(error);
         try {
+            if (['Collector received no interactions before ending with reason: time', 'Collector received no interactions before ending with reason: messageDelete'].includes(error.message)) return;
+            console.error(error);
             if (!client.user) return;
             const webhook = new WebhookClient({ url: process.env.ERRORLOG_WEBHOOK_URL });
             await webhook.send({

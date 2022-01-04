@@ -7,7 +7,7 @@ module.exports = {
         description: '全員のミュートを解除する',
         usage: '',
         aliases: [],
-        category: 'main',
+        category: 'admin',
     },
 
     data: new SlashCommandBuilder()
@@ -21,7 +21,17 @@ module.exports = {
 
     run: async function (client, interaction) {
         try {
-            interaction.followUp('未対応');
+            if (!interaction.member.voice.channel) return await interaction.followUp('このコマンドを使用するにはVCに参加している必要があります');
+            interaction.member.voice.channel.members.filter(m => !m.user.bot).map(async m => {
+                try {
+                    await m.voice?.setMute(false, `UnMutedBy: ${interaction.user.tag}`);
+                }
+                // eslint-disable-next-line no-empty
+                catch (error) {
+                }
+            });
+
+            await interaction.followUp('VCにいるメンバー全員をミュート解除しました');
         }
         catch (error) {
             errorlog(client, interaction, error);

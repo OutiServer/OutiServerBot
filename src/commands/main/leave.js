@@ -7,7 +7,7 @@ module.exports = {
         description: '読み上げを終わる',
         usage: '',
         aliases: [],
-        category: 'Main',
+        category: 'main',
     },
 
     data: new SlashCommandBuilder()
@@ -15,37 +15,24 @@ module.exports = {
         .setDescription('読み上げを終了する'),
 
     /**
-     * @param {bot} client
-     * @param {CommandInteraction} interaction
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').CommandInteraction} interaction
      */
 
     run: async function (client, interaction) {
         try {
             if (!interaction.member.voice.channelId) {
-                return await interaction.followUp(
-                    {
-                        content: 'VCに接続してからこのコマンドを送信してください！',
-                        allowedMentions: {
-                            repliedUser: false,
-                        },
-                    },
-                );
+                return await interaction.followUp('VCに接続してからこのコマンドを送信してください！');
             }
             else if (!client.connection) {
-                return await interaction.followUp(
-                    {
-                        content: '読み上げを開始していません',
-                    },
-                );
+                return await interaction.followUp('読み上げを開始していません');
             }
 
             client.connection.destroy();
             client.connection = null;
             client.speekqueue = {};
 
-            await interaction.followUp({
-                content: '読み上げを終了しました',
-            });
+            await interaction.followUp('読み上げを終了しました');
         }
         catch (error) {
             errorlog(client, interaction, error);

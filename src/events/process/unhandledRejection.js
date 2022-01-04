@@ -8,8 +8,9 @@ const { WebhookClient } = require('discord.js');
  */
 // eslint-disable-next-line no-unused-vars
 module.exports = async (client, error, promise) => {
-    console.error(error);
     try {
+        if (['Collector received no interactions before ending with reason: time'].includes(error.message)) return;
+        console.error(error);
         if (!client.user) return;
         const webhook = new WebhookClient({ url: process.env.ERRORLOG_WEBHOOK_URL });
         await webhook.send({

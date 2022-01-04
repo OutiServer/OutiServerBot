@@ -2,6 +2,7 @@ const { MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 const { inspect } = require('util');
 const { errorlog, commanderror_message } = require('../../functions/error');
+const emojis = require('../../../dat/json/emojis.json');
 
 module.exports = {
   info: {
@@ -34,11 +35,11 @@ module.exports = {
         .addComponents(
           new MessageButton()
             .setCustomId('ok')
-            .setEmoji('810436146718441483')
+            .setEmoji(emojis.owov)
             .setStyle('PRIMARY'),
           new MessageButton()
             .setCustomId('no')
-            .setEmoji('810436146978619392')
+            .setEmoji(emojis.owox)
             .setStyle('PRIMARY'),
         );
 
@@ -102,11 +103,11 @@ module.exports = {
         .addComponents(
           new MessageButton()
             .setCustomId('ok')
-            .setLabel('OK')
+            .setEmoji(emojis.owov)
             .setStyle('PRIMARY'),
           new MessageButton()
             .setCustomId('no')
-            .setLabel('NO')
+            .setEmoji(emojis.owox)
             .setStyle('PRIMARY'),
         );
 
@@ -115,13 +116,10 @@ module.exports = {
         components: [buttons],
       });
 
-      const filter = (i) => (i.customId === 'ok' || i.customId === 'no') && i.user.id === message.user.id;
+      const filter = (i) => (i.customId === 'ok' || i.customId === 'no') && i.user.id === message.author.id;
       const response2 = await msg.awaitMessageComponent({ filter, componentType: 'BUTTON', max: 1, time: 60000 });
-      if (!response2) {
-        return await message.delete();
-      }
-      else if (response2.customId === 'no') {
-        await message.delete();
+      if (response2.customId === 'no') {
+        await msg.delete();
       }
       else if (response2.customId === 'ok') {
         let evaled;

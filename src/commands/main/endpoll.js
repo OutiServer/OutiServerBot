@@ -87,7 +87,7 @@ module.exports = {
      * @param {import('discord.js').Message} message
      * @param {Array<string>} args
      */
-    run_messagae: async function (client, message, args) {
+    run_message: async function (client, message, args) {
         try {
             if (!Number(args[0])) return await message.reply('第一引数に投票IDを入れてください');
             const poll = client.db.prepare('SELECT * FROM polls WHERE id = ?').get(args[0]);

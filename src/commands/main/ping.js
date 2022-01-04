@@ -16,8 +16,8 @@ module.exports = {
         .setDescription('BotのPing値とメモリ使用率を表示'),
 
     /**
-     * @param {bot} client
-     * @param {CommandInteraction} interaction
+     * @param {import('../../utils/Bot')} client
+     * @param {import('discord.js').CommandInteraction} interaction
      */
 
     run: async function (client, interaction) {

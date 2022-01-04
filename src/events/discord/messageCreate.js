@@ -75,7 +75,6 @@ module.exports = async (client, message) => {
           ],
         }))
         .then(msg => msg.pin())
-        .then(msg => client.db.prepare('INSERT INTO threads VALUES (?, ?, ?)').run(msg.channelId, 0, 0))
         .catch(error => clienterrorlog(error));
     }
     else if (message.channel.id === '794203640054153237') {
@@ -132,24 +131,12 @@ module.exports = async (client, message) => {
         ))
         .catch(error => message.reply(error))
         .catch(error => clienterrorlog(error));
-
-      createyomiage(client, message);
-
-
-      if (!message.content.startsWith('?')) return;
-      const args = message.content.slice('?'.length).trim().split(/ +/g);
-      const command = args.shift().toLowerCase();
-      if (!command) return;
-      const cmd = client.commands.get(command);
-      if (!cmd) return;
-      if ((cmd.info.category === 'owner' && message.author.id !== process.env.OWNERID) || (cmd.info.category === 'admin' && !message.member.permissions.has('ADMINISTRATOR') && !message.member.roles.cache.has('822852335322923060') && !message.member.roles.cache.has('771015602180587571'))) return await message.reply('このコマンドを実行する権限が足りていません');
-      cmd.run_message(client, message, args);
     }
 
     createyomiage(client, message);
 
-    if (!message.content.startsWith('?')) return;
-    const args = message.content.slice('?'.length).trim().split(/ +/g);
+    if (!message.content.startsWith(process.env.PREFIX)) return;
+    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     if (!command) return;
     const cmd = client.commands.get(command);
@@ -168,6 +155,7 @@ module.exports = async (client, message) => {
  */
 
 function createyomiage(client, message) {
+  return;
   if (client.connection) {
     if (client.speekqueue.channel.includes(message.channelId)) {
       if (!fs.existsSync(`dat/texts/${message.guildId}`)) {

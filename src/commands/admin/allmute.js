@@ -7,11 +7,11 @@ module.exports = {
         description: '全員をミュートする',
         usage: '',
         aliases: [],
-        category: 'main',
+        category: 'admin',
     },
 
     data: new SlashCommandBuilder()
-        .setName('mute')
+        .setName('allmute')
         .setDescription('全員をミュートする'),
 
     /**
@@ -21,7 +21,17 @@ module.exports = {
 
     run: async function (client, interaction) {
         try {
-            interaction.followUp('未対応');
+            if (!interaction.member.voice.channel) return await interaction.followUp('このコマンドを使用するにはVCに参加している必要があります');
+            interaction.member.voice.channel.members.filter(m => !m.user.bot).map(async m => {
+                try {
+                    await m.voice?.setMute(true, `MutedBy: ${interaction.user.tag}`);
+                }
+                // eslint-disable-next-line no-empty
+                catch (error) {
+                }
+            });
+
+            await interaction.followUp('VCにいるメンバー全員をミュートしました');
         }
         catch (error) {
             errorlog(client, interaction, error);

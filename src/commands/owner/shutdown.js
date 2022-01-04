@@ -22,9 +22,6 @@ module.exports = {
     run: async function (client, interaction) {
         try {
             await interaction.followUp('シャットダウンしています...');
-            client.db.close();
-            client.connection?.destroy();
-            client.destroy();
             process.exit();
         }
         catch (error) {
@@ -41,10 +38,7 @@ module.exports = {
     // eslint-disable-next-line no-unused-vars
     run_message: async function (client, message, args) {
         try {
-            await message.description('シャットダウンしています...');
-            client.db.close();
-            client.connection?.destroy();
-            client.destroy();
+            await message.reply('シャットダウンしています...');
             process.exit();
         }
         catch (error) {

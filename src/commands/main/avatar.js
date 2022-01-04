@@ -69,7 +69,7 @@ module.exports = {
      */
     run_message: async function (client, message, args) {
         try {
-            const user = client.users.cache.get(args[0]);
+            const user = message.mentions.users.first() || client.users.cache.get(args[0]);
             if (!user) {
                 await message.reply(
                     {
