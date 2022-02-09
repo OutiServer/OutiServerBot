@@ -78,8 +78,15 @@ module.exports = async (client, message) => {
         .catch(error => clienterrorlog(error));
     }
     else if (message.channel.id === '794203640054153237') {
-      if (message.attachments.size > 0) {
-        message.react('♥️').catch(error => clienterrorlog(error));
+      if (message.attachments.size > 0 || message.content.match(new RegExp('https://')) || message.content.match(new RegExp('http://'))) {
+        if (Math.random() < 0.1) {
+          const reactions = ['847969092271079425', '917044998065750097', '861635410480463893', '880859874496491540', '917045021662912522'];
+          const random = Math.floor(Math.random() * reactions.length);
+          message.react(reactions[random]).catch(error => clienterrorlog(error));
+        }
+        else {
+          message.react('♥️').catch(error => clienterrorlog(error));
+        }
       }
     }
     else if (message.channelId === '878322897821794414') {
@@ -107,7 +114,7 @@ module.exports = async (client, message) => {
       });
     }
     else if (message.channel.id === '714404103224164423') {
-      if (message.attachments.size > 0) {
+      if (message.attachments.size > 0 || message.content.match(new RegExp('https://')) || message.content.match(new RegExp('http://'))) {
         message.react('👮').catch(error => clienterrorlog(error));
       }
     }
