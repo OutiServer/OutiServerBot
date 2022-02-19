@@ -96,7 +96,6 @@ module.exports = {
   run_message: async function (client, message, args) {
     try {
       if (args.length < 3) return await message.reply('引数は最低3つ(投票タイトル・選択肢2つ以上)必要です');
-      const title = args.shift();
 
       const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
 
@@ -106,7 +105,7 @@ module.exports = {
       const endtime = (ms(endtimeformat) + Date.now());
       */
 
-      const poll = await message.reply(
+      const pollMsg = await message.reply(
         {
           embeds: [
             new MessageEmbed()
@@ -117,16 +116,39 @@ module.exports = {
         },
       );
 
-      emojis.slice(0, args.length).forEach(emoji => poll.react(emoji));
-      client.db.prepare('INSERT INTO polls (guildid, userid, channelid, messageid, endtime) VALUES (?, ?, ?, ?, ?)').run(message.guildId, message.author.id, message.channelId, poll.id, null);
+      const result = [];
+      let temp = '';
+      let quotation = false;
+      for (const poll of args) {
+        if (poll.startsWith('"')) {
+          quotation = true;
+          temp += poll.substring(1, poll.length);
+          temp += ' ';
+        }
+        else if (poll.endsWith('"')) {
+          quotation = false;
+          result.push(temp + poll.substring(0, poll.length - 1));
+          temp = '';
+        }
+        else if (quotation) {
+          temp += poll;
+          temp += ' ';
+        }
+        else {
+          result.push(poll);
+        }
+      }
+
+      emojis.slice(0, result.length - 1).forEach(emoji => pollMsg.react(emoji));
+      client.db.prepare('INSERT INTO polls (guildid, userid, channelid, messageid, endtime) VALUES (?, ?, ?, ?, ?)').run(message.guildId, message.author.id, message.channelId, pollMsg.id, null);
       const pollid = client.db.prepare('SELECT * FROM sqlite_sequence WHERE name = ?').get('polls');
-      await poll.edit(
+      await pollMsg.edit(
         {
           content: `${message.author.tag}が作成した投票です`,
           embeds: [
             new MessageEmbed()
-              .setTitle(title)
-              .setDescription(`${args.map((c, i) => `${emojis[i]} ${c}`).join('\n')}`)
+              .setTitle(result.shift())
+              .setDescription(`${result.map((c, i) => `${emojis[i]} ${c}`).join('\n')}`)
               .setFooter(`${process.env.PREFIX}endpoll ${pollid.seq} で集計します`)
               .setColor('RANDOM'),
           ],
