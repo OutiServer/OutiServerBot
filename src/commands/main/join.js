@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { joinVoiceChannel } = require('@discordjs/voice');
+const { MessageEmbed } = require('discord.js');
 const { errorlog, commanderror_message } = require('../../functions/error');
 
 module.exports = {
@@ -75,6 +76,12 @@ module.exports = {
             };
 
             await message.reply(`${message.member.voice.channel.name}で読み上げを開始しました！`);
+            await message.channel.send({
+                embeds: [
+                    new MessageEmbed()
+                        .setDescription('注意事項\n・おうち鯖Botのプログラムが生成した音声を何らかの形で録音し、再配布することを禁止します。\n・変な長文等を読み上げさせないようにお願いします(サーバーに負荷がかかってしまうため) \n・デフォルトで100文字以上は読み上げさせないようにしています\n\nーーーCREDITーーー\nVOICEVOX ENGINE様公式WEB https://voicevox.hiroshiba.jp/'),
+                ],
+            });
         }
         catch (error) {
             commanderror_message(client, message, error);

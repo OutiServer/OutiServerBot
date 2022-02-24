@@ -1,9 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
 const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
-const { exec } = require('child_process');
 const request = require('request');
 const { clienterrorlog } = require('../../functions/error');
+const { default: axios } = require('axios');
+const rpc = axios.create({ baseURL: 'http://localhost:50021', proxy: false });
 
 /**
  * @param {import('../../utils/Bot')} client
@@ -158,15 +159,13 @@ module.exports = async (client, message) => {
 /**
  *
  * @param {bot} client
- * @param {Message} message
+ * @param {import('discord.js').Message} message
  */
 
-function createyomiage(client, message) {
+async function createyomiage(client, message) {
+  if (message.content.length > 100) return;
   if (client.connection) {
     if (client.speekqueue.channel.includes(message.channelId)) {
-      if (!fs.existsSync(`dat/texts/${message.guildId}`)) {
-        fs.mkdirSync(`dat/texts/${message.guildId}`);
-      }
       if (!fs.existsSync(`dat/voices/${message.guildId}`)) {
         fs.mkdirSync(`dat/voices/${message.guildId}`);
       }
@@ -180,40 +179,28 @@ function createyomiage(client, message) {
         .replace(/<#.*?>/g, 'メンション省略')
         .replace(/<@&.*?>/g, 'メンション省略');
 
-      fs.writeFile(`dat/texts/${message.guildId}/${message.id}.txt`, text, function (err) {
-        if (err) return;
-
-        // eslint-disable-next-line no-unused-vars,  no-useless-escape
-        exec(`open_jtalk \-x /var/lib/mecab/dic/open-jtalk/naist-jdic \-m ~/MMDAgent_Example-1.7/Voice/mei/mei_normal.htsvoice \-ow dat/voices/${message.guildId}/${message.id}.wav dat/texts/${message.guildId}/${message.id}.txt`, (err, stdout, stderr) => {
-          if (err) {
-            // エラーが発生したらそのwavとtxtはけす
-            fs.unlink(`dat/voices/${message.guildId}/${message.id}.wav`, function (err) {
-              if (err) console.error(err);
-            });
-            fs.unlink(`dat/texts/${message.guildId}/${message.id}.txt`, function (err) {
-              if (err) console.error(err);
-            });
-
-            return console.error(err);
-          }
-
-          fs.unlink(`dat/texts/${message.guildId}/${message.id}.txt`, function (err) {
-            if (err) console.error(err);
-          });
-          client.speekqueue.message.push(message.id);
-          if (!client.speekqueue.flag) {
-            yomiage(client, message);
-          }
-          client.speekqueue.flag = true;
-        });
+      const audio_query = await rpc.post('audio_query?text=' + encodeURI(text) + '&speaker=8');
+      const synthesis = await rpc.post('synthesis?speaker=1', JSON.stringify(audio_query.data), {
+        responseType: 'arraybuffer',
+        headers: {
+          'accept': 'audio/wav',
+          'Content-Type': 'application/json',
+        },
       });
+      if (!client.connection) return;
+      fs.writeFileSync(`dat/voices/${message.guildId}/${message.id}.wav`, new Buffer.from(synthesis.data), 'binary');
+      client.speekqueue.message.push(message.id);
+      if (!client.speekqueue.flag) {
+        yomiage(client, message);
+      }
+      client.speekqueue.flag = true;
     }
   }
 }
 
 /**
- * @param {bot} client
- * @param {Message} message
+ * @param {import('../../utils/Bot')} client
+ * @param {import('discord.js').Message} message
  */
 
 function yomiage(client, message) {
@@ -221,7 +208,7 @@ function yomiage(client, message) {
     const player = createAudioPlayer();
     const messageid = client.speekqueue.message[0];
     client.speekqueue.message.shift();
-    const resource = createAudioResource(`dat/voices/${message.guildId}/${messageid}.wav`);
+    const resource = createAudioResource(`dat/voices/${message.guildId}/${message.id}.wav`);
     player.play(resource);
     client.connection.subscribe(player);
     player.on('error', error => {
@@ -232,6 +219,7 @@ function yomiage(client, message) {
       });
       if (client.speekqueue.message.length < 1) return client.speekqueue.flag = false;
     });
+
     player.on(AudioPlayerStatus.Idle, () => {
       fs.unlink(`dat/voices/${message.guildId}/${messageid}.wav`, function (err) {
         if (err) console.error(err);

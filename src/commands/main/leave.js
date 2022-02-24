@@ -55,6 +55,7 @@ module.exports = {
                 return await message.reply('読み上げを開始していません');
             }
 
+            client.connection.disconnect();
             client.connection.destroy();
             client.connection = null;
             client.speekqueue = {};
