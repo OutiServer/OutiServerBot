@@ -106,6 +106,17 @@ module.exports = async (client, interaction) => {
                     await interaction.channel.setParent('828268142820196372');
                     client.db.prepare('DELETE FROM inquirys WHERE channelid = ?;').run(interaction.channelId);
                     break;
+                case 'illustration':
+                    await interaction.deferReply({ ephemeral: true });
+                    if (interaction.member.roles.cache.has('875684910071955508')) {
+                        await interaction.member.roles.remove('875684910071955508');
+                        await interaction.editReply('お絵描きを剥奪しました');
+                    }
+                    else {
+                        await interaction.member.roles.add('875684910071955508');
+                        await interaction.editReply('お絵描きを付与しました');
+                    }
+                    break;
                 default:
                     break;
             }

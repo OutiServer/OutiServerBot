@@ -309,10 +309,14 @@ module.exports = {
         if (!command) return await message.reply('そんなコマンドないで。😉');
         const commandinfo = new MessageEmbed()
           .setTitle('コマンド名: ' + command.info.name + ' の詳細')
-          .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}\nBotOwnerコマンド: ${command.info.owneronly}\nBotAdminコマンド: ${command.info.adminonly}`)
+          .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${process.env.PREFIX}${command.info.name} ${command.info.usage}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}`)
           .setColor('RANDOM')
           .setTimestamp();
-        await message.reply(commandinfo);
+        await message.reply({
+          embeds: [
+            commandinfo,
+          ],
+        });
       }
     }
     catch (error) {
