@@ -20,7 +20,7 @@ module.exports = async (client, oldMember, newMember) => {
     }
 
 
-    if (oldMember.channelId === oldMember.guild.me.voice.channelId) {
+    if (oldMember.channelId === oldMember.guild.me.voice.channelId && oldMember.channel !== null) {
       if (oldMember.channel.members.filter(m => !m.user.bot).size < 1) {
         client.connection?.disconnect();
         client.connection?.destroy();

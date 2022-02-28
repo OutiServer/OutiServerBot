@@ -163,7 +163,6 @@ module.exports = async (client, message) => {
  */
 
 async function createyomiage(client, message) {
-  if (message.content.length > 100) return;
   if (client.connection) {
     if (client.speekqueue.channel.includes(message.channelId)) {
       if (!fs.existsSync(`dat/voices/${message.guildId}`)) {
