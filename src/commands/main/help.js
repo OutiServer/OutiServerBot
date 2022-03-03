@@ -100,7 +100,7 @@ module.exports = {
 
         let select = 0;
 
-        const filter = (i) => i.user.id === message.author.id;
+        const filter = (i) => i.user.id === interaction.user.id;
         const collector = message.createMessageComponentCollector({ filter: filter, componentType: 'BUTTON' });
         collector.on('collect', async i => {
           try {

@@ -76,7 +76,7 @@ module.exports = {
             new MessageEmbed()
               .setTitle(title)
               .setDescription(`${choices.map((c, i) => `${emojis[i]} ${c}`).join('\n')}\n\n投票終了まであと${time(Math.floor(endtime / 1000), 'R')}`)
-              .setFooter(`/endpoll ${pollid.seq} で集計します`)
+              .setFooter({ text: `/endpoll ${pollid.seq} で集計します` })
               .setColor('RANDOM'),
           ],
         },
@@ -149,7 +149,7 @@ module.exports = {
             new MessageEmbed()
               .setTitle(result.shift())
               .setDescription(`${result.map((c, i) => `${emojis[i]} ${c}`).join('\n')}`)
-              .setFooter(`${process.env.PREFIX}endpoll ${pollid.seq} で集計します`)
+              .setFooter({ text: `${process.env.PREFIX}endpoll ${pollid.seq} で集計します` })
               .setColor('RANDOM'),
           ],
         },

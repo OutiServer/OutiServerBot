@@ -169,4 +169,5 @@ Temporary Items
 *.db-wal
 dat/images/
 dat/backup
+dat/voices
 slashcommand.js

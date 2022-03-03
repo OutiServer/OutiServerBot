@@ -16,7 +16,7 @@ module.exports = async (client, message) => {
             .addField('メッセージを送信したユーザー', `${message.author.tag} (<@${message.author.id}>) [${message.author.id}]`)
             .setThumbnail(message.author.avatarURL({ format: 'webp' }))
             .setColor('RANDOM')
-            .setFooter(`messageid: ${message.id}`, message.author.avatarURL({ format: 'webp' }))
+            .setFooter({ text: `messageid: ${message.id}`, iconURL: message.author.avatarURL({ format: 'webp' }) })
             .setTimestamp();
 
         if (!message.content) {

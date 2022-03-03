@@ -44,7 +44,7 @@ module.exports = async (client, oldMessage, newMessage) => {
             .addField('メッセージを送信したユーザー', `${oldMessage.author.tag} (<@${oldMessage.author.id}>) [${oldMessage.author.id}]`)
             .setThumbnail(oldMessage.author.avatarURL({ format: 'webp' }))
             .setColor('RANDOM')
-            .setFooter(`messageid: ${oldMessage.id}`, oldMessage.author.avatarURL({ format: 'webp' }))
+            .setFooter({ text: `messageid: ${oldMessage.id}`, iconURL: oldMessage.author.avatarURL({ format: 'webp' }) })
             .setTimestamp();
 
         // content が空の場合は画像

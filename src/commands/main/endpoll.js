@@ -60,7 +60,7 @@ module.exports = {
             msg.reactions.removeAll();
             msg.edit({
                 embeds: [
-                    msg.embeds[0].setFooter('投票は終了しました'),
+                    msg.embeds[0].setFooter({ text: '投票は終了しました' }),
                 ],
             });
             await interaction.followUp(
@@ -121,7 +121,7 @@ module.exports = {
             msg.reactions.removeAll();
             msg.edit({
                 embeds: [
-                    msg.embeds[0].setFooter('投票は終了しました'),
+                    msg.embeds[0].setFooter({ text: '投票は終了しました' }),
                 ],
             });
             await message.reply(
