@@ -149,6 +149,8 @@ module.exports = async (client, message) => {
     if (!command) return;
     const cmd = client.commands.get(command);
     if (!cmd) return;
+    else if (cmd.info.category === 'owner' && message.author.id !== process.env.OWNERID) return;
+    else if (cmd.info.category === 'admin' && !message.member.permissions.has('ADMINISTRATOR')) return;
     cmd.run_message(client, message, args);
   }
   catch (error) {
