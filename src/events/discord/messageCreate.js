@@ -186,6 +186,7 @@ async function createyomiage(client, message) {
           'Content-Type': 'application/json',
         },
       });
+
       if (!client.connection) return;
       fs.writeFileSync(`dat/voices/${message.guildId}/${message.id}.wav`, new Buffer.from(synthesis.data), 'binary');
       client.speekqueue.message.push(message.id);
