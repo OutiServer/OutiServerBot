@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { MessageActionRow, MessageButton, MessageAttachment } = require('discord.js');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 const { inspect } = require('util');
 const { errorlog, commanderror_message } = require('../../functions/error');
@@ -61,7 +61,7 @@ module.exports = {
         try {
           evaled = await eval(interaction.options.getString('code'));
           const evalinsoext = inspect(evaled).length;
-          if (evalinsoext <= 4000) {
+          if (evalinsoext <= 2000) {
             await interaction.editReply({
               content: codeBlock(inspect(evaled)),
               components: [],
@@ -69,8 +69,11 @@ module.exports = {
           }
           else {
             await interaction.editReply({
-              content: '実行結果が4000文字を超えているため送信出来ません',
+              content: '実行結果が2000文字を超えているためファイル出力しました',
               components: [],
+              attachments: [
+                new MessageAttachment(inspect(evaled), 'evaled.txt'),
+              ],
             });
           }
         }
@@ -134,8 +137,11 @@ module.exports = {
           }
           else {
             await msg.edit({
-              content: '実行結果が4000文字を超えているため送信出来ません',
+              content: '実行結果が2000文字を超えているためファイル出力しました',
               components: [],
+              attachments: [
+                new MessageAttachment(inspect(evaled), 'evaled.txt'),
+              ],
             });
           }
         }
