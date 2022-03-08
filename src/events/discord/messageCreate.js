@@ -160,7 +160,7 @@ module.exports = async (client, message) => {
 
 /**
  *
- * @param {bot} client
+ * @param {import('../../utils/Bot')} client
  * @param {import('discord.js').Message} message
  */
 
@@ -172,13 +172,17 @@ async function createyomiage(client, message) {
       }
 
       // txtを記録する
-      const text = message
+      let text = message
         .content
         .replace(/https?:\/\/\S+/g, 'URL省略')
         .replace(/<a?:.*?:\d+>/g, '絵文字省略')
         .replace(/<@!?.*?>/g, 'メンション省略')
         .replace(/<#.*?>/g, 'メンション省略')
         .replace(/<@&.*?>/g, 'メンション省略');
+
+      for (const word of client.wordCache) {
+        text = text.replace(new RegExp(word.index_word, 'gi'), word.read);
+      }
 
       const audio_query = await rpc.post('audio_query?text=' + encodeURI(text) + '&speaker=8');
       const synthesis = await rpc.post('synthesis?speaker=1', JSON.stringify(audio_query.data), {

@@ -30,7 +30,17 @@ module.exports = async (client) => {
       client.db.pragma('journal_mode = wal');
     }
 
-    client.user.setStatus('dnd');
+    const wordTable = client.db.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'words\';').get();
+    if (!wordTable['count(*)']) {
+      client.db.prepare('CREATE TABLE words (index_word TEXT PRIMARY KEY, read TEXT NOT NULL);').run();
+      client.db.prepare('CREATE UNIQUE INDEX idx_words_id ON words (index_word);').run();
+      client.db.pragma('synchronous = 1');
+      client.db.pragma('journal_mode = wal');
+    }
+
+    client.wordCache = client.db.prepare('SELECT * FROM words;').all();
+
+    client.user.setStatus('online');
     client.user.setActivity({ name: '再起動しました', type: 'PLAYING' });
     console.log(`Logged in as ${client.user.tag}`);
 
