@@ -166,8 +166,6 @@ module.exports = async (client, message) => {
 
 async function createyomiage(client, message) {
   if (client.connection) {
-    const start = new Date();
-    const hrstart = process.hrtime();
     if (client.speekqueue.channel.includes(message.channelId)) {
       if (!fs.existsSync(`dat/voices/${message.guildId}`)) {
         fs.mkdirSync(`dat/voices/${message.guildId}`);
@@ -197,13 +195,9 @@ async function createyomiage(client, message) {
 
       if (!client.connection) return;
       fs.writeFileSync(`dat/voices/${message.guildId}/${message.id}.wav`, new Buffer.from(synthesis.data), 'binary');
-      const end = new Date() - start;
-      const hrend = process.hrtime(hrstart);
-      message.channel.send(`Execution time: ${end}ms`);
-      message.channel.send(`Execution time (hr): ${hrend[0]}s ${hrend[1] / 1000000}ms`);
       client.speekqueue.message.push(message.id);
       if (!client.speekqueue.flag) {
-        yomiage(client, message, start, hrstart);
+        yomiage(client, message);
       }
       client.speekqueue.flag = true;
     }
