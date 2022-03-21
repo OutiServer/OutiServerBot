@@ -4,7 +4,7 @@ const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@
 const request = require('request');
 const { clienterrorlog } = require('../../functions/error');
 const { default: axios } = require('axios');
-const rpc = axios.create({ baseURL: 'http://localhost:50021', proxy: false });
+const rpc = axios.create({ baseURL: 'http://192.168.1.29:50432', proxy: false });
 
 /**
  * @param {import('../../utils/Bot')} client
@@ -166,6 +166,8 @@ module.exports = async (client, message) => {
 
 async function createyomiage(client, message) {
   if (client.connection) {
+    const start = new Date();
+    const hrstart = process.hrtime();
     if (client.speekqueue.channel.includes(message.channelId)) {
       if (!fs.existsSync(`dat/voices/${message.guildId}`)) {
         fs.mkdirSync(`dat/voices/${message.guildId}`);
@@ -195,9 +197,13 @@ async function createyomiage(client, message) {
 
       if (!client.connection) return;
       fs.writeFileSync(`dat/voices/${message.guildId}/${message.id}.wav`, new Buffer.from(synthesis.data), 'binary');
+      const end = new Date() - start;
+      const hrend = process.hrtime(hrstart);
+      message.channel.send(`Execution time: ${end}ms`);
+      message.channel.send(`Execution time (hr): ${hrend[0]}s ${hrend[1] / 1000000}ms`);
       client.speekqueue.message.push(message.id);
       if (!client.speekqueue.flag) {
-        yomiage(client, message);
+        yomiage(client, message, start, hrstart);
       }
       client.speekqueue.flag = true;
     }
