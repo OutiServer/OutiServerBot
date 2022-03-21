@@ -39,7 +39,7 @@ module.exports = {
     // eslint-disable-next-line no-unused-vars
     run_message: async function (client, message, args) {
         try {
-            statusBedrock('localhost', 19132, { timeout: 5000 })
+            statusBedrock('outiserver.com', 19132, { timeout: 5000 })
                 .then(async (result) => {
                     await message.reply({
                         embeds: [
