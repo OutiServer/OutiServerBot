@@ -28,7 +28,7 @@ class SpeakerClient {
          *
          * @type {Array<string>}
          */
-        this.speakerChannelIds = [];
+        this.speakerChannelIds = [textChannelId];
 
         /**
          * VC接続オブジェクト
