@@ -94,6 +94,10 @@ class SpeakerClient {
             .replace(/<#.*?>/g, 'メンション省略')
             .replace(/<@&.*?>/g, 'メンション省略');
 
+        for (const word of this.client.wordCache) {
+            text = text.replace(new RegExp(word.index_word, 'gi'), word.read);
+        }
+
         const audioQuery = await rpc.post(`audio_query?text=${encodeURI(text)}&speaker=${speakerId}`);
         const synthesis = await rpc.post(`synthesis?speaker=${speakerId}`, JSON.stringify(audioQuery.data), {
             responseType: 'arraybuffer',
