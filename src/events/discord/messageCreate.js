@@ -1,10 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-const fs = require('fs');
-const { createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const request = require('request');
 const { clienterrorlog } = require('../../functions/error');
-const { default: axios } = require('axios');
-const rpc = axios.create({ baseURL: 'http://192.168.1.29:50432', proxy: false });
 
 /**
  * @param {import('../../utils/Bot')} client
@@ -53,6 +49,10 @@ module.exports = async (client, message) => {
     if (!message.guild || message.system || message.author.bot) return;
 
     if (message.channel.id === '706469264638345227') {
+      message.react('👍').catch(error => clienterrorlog(error));
+      message.react('👎').catch(error => clienterrorlog(error));
+    }
+    else if (message.channel.id === '950611526274941018') {
       message.react('👍').catch(error => clienterrorlog(error));
       message.react('👎').catch(error => clienterrorlog(error));
     }
@@ -141,7 +141,14 @@ module.exports = async (client, message) => {
         .catch(error => clienterrorlog(error));
     }
 
-    createyomiage(client, message);
+    let speaker = client.db.prepare('SELECT * FROM speakers WHERE userid = ?;').get(message.author.id);
+    if (!speaker) {
+      client.db.prepare('INSERT INTO speakers VALUES (?, ?);').run(message.author.id, 2);
+      speaker = client.db.prepare('SELECT * FROM speakers WHERE userid = ?;').get(message.author.id);
+    }
+    if (client.speakers.get(message.guildId)) {
+      client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);
+    }
 
     if (!message.content.startsWith(process.env.PREFIX)) return;
     const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
@@ -157,85 +164,3 @@ module.exports = async (client, message) => {
     clienterrorlog(client, error);
   }
 };
-
-/**
- *
- * @param {import('../../utils/Bot')} client
- * @param {import('discord.js').Message} message
- */
-
-async function createyomiage(client, message) {
-  if (client.connection) {
-    if (client.speekqueue.channel.includes(message.channelId)) {
-      if (!fs.existsSync(`dat/voices/${message.guildId}`)) {
-        fs.mkdirSync(`dat/voices/${message.guildId}`);
-      }
-
-      // txtを記録する
-      let text = message
-        .content
-        .replace(/https?:\/\/\S+/g, 'URL省略')
-        .replace(/<a?:.*?:\d+>/g, '絵文字省略')
-        .replace(/<@!?.*?>/g, 'メンション省略')
-        .replace(/<#.*?>/g, 'メンション省略')
-        .replace(/<@&.*?>/g, 'メンション省略');
-
-      for (const word of client.wordCache) {
-        text = text.replace(new RegExp(word.index_word, 'gi'), word.read);
-      }
-
-      const audio_query = await rpc.post('audio_query?text=' + encodeURI(text) + '&speaker=8');
-      const synthesis = await rpc.post('synthesis?speaker=1', JSON.stringify(audio_query.data), {
-        responseType: 'arraybuffer',
-        headers: {
-          'accept': 'audio/wav',
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!client.connection) return;
-      fs.writeFileSync(`dat/voices/${message.guildId}/${message.id}.wav`, new Buffer.from(synthesis.data), 'binary');
-      client.speekqueue.message.push(message.id);
-      if (!client.speekqueue.flag) {
-        yomiage(client, message);
-      }
-      client.speekqueue.flag = true;
-    }
-  }
-}
-
-/**
- * @param {import('../../utils/Bot')} client
- * @param {import('discord.js').Message} message
- */
-
-function yomiage(client, message) {
-  try {
-    const player = createAudioPlayer();
-    const messageid = client.speekqueue.message[0];
-    client.speekqueue.message.shift();
-    const resource = createAudioResource(`dat/voices/${message.guildId}/${message.id}.wav`);
-    player.play(resource);
-    client.connection.subscribe(player);
-    player.on('error', error => {
-      clienterrorlog(client, error);
-      message.channel.send('読み上げ中にエラーが発生しました');
-      fs.unlink(`dat/voices/${message.guildId}/${messageid}.wav`, function (err) {
-        if (err) console.error(err);
-      });
-      if (client.speekqueue.message.length < 1) return client.speekqueue.flag = false;
-    });
-
-    player.on(AudioPlayerStatus.Idle, () => {
-      fs.unlink(`dat/voices/${message.guildId}/${messageid}.wav`, function (err) {
-        if (err) console.error(err);
-      });
-      if (client.speekqueue.message.length < 1) return client.speekqueue.flag = false;
-      return yomiage(client, message);
-    });
-  }
-  catch (error) {
-    message.channel.send('読み上げ中にエラーが発生しました');
-    console.error(error);
-  }
-}

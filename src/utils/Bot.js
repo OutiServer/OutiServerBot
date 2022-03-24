@@ -65,6 +65,11 @@ class Bot extends Client {
          * @type {{ index_word: string, read: string }[]}
          */
         this.wordCache = [];
+
+        /**
+         * @type {import('discord.js').Collection<string, import('./SpearkClient')>}
+         */
+        this.speakers = new Collection();
     }
 }
 

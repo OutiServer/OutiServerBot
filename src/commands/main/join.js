@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { joinVoiceChannel } = require('@discordjs/voice');
-const { MessageEmbed } = require('discord.js');
 const { errorlog, commanderror_message } = require('../../functions/error');
+const SpeakerClient = require('../../utils/SpearkClient');
 
 module.exports = {
     info: {
@@ -60,28 +60,26 @@ module.exports = {
             if (!message.member.voice.channelId) {
                 return await message.reply('VCに接続してからこのコマンドを送信してください！');
             }
-            else if (client.connection) {
+            else if (client.speakers.get(message.guildId)) {
                 return await message.reply('既に読み上げを開始しています');
             }
 
-            client.connection = joinVoiceChannel({
-                channelId: message.member.voice.channelId,
-                guildId: message.guildId,
-                adapterCreator: message.guild.voiceAdapterCreator,
-            });
-            client.speekqueue = {
-                channel: [message.channelId],
-                message: [],
-                flag: false,
-            };
+            client.speakers.set(message.guildId, new SpeakerClient(client,
+                message.guildId,
+                message.channelId,
+                message.member.voice.channelId,
+                message.guild.voiceAdapterCreator,
+            ));
 
             await message.reply(`${message.member.voice.channel.name}で読み上げを開始しました！`);
+            /*
             await message.channel.send({
                 embeds: [
                     new MessageEmbed()
                         .setDescription('注意事項\n・おうち鯖Botのプログラムが生成した音声を何らかの形で録音し、再配布することを禁止します。\n・変な長文等を読み上げさせないようにお願いします(サーバーに負荷がかかってしまうため) \n・デフォルトで100文字以上は読み上げさせないようにしています\n\nーーーCREDITーーー\nVOICEVOX ENGINE様公式WEB https://voicevox.hiroshiba.jp/'),
                 ],
             });
+            */
         }
         catch (error) {
             commanderror_message(client, message, error);

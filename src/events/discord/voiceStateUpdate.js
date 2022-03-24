@@ -8,6 +8,16 @@ const { clienterrorlog } = require('../../functions/error');
 
 module.exports = async (client, oldMember, newMember) => {
   try {
+    if (oldMember.channelId === oldMember.guild.me.voice.channelId && oldMember.channel !== null) {
+      if (oldMember.channel.members.filter(m => !m.user.bot).size < 1) {
+        const speakerClient = client.speakers.get(oldMember.guild.id);
+        if (speakerClient) {
+          speakerClient.stop();
+          client.speakers.delete(oldMember.guild.id);
+        }
+      }
+    }
+
     if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot) return;
     if (oldMember.channelId === null) {
       await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${newMember.channel.name}に入室しました`);
@@ -17,17 +27,6 @@ module.exports = async (client, oldMember, newMember) => {
     }
     else if (newMember.channelId !== oldMember.channelId) {
       await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${oldMember.channel.name}から${newMember.channel.name}に移動しました`);
-    }
-
-
-    if (oldMember.channelId === oldMember.guild.me.voice.channelId && oldMember.channel !== null) {
-      if (oldMember.channel.members.filter(m => !m.user.bot).size < 1) {
-        client.connection?.disconnect();
-        client.connection?.destroy();
-        client.connection = null;
-        client.speekqueue = {};
-        await client.channels.cache.get('706458716320432198').send('読み上げを終了しました');
-      }
     }
   }
   catch (error) {

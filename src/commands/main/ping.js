@@ -51,14 +51,7 @@ module.exports = {
             const used = process.memoryUsage();
             const msg = await message.reply('Pong');
 
-            await message.reply({
-                embeds: [
-                    new MessageEmbed()
-                        .setDescription(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${(Math.round(used.rss / 1024 / 1024 * 100) / 100) + 6600}MB`)
-                        .setColor('RANDOM')
-                        .setTimestamp(),
-                ],
-            });
+            await msg.edit(`APIPing: ${msg.createdTimestamp - message.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${(Math.round(used.rss / 1024 / 1024 * 100) / 100)}MB`);
         }
         catch (error) {
             commanderror_message(client, message, error);

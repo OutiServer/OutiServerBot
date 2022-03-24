@@ -38,6 +38,14 @@ module.exports = async (client) => {
       client.db.pragma('journal_mode = wal');
     }
 
+    const speakersTable = client.db.prepare('SELECT count(*) FROM sqlite_master WHERE type=\'table\' AND name = \'speakers\';').get();
+    if (!speakersTable['count(*)']) {
+      client.db.prepare('CREATE TABLE speakers (userid TEXT PRIMARY KEY, speaker_id INTEGER NOT NULL);').run();
+      client.db.prepare('CREATE UNIQUE INDEX idx_speakers_id ON speakers (userid);').run();
+      client.db.pragma('synchronous = 1');
+      client.db.pragma('journal_mode = wal');
+    }
+
     client.wordCache = client.db.prepare('SELECT * FROM words;').all();
 
     client.user.setStatus('online');

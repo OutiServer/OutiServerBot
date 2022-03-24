@@ -51,14 +51,13 @@ module.exports = {
             if (!message.member.voice.channelId) {
                 return await message.reply('VCに接続してからこのコマンドを送信してください！');
             }
-            else if (!client.connection) {
+            else if (!client.speakers.get(message.guildId)) {
                 return await message.reply('読み上げを開始していません');
             }
 
-            client.connection.disconnect();
-            client.connection.destroy();
-            client.connection = null;
-            client.speekqueue = {};
+            const speaker = client.speakers.get(message.guildId);
+            speaker.stop();
+            client.speakers.delete(message.guildId);
 
             await message.reply('読み上げを終了しました');
         }
