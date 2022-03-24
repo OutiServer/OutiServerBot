@@ -147,7 +147,9 @@ module.exports = async (client, message) => {
       speaker = client.db.prepare('SELECT * FROM speakers WHERE userid = ?;').get(message.author.id);
     }
     if (client.speakers.get(message.guildId)) {
-      client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);
+      if (client.speakers.get(message.guildId).speakerChannelIds.includes(message.channelId)) {
+        client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);
+      }
     }
 
     if (!message.content.startsWith(process.env.PREFIX)) return;
