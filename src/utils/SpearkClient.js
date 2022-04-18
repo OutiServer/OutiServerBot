@@ -1,6 +1,6 @@
 const { mkdirSync, existsSync, writeFileSync } = require('fs');
 const { default: axios } = require('axios');
-const rpc = axios.create({ baseURL: 'http://192.168.1.29:50432', proxy: false });
+const rpc = axios.create({ baseURL: process.env.VOICEVOXAPI_URL, proxy: false });
 const { joinVoiceChannel, createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 
 class SpeakerClient {
