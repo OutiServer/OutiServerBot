@@ -59,6 +59,10 @@ module.exports = async (client, message) => {
     else if (message.channel.id === '914386198489874433') {
       message.react('⚙️').catch(error => clienterrorlog(error));
     }
+    else if (message.channel.id === '964715827842670612') {
+      message.react('👍').catch(error => clienterrorlog(error));
+      message.react('👎').catch(error => clienterrorlog(error));
+    }
     else if (message.channel.id === '870145872762126437') {
       message.channel.threads.create(
         {
