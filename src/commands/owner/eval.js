@@ -71,7 +71,7 @@ module.exports = {
             await interaction.editReply({
               content: '実行結果が2000文字を超えているためファイル出力しました',
               components: [],
-              attachments: [
+              files: [
                 new MessageAttachment(inspect(evaled), 'evaled.txt'),
               ],
             });
@@ -139,7 +139,7 @@ module.exports = {
             await msg.edit({
               content: '実行結果が2000文字を超えているためファイル出力しました',
               components: [],
-              attachments: [
+              files: [
                 new MessageAttachment(inspect(evaled), 'evaled.txt'),
               ],
             });
