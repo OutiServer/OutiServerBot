@@ -128,6 +128,17 @@ module.exports = async (client, interaction) => {
                         await interaction.editReply('作業通話を付与しました');
                     }
                     break;
+                case 'study':
+                    await interaction.deferReply({ ephemeral: true });
+                    if (interaction.member.roles.cache.has('972467400941379625')) {
+                        await interaction.member.roles.remove('972467400941379625');
+                        await interaction.editReply('学ぶ者を剥奪しました');
+                    }
+                    else {
+                        await interaction.member.roles.add('972467400941379625');
+                        await interaction.editReply('学ぶ者を付与しました');
+                    }
+                    break;
                 default:
                     break;
             }
