@@ -153,7 +153,8 @@ module.exports = async (client, interaction) => {
                 return await interaction.followUp('そのコマンドを使用するための権限が足りてないで。😉');
             }
 
-            cmd.run(client, interaction);
+            await interaction.followUp('現在調整中');
+            // cmd.run(client, interaction);
         }
     }
     catch (error) {
