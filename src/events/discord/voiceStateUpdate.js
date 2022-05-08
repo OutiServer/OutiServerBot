@@ -20,7 +20,7 @@ module.exports = async (client, oldMember, newMember) => {
     }
 
     if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot) return;
-    if (oldMember.channel.parentId === '706452607538954262' || newMember.channel.parentId === '706452607538954262') {
+    if (oldMember.channel?.parentId === '706452607538954262' || newMember.channel?.parentId === '706452607538954262') {
       if (oldMember.channelId === null) {
         await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${newMember.channel.name}に入室しました`);
       }
@@ -31,13 +31,21 @@ module.exports = async (client, oldMember, newMember) => {
         await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${oldMember.channel.name}から${newMember.channel.name}に移動しました`);
       }
     }
-    else if (oldMember.channel.parentId === '972467676951752734' || newMember.channel.parentId === '972467676951752734') {
+    else if (oldMember.channel?.parentId === '972467676951752734' || newMember.channel?.parentId === '972467676951752734') {
       if (oldMember.channelId === null) {
         client.study_times.set(newMember.member.id, Date.now());
-        await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を開始しました！`);
+        await client.channels.cache.get('972852368620261416').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を開始しました！`);
       }
       else if (newMember.channelId === null) {
-        await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を終えました、今回の学習時間は${ms(Date.now() - client.study_times.get(oldMember.member.id))}でした`);
+        await client.channels.cache.get('972852368620261416').send(`${oldMember.member.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${ms(Date.now() - client.study_times.get(oldMember.member.id))}でした`);
+        client.study_times.delete(oldMember.member.id);
+      }
+      else if (newMember.channelId !== oldMember.channelId && oldMember.channel?.parentId !== '972467676951752734') {
+        client.study_times.set(newMember.member.id, Date.now());
+        await client.channels.cache.get('972852368620261416').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を開始しました！`);
+      }
+      else if (newMember.channelId !== oldMember.channelId && oldMember.channel?.parentId === '972467676951752734') {
+        await client.channels.cache.get('972852368620261416').send(`${oldMember.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${ms(Date.now() - client.study_times.get(oldMember.member.id))}でした`);
         client.study_times.delete(oldMember.member.id);
       }
     }
