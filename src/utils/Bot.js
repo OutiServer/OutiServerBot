@@ -70,6 +70,8 @@ class Bot extends Client {
          * @type {import('discord.js').Collection<string, import('./SpearkClient')>}
          */
         this.speakers = new Collection();
+
+        this.study_times = new Collection();
     }
 }
 
