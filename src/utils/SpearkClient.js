@@ -132,11 +132,11 @@ class SpeakerClient {
     }
 
     /**
-     * 
-     * @param {string} surface 
-     * @param {string} pronunciation 
-     * @param {number} accentType 
-     * 
+     *
+     * @param {string} surface
+     * @param {string} pronunciation
+     * @param {number} accentType
+     *
      * @returns {number}
      */
     static async addWord(surface, pronunciation, accentType) {
@@ -146,9 +146,9 @@ class SpeakerClient {
     }
 
     /**
-     * 
-     * @param {string} wordUUID 
-     * 
+     *
+     * @param {string} wordUUID
+     *
      * @returns {number}
      */
     static async removeWord(wordUUID) {
@@ -158,7 +158,7 @@ class SpeakerClient {
     }
 
     /**
-     * 
+     *
      * @returns {Array<{ key: string, value: { surface: string, cost: number, part_of_speech: string, part_of_speech_detail_1: string, part_of_speech_detail_2: string, part_of_speech_detail_3: string, inflectional_type: string, inflectional_from: string, stem: string, yomi: string, pronunciation: string, accent_type: number, mora_count: number, accent_associative_rule: string } }>}
      */
     static async wordList() {
