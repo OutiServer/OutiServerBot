@@ -30,7 +30,7 @@
     "twitter": "^1.7.1"
   },
   "devDependencies": {
-    "@discordjs/rest": "^0.3.0",
+    "@discordjs/rest": "^0.4.1",
     "discord-api-types": "^0.31.1",
     "eslint": "^8.15.0"
   }
