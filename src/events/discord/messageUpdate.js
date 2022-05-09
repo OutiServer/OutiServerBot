@@ -33,6 +33,29 @@ module.exports = async (client, oldMessage, newMessage) => {
             await newMessage.channel.send(`Upに失敗したようです、${waittime_up}後にもう一度もう一度実行してください！`);
         }
     }
+    else if (newMessage.author.id == '302050872383242240') {
+        if (newMessage.embeds[0].url == 'https://disboard.org/' && (newMessage.embeds[0].description.match(/表示順をアップしたよ/))) {
+            newMessage.channel.send(
+                {
+                    embeds: [
+                        new MessageEmbed()
+                            .setDescription('Bumpを確認しました、二時間後にこのチャンネルで通知します')
+                            .setColor('RANDOM')
+                            .setTimestamp(),
+                    ],
+                },
+            );
+            setTimeout(async () => {
+                await newMessage.channel.send('Bumpしてから二時間経ちました\n`!d bump` を実行しましょう');
+            }, 7200000);
+        }
+        else if (newMessage.embeds[0].url == 'https://disboard.org/' && (newMessage.embeds[0].description.match(/このサーバーを上げられるようになるまで/))) {
+            const waittime_bump = newMessage.embeds[0].description.split('と')[1].split('分')[0];
+            newMessage.channel.send({
+                content: `Bumpに失敗したようです、${waittime_bump}分後にもう一度もう一度実行してください！`,
+            });
+        }
+    }
 
     if (oldMessage.author.bot || oldMessage.system || oldMessage.guildId !== '706452606918066237') return;
     const embed = new MessageEmbed()
