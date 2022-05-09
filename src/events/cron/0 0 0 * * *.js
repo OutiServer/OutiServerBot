@@ -2,7 +2,7 @@ const { MessageAttachment, WebhookClient } = require('discord.js');
 const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {import('../../utils/Bot')} client
+ * @param {import('../../Bot')} client
  */
 
 module.exports = async (client) => {

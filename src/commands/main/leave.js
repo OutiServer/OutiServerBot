@@ -15,7 +15,7 @@ module.exports = {
         .setDescription('読み上げを終了する'),
 
     /**
-     * @param {import('../../utils/Bot')} client
+     * @param {import('../../Bot')} client
      * @param {import('discord.js').CommandInteraction} interaction
      */
 
@@ -41,7 +41,7 @@ module.exports = {
 
     /**
      *
-     * @param {import('../../utils/Bot')} client
+     * @param {import('../../Bot')} client
      * @param {import('discord.js').Message} message
      * @param {Array<string>} args
      */

@@ -16,7 +16,7 @@ module.exports = {
     .setDescription('コマンドの詳細を表示します'),
 
   /**
-     * @param {import('../../utils/Bot')} client
+     * @param {import('../../Bot')} client
      * @param {import('discord.js').CommandInteraction} interaction
      */
   run: async function (client, interaction) {
@@ -168,7 +168,7 @@ module.exports = {
 
   /**
    *
-   * @param {import('../../utils/Bot')} client
+   * @param {import('../../Bot')} client
    * @param {import('discord.js').Message} message
    * @param {Array<string>} args
    * @returns

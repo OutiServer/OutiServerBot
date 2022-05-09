@@ -5,7 +5,7 @@ module.exports = {
 
     /**
      * エラーログ出力用
-     * @param {import('../utils/Bot')} client
+     * @param {import('../Bot')} client
      * @param {import('discord.js').CommandInteraction} interaction
      * @param {Error} error
      */
@@ -37,7 +37,7 @@ module.exports = {
 
     /**
      *
-     * @param {import('../utils/Bot')} client
+     * @param {import('../Bot')} client
      * @param {import('discord.js').Message} message
      * @param {Error} error
      */
@@ -69,7 +69,7 @@ module.exports = {
 
     /**
      * エラーログ出力用
-     * @param {import('../utils/Bot')} client
+     * @param {import('../Bot')} client
      * @param {Error} error
      */
     clienterrorlog: async function (client, error) {

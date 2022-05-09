@@ -1,14 +1,10 @@
 const { Client, Intents, Collection } = require('discord.js');
 const SQLite = require('better-sqlite3');
 const Twitter = require('twitter');
+const { getLogger, configure } = require('log4js');
 
 class Bot extends Client {
-
-    /**
-     * @param {string} dbname
-     */
-
-    constructor(dbname) {
+    constructor() {
         super({
             intents: [
                 Intents.FLAGS.GUILDS,
@@ -32,24 +28,22 @@ class Bot extends Client {
             },
         });
 
+        configure({
+            appenders: {
+                out: { type: 'stdout', layout: { type: 'coloured' } },
+                app: { type: 'file', filename: 'logs/outiserverbot.log', pattern: 'yyyy-MM-dd.log' },
+            },
+            categories: {
+                default: { appenders: ['out', 'app'], level: 'all' },
+            },
+        });
+
         /**
-         * @type {import('discord.js').Collection<string, { info: { name: string, description: string, usage: string, owneronly: boolean, adminonly: boolean, category: string }, data: SlashCommandBuilder, run: function(Client, Message, string[]): Promise<Message> }}
+         * @type {import('discord.js').Collection<string, { info: { name: string, description: string, usage: string, category: string }, data: import('@discordjs/builders').SlashCommandBuilder, run: function(Bot, import('discord.js').CommandInteraction, string[]): Promise<void> }}
          */
         this.commands = new Collection();
 
-        this.db = new SQLite(dbname);
-
-        /**
-         * @type {import('@discordjs/voice').VoiceConnection | null}
-         */
-
-        this.connection = null;
-
-        /**
-         * @type {{ channel: string[], message: string[], flag: boolean }}
-         */
-
-        this.speekqueue = {};
+        this.db = new SQLite('outiserver.db');
 
         /**
          * @type {import('twitter')}
@@ -62,16 +56,13 @@ class Bot extends Client {
         });
 
         /**
-         * @type {{ index_word: string, read: string }[]}
-         */
-        this.wordCache = [];
-
-        /**
-         * @type {import('discord.js').Collection<string, import('./SpearkClient')>}
+         * @type {import('discord.js').Collection<string, import('./utils/SpearkClient')>}
          */
         this.speakers = new Collection();
 
         this.study_times = new Collection();
+
+        this.logger = getLogger('OutiServerBot');
     }
 }
 

@@ -2,7 +2,7 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {import('../../utils/Bot')} client
+ * @param {import('../../Bot')} client
  * @param {import('discord.js').Interaction} interaction
  */
 

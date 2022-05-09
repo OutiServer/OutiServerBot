@@ -2,7 +2,7 @@ const { codeBlock } = require('@discordjs/builders');
 const { WebhookClient } = require('discord.js');
 
 /**
- * @param {import('../../utils/Bot')} client
+ * @param {import('../../Bot')} client
  * @param {Error} error
  * @param {Promise} promise
  */
@@ -10,8 +10,10 @@ const { WebhookClient } = require('discord.js');
 module.exports = async (client, error, promise) => {
     try {
         if (['Collector received no interactions before ending with reason: time'].includes(error.message)) return;
-        console.error(error);
-        if (!client.user) return;
+
+        client.logger.error(error);
+
+        if (!client.isReady()) return;
         const webhook = new WebhookClient({ url: process.env.ERRORLOG_WEBHOOK_URL });
         await webhook.send({
             content: `catchされない例外が発生しました\n${codeBlock(error.stack)}`,
@@ -20,6 +22,6 @@ module.exports = async (client, error, promise) => {
         });
     }
     catch (error_) {
-        console.error(error_);
+        client.logger.error(error);
     }
 };

@@ -2,8 +2,8 @@ require('dotenv').config();
 const { readdir, readdirSync } = require('fs');
 const cron = require('node-cron');
 const path = require('path');
-const Bot = require('./utils/Bot');
-const client = new Bot('outiserver.db');
+const Bot = require('./Bot');
+const client = new Bot();
 
 // Processイベント読み込み
 readdir(path.join(__dirname, '/events/process/'), (err, files) => {
@@ -12,7 +12,7 @@ readdir(path.join(__dirname, '/events/process/'), (err, files) => {
     const event = require(path.join(__dirname, `/events/process/${file}`));
     const eventName = file.split('.')[0];
     process.on(eventName, event.bind(null, client));
-    console.log(`Process ${eventName} event is Loading`);
+    client.logger.info(`Process ${eventName} event is Loading`);
   });
 });
 
@@ -23,7 +23,7 @@ readdir(path.join(__dirname, '/events/discord/'), (err, files) => {
     const event = require(path.join(__dirname, `/events/discord/${file}`));
     const eventName = file.split('.')[0];
     client.on(eventName, event.bind(null, client));
-    console.log(`Discord ${eventName} event is Loading`);
+    client.logger.info(`Discord ${eventName} event is Loading`);
   });
 });
 
@@ -34,7 +34,7 @@ readdir(path.join(__dirname, '/events/cron/'), (err, files) => {
     const event = require(path.join(__dirname, `/events/cron/${file}`));
     const eventTime = file.split('.')[0];
     cron.schedule(eventTime, event.bind(null, client));
-    console.log(`time ${eventTime} event is Loading`);
+    client.logger.info(`time ${eventTime} event is Loading`);
   });
 });
 
@@ -52,6 +52,7 @@ for (const folder of commandFolders) {
 
 client.login()
   .catch(error => {
-    console.error(error);
+    client.logger.error(error);
+    client.logger.fatal('DiscordBotにログインできません');
     process.exit(-1);
   });

@@ -1,7 +1,7 @@
 const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {import('../../utils/Bot')} client
+ * @param {import('../../Bot')} client
  * @param {import('discord.js').GuildBan} ban
  */
 

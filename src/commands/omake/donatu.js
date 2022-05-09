@@ -15,7 +15,7 @@ module.exports = {
         .setDescription('どーなつ'),
 
     /**
-     * @param {import('../../utils/Bot')} client
+     * @param {import('../../Bot')} client
      * @param {import('discord.js').CommandInteraction} interaction
      */
 
@@ -30,7 +30,7 @@ module.exports = {
 
     /**
      *
-     * @param {import('../../utils/Bot')} client
+     * @param {import('../../Bot')} client
      * @param {import('discord.js').Message} message
      * @param {Array<string>} args
      */

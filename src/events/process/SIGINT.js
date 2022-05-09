@@ -1,14 +1,7 @@
 /**
- * @param {import('../../utils/Bot')} client
+ * @param {import('../../Bot')} client
  */
-
-const { clienterrorlog } = require('../../functions/error');
-
+// eslint-disable-next-line no-unused-vars
 module.exports = (client) => {
-    try {
-        process.exit();
-    }
-    catch (error) {
-        clienterrorlog(client, error);
-    }
+    process.exit();
 };

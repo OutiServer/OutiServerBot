@@ -2,7 +2,7 @@ const status = require('../../../dat/json/status.json');
 const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {import('../../utils/Bot')} client
+ * @param {import('../../Bot')} client
  */
 
 module.exports = async (client) => {

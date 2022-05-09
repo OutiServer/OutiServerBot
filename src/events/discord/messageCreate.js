@@ -3,7 +3,7 @@ const request = require('request');
 const { clienterrorlog } = require('../../functions/error');
 
 /**
- * @param {import('../../utils/Bot')} client
+ * @param {import('../../Bot')} client
  * @param {import('discord.js').Message} message
  */
 
@@ -155,16 +155,6 @@ module.exports = async (client, message) => {
         client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);
       }
     }
-
-    if (!message.content.startsWith(process.env.PREFIX)) return;
-    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
-    if (!command) return;
-    const cmd = client.commands.get(command);
-    if (!cmd) return;
-    else if (cmd.info.category === 'owner' && message.author.id !== process.env.OWNERID) return;
-    else if (cmd.info.category === 'admin' && !message.member.permissions.has('ADMINISTRATOR')) return;
-    cmd.run_message(client, message, args);
   }
   catch (error) {
     clienterrorlog(client, error);

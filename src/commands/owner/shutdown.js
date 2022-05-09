@@ -15,7 +15,7 @@ module.exports = {
         .setDescription('再起動コマンド\nVPSに接続するのがめんどくさいからこのコマンドは作られた'),
 
     /**
-     * @param {import('../../utils/Bot')} client
+     * @param {import('../../Bot')} client
      * @param {CommandInteraction} interaction
      */
 
@@ -31,7 +31,7 @@ module.exports = {
 
     /**
      *
-     * @param {import('../../utils/Bot')} client
+     * @param {import('../../Bot')} client
      * @param {import('discord.js').Message} message
      * @param {Array<string>} args
      */
