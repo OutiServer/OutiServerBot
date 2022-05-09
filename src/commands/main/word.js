@@ -1,13 +1,11 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const { errorlog, commanderror_message } = require('../../functions/error');
+const SpeakerClient = require('../../utils/SpearkClient');
 
 module.exports = {
     info: {
         name: 'word',
         description: '読み上げ辞書操作',
-        usage: '',
-        aliases: [],
         category: 'main',
     },
 
@@ -18,20 +16,24 @@ module.exports = {
             .setName('add')
             .setDescription('辞書に追加する')
             .addStringOption(option => option
-                .setName('index')
+                .setName('surface')
                 .setDescription('読み上げる単語')
                 .setRequired(true))
             .addStringOption(option => option
-                .setName('read')
-                .setDescription('読み')
+                .setName('pronunciation')
+                .setDescription('カタカナでの読み方')
+                .setRequired(true))
+            .addIntegerOption(option => option
+                .setName('accent_type')
+                .setDescription('アクセント値(音が下がる場所を指す)')
                 .setRequired(true)),
         )
         .addSubcommand(subCommand => subCommand
             .setName('remove')
             .setDescription('辞書から削除する')
             .addStringOption(option => option
-                .setName('index')
-                .setDescription('削除する単語')
+                .setName('uuid')
+                .setDescription('削除する単語のUUID')
                 .setRequired(true)),
         )
         .addSubcommand(subCommand => subCommand
@@ -45,57 +47,60 @@ module.exports = {
      */
 
     run: async function (client, interaction) {
-        try {
-            switch (interaction.options.getSubcommand(true)) {
-                case 'add': {
-                    const wordIndex = interaction.options.getString('index', true).toLocaleLowerCase();
-                    const wordRead = interaction.options.getString('read', true).toLocaleLowerCase();
-                    if (client.db.prepare('SELECT * FROM words WHERE index_word = ?;').get(wordIndex)) {
-                        client.wordCache.find(word => word.index_word === wordIndex).read = wordRead;
-                        client.db.prepare('UPDATE words SET read = ? WHERE index_word = ?;').run(wordRead, wordIndex);
+        switch (interaction.options.getSubcommand(true)) {
+            case 'add':
+                {
+                    const pronunciation = interaction.options.getString('pronunciation', true);
+                    // eslint-disable-next-line no-irregular-whitespace
+                    if (pronunciation.match(/^[ァ-ヶー　]*$/) === null) {
+                        await interaction.followUp('オプション、pronunciationは全角カタカナである必要があります');
                     }
                     else {
-                        client.wordCache.push({
-                            word_index: wordIndex,
-                            read: wordRead,
-                        });
-                        client.db.prepare('INSERT INTO words VALUES (?, ?);').run(wordIndex, wordRead);
+                        const statusCode = await SpeakerClient.addWord(interaction.options.getString('surface', true), pronunciation, interaction.options.getInteger('accent_type', true));
+                        if (statusCode === 200) {
+                            await interaction.followUp({
+                                embeds: [
+                                    new MessageEmbed()
+                                        .setTitle('単語を登録しました')
+                                        .addField('読み上げ単語', interaction.options.getString('surface', true))
+                                        .addField('読み上げ方', interaction.options.getString('pronunciation', true))
+                                        .addField('アクセント値(音が下がる場所を指す)', interaction.options.getInteger('accent_type', true).toString())
+                                        .setColor('RANDOM'),
+                                ],
+                            });
+                        }
+                        else {
+                            await interaction.followUp(`単語の登録に失敗しました、HTTPStatusCode: ${statusCode}`);
+                        }
                     }
-
-                    await interaction.followUp({
-                        embeds: [
-                            new MessageEmbed()
-                                .setTitle('単語の登録を行いました')
-                                .addField('単語', wordIndex, true)
-                                .addField('読み方', wordRead, true)
-                                .setColor('RANDOM'),
-                        ],
-                    });
                 }
-                    break;
+                break;
+            case 'remove':
+                {
+                    const uuid = interaction.options.getString('uuid', true);
+                    if ((await SpeakerClient.wordList()).filter(word => word.key === uuid).length < 1) return await interaction.followUp('そのUUIDは登録されていません');
 
-                case 'remove': {
-                    const wordIndex = interaction.options.getString('index', true);
-                    if (!client.db.prepare('SELECT * FROM words WHERE index_word = ?;').get(wordIndex)) {
-                        await interaction.followUp('その単語は登録されていません');
+                    const statusCode = await SpeakerClient.removeWord(uuid);
+                    if (statusCode === 204) {
+                        await interaction.followUp('単語を削除しました');
                     }
                     else {
-                        client.db.prepare('DELETE FROM words WHERE index_word = ?;').run(wordIndex);
-                        client.wordCache = client.wordCache.filter(word => word.index_word !== wordIndex);
-                        await interaction.followUp(`${wordIndex}を単語から削除しました`);
+                        await interaction.followUp(`単語の削除に失敗しました、HTTPStatusCode: ${statusCode}`);
                     }
                 }
-                    break;
+                break;
+            case 'list':
+                {
+                    const words = await SpeakerClient.wordList();
+                    if (words.length < 1) return interaction.followUp('現在登録されている単語はありません');
 
-                case 'list': {
-                    const words = client.db.prepare('SELECT * FROM words;').all();
                     const embeds = [];
                     let page = 1;
                     for (let i = 0; i < words.length; i += 10) {
                         embeds.push(
                             new MessageEmbed()
                                 .setTitle(`単語帳 ${page++}ページ目`)
-                                .setDescription(`${words.slice(i, i + 10).map(word => `単語: ${word.index_word}\n読み: ${word.read}`).join('\n\n')}`)
+                                .setDescription(`${words.slice(i, i + 10).map(word => `UUID: ${word.key}\n単語: ${word.value.surface}\n読み: ${word.value.pronunciation}\nアクセント値(音が下がる場所を指す): ${word.value.accent_type}`).join('\n\n')}`)
                                 .setColor('RANDOM'),
                         );
                     }
@@ -132,215 +137,52 @@ module.exports = {
                     });
 
                     let select = 0;
-
                     const filter = (i) => i.user.id === interaction.user.id;
                     const collector = message.createMessageComponentCollector({ filter: filter, componentType: 'BUTTON' });
                     collector.on('collect', async i => {
-                        try {
-                            if (i.customId === 'left') {
-                                select--;
-                                buttons.components[1].setDisabled(false);
-                                if (select < 1) {
-                                    buttons.components[0].setDisabled();
-                                }
-                                await i.update(
-                                    {
-                                        embeds: [embeds[select]],
-                                        components: [buttons],
-                                    },
-                                );
-                            }
-                            else if (i.customId === 'right') {
-                                select++;
-                                buttons.components[0].setDisabled(false);
-                                if (select >= embeds.length - 1) {
-                                    buttons.components[1].setDisabled();
-                                }
-                                await i.update(
-                                    {
-                                        embeds: [embeds[select]],
-                                        components: [buttons],
-                                    },
-                                );
-                            }
-                            else if (i.customId === 'stop') {
+                        if (i.customId === 'left') {
+                            select--;
+                            buttons.components[1].setDisabled(false);
+                            if (select < 1) {
                                 buttons.components[0].setDisabled();
+                            }
+                            await i.update(
+                                {
+                                    embeds: [embeds[select]],
+                                    components: [buttons],
+                                },
+                            );
+                        }
+                        else if (i.customId === 'right') {
+                            select++;
+                            buttons.components[0].setDisabled(false);
+                            if (select >= embeds.length - 1) {
                                 buttons.components[1].setDisabled();
-                                buttons.components[2].setDisabled();
-                                await i.update(
-                                    {
-                                        embeds: [embeds[select]],
-                                        components: [buttons],
-                                    },
-                                );
-                                collector.stop();
                             }
+                            await i.update(
+                                {
+                                    embeds: [embeds[select]],
+                                    components: [buttons],
+                                },
+                            );
                         }
-                        catch (error) {
-                            errorlog(client, interaction, error);
-                        }
-                    });
-                }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        catch (error) {
-            errorlog(client, interaction, error);
-        }
-    },
-
-    /**
-     *
-     * @param {import('../../Bot')} client
-     * @param {import('discord.js').Message} message
-     * @param {Array<string>} args
-     */
-    // eslint-disable-next-line no-unused-vars
-    run_message: async function (client, message, args) {
-        try {
-            switch (args[0]) {
-                case 'add': {
-                    if (!args[1] || !args[2]) return await message.reply('引数に単語と読み方を入れてください');
-
-                    if (client.db.prepare('SELECT * FROM words WHERE index_word = ?;').get(args[1].toLocaleLowerCase())) {
-                        client.db.prepare('UPDATE words SET read = ? WHERE index_word = ?;').run(args[2].toLocaleLowerCase(), args[1].toLocaleLowerCase());
-                        client.wordCache = client.db.prepare('SELECT * FROM words;').all();
-                    }
-                    else {
-                        client.db.prepare('INSERT INTO words VALUES (?, ?);').run(args[1].toLocaleLowerCase(), args[2].toLocaleLowerCase());
-                        client.wordCache = client.db.prepare('SELECT * FROM words;').all();
-                    }
-
-                    await message.reply({
-                        embeds: [
-                            new MessageEmbed()
-                                .setTitle('単語の登録を行いました')
-                                .addField('単語', args[1], true)
-                                .addField('読み方', args[2], true)
-                                .setColor('RANDOM'),
-                        ],
-                    });
-                }
-                    break;
-
-                case 'remove': {
-                    if (!args[1]) return await message.reply('引数に削除する単語を入れてください');
-                    if (!client.db.prepare('SELECT * FROM words WHERE index_word = ?;').get(args[1].toLocaleLowerCase())) {
-                        await message.reply('その単語は登録されていません');
-                    }
-                    else {
-                        client.db.prepare('DELETE FROM words WHERE index_word = ?;').run(args[1].toLocaleLowerCase());
-                        client.wordCache = client.db.prepare('SELECT * FROM words;').all();
-                        await message.reply(`${args[1]}を単語から削除しました`);
-                    }
-                }
-                    break;
-
-                case 'list': {
-                    const words = client.db.prepare('SELECT * FROM words;').all();
-                    const embeds = [];
-                    let page = 1;
-                    for (let i = 0; i < words.length; i += 10) {
-                        embeds.push(
-                            new MessageEmbed()
-                                .setTitle(`単語帳 ${page++}ページ目`)
-                                .setDescription(`${words.slice(i, i + 10).map(word => `単語: ${word.index_word}\n読み: ${word.read}`).join('\n\n')}`)
-                                .setColor('RANDOM'),
-                        );
-                    }
-
-                    if (embeds.length < 2) {
-                        return await message.reply({
-                            embeds: [embeds[0]],
-                        });
-                    }
-
-                    const buttons = new MessageActionRow()
-                        .addComponents(
-                            [
-                                new MessageButton()
-                                    .setCustomId('left')
-                                    .setLabel('◀️')
-                                    .setStyle('PRIMARY')
-                                    .setDisabled(),
-                                new MessageButton()
-                                    .setCustomId('right')
-                                    .setLabel('▶️')
-                                    .setStyle('PRIMARY'),
-                                new MessageButton()
-                                    .setCustomId('stop')
-                                    .setLabel('⏹️')
-                                    .setStyle('DANGER'),
-                            ],
-                        );
-
-                    const msg = await message.reply({
-                        embeds: [embeds[0]],
-                        components: [buttons],
-                        fetchReply: true,
-                    });
-
-                    let select = 0;
-
-                    const filter = (i) => i.user.id === message.author.id;
-                    const collector = msg.createMessageComponentCollector({ filter: filter, componentType: 'BUTTON' });
-                    collector.on('collect', async i => {
-                        try {
-                            if (i.customId === 'left') {
-                                select--;
-                                buttons.components[1].setDisabled(false);
-                                if (select < 1) {
-                                    buttons.components[0].setDisabled();
-                                }
-                                await i.update(
-                                    {
-                                        embeds: [embeds[select]],
-                                        components: [buttons],
-                                    },
-                                );
-                            }
-                            else if (i.customId === 'right') {
-                                select++;
-                                buttons.components[0].setDisabled(false);
-                                if (select >= embeds.length - 1) {
-                                    buttons.components[1].setDisabled();
-                                }
-                                await i.update(
-                                    {
-                                        embeds: [embeds[select]],
-                                        components: [buttons],
-                                    },
-                                );
-                            }
-                            else if (i.customId === 'stop') {
-                                buttons.components[0].setDisabled();
-                                buttons.components[1].setDisabled();
-                                buttons.components[2].setDisabled();
-                                await i.update(
-                                    {
-                                        embeds: [embeds[select]],
-                                        components: [buttons],
-                                    },
-                                );
-                                collector.stop();
-                            }
-                        }
-                        catch (error) {
-                            commanderror_message(client, message, error);
+                        else if (i.customId === 'stop') {
+                            buttons.components[0].setDisabled();
+                            buttons.components[1].setDisabled();
+                            buttons.components[2].setDisabled();
+                            await i.update(
+                                {
+                                    embeds: [embeds[select]],
+                                    components: [buttons],
+                                },
+                            );
+                            collector.stop();
                         }
                     });
                 }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        catch (error) {
-            commanderror_message(client, message, error);
+                break;
+            default:
+                break;
         }
     },
 };

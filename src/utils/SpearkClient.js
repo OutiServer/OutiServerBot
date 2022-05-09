@@ -130,6 +130,43 @@ class SpeakerClient {
 
         return speakers.data;
     }
+
+    /**
+     * 
+     * @param {string} surface 
+     * @param {string} pronunciation 
+     * @param {number} accentType 
+     * 
+     * @returns {number}
+     */
+    static async addWord(surface, pronunciation, accentType) {
+        const result = await rpc.post(`user_dict_word?surface=${encodeURI(surface)}&pronunciation=${encodeURI(pronunciation)}&accent_type=${accentType}`);
+
+        return result.status;
+    }
+
+    /**
+     * 
+     * @param {string} wordUUID 
+     * 
+     * @returns {number}
+     */
+    static async removeWord(wordUUID) {
+        const result = await rpc.delete(`user_dict_word/${wordUUID}`);
+
+        return result.status;
+    }
+
+    /**
+     * 
+     * @returns {Array<{ key: string, value: { surface: string, cost: number, part_of_speech: string, part_of_speech_detail_1: string, part_of_speech_detail_2: string, part_of_speech_detail_3: string, inflectional_type: string, inflectional_from: string, stem: string, yomi: string, pronunciation: string, accent_type: number, mora_count: number, accent_associative_rule: string } }>}
+     */
+    static async wordList() {
+        const words = await rpc.get('user_dict');
+        if (words.status !== 200) return {};
+
+        return Object.entries(words.data).map(([key, value]) => ({ 'key': key, 'value': value }));
+    }
 }
 
 module.exports = SpeakerClient;

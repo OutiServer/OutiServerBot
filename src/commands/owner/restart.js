@@ -5,8 +5,6 @@ module.exports = {
     info: {
         name: 'restart',
         description: '再起動コマンド',
-        usage: '',
-        aliases: [],
         category: 'owner',
     },
 
@@ -18,7 +16,6 @@ module.exports = {
      * @param {import('../../Bot')} client
      * @param {import('discord.js').CommandInteraction} interaction
      */
-
     run: async function (client, interaction) {
         await interaction.followUp('再起動しています...');
 

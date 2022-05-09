@@ -45,7 +45,7 @@ for (const folder of commandFolders) {
   for (const file of commandFiles) {
     const command = require(path.join(__dirname, `/commands/${folder}/${file}`));
     client.commands.set(command.info.name, command);
-    console.log(`${command.info.name} command is Loading`);
+    client.logger.info(`${command.info.name} command is Loading`);
   }
 }
 
