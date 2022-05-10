@@ -14,7 +14,7 @@ module.exports = {
     .addStringOption(option => option
       .setName('commandname')
       .setDescription('helpを表示するコマンド名')
-      .setRequired(true)),
+      .setRequired(false)),
 
   /**
      * @param {import('../../Bot')} client
