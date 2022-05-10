@@ -1,5 +1,4 @@
 const { Client, Intents, Collection } = require('discord.js');
-const Twitter = require('twitter');
 const { getLogger, configure } = require('log4js');
 const Database = require('./database/Database');
 
@@ -43,16 +42,6 @@ class Bot extends Client {
         this.commands = new Collection();
 
         this.database = new Database();
-
-        /**
-         * @type {import('twitter')}
-         */
-        this.twitter = new Twitter({
-            consumer_key: process.env.TWITTER_KET,
-            consumer_secret: process.env.TWITTER_SECRET,
-            access_token_key: process.env.TWITTER_ACCESS_TOKEN,
-            access_token_secret: process.env.TWITTER_ACCESS_SECRET,
-        });
 
         /**
          * @type {import('discord.js').Collection<string, import('./utils/SpearkClient')>}
