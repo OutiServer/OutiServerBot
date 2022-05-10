@@ -99,7 +99,6 @@ module.exports = async (client, interaction) => {
                 if (interaction.channel.parentId !== '821684794056245258') return;
                 await interaction.reply('このお問い合わせをクローズしました');
                 await interaction.channel.setParent('828268142820196372');
-                client.db.prepare('DELETE FROM inquirys WHERE channelid = ?;').run(interaction.channelId);
                 break;
             case 'illustration':
                 await interaction.deferReply({ ephemeral: true });

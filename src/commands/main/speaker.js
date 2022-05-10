@@ -52,7 +52,7 @@ module.exports = {
         const response = await msg.awaitMessageComponent({ filter, componentType: 'SELECT_MENU', max: 1, time: 60000 });
         // eslint-disable-next-line no-shadow
         const speaker = speakers.find(speaker => speaker.speaker_uuid === response.values[0]);
-        client.db.prepare('UPDATE speakers SET speaker_id = ? WHERE userid = ?;').run(speaker.styles[0].id, interaction.user.id);
+        client.database.setSpeaker(interaction.user.id, speaker.styles[0].id);
         response.update({
             content: `読み上げキャラクターを${speaker.name}にセット`,
             embeds: [],
