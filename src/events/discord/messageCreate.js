@@ -83,11 +83,12 @@ module.exports = async (client, message) => {
     });
   }
 
-  let speaker = client.db.prepare('SELECT * FROM speakers WHERE userid = ?;').get(message.author.id);
+  let speaker = client.database.getSpeaker(message.author.id);
   if (!speaker) {
-    client.db.prepare('INSERT INTO speakers VALUES (?, ?);').run(message.author.id, 2);
-    speaker = client.db.prepare('SELECT * FROM speakers WHERE userid = ?;').get(message.author.id);
+    client.database.setSpeaker(message.author.id, 2);
+    speaker = client.database.getSpeaker(message.author.id);
   }
+
   if (client.speakers.get(message.guildId)) {
     if (client.speakers.get(message.guildId).speakerChannelIds.includes(message.channelId)) {
       client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);

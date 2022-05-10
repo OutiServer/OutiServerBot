@@ -1,4 +1,4 @@
-const { mkdirSync, existsSync, writeFileSync } = require('fs');
+const { mkdirSync, existsSync, writeFileSync, rmSync } = require('fs');
 const { default: axios } = require('axios');
 const rpc = axios.create({ baseURL: process.env.VOICEVOXAPI_URL, proxy: false });
 const { joinVoiceChannel, createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
@@ -68,6 +68,8 @@ class SpeakerClient {
         for (const channelId of this.speakerChannelIds) {
             this.client.channels.cache.get(channelId).send('読み上げを終了しました');
         }
+
+        rmSync(`dat/voices/${this.guildId}`, { recursive: true });
     }
 
     /**

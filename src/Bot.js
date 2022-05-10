@@ -1,7 +1,7 @@
 const { Client, Intents, Collection } = require('discord.js');
-const SQLite = require('better-sqlite3');
 const Twitter = require('twitter');
 const { getLogger, configure } = require('log4js');
+const Database = require('./database/Database');
 
 class Bot extends Client {
     constructor() {
@@ -9,7 +9,6 @@ class Bot extends Client {
             intents: [
                 Intents.FLAGS.GUILDS,
                 Intents.FLAGS.GUILD_MEMBERS,
-                Intents.FLAGS.GUILD_BANS,
                 Intents.FLAGS.GUILD_INTEGRATIONS,
                 Intents.FLAGS.GUILD_VOICE_STATES,
                 Intents.FLAGS.GUILD_MESSAGES,
@@ -43,7 +42,7 @@ class Bot extends Client {
          */
         this.commands = new Collection();
 
-        this.db = new SQLite('outiserver.db');
+        this.database = new Database();
 
         /**
          * @type {import('twitter')}

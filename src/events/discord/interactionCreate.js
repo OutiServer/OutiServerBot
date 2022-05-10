@@ -48,12 +48,11 @@ module.exports = async (client, interaction) => {
             case 'inquiry':
                 {
                     await interaction.deferReply({ ephemeral: true });
-                    const ticketid = client.db.prepare('SELECT * FROM sqlite_sequence WHERE name = ?').get('inquirys');
-                    const channel = await client.guilds.cache.get('706452606918066237').channels.create(`${ticketid ? ticketid?.seq + 1 : 1}-お問い合わせ`,
+                    const channel = await client.guilds.cache.get('706452606918066237').channels.create(`${interaction.user.tag}-お問い合わせ`,
                         {
-                            type: 'text',
+                            type: 'GUILD_TEXT',
                             parent: '821684794056245258',
-                            topic: `${interaction.user}さん専用のお問い合わせチャンネル`,
+                            topic: `${interaction.user}さんのお問い合わせチャンネル`,
                             permissionOverwrites: [
                                 {
                                     id: '706452606918066237',
@@ -74,8 +73,6 @@ module.exports = async (client, interaction) => {
                             ],
                         });
 
-
-                    client.db.prepare('INSERT INTO inquirys (channelid) VALUES (?)').run(channel.id);
                     await interaction.editReply(`お問い合わせチャンネルを作成しました ${channel}`);
                     const msg = await channel.send({
                         content: `${interaction.user}さん専用のお問い合わせチャンネルを作成しました！`,
@@ -144,12 +141,8 @@ module.exports = async (client, interaction) => {
     else if (interaction.isCommand()) {
         await interaction.deferReply();
         const cmd = client.commands.get(interaction.commandName);
-        if (!cmd) {
-            return await interaction.followUp('Error: コマンドデータが見つかりませんでした');
-        }
-        else if (cmd.info.category === 'owner' && interaction.user.id !== process.env.OWNERID || cmd.info.category === 'admin' && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) {
-            return await interaction.followUp('そのコマンドを使用するための権限が足りてないで。😉');
-        }
+        if (!cmd) return await interaction.followUp('Error: コマンドデータが見つかりませんでした');
+        else if (cmd.info.category === 'owner' && interaction.user.id !== process.env.OWNERID || cmd.info.category === 'admin' && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.followUp('そのコマンドを使用するための権限が足りてないで。😉');
 
         cmd.run(client, interaction);
     }
