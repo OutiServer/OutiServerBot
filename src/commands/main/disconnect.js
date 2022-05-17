@@ -24,6 +24,7 @@ module.exports = {
             return await interaction.followUp('読み上げを開始していません');
         }
 
+        await interaction.followUp('読み上げを停止しています...');
         const speaker = client.speakers.get(interaction.guildId);
         speaker.stop();
         client.speakers.delete(interaction.guildId);

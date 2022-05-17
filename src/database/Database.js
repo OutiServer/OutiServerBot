@@ -37,7 +37,7 @@ class Database {
             this.sql.prepare('INSERT INTO speakers VALUES (?, ?);').run(userid, speakerId);
         }
         else {
-            this.sql.prepare('INSERT INTO speakers VALUES (?, ?);').run(userid, speakerId);
+            this.sql.prepare('UPDATE speakers SET speaker_id = ? WHERE userid = ?;').run(speakerId, userid);
         }
     }
 }
