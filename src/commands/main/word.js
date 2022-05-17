@@ -7,6 +7,7 @@ module.exports = {
         name: 'word',
         description: '読み上げ辞書操作',
         category: 'main',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

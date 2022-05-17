@@ -6,6 +6,7 @@ module.exports = {
         name: 'avatar',
         description: 'ユーザーのアバター画像を表示',
         category: 'main',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

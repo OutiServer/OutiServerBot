@@ -5,6 +5,7 @@ module.exports = {
         name: 'disconnect',
         description: '読み上げを終了する',
         category: 'main',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

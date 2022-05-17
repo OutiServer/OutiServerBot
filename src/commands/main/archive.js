@@ -5,6 +5,7 @@ module.exports = {
         name: 'archive',
         description: 'スレッドをアーカイブする',
         category: 'main',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

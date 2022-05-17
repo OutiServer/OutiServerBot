@@ -5,6 +5,7 @@ module.exports = {
         name: 'allmute',
         description: '全員をミュートする',
         category: 'admin',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

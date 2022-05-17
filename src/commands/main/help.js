@@ -6,6 +6,7 @@ module.exports = {
     name: 'help',
     description: 'コマンドの詳細を表示します',
     category: 'main',
+    deferReply: false,
   },
 
   data: new SlashCommandBuilder()
