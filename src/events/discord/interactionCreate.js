@@ -137,12 +137,25 @@ module.exports = async (client, interaction) => {
                 break;
         }
     }
+    else if (interaction.isModalSubmit()) {
+        if (interaction.customId === 'report') {
+            await client.users.cache.get(process.env.OWNERID).send({
+                embeds: [
+                    new MessageEmbed()
+                        .setTitle(`${interaction.user.tag}からのReport`)
+                        .addField('タイトル', interaction.fields.getTextInputValue('report_title'))
+                        .addField('タイトル', interaction.fields.getTextInputValue('report_content')),
+                ],
+            });
+            await interaction.reply('送信しました');
+        }
+    }
     else if (interaction.isCommand()) {
         const cmd = client.commands.get(interaction.commandName);
         if (!cmd) return await interaction.reply('Error: コマンドデータが見つかりませんでした');
         else if (cmd.info.category === 'owner' && interaction.user.id !== process.env.OWNERID || cmd.info.category === 'admin' && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.reply('そのコマンドを使用するための権限が足りてないで。😉');
 
-        if (cmd.info.deferReply) await interaction.deferReply();
+        if (!cmd.info.deferReply) await interaction.deferReply();
 
         cmd.run(client, interaction);
     }
