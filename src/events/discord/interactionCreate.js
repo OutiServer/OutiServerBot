@@ -145,7 +145,7 @@ module.exports = async (client, interaction) => {
         if (!cmd) return await interaction.reply('Error: コマンドデータが見つかりませんでした');
         else if (cmd.info.category === 'owner' && interaction.user.id !== process.env.OWNERID || cmd.info.category === 'admin' && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.reply('そのコマンドを使用するための権限が足りてないで。😉');
 
-        if (cmd.info.deferReply) await interaction.deferReply();
+        if (!cmd.info.deferReply) await interaction.deferReply();
 
         cmd.run(client, interaction);
     }
