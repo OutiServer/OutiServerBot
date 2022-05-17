@@ -6,6 +6,7 @@ module.exports = {
         name: 'join',
         description: '読み上げを開始',
         category: 'main',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

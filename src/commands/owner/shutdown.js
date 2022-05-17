@@ -5,6 +5,7 @@ module.exports = {
         name: 'shutdown',
         description: 'シャットダウンコマンド',
         category: 'owner',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

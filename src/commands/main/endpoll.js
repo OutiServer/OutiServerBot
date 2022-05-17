@@ -5,6 +5,7 @@ module.exports = {
         name: 'endpoll',
         description: '投票集計コマンド',
         category: 'main',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

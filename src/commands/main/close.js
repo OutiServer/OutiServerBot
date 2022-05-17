@@ -5,6 +5,7 @@ module.exports = {
         name: 'close',
         description: 'お問合せ・スレッドクローズ',
         category: 'main',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

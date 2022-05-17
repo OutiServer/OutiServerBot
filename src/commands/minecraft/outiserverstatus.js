@@ -5,6 +5,7 @@ module.exports = {
         name: 'outiserverstatus',
         description: 'おうちサーバーの状態を表示するコマンド',
         category: 'minecraft',
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()
