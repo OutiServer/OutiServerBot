@@ -6,7 +6,7 @@ module.exports = {
         name: 'report',
         description: 'バグを報告したり、Botに対する要望を開発者に送信するコマンド',
         category: 'main',
-        deferReply: false,
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()
@@ -22,17 +22,19 @@ module.exports = {
         const modal = new Modal()
             .setCustomId('report')
             .setTitle('Bot開発者へのバグ報告・要望');
-        modal.addComponents(new MessageActionRow()
-            .addComponents(new TextInputComponent()
-                .setCustomId('report_title')
-                .setLabel('タイトル')
-                .setStyle('SHORT'),
-            )
-            .addComponents(new TextInputComponent()
-                .setCustomId('report_content')
-                .setLabel('内容')
-                .setStyle('PARAGRAPH'),
-            ),
+        modal.addComponents(
+            new MessageActionRow()
+                .addComponents(new TextInputComponent()
+                    .setCustomId('report_title')
+                    .setLabel('タイトル')
+                    .setStyle('SHORT'),
+                ),
+            new MessageActionRow()
+                .addComponents(new TextInputComponent()
+                    .setCustomId('report_content')
+                    .setLabel('内容')
+                    .setStyle('PARAGRAPH'),
+                ),
         );
 
         await interaction.showModal(modal);

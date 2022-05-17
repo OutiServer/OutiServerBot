@@ -138,7 +138,17 @@ module.exports = async (client, interaction) => {
         }
     }
     else if (interaction.isModalSubmit()) {
-        console.log(interaction);
+        if (interaction.customId === 'report') {
+            await client.users.cache.get(process.env.OWNERID).send({
+                embeds: [
+                    new MessageEmbed()
+                        .setTitle(`${interaction.user.tag}からのReport`)
+                        .addField('タイトル', interaction.fields.getTextInputValue('report_title'))
+                        .addField('タイトル', interaction.fields.getTextInputValue('report_content')),
+                ],
+            });
+            await interaction.reply('送信しました');
+        }
     }
     else if (interaction.isCommand()) {
         const cmd = client.commands.get(interaction.commandName);
