@@ -137,6 +137,9 @@ module.exports = async (client, interaction) => {
                 break;
         }
     }
+    else if (interaction.isModalSubmit()) {
+        console.log(interaction);
+    }
     else if (interaction.isCommand()) {
         const cmd = client.commands.get(interaction.commandName);
         if (!cmd) return await interaction.reply('Error: コマンドデータが見つかりませんでした');
