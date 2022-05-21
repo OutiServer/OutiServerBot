@@ -19,10 +19,28 @@ module.exports = {
         .setDescription('投票名')
         .setRequired(true);
     })
-    .addStringOption(option => {
+    .addIntegerOption(option => {
       return option
-        .setName('time')
-        .setDescription('投票時間')
+        .setName('seconds')
+        .setDescription('投票時間 秒')
+        .setRequired(true);
+    })
+    .addIntegerOption(option => {
+      return option
+        .setName('minutes')
+        .setDescription('投票時間 分')
+        .setRequired(true);
+    })
+    .addIntegerOption(option => {
+      return option
+        .setName('hours')
+        .setDescription('投票時間 時')
+        .setRequired(true);
+    })
+    .addIntegerOption(option => {
+      return option
+        .setName('days')
+        .setDescription('投票時間 日')
         .setRequired(true);
     })
     .addStringOption(option => {
