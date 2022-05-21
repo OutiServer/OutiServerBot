@@ -9,7 +9,7 @@ const { default: axios } = require('axios');
 module.exports = async (client, message) => {
   if (message.author.id === '786343397807620106') {
     const translationText = await axios.get(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`);
-    await message.reply(translationText);
+    await message.reply(translationText.data);
   }
   else if (message.type === 'GUILD_MEMBER_JOIN' && message.guildId === '706452606918066237') {
     client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\nまずは<#872501771254263829>を読みましょう。`);
