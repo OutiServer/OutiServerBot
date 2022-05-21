@@ -1,3 +1,4 @@
+const { SnowflakeUtil } = require('discord.js');
 const ms = require('ms');
 
 /**
@@ -19,14 +20,19 @@ module.exports = async (client, oldMember, newMember) => {
 
   if (oldMember.guild.id !== '706452606918066237' || oldMember.member.user.bot) return;
   if (oldMember.channel?.parentId === '706452607538954262' || newMember.channel?.parentId === '706452607538954262') {
+    const speaker = client.speakers.get(newMember.guild.id);
     if (oldMember.channelId === null) {
       await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${newMember.channel.name}に入室しました`);
+      if (speaker && speaker.voiceChannelId === newMember.channelId) await speaker.addSpearkQueue(`${newMember.member.user.username}が参加しました`, SnowflakeUtil.generate());
     }
     else if (newMember.channelId === null) {
       await client.channels.cache.get('706458716320432198').send(`${oldMember.member.user.tag}が${oldMember.channel.name}から退出しました`);
+      if (speaker && speaker.voiceChannelId === oldMember.channelId) await speaker.addSpearkQueue(`${oldMember.member.user.username}が退出しました`, SnowflakeUtil.generate());
     }
     else if (newMember.channelId !== oldMember.channelId) {
       await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${oldMember.channel.name}から${newMember.channel.name}に移動しました`);
+      if (speaker && speaker.voiceChannelId === newMember.channelId) await speaker.addSpearkQueue(`${oldMember.member.user.username}が参加しました`, SnowflakeUtil.generate());
+      else if (speaker && speaker.voiceChannelId === oldMember.channelId) await speaker.addSpearkQueue(`${oldMember.member.user.username}が退出しました`, SnowflakeUtil.generate());
     }
   }
   else if (oldMember.channel?.parentId === '972467676951752734' || newMember.channel?.parentId === '972467676951752734') {
