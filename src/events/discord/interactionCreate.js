@@ -158,7 +158,7 @@ module.exports = async (client, interaction) => {
                         .addField('タイトル', interaction.fields.getTextInputValue('report_content')),
                 ],
             });
-            await interaction.reply('送信しました');
+            await interaction.reply('送信しました、開発者からDMでの返信があるかもしれないのでDM解放しておいてください。');
         }
     }
     else if (interaction.isCommand()) {
