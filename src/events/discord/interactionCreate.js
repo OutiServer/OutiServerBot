@@ -133,6 +133,17 @@ module.exports = async (client, interaction) => {
                     await interaction.editReply('学ぶ者を付与しました');
                 }
                 break;
+            case 'ghost_investigator':
+                await interaction.deferReply({ ephemeral: true });
+                if (interaction.member.roles.cache.has('977401797935251486')) {
+                    await interaction.member.roles.remove('977401797935251486');
+                    await interaction.editReply('幽霊調査員を剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('977401797935251486');
+                    await interaction.editReply('幽霊調査員を付与しました');
+                }
+                break;
             default:
                 break;
         }
