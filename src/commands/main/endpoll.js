@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     info: {
@@ -10,7 +11,7 @@ module.exports = {
 
     data: new SlashCommandBuilder()
         .setName('endpoll')
-        .setDescription('投票を強制終了する')
+        .setDescription('投票を終了する')
         .addIntegerOption(option => {
             return option
                 .setName('id')
@@ -24,56 +25,56 @@ module.exports = {
      */
 
     run: async function (client, interaction) {
-        await interaction.followUp('このコマンドは現在調整中です。');
+        const poll = client.database.getPoll(interaction.options.getInteger('id', true));
+        if (!poll) return await interaction.followUp('投票データが見つからないか、既に終了している投票です');
 
-        /*
-        const id = interaction.options.getInteger('id', true);
-            const poll = client.db.prepare('SELECT * FROM polls WHERE id = ?').get(id);
-            if (!poll) return await interaction.followUp('その投票は既に終了しています');
-            const pollchannel = client.channels.cache.get(poll.channelid);
-            if (!pollchannel) {
-                client.db.prepare('DELETE FROM polls WHERE id = ?').run(id);
-                return await interaction.followUp('投票のチャンネルが見つかりません、投票のチャンネルが削除されたか、Botがアクセスできません');
-            }
+        if (poll.userid !== interaction.user.id && interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.followUp('この投票を終了する権限がありません');
 
-            try {
-                // eslint-disable-next-line no-var
-                var msg = await pollchannel.messages.fetch(poll.messageid);
-            }
-            catch (error) {
-                clienterrorlog(client, error);
-                client.db.prepare('DELETE FROM polls WHERE id = ?').run(id);
-                return await interaction.followUp('投票のメッセージが見つかりません、投票のメッセージが削除されたか、Botが取得できません');
-            }
+        const channel = client.channels.cache.get(poll.channelid);
+        if (!channel) {
+            client.database.removePoll(poll.id);
+            return await interaction.followUp('投票のチャンネルが削除されたか、Botがアクセスできません');
+        }
 
-            const allreacionname = msg.reactions.cache.map(reactions => reactions.emoji.name);
-            const allreacioncount = msg.reactions.cache.map(reactions => reactions.count);
-            let count = 0;
-            let msgcontent = '';
-            for (const data of allreacioncount) {
-                msgcontent += `${allreacionname[count]} ${data - 1}票\n`;
-                count++;
-            }
+        /**
+         * @type {import('discord.js').Message}
+         */
+        let msg = null;
+        try {
+            msg = await channel.messages.fetch(poll.messageid);
+        }
+        catch {
+            client.database.removePoll(poll.id);
+            return await interaction.followUp('投票のメッセージが削除されたか、Botが取得できません');
+        }
 
-            client.db.prepare('DELETE FROM polls WHERE id = ?').run(id);
-            msg.reactions.removeAll();
-            msg.edit({
+        const allName = msg.reactions.cache.map(reactions => reactions.emoji.name);
+        const allCount = msg.reactions.cache.map(reactions => reactions.count);
+        let count = 0;
+        let result = '';
+        for (const data of allCount) {
+            result += `${allName[count]} ${data - 1}票\n`;
+            count++;
+        }
+
+        msg.reactions.removeAll();
+        msg.edit({
+            embeds: [
+                msg.embeds[0].setFooter({ text: '投票は終了しました' }),
+            ],
+        });
+        await interaction.followUp(
+            {
                 embeds: [
-                    msg.embeds[0].setFooter({ text: '投票は終了しました' }),
+                    new MessageEmbed()
+                        .setTitle(`${msg.embeds[0].title}の投票結果`)
+                        .setDescription(result)
+                        .setURL(`https://discord.com/channels/${interaction.guild.id}/${poll.channelid}/${poll.messageid}`)
+                        .setTimestamp(),
                 ],
-            });
-            await interaction.followUp(
-                {
-                    embeds: [
-                        new MessageEmbed()
-                            .setTitle(msg.embeds[0].title + 'の投票結果')
-                            .setDescription(msgcontent)
-                            .setURL(`https://discord.com/channels/${interaction.guild.id}/${poll.channelid}/${poll.messageid}`)
-                            .setColor(msg.embeds[0].color)
-                            .setTimestamp(),
-                    ],
-                },
-            );
-            */
+            },
+        );
+
+        client.database.removePoll(poll.id);
     },
 };
