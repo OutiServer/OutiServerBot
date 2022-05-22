@@ -20,6 +20,15 @@ class Database {
 
     /**
      *
+     * @param {number} time
+     * @returns {Array<{ id: number, userid: string, channelid: string, messageid: string, endtime: number | null }>}
+     */
+    getEndAllPoll(time) {
+        return this.sql.prepare('SELECT * FROM polls WHERE endtime <= ?;').all(time);
+    }
+
+    /**
+     *
      * @param {string} userId
      * @param {string} channelId
      * @param {string} messageId
