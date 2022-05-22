@@ -27,13 +27,15 @@ module.exports = {
                 .addComponents(new TextInputComponent()
                     .setCustomId('report_title')
                     .setLabel('タイトル')
-                    .setStyle('SHORT'),
+                    .setStyle('SHORT')
+                    .setRequired(true),
                 ),
             new MessageActionRow()
                 .addComponents(new TextInputComponent()
                     .setCustomId('report_content')
                     .setLabel('内容')
-                    .setStyle('PARAGRAPH'),
+                    .setStyle('PARAGRAPH')
+                    .setRequired(true),
                 ),
         );
 
