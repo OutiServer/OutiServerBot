@@ -6,6 +6,13 @@ const { MessageEmbed } = require('discord.js');
  */
 
 module.exports = async (client) => {
+    const time = new Date();
+    if (time.getMinutes() === 0) {
+        client.speakers.forEach(async speaker => {
+            await speaker.addSpearkQueue(`ずんだもんが${time.getHours()}時をお知らせします`, 3);
+        });
+    }
+
     client.database.getEndAllPoll(Date.now())
         .forEach(async poll => {
             const channel = client.channels.cache.get(poll.channelid);
