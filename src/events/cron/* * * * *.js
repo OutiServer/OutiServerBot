@@ -1,5 +1,5 @@
 const { userMention } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, SnowflakeUtil } = require('discord.js');
 
 /**
  * @param {import('../../Bot')} client
@@ -9,7 +9,7 @@ module.exports = async (client) => {
     const time = new Date();
     if (time.getMinutes() === 0) {
         client.speakers.forEach(async speaker => {
-            await speaker.addSpearkQueue(`ずんだもんが${time.getHours()}時をお知らせします`, 3);
+            await speaker.addSpearkQueue(`ずんだもんが${time.getHours()}時をお知らせします`, SnowflakeUtil.generate(), 3);
         });
     }
 
