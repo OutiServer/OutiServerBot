@@ -6,7 +6,6 @@ const { MessageEmbed } = require('discord.js');
  */
 
 module.exports = async (client) => {
-    client.logger.info('Checking');
     client.database.getEndAllPoll(Date.now())
         .forEach(async poll => {
             const channel = client.channels.cache.get(poll.channelid);
