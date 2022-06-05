@@ -91,7 +91,8 @@ module.exports = async (client, message) => {
 
   if (client.speakers.get(message.guildId)) {
     if (client.speakers.get(message.guildId).speakerChannelIds.includes(message.channelId)) {
-      client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);
+      if (message.content.length < 1 && message.attachments.size >= 1) client.speakers.get(message.guildId).addSpearkQueue(`ファイルが${message.attachments.size}個送信されました`, message.id, speaker.speaker_id);
+      else client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);
     }
   }
 };
