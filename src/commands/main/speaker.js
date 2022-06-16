@@ -25,7 +25,7 @@ module.exports = {
             embeds: [
                 new MessageEmbed()
                     .setTitle('読み上げキャラクターの設定')
-                    .setDescription('[各キャラクターの立ち絵・詳細はこちら](https://voicevox.hiroshiba.jp/)\n\nCREDIT\n\nVOICEVOX:ずんだもん\nVOICEVOX:四国めたん\nVOICEVOX:春日部つむぎ\nVOICEVOX:雨晴はう\nVOICEVOX:波音リツ\nVOICEVOX:玄野武宏\nVOICEVOX:白上虎太郎\nVOICEVOX:青山龍星\nVOICEVOX:冥鳴ひまり\nVOICEVOX:九州そら')
+                    .setDescription('[VOICEVOX様公式サイト、各キャラクターの立ち絵・詳細はこちら](https://voicevox.hiroshiba.jp/)\n\nCREDIT\n\nVOICEVOX:ずんだもん\nVOICEVOX:四国めたん\nVOICEVOX:春日部つむぎ\nVOICEVOX:雨晴はう\nVOICEVOX:波音リツ\nVOICEVOX:玄野武宏\nVOICEVOX:白上虎太郎\nVOICEVOX:青山龍星\nVOICEVOX:冥鳴ひまり\nVOICEVOX:九州そら\nVOICEVOX:もち子(cv 明日葉よもぎ)')
                     .addField('四国めたん', 'はっきりした芯のある声', true)
                     .addField('ずんだもん', '子供っぽい高めの声', true)
                     .addField('春日部つむぎ', '元気な明るい声', true)
@@ -36,6 +36,7 @@ module.exports = {
                     .addField('青山龍星', '重厚な低音ボイス', true)
                     .addField('冥鳴ひまり', '柔らかく温かい声', true)
                     .addField('九州そら', '気品のある大人な声', true)
+                    .addField('もち子さん', '明瞭で穏やかな声', true)
                     .setColor('RANDOM'),
             ],
             components: [
