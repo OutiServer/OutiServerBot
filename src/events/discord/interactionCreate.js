@@ -162,7 +162,6 @@ module.exports = async (client, interaction) => {
         }
     }
     else if (interaction.isCommand()) {
-        if (interaction.user.id !== process.env.OWNERID) return interaction.followUp('ただいまBotはメンテナンス中です');
         const cmd = client.commands.get(interaction.commandName);
         if (!cmd) return await interaction.reply('Error: コマンドデータが見つかりませんでした');
         else if (cmd.info.category === 'owner' && interaction.user.id !== process.env.OWNERID || cmd.info.category === 'admin' && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.reply('そのコマンドを使用するための権限が足りてないで。😉');
