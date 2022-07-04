@@ -11,7 +11,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },
-  "author": "",
+  "author": "Ken_Cir",
   "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^0.15.0",
