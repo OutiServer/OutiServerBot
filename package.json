@@ -20,7 +20,6 @@
     "axios": "^0.27.2",
     "better-sqlite3": "^7.5.3",
     "bufferutil": "^4.0.6",
-    "canvacord": "^5.3.0",
     "discord.js": "^13.8.1",
     "dotenv": "^16.0.1",
     "erlpack": "github:discord/erlpack",
@@ -28,7 +27,6 @@
     "minecraft-server-util": "^5.2.10",
     "ms": "^2.1.3",
     "node-cron": "^3.0.1",
-    "twitter": "^1.7.1",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
