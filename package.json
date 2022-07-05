@@ -23,6 +23,7 @@
     "discord.js": "^13.8.1",
     "dotenv": "^16.0.1",
     "erlpack": "github:discord/erlpack",
+    "libsodium-wrappers": "^0.7.10",
     "log4js": "^6.5.2",
     "minecraft-server-util": "^5.2.10",
     "ms": "^2.1.3",
