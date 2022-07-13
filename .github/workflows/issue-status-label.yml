@@ -46,7 +46,7 @@ jobs:
         with:
           PROJECT: ${{env.PROJECT_NAME}}
           COLUMN: 未処理
-          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
   move_assigned_card:
     runs-on: ubuntu-latest
@@ -57,13 +57,13 @@ jobs:
         with:
           project: ${{env.PROJECT_NAME}}
           column: 進行中 or 作業中Issue・Pull Request
-          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - uses: alex-page/github-project-automation-plus@v0.8.1
         if: "github.event.action == 'reopened'"
         with:
           project: ${{env.PROJECT_NAME}}
           column: 進行中 or 作業中Issue・Pull Request
-          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
   move_the_card_when_the_issue_is_closed:
     runs-on: ubuntu-latest
@@ -74,4 +74,4 @@ jobs:
         with:
           project: ${{env.PROJECT_NAME}}
           column: 完了済み
-          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
