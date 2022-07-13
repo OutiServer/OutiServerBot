@@ -6,7 +6,7 @@ module.exports = {
         name: 'report',
         description: 'バグを報告したり、Botに対する要望を開発者に送信するコマンド',
         category: 'main',
-        deferReply: true,
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()

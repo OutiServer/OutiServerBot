@@ -6,7 +6,7 @@ module.exports = {
         name: 'restart',
         description: '再起動コマンド',
         category: 'owner',
-        deferReply: false,
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()
