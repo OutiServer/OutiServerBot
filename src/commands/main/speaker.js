@@ -7,7 +7,7 @@ module.exports = {
         name: 'speaker',
         description: '読み上げるキャラクターを設定する',
         category: 'main',
-        deferReply: false,
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()

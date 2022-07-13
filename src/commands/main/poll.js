@@ -6,7 +6,7 @@ module.exports = {
     name: 'poll',
     description: '投票を作る',
     category: 'main',
-    deferReply: false,
+    deferReply: true,
   },
 
   data: new SlashCommandBuilder()

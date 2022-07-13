@@ -8,7 +8,7 @@ module.exports = {
         name: 'slot',
         description: 'スロットをやる',
         category: 'main',
-        deferReply: false,
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()

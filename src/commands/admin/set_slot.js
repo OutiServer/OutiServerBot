@@ -5,7 +5,7 @@ module.exports = {
         name: 'set_slot',
         description: 'スロットを追加する or 削除する',
         category: 'admin',
-        deferReply: false,
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()

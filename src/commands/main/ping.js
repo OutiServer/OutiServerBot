@@ -6,7 +6,7 @@ module.exports = {
         name: 'ping',
         description: 'BotのPing値とメモリ使用率を表示',
         category: 'main',
-        deferReply: false,
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()
