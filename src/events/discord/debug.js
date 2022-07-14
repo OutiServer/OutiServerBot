@@ -8,6 +8,7 @@ const { WebhookClient } = require('discord.js');
 module.exports = async (client, info) => {
     client.logger.debug(info);
 
+    if (!client.isReady()) return;
     const webhook = new WebhookClient({ url: process.env.DEBUGLOG_WEBHOOK_URL });
     await webhook.send({
         content: codeBlock(info),
