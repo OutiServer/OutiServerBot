@@ -7,7 +7,7 @@ const { default: axios } = require('axios');
  */
 
 module.exports = async (client, message) => {
-  if (message.author.id === '786343397807620106') {
+  if (message.author.id === '991740320238809160') {
     const translationText = await axios.get(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`);
     await message.reply(translationText.data);
   }
