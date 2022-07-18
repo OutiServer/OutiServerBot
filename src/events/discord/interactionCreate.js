@@ -79,7 +79,7 @@ module.exports = async (client, interaction) => {
                         embeds: [
                             new EmbedBuilder()
                                 .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします\n解決した場合は `/close` でお問い合わせを閉じることができます')
-                                .setColor('RANDOM')
+
                                 .setTimestamp(),
                         ],
                         components: [

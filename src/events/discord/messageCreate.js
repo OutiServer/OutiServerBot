@@ -42,7 +42,7 @@ module.exports = async (client, message) => {
         new EmbedBuilder()
           .setTitle('スレッドを作成しました！')
           .setDescription(message.content)
-          .setColor('RANDOM')
+
           .setTimestamp(),
       ],
     });
@@ -77,7 +77,7 @@ module.exports = async (client, message) => {
         new EmbedBuilder()
           .setTitle(`${msg.author.username}のメッセージを展開します`)
           .setDescription(msg.cleanContent)
-          .setColor('RANDOM')
+
           .setTimestamp(),
       ],
     });

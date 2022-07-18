@@ -13,7 +13,7 @@ module.exports = async (client, message) => {
         .addField('メッセージが削除されたチャンネル', `${message.channel.name} (<#${message.channelId}>)`)
         .addField('メッセージを送信したユーザー', `${message.author.tag} (<@${message.author.id}>) [${message.author.id}]`)
         .setThumbnail(message.author.avatarURL({ format: 'webp' }))
-        .setColor('RANDOM')
+
         .setFooter({ text: `messageid: ${message.id}`, iconURL: message.author.avatarURL({ format: 'webp' }) })
         .setTimestamp();
 

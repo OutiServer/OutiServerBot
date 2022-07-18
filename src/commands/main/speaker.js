@@ -36,8 +36,8 @@ module.exports = {
                     .addField('青山龍星', '重厚な低音ボイス', true)
                     .addField('冥鳴ひまり', '柔らかく温かい声', true)
                     .addField('九州そら', '気品のある大人な声', true)
-                    .addField('もち子さん', '明瞭で穏やかな声', true)
-                    .setColor('RANDOM'),
+                    .addField('もち子さん', '明瞭で穏やかな声', true),
+
             ],
             components: [
                 new ActionRowBuilder()

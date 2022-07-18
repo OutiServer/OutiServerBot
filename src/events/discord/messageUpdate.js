@@ -20,7 +20,7 @@ module.exports = async (client, oldMessage, newMessage) => {
                 embeds: [
                     new EmbedBuilder()
                         .setDescription('upを確認しました、一時間後にこのチャンネルで通知します')
-                        .setColor('RANDOM')
+
                         .setTimestamp(),
                 ],
             });
@@ -40,7 +40,7 @@ module.exports = async (client, oldMessage, newMessage) => {
                     embeds: [
                         new EmbedBuilder()
                             .setDescription('Bumpを確認しました、二時間後にこのチャンネルで通知します')
-                            .setColor('RANDOM')
+
                             .setTimestamp(),
                     ],
                 },
@@ -64,7 +64,7 @@ module.exports = async (client, oldMessage, newMessage) => {
         .addField('メッセージが編集されたチャンネル', `${oldMessage.channel.name} (<#${oldMessage.channelId}>)`)
         .addField('メッセージを送信したユーザー', `${oldMessage.author.tag} (<@${oldMessage.author.id}>) [${oldMessage.author.id}]`)
         .setThumbnail(oldMessage.author.avatarURL({ format: 'webp' }))
-        .setColor('RANDOM')
+
         .setFooter({ text: `messageid: ${oldMessage.id}`, iconURL: oldMessage.author.avatarURL({ format: 'webp' }) })
         .setTimestamp();
 

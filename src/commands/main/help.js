@@ -29,21 +29,21 @@ module.exports = {
           .setTitle(`${client.user.tag} helpページ`)
           .addField('main', client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', '))
           .addField('minecraft', client.commands.filter(x => x.info.category == 'minecraft').map((x) => '`' + x.info.name + '`').join(', '))
-          .setColor('RANDOM')
+
           .setTimestamp(),
       );
       embeds.push(
         new EmbedBuilder()
           .setTitle('main')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
-          .setColor('RANDOM')
+
           .setTimestamp(),
       );
       embeds.push(
         new EmbedBuilder()
           .setTitle('minecraft')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'minecraft').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
-          .setColor('RANDOM')
+
           .setTimestamp(),
       );
 
@@ -53,7 +53,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle('admin')
             .setDescription(codeBlock(client.commands.filter(x => x.info.category == 'admin').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n')))
-            .setColor('RANDOM')
+
             .setTimestamp(),
         );
       }
@@ -63,7 +63,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle('owner')
             .setDescription(codeBlock(client.commands.filter(x => x.info.category == 'owner').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n')))
-            .setColor('RANDOM')
+
             .setTimestamp(),
         );
       }
@@ -148,7 +148,7 @@ module.exports = {
           new EmbedBuilder()
             .setTitle('コマンド名: ' + command.info.name + ' の詳細')
             .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${command.info.name}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}`)
-            .setColor('RANDOM')
+
             .setTimestamp(),
         ],
       });

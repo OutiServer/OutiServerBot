@@ -34,7 +34,7 @@ module.exports = {
                             .addField('デフォルトゲームモード', result.gameMode, true)
                             .addField('現在参加中のメンバー', `${result.players.online}/${result.players.max}人`, true)
                             .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
-                            .setColor('RANDOM'),
+
                     ],
                 });
             })
@@ -46,7 +46,7 @@ module.exports = {
                             .setTitle('🏠おうちサーバーの現在の状態🏠')
                             .setDescription('おうちサーバーは現在落ちてます')
                             .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
-                            .setColor('RANDOM'),
+
                     ],
                 });
             });

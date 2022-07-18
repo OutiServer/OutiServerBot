@@ -33,7 +33,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle(`${interaction.user.tag}のアバター`)
                             .setImage(interaction.user.avatarURL())
-                            .setColor('RANDOM')
+
                             .setTimestamp(),
                     ],
                 },
@@ -46,7 +46,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle(`${user.tag}のアバター`)
                             .setImage(user.avatarURL())
-                            .setColor('RANDOM')
+
                             .setTimestamp(),
                     ],
                 },

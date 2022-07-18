@@ -65,8 +65,8 @@ module.exports = {
                                         .setTitle('単語を登録しました')
                                         .addField('読み上げ単語', interaction.options.getString('surface', true))
                                         .addField('読み上げ方', interaction.options.getString('pronunciation', true))
-                                        .addField('アクセント値(音が下がる場所を指す)', interaction.options.getInteger('accent_type', true).toString())
-                                        .setColor('RANDOM'),
+                                        .addField('アクセント値(音が下がる場所を指す)', interaction.options.getInteger('accent_type', true).toString()),
+
                                 ],
                             });
                         }
@@ -101,8 +101,8 @@ module.exports = {
                         embeds.push(
                             new EmbedBuilder()
                                 .setTitle(`単語帳 ${page++}ページ目`)
-                                .setDescription(`${words.slice(i, i + 10).map(word => `UUID: ${word.key}\n単語: ${word.value.surface}\n読み: ${word.value.pronunciation}\nアクセント値(音が下がる場所を指す): ${word.value.accent_type}`).join('\n\n')}`)
-                                .setColor('RANDOM'),
+                                .setDescription(`${words.slice(i, i + 10).map(word => `UUID: ${word.key}\n単語: ${word.value.surface}\n読み: ${word.value.pronunciation}\nアクセント値(音が下がる場所を指す): ${word.value.accent_type}`).join('\n\n')}`),
+
                         );
                     }
 

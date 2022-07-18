@@ -25,7 +25,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setDescription(`ErrorMessage: ${error.message}`)
-                        .setColor('RANDOM')
+
                         .setTimestamp(),
                 ],
             });
@@ -57,7 +57,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setDescription(`ErrorMessage: ${error.message}`)
-                        .setColor('RANDOM')
+
                         .setTimestamp(),
                 ],
             });

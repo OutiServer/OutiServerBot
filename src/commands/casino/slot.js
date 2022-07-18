@@ -50,8 +50,8 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('スロットを回しています...')
-                        .setDescription(slotGui(ver, be).text)
-                        .setColor('RANDOM'),
+                        .setDescription(slotGui(ver, be).text),
+
                 ],
             });
 
@@ -60,8 +60,8 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('スロットを回しています...')
-                        .setDescription(slotGui(ver, be).text)
-                        .setColor('RANDOM'),
+                        .setDescription(slotGui(ver, be).text),
+
                 ],
             });
 
@@ -70,8 +70,8 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('スロットを回しています...')
-                        .setDescription(slotGui(ver, be).text)
-                        .setColor('RANDOM'),
+                        .setDescription(slotGui(ver, be).text),
+
                 ],
             });
 
@@ -81,8 +81,8 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('スロットを回しています...')
-                        .setDescription(result.text)
-                        .setColor('RANDOM'),
+                        .setDescription(result.text),
+
                 ],
             });
 
@@ -91,8 +91,8 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`スロット結果\n${resultCheck(result, ver, be)}ライン当たり`)
-                        .setDescription(result.text)
-                        .setColor('RANDOM'),
+                        .setDescription(result.text),
+
                 ],
             });
 

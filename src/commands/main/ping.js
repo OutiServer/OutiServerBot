@@ -26,7 +26,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setDescription(`APIPing: ${msg.createdTimestamp - interaction.createdTimestamp}ms\nWebSocketPing: ${client.ws.ping}ms\nメモリ使用率: ${(Math.round(used.rss / 1024 / 1024 * 100) / 100)}MB`)
-                    .setColor('RANDOM')
+
                     .setTimestamp(),
             ],
         });
