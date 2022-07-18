@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
             await interaction.followUp(
                 {
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(`${interaction.user.tag}のアバター`)
                             .setImage(interaction.user.avatarURL())
                             .setColor('RANDOM')
@@ -43,7 +43,7 @@ module.exports = {
             await interaction.followUp(
                 {
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle(`${user.tag}のアバター`)
                             .setImage(user.avatarURL())
                             .setColor('RANDOM')

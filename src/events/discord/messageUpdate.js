@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 /**
  * @param {import('../../Bot')} client
@@ -18,7 +18,7 @@ module.exports = async (client, oldMessage, newMessage) => {
         if (newMessage.embeds[0].url == 'https://dissoku.net/' && newMessage.embeds[0].fields[0].name.endsWith('をアップしたよ!')) {
             await newMessage.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setDescription('upを確認しました、一時間後にこのチャンネルで通知します')
                         .setColor('RANDOM')
                         .setTimestamp(),
@@ -38,7 +38,7 @@ module.exports = async (client, oldMessage, newMessage) => {
             newMessage.channel.send(
                 {
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setDescription('Bumpを確認しました、二時間後にこのチャンネルで通知します')
                             .setColor('RANDOM')
                             .setTimestamp(),
@@ -58,7 +58,7 @@ module.exports = async (client, oldMessage, newMessage) => {
     }
 
     if (oldMessage.author.bot || oldMessage.system || oldMessage.guildId !== '706452606918066237') return;
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setTitle('メッセージが編集されました')
         .setURL(`https://discord.com/channels/${oldMessage.guildId}/${oldMessage.channelId}/${oldMessage.id}`)
         .addField('メッセージが編集されたチャンネル', `${oldMessage.channel.name} (<#${oldMessage.channelId}>)`)

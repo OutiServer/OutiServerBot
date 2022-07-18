@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
     if (!interaction.options.getString('commandname', false)) {
       const embeds = [];
       embeds.push(
-        new MessageEmbed()
+        new EmbedBuilder()
           .setTitle(`${client.user.tag} helpページ`)
           .addField('main', client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', '))
           .addField('minecraft', client.commands.filter(x => x.info.category == 'minecraft').map((x) => '`' + x.info.name + '`').join(', '))
@@ -33,14 +33,14 @@ module.exports = {
           .setTimestamp(),
       );
       embeds.push(
-        new MessageEmbed()
+        new EmbedBuilder()
           .setTitle('main')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
           .setColor('RANDOM')
           .setTimestamp(),
       );
       embeds.push(
-        new MessageEmbed()
+        new EmbedBuilder()
           .setTitle('minecraft')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'minecraft').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
           .setColor('RANDOM')
@@ -50,7 +50,7 @@ module.exports = {
       if (interaction.member.roles.cache.has('822852335322923060') || interaction.member.roles.cache.has('771015602180587571') || interaction.member.permissions.has('ADMINISTRATOR')) {
         embeds[0].addField('admin', client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', '));
         embeds.push(
-          new MessageEmbed()
+          new EmbedBuilder()
             .setTitle('admin')
             .setDescription(codeBlock(client.commands.filter(x => x.info.category == 'admin').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n')))
             .setColor('RANDOM')
@@ -60,7 +60,7 @@ module.exports = {
       if (interaction.user.id === process.env.OWNERID) {
         embeds[0].addField('owner', client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', '));
         embeds.push(
-          new MessageEmbed()
+          new EmbedBuilder()
             .setTitle('owner')
             .setDescription(codeBlock(client.commands.filter(x => x.info.category == 'owner').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n')))
             .setColor('RANDOM')
@@ -68,19 +68,19 @@ module.exports = {
         );
       }
 
-      const buttons = new MessageActionRow()
+      const buttons = new ActionRowBuilder()
         .addComponents(
           [
-            new MessageButton()
+            new ButtonBuilder()
               .setCustomId('left')
               .setLabel('◀️')
               .setStyle('PRIMARY')
               .setDisabled(),
-            new MessageButton()
+            new ButtonBuilder()
               .setCustomId('right')
               .setLabel('▶️')
               .setStyle('PRIMARY'),
-            new MessageButton()
+            new ButtonBuilder()
               .setCustomId('stop')
               .setLabel('⏹️')
               .setStyle('DANGER'),
@@ -144,7 +144,7 @@ module.exports = {
       if (!command) return await interaction.followUp('そんなコマンドないで。😉');
       await interaction.followUp({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setTitle('コマンド名: ' + command.info.name + ' の詳細')
             .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${command.info.name}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}`)
             .setColor('RANDOM')

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const SpeakerClient = require('../../utils/SpearkClient');
 
 module.exports = {
@@ -61,7 +61,7 @@ module.exports = {
                         if (statusCode === 200) {
                             await interaction.followUp({
                                 embeds: [
-                                    new MessageEmbed()
+                                    new EmbedBuilder()
                                         .setTitle('単語を登録しました')
                                         .addField('読み上げ単語', interaction.options.getString('surface', true))
                                         .addField('読み上げ方', interaction.options.getString('pronunciation', true))
@@ -99,7 +99,7 @@ module.exports = {
                     let page = 1;
                     for (let i = 0; i < words.length; i += 10) {
                         embeds.push(
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(`単語帳 ${page++}ページ目`)
                                 .setDescription(`${words.slice(i, i + 10).map(word => `UUID: ${word.key}\n単語: ${word.value.surface}\n読み: ${word.value.pronunciation}\nアクセント値(音が下がる場所を指す): ${word.value.accent_type}`).join('\n\n')}`)
                                 .setColor('RANDOM'),
@@ -112,19 +112,19 @@ module.exports = {
                         });
                     }
 
-                    const buttons = new MessageActionRow()
+                    const buttons = new ActionRowBuilder()
                         .addComponents(
                             [
-                                new MessageButton()
+                                new ButtonBuilder()
                                     .setCustomId('left')
                                     .setLabel('◀️')
                                     .setStyle('PRIMARY')
                                     .setDisabled(),
-                                new MessageButton()
+                                new ButtonBuilder()
                                     .setCustomId('right')
                                     .setLabel('▶️')
                                     .setStyle('PRIMARY'),
-                                new MessageButton()
+                                new ButtonBuilder()
                                     .setCustomId('stop')
                                     .setLabel('⏹️')
                                     .setStyle('DANGER'),
