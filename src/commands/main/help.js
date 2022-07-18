@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 
 module.exports = {
@@ -74,12 +74,13 @@ module.exports = {
             new ButtonBuilder()
               .setCustomId('left')
               .setLabel('◀️')
-              .setStyle('PRIMARY')
+              .setStyle(ButtonStyle.Primary)
+              .setStyle(ButtonStyle.Primary)
               .setDisabled(),
             new ButtonBuilder()
               .setCustomId('right')
               .setLabel('▶️')
-              .setStyle('PRIMARY'),
+              .setStyle(ButtonStyle.Primary),
             new ButtonBuilder()
               .setCustomId('stop')
               .setLabel('⏹️')

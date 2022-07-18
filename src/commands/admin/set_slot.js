@@ -44,7 +44,6 @@ module.exports = {
     run: async function (client, interaction) {
         const channel = interaction.options.getChannel('channel', true);
         const slot = client.database.getSlot(channel.id);
-        console.log(slot);
         if (!slot) {
             client.database.addSlot(channel.id, interaction.options.getInteger('slot_type', true));
             await interaction.followUp('スロットを追加しました');

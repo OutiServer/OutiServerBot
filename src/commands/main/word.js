@@ -118,12 +118,12 @@ module.exports = {
                                 new ButtonBuilder()
                                     .setCustomId('left')
                                     .setLabel('◀️')
-                                    .setStyle('PRIMARY')
+                                    .setStyle(ButtonStyle.Primary)
                                     .setDisabled(),
                                 new ButtonBuilder()
                                     .setCustomId('right')
                                     .setLabel('▶️')
-                                    .setStyle('PRIMARY'),
+                                    .setStyle(ButtonStyle.Primary),
                                 new ButtonBuilder()
                                     .setCustomId('stop')
                                     .setLabel('⏹️')

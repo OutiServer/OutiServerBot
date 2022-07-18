@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, InteractionType, ChannelType } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, InteractionType, ChannelType, ButtonStyle } = require('discord.js');
 
 /**
  * @param {import('../../Bot')} client
@@ -88,7 +88,7 @@ module.exports = async (client, interaction) => {
                                     new ButtonBuilder()
                                         .setCustomId('close')
                                         .setLabel('このお問い合わせを閉じる')
-                                        .setStyle('DANGER'),
+                                        .setStyle(ButtonStyle.Danger),
                                 ),
                         ],
                     });
