@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 /**
  * @param {import('../../Bot')} client
@@ -8,7 +8,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = async (client, message) => {
     if (message.partial) return;
     if (message.guild.id !== '706452606918066237' || message.system || message.author.bot) return;
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setTitle('メッセージが削除されました')
         .addField('メッセージが削除されたチャンネル', `${message.channel.name} (<#${message.channelId}>)`)
         .addField('メッセージを送信したユーザー', `${message.author.tag} (<@${message.author.id}>) [${message.author.id}]`)

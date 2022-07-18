@@ -25,7 +25,7 @@ module.exports = {
             .then(async (result) => {
                 await message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle('🏠おうちサーバーの現在の状態🏠')
                             .addField('IPアドレス', 'outiserver.com', true)
                             .addField('ポート', result.srvRecord?.port.toString() ?? '19132', true)
@@ -42,7 +42,7 @@ module.exports = {
                 console.log(e);
                 await message.reply({
                     embeds: [
-                        new MessageEmbed()
+                        new EmbedBuilder()
                             .setTitle('🏠おうちサーバーの現在の状態🏠')
                             .setDescription('おうちサーバーは現在落ちてます')
                             .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')

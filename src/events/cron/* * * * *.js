@@ -1,5 +1,5 @@
 const { userMention } = require('@discordjs/builders');
-const { MessageEmbed, SnowflakeUtil } = require('discord.js');
+const { EmbedBuilder, SnowflakeUtil } = require('discord.js');
 
 /**
  * @param {import('../../Bot')} client
@@ -51,7 +51,7 @@ module.exports = async (client) => {
             await channel.send({
                 content: `${userMention(poll.userid)} 投票が終了しました`,
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(`${msg.embeds[0].title}の投票結果`)
                         .setDescription(result)
                         .setURL(`https://discord.com/channels/${channel.guildId}/${poll.channelid}/${poll.messageid}`)

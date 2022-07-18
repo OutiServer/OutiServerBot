@@ -1,5 +1,5 @@
 const { codeBlock } = require('@discordjs/builders');
-const { WebhookClient, MessageEmbed } = require('discord.js');
+const { WebhookClient, EmbedBuilder } = require('discord.js');
 
 module.exports = {
 
@@ -23,7 +23,7 @@ module.exports = {
             await interaction.followUp({
                 content: 'コマンド実行中にエラーが発生したみたいや、もう一度実行してな。😉',
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setDescription(`ErrorMessage: ${error.message}`)
                         .setColor('RANDOM')
                         .setTimestamp(),
@@ -55,7 +55,7 @@ module.exports = {
             await message.reply({
                 content: 'コマンド実行中にエラーが発生したみたいや、もう一度実行してな。😉',
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setDescription(`ErrorMessage: ${error.message}`)
                         .setColor('RANDOM')
                         .setTimestamp(),

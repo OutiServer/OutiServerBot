@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     info: {
@@ -66,7 +66,7 @@ module.exports = {
         await interaction.followUp(
             {
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(`${msg.embeds[0].title}の投票結果`)
                         .setDescription(result)
                         .setURL(`https://discord.com/channels/${interaction.guild.id}/${poll.channelid}/${poll.messageid}`)

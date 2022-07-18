@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SpeakerClient = require('../../utils/SpearkClient');
 
@@ -23,7 +23,7 @@ module.exports = {
         const speakers = await SpeakerClient.getSpeakers();
         const msg = await interaction.followUp({
             embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setTitle('読み上げキャラクターの設定')
                     .setDescription('[VOICEVOX様公式サイト、各キャラクターの立ち絵・詳細はこちら](https://voicevox.hiroshiba.jp/)\n\nCREDIT\n\nVOICEVOX:ずんだもん\nVOICEVOX:四国めたん\nVOICEVOX:春日部つむぎ\nVOICEVOX:雨晴はう\nVOICEVOX:波音リツ\nVOICEVOX:玄野武宏\nVOICEVOX:白上虎太郎\nVOICEVOX:青山龍星\nVOICEVOX:冥鳴ひまり\nVOICEVOX:九州そら\nVOICEVOX:もち子(cv 明日葉よもぎ)')
                     .addField('四国めたん', 'はっきりした芯のある声', true)
@@ -40,9 +40,9 @@ module.exports = {
                     .setColor('RANDOM'),
             ],
             components: [
-                new MessageActionRow()
+                new ActionRowBuilder()
                     .addComponents(
-                        new MessageSelectMenu()
+                        new SelectMenuBuilder()
                             .setCustomId('speaker')
                             .addOptions(speakers.map(speaker => ({ label: speaker.name, value: speaker.speaker_uuid }))),
                     ),

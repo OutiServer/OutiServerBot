@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, InteractionType, ChannelType } = require('discord.js');
 
 /**
  * @param {import('../../Bot')} client
@@ -48,44 +48,44 @@ module.exports = async (client, interaction) => {
             case 'inquiry':
                 {
                     await interaction.deferReply({ ephemeral: true });
-                    const channel = await client.guilds.cache.get('706452606918066237').channels.create(`${interaction.user.tag}-お問い合わせ`,
-                        {
-                            type: 'GUILD_TEXT',
-                            parent: '821684794056245258',
-                            topic: `${interaction.user}さんのお問い合わせチャンネル`,
-                            permissionOverwrites: [
-                                {
-                                    id: '706452606918066237',
-                                    deny: ['VIEW_CHANNEL'],
-                                },
-                                {
-                                    id: interaction.user.id,
-                                    allow: ['VIEW_CHANNEL'],
-                                },
-                                {
-                                    id: '771015602180587571',
-                                    allow: ['VIEW_CHANNEL'],
-                                },
-                                {
-                                    id: '822852335322923060',
-                                    allow: ['VIEW_CHANNEL'],
-                                },
-                            ],
-                        });
+                    const channel = await client.guilds.cache.get('706452606918066237').channels.create({
+                        name: `${interaction.user.tag}-お問い合わせ`,
+                        type: ChannelType.GuildText,
+                        parent: '821684794056245258',
+                        topic: `${interaction.user}さんのお問い合わせチャンネル`,
+                        permissionOverwrites: [
+                            {
+                                id: '706452606918066237',
+                                deny: ['VIEW_CHANNEL'],
+                            },
+                            {
+                                id: interaction.user.id,
+                                allow: ['VIEW_CHANNEL'],
+                            },
+                            {
+                                id: '771015602180587571',
+                                allow: ['VIEW_CHANNEL'],
+                            },
+                            {
+                                id: '822852335322923060',
+                                allow: ['VIEW_CHANNEL'],
+                            },
+                        ],
+                    });
 
                     await interaction.editReply(`お問い合わせチャンネルを作成しました ${channel}`);
                     const msg = await channel.send({
                         content: `${interaction.user}さん専用のお問い合わせチャンネルを作成しました！`,
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします\n解決した場合は `/close` でお問い合わせを閉じることができます')
                                 .setColor('RANDOM')
                                 .setTimestamp(),
                         ],
                         components: [
-                            new MessageActionRow()
+                            new ActionRowBuilder()
                                 .addComponents(
-                                    new MessageButton()
+                                    new ButtonBuilder()
                                         .setCustomId('close')
                                         .setLabel('このお問い合わせを閉じる')
                                         .setStyle('DANGER'),
@@ -148,11 +148,11 @@ module.exports = async (client, interaction) => {
                 break;
         }
     }
-    else if (interaction.isModalSubmit()) {
+    else if (interaction.type === InteractionType.ModalSubmit) {
         if (interaction.customId === 'report') {
             await client.users.cache.get(process.env.OWNERID).send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(`${interaction.user.tag}からのReport`)
                         .addField('タイトル', interaction.fields.getTextInputValue('report_title'))
                         .addField('タイトル', interaction.fields.getTextInputValue('report_content')),
@@ -161,7 +161,7 @@ module.exports = async (client, interaction) => {
             await interaction.reply('送信しました、開発者からDMでの返信があるかもしれないのでDM解放しておいてください。');
         }
     }
-    else if (interaction.isCommand()) {
+    else if (interaction.type === InteractionType.ApplicationCommand) {
         const cmd = client.commands.get(interaction.commandName);
         if (!cmd) return await interaction.reply('Error: コマンドデータが見つかりませんでした');
         else if (cmd.info.category === 'owner' && interaction.user.id !== process.env.OWNERID || cmd.info.category === 'admin' && !interaction.member.roles.cache.has('822852335322923060') && !interaction.member.roles.cache.has('771015602180587571') && !interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.reply('そのコマンドを使用するための権限が足りてないで。😉');

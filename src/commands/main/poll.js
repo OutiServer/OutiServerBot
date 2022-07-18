@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { SlashCommandBuilder, time } = require('@discordjs/builders');
 
 module.exports = {
@@ -184,7 +184,7 @@ module.exports = {
     interaction.editReply({
       content: `${interaction.user.tag}が作成した投票です`,
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setTitle(interaction.options.getString('title', true))
           .setDescription(`${((interaction.options.getInteger('days') * 86400000) + (interaction.options.getInteger('hours') * 3600000) + (interaction.options.getInteger('minutes') * 60000) + (interaction.options.getInteger('seconds') * 1000)) > 0 ? `投票終了まであと${time(Math.floor(endTime / 1000), 'R')}\n\n` : ''}${selects.map((select, index) => `${emojis[index]} ${select.value}`).join('\n')}`)
           .setFooter({ text: `/endpoll ${pollId} で集計します` })

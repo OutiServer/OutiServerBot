@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { default: axios } = require('axios');
 
 /**
@@ -39,7 +39,7 @@ module.exports = async (client, message) => {
     const msg = await thread.send({
       content: `${message.author}`,
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setTitle('スレッドを作成しました！')
           .setDescription(message.content)
           .setColor('RANDOM')
@@ -74,7 +74,7 @@ module.exports = async (client, message) => {
     const msg = await channel.messages.fetch(group.messageId);
     message.reply({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setTitle(`${msg.author.username}のメッセージを展開します`)
           .setDescription(msg.cleanContent)
           .setColor('RANDOM')

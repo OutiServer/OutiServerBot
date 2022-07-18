@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { slotGui, resultCheck } = require('../../utils/slotUtil');
 const { setTimeout } = require('timers/promises');
 
@@ -48,7 +48,7 @@ module.exports = {
         for (let i = 0; i < roll; i++) {
             const msg = await interaction.channel.send({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle('スロットを回しています...')
                         .setDescription(slotGui(ver, be).text)
                         .setColor('RANDOM'),
@@ -58,7 +58,7 @@ module.exports = {
             await setTimeout(500);
             await msg.edit({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle('スロットを回しています...')
                         .setDescription(slotGui(ver, be).text)
                         .setColor('RANDOM'),
@@ -68,7 +68,7 @@ module.exports = {
             await setTimeout(1000);
             await msg.edit({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle('スロットを回しています...')
                         .setDescription(slotGui(ver, be).text)
                         .setColor('RANDOM'),
@@ -79,7 +79,7 @@ module.exports = {
             const result = slotGui(ver, be);
             await msg.edit({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle('スロットを回しています...')
                         .setDescription(result.text)
                         .setColor('RANDOM'),
@@ -89,7 +89,7 @@ module.exports = {
             await setTimeout(1000);
             await msg.edit({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setTitle(`スロット結果\n${resultCheck(result, ver, be)}ライン当たり`)
                         .setDescription(result.text)
                         .setColor('RANDOM'),
