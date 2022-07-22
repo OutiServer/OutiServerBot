@@ -27,45 +27,46 @@ module.exports = {
       embeds.push(
         new EmbedBuilder()
           .setTitle(`${client.user.tag} helpページ`)
-          .addField('main', client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', '))
-          .addField('minecraft', client.commands.filter(x => x.info.category == 'minecraft').map((x) => '`' + x.info.name + '`').join(', '))
-
+          .addFields([
+            { name: 'main', value: client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', ') },
+            { name: 'casino', value: client.commands.filter(x => x.info.category == 'casino').map((x) => '`' + x.info.name + '`').join(', ') },
+          ])
           .setTimestamp(),
       );
       embeds.push(
         new EmbedBuilder()
           .setTitle('main')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
-
           .setTimestamp(),
       );
       embeds.push(
         new EmbedBuilder()
           .setTitle('minecraft')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'minecraft').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
-
           .setTimestamp(),
       );
 
       if (interaction.member.roles.cache.has('822852335322923060') || interaction.member.roles.cache.has('771015602180587571') || interaction.member.permissions.has('ADMINISTRATOR')) {
-        embeds[0].addField('admin', client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', '));
+        embeds[0].addFields([
+          { name: 'admin', value: client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', ') },
+        ]);
         embeds.push(
           new EmbedBuilder()
             .setTitle('admin')
             .setDescription(codeBlock(client.commands.filter(x => x.info.category == 'admin').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n')))
-
             .setTimestamp(),
         );
       }
       if (interaction.user.id === process.env.OWNERID) {
-        embeds[0].addField('owner', client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', '));
-        embeds.push(
-          new EmbedBuilder()
-            .setTitle('owner')
-            .setDescription(codeBlock(client.commands.filter(x => x.info.category == 'owner').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n')))
-
-            .setTimestamp(),
-        );
+        embeds[0].addFields([
+          { name: 'owner', value: client.commands.filter(x => x.info.category == 'admin').map((x) => '`' + x.info.name + '`').join(', ') },
+        ]),
+          embeds.push(
+            new EmbedBuilder()
+              .setTitle('owner')
+              .setDescription(codeBlock(client.commands.filter(x => x.info.category == 'owner').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n')))
+              .setTimestamp(),
+          );
       }
 
       const buttons = new ActionRowBuilder()
@@ -84,7 +85,7 @@ module.exports = {
             new ButtonBuilder()
               .setCustomId('stop')
               .setLabel('⏹️')
-              .setStyle('DANGER'),
+              .setStyle(ButtonStyle.Danger),
           ],
         );
 
@@ -148,7 +149,6 @@ module.exports = {
           new EmbedBuilder()
             .setTitle('コマンド名: ' + command.info.name + ' の詳細')
             .setDescription(`コマンド名: ${command.info.name}\n説明: ${command.info.description}\n使用法: \`\`${command.info.name}\`\`\nエイリアス: ${command.info.aliases.join(', ')}\n\nカテゴリー: ${command.info.category}`)
-
             .setTimestamp(),
         ],
       });

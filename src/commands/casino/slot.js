@@ -7,7 +7,7 @@ module.exports = {
     info: {
         name: 'slot',
         description: 'スロットをやる',
-        category: 'main',
+        category: 'casino',
         deferReply: true,
     },
 

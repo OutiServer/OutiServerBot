@@ -1,10 +1,11 @@
 {
-    "cSpell.words": [
-        "bufferutil",
-        "discordjs",
-        "erlpack",
-        "minecraft",
-        "outiserverbot",
-        "VOICEVOX"
-    ]
+  "cSpell.words": [
+    "bufferutil",
+    "discordjs",
+    "erlpack",
+    "minecraft",
+    "outiserver",
+    "outiserverbot",
+    "VOICEVOX"
+  ]
 }

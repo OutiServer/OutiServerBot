@@ -20,7 +20,6 @@ module.exports = async (client, oldMessage, newMessage) => {
                 embeds: [
                     new EmbedBuilder()
                         .setDescription('upを確認しました、一時間後にこのチャンネルで通知します')
-
                         .setTimestamp(),
                 ],
             });
@@ -40,7 +39,6 @@ module.exports = async (client, oldMessage, newMessage) => {
                     embeds: [
                         new EmbedBuilder()
                             .setDescription('Bumpを確認しました、二時間後にこのチャンネルで通知します')
-
                             .setTimestamp(),
                     ],
                 },
@@ -61,41 +59,51 @@ module.exports = async (client, oldMessage, newMessage) => {
     const embed = new EmbedBuilder()
         .setTitle('メッセージが編集されました')
         .setURL(`https://discord.com/channels/${oldMessage.guildId}/${oldMessage.channelId}/${oldMessage.id}`)
-        .addField('メッセージが編集されたチャンネル', `${oldMessage.channel.name} (<#${oldMessage.channelId}>)`)
-        .addField('メッセージを送信したユーザー', `${oldMessage.author.tag} (<@${oldMessage.author.id}>) [${oldMessage.author.id}]`)
+        .addFields([
+            { name: 'メッセージが編集されたチャンネル', value: `${oldMessage.channel.name} (<#${oldMessage.channelId}>)` },
+            { name: 'メッセージを送信したユーザー', value: `${oldMessage.author.tag} (<@${oldMessage.author.id}>) [${oldMessage.author.id}]` },
+        ])
         .setThumbnail(oldMessage.author.avatarURL({ format: 'webp' }))
-
-        .setFooter({ text: `messageid: ${oldMessage.id}`, iconURL: oldMessage.author.avatarURL({ format: 'webp' }) })
+        .setFooter({ text: `messageId: ${oldMessage.id}`, iconURL: oldMessage.author.avatarURL({ format: 'webp' }) })
         .setTimestamp();
 
     // content が空の場合は画像
     if (!oldMessage.content) {
         embed
-            .addField('編集される前の画像URL', newMessage.attachments.map(attachment => attachment.url).join('\n'))
+            .addFields([
+                { name: '編集される前の画像URL', value: newMessage.attachments.map(attachment => attachment.url).join('\n') },
+            ])
             .setImage(oldMessage.attachments.first().url);
     }
     // 画像がからの場合
     else if (oldMessage.attachments.size < 1) {
-        embed.addField('編集される前のメッセージ', oldMessage.content);
+        embed.addFields([
+            { name: '編集される前のメッセージ', value: oldMessage.content },
+        ]);
     }
     else {
         embed
-            .addField('編集される前のメッセージ', oldMessage.content)
-            .addField('編集される前の画像URL', oldMessage.attachments.map(attachment => attachment.url).join('\n'))
-            .setImage(oldMessage.attachments.first().url);
+            .addFields([
+                { name: '編集される前のメッセージ', value: oldMessage.content },
+                { name: '編集される前の画像URL', value: oldMessage.attachments.map(attachment => attachment.url).join('\n') },
+            ]);
     }
 
     if (!newMessage.content) {
-        embed
-            .addField('編集された後の画像URL', newMessage.attachments.map(attachment => attachment.url).join('\n'));
+        embed.addFields([
+            { name: '編集された後の画像URL', value: newMessage.attachments.map(attachment => attachment.url).join('\n') },
+        ]);
     }
     else if (newMessage.attachments.size < 1) {
-        embed.addField('編集された後のメッセージ', newMessage.content);
+        embed.addFields([
+            { name: '編集された後のメッセージ', value: newMessage.content },
+        ]);
     }
     else {
-        embed
-            .addField('編集された後のメッセージ', newMessage.content)
-            .addField('編集された後の画像URL', newMessage.attachments.map(attachment => attachment.url).join('\n'));
+        embed.addFields([
+            { name: '編集された後のメッセージ', value: newMessage.content },
+            { name: '編集された後の画像URL', value: newMessage.attachments.map(attachment => attachment.url).join('\n') },
+        ]);
     }
 
     await client.channels.cache.get('825394905572573184').send({ embeds: [embed] });

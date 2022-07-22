@@ -63,9 +63,11 @@ module.exports = {
                                 embeds: [
                                     new EmbedBuilder()
                                         .setTitle('単語を登録しました')
-                                        .addField('読み上げ単語', interaction.options.getString('surface', true))
-                                        .addField('読み上げ方', interaction.options.getString('pronunciation', true))
-                                        .addField('アクセント値(音が下がる場所を指す)', interaction.options.getInteger('accent_type', true).toString()),
+                                        .addFields([
+                                            { name: '読み上げ単語', value: interaction.options.getString('surface', true) },
+                                            { name: '読み上げ方', value: interaction.options.getString('pronunciation', true) },
+                                            { name: 'アクセント値(音が下がる場所を指す)', value: interaction.options.getInteger('accent_type', true).toString() },
+                                        ]),
 
                                 ],
                             });

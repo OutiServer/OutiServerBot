@@ -23,16 +23,18 @@ module.exports = {
         /*
         statusBedrock('outiserver.com', 19132, { timeout: 5000 })
             .then(async (result) => {
-                await message.reply({
+                await interaction.followUp({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('🏠おうちサーバーの現在の状態🏠')
-                            .addField('IPアドレス', 'outiserver.com', true)
-                            .addField('ポート', result.srvRecord?.port.toString() ?? '19132', true)
-                            .addField('サーバーのバージョン', result.version.name, true)
-                            .addField('サーバーのプロトコルバージョン', result.version.protocol.toString(), true)
-                            .addField('デフォルトゲームモード', result.gameMode, true)
-                            .addField('現在参加中のメンバー', `${result.players.online}/${result.players.max}人`, true)
+                            .addFields([
+                                { name: 'IPアドレス', value: 'outiserver.com', inline: true },
+                                { name: 'ポート', value: result.srvRecord?.port.toString() ?? '19132', inline: true },
+                                { name: 'ーバーのバージョン', value: result.version.name, inline: true },
+                                { name: 'IPアドレス', value: 'outiserver.com', inline: true },
+                                { name: 'デフォルトゲームモード', value: result.gameMod, inline: true },
+                                { name: '現在参加中のメンバー', value: `${result.players.online}/${result.players.max}人`, inline: true },
+                            ])
                             .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
 
                     ],
@@ -40,7 +42,7 @@ module.exports = {
             })
             .catch(async (e) => {
                 console.log(e);
-                await message.reply({
+                await interaction.followUp({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('🏠おうちサーバーの現在の状態🏠')
@@ -50,6 +52,6 @@ module.exports = {
                     ],
                 });
             });
-            */
+        */
     },
 };

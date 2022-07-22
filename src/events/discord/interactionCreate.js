@@ -154,8 +154,10 @@ module.exports = async (client, interaction) => {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`${interaction.user.tag}からのReport`)
-                        .addField('タイトル', interaction.fields.getTextInputValue('report_title'))
-                        .addField('タイトル', interaction.fields.getTextInputValue('report_content')),
+                        .addFields([
+                            { name: 'タイトル', value: interaction.fields.getTextInputValue('report_title') },
+                            { name: '内容', value: interaction.fields.getTextInputValue('report_content') },
+                        ]),
                 ],
             });
             await interaction.reply('送信しました、開発者からDMでの返信があるかもしれないのでDM解放しておいてください。');
