@@ -4,7 +4,6 @@ const cron = require('node-cron');
 const path = require('path');
 const Bot = require('./Bot');
 const client = new Bot();
-const __dirname = path.dirname(__filename);
 
 // Processイベント読み込み
 readdir(path.join(__dirname, '/events/process/'), (err, files) => {
