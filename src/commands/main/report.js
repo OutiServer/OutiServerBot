@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Modal, ActionRowBuilder, TextInputBuilder } = require('discord.js');
+const { ActionRowBuilder, TextInputBuilder, ModalBuilder, TextInputStyle } = require('discord.js');
 
 module.exports = {
     info: {
@@ -19,7 +19,7 @@ module.exports = {
      */
 
     run: async function (client, interaction) {
-        const modal = new Modal()
+        const modal = new ModalBuilder()
             .setCustomId('report')
             .setTitle('Bot開発者へのバグ報告・要望');
         modal.addComponents(
@@ -27,14 +27,14 @@ module.exports = {
                 .addComponents(new TextInputBuilder()
                     .setCustomId('report_title')
                     .setLabel('タイトル')
-                    .setStyle('SHORT')
+                    .setStyle(TextInputStyle.Short)
                     .setRequired(true),
                 ),
             new ActionRowBuilder()
                 .addComponents(new TextInputBuilder()
                     .setCustomId('report_content')
                     .setLabel('内容')
-                    .setStyle('PARAGRAPH')
+                    .setStyle(TextInputStyle.Paragraph)
                     .setRequired(true),
                 ),
         );

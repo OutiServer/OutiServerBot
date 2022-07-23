@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const SpeakerClient = require('../../utils/SpearkClient');
 
 module.exports = {
@@ -141,7 +141,7 @@ module.exports = {
 
                     let select = 0;
                     const filter = (i) => i.user.id === interaction.user.id;
-                    const collector = message.createMessageComponentCollector({ filter: filter, componentType: 'BUTTON' });
+                    const collector = message.createMessageComponentCollector({ filter: filter, componentType: ComponentType.Button });
                     collector.on('collect', async i => {
                         if (i.customId === 'left') {
                             select--;

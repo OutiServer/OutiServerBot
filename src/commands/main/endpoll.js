@@ -58,11 +58,6 @@ module.exports = {
         }
 
         msg.reactions.removeAll();
-        msg.edit({
-            embeds: [
-                msg.embeds[0].setFooter({ text: '投票は終了しました' }),
-            ],
-        });
         await interaction.followUp(
             {
                 embeds: [

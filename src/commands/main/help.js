@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 
 module.exports = {
@@ -37,12 +37,6 @@ module.exports = {
         new EmbedBuilder()
           .setTitle('main')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
-          .setTimestamp(),
-      );
-      embeds.push(
-        new EmbedBuilder()
-          .setTitle('minecraft')
-          .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'minecraft').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
           .setTimestamp(),
       );
 
@@ -97,7 +91,7 @@ module.exports = {
 
       let select = 0;
       const filter = (i) => i.user.id === interaction.user.id;
-      const collector = message.createMessageComponentCollector({ filter: filter, componentType: 'BUTTON' });
+      const collector = message.createMessageComponentCollector({ filter: filter, componentType: ComponentType.Button });
       collector.on('collect', async i => {
         if (i.customId === 'left') {
           select--;

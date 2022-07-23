@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder, ComponentType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SpeakerClient = require('../../utils/SpearkClient');
 
@@ -53,7 +53,7 @@ module.exports = {
 
         const filter = (i) => (i.customId === 'speaker') && i.user.id === interaction.user.id;
         /** @type {import('discord.js').SelectMenuInteraction} */
-        const response = await msg.awaitMessageComponent({ filter, componentType: 'SELECT_MENU', max: 1, time: 60000 });
+        const response = await msg.awaitMessageComponent({ filter, componentType: ComponentType.SelectMenu, max: 1, time: 60000 });
         // eslint-disable-next-line no-shadow
         const speaker = speakers.find(speaker => speaker.speaker_uuid === response.values[0]);
         client.database.setSpeaker(interaction.user.id, speaker.styles[0].id);

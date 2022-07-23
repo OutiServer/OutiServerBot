@@ -8,7 +8,7 @@ const ms = require('ms');
  */
 
 module.exports = async (client, oldMember, newMember) => {
-  if (oldMember.channelId === oldMember.guild.me.voice.channelId && oldMember.channel !== null) {
+  if (oldMember.channelId === oldMember.guild.me?.voice.channelId && oldMember.channel !== null) {
     if (oldMember.channel.members.filter(m => !m.user.bot).size < 1) {
       const speakerClient = client.speakers.get(oldMember.guild.id);
       if (speakerClient) {
