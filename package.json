@@ -2,7 +2,7 @@
   "name": "outiserverbot",
   "version": "3.0.1",
   "engines": {
-    "node": "16.x"
+    "node": "16.16.0"
   },
   "description": "おうち鯖専属Bot",
   "main": "src/index.js",
