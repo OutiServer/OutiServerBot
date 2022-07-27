@@ -43,11 +43,6 @@ module.exports = async (client) => {
             }
 
             msg.reactions.removeAll();
-            msg.edit({
-                embeds: [
-                    msg.embeds[0].setFooter({ text: '投票は終了しました' }),
-                ],
-            });
             await channel.send({
                 content: `${userMention(poll.userid)} 投票が終了しました`,
                 embeds: [
