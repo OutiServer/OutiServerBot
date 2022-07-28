@@ -42,18 +42,23 @@ module.exports = async (client) => {
                 count++;
             }
 
-            msg.reactions.removeAll();
-            await channel.send({
-                content: `${userMention(poll.userid)} 投票が終了しました`,
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle(`${msg.embeds[0].title}の投票結果`)
-                        .setDescription(result)
-                        .setURL(`https://discord.com/channels/${channel.guildId}/${poll.channelid}/${poll.messageid}`)
-                        .setTimestamp(),
-                ],
-            });
+            try {
+                msg.reactions.removeAll();
+                await channel.send({
+                    content: `${userMention(poll.userid)} 投票が終了しました`,
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle(`${msg.embeds[0].title}の投票結果`)
+                            .setDescription(result)
+                            .setURL(`https://discord.com/channels/${channel.guildId}/${poll.channelid}/${poll.messageid}`)
+                            .setTimestamp(),
+                    ],
+                });
 
-            client.database.removePoll(poll.id);
+                client.database.removePoll(poll.id);
+            }
+            // eslint-disable-next-line no-empty
+            catch (e) {
+            }
         });
 };
