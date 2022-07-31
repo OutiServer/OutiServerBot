@@ -21,11 +21,21 @@ module.exports = {
 
     run: async function (client, interaction) {
         const speakers = await SpeakerClient.getSpeakers();
+        const speakerSelect = [];
+        speakers.forEach(speaker => {
+            speaker.styles.forEach(speakerStyle => {
+                speakerSelect.push({
+                    label: `${speaker.name} ${speakerStyle.name}`,
+                    value: speakerStyle.id.toString(),
+                });
+            });
+        });
+
         const msg = await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle('読み上げキャラクターの設定')
-                    .setDescription('[VOICEVOX様公式サイト、各キャラクターの立ち絵・詳細はこちら](https://voicevox.hiroshiba.jp/)\n\nCREDIT\n\nVOICEVOX:ずんだもん\nVOICEVOX:四国めたん\nVOICEVOX:春日部つむぎ\nVOICEVOX:雨晴はう\nVOICEVOX:波音リツ\nVOICEVOX:玄野武宏\nVOICEVOX:白上虎太郎\nVOICEVOX:青山龍星\nVOICEVOX:冥鳴ひまり\nVOICEVOX:九州そら\nVOICEVOX:もち子(cv 明日葉よもぎ)')
+                    .setDescription('[VOICEVOX様公式サイト、各キャラクターの立ち絵・詳細はこちら](https://voicevox.hiroshiba.jp/)\n\nCREDIT\n\nVOICEVOX:ずんだもん\nVOICEVOX:四国めたん\nVOICEVOX:春日部つむぎ\nVOICEVOX:雨晴はう\nVOICEVOX:波音リツ\nVOICEVOX:玄野武宏\nVOICEVOX:白上虎太郎\nVOICEVOX:青山龍星\nVOICEVOX:冥鳴ひまり\nVOICEVOX:九州そら\nVOICEVOX:もち子(cv 明日葉よもぎ)\nVOICEVOX:剣崎雌雄')
                     .addFields([
                         { name: '四国めたん', value: 'はっきりした芯のある声', inline: true },
                         { name: 'ずんだもん', value: '子供っぽい高めの声', inline: true },
@@ -46,7 +56,7 @@ module.exports = {
                     .addComponents(
                         new SelectMenuBuilder()
                             .setCustomId('speaker')
-                            .addOptions(speakers.map(speaker => ({ label: speaker.name, value: speaker.speaker_uuid }))),
+                            .addOptions(speakerSelect),
                     ),
             ],
         });
@@ -55,10 +65,12 @@ module.exports = {
         /** @type {import('discord.js').SelectMenuInteraction} */
         const response = await msg.awaitMessageComponent({ filter, componentType: ComponentType.SelectMenu, max: 1, time: 60000 });
         // eslint-disable-next-line no-shadow
-        const speaker = speakers.find(speaker => speaker.speaker_uuid === response.values[0]);
-        client.database.setSpeaker(interaction.user.id, speaker.styles[0].id);
+        const speaker = speakers.find(speaker => speaker.styles.find(speakerStyle => speakerStyle.id === Number(response.values[0])));
+        // eslint-disable-next-line no-shadow
+        const speakerStyle = speaker.styles.find(speakerStyle => speakerStyle.id === Number(response.values[0]));
+        client.database.setSpeaker(interaction.user.id, speakerStyle.id);
         response.update({
-            content: `読み上げキャラクターを${speaker.name}にセット`,
+            content: `読み上げキャラクターを${speaker.name} ${speakerStyle.name}にセット`,
             embeds: [],
             components: [],
         });
