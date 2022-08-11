@@ -1,6 +1,7 @@
 const { Client, GatewayIntentBits, Collection, Partials } = require('discord.js');
 const { getLogger, configure } = require('log4js');
 const Database = require('./database/Database');
+const { DiscordTogether } = require('discord-together');
 
 class Bot extends Client {
     constructor() {
@@ -51,6 +52,8 @@ class Bot extends Client {
         this.study_times = new Collection();
 
         this.logger = getLogger('OutiServerBot');
+
+        this.discordTogether = new DiscordTogether(this);
     }
 }
 
