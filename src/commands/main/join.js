@@ -29,6 +29,6 @@ module.exports = {
             interaction.guild.voiceAdapterCreator,
         ));
 
-        await interaction.followUp(`${interaction.member.voice.channel.name}で読み上げを開始しました！`);
+        await interaction.followUp(`${interaction.member.voice.channel.name}で読み上げを開始しました！\n\n一部読み上げの使用用途を間違って利用している方を見かけます。\nVOICEVOXは有志の方々で作られた無料の音声合成ソフトであることを留意してご利用ください。\n**性的・政治的・その他不適切な文章の読み上げは禁止します**`);
     },
 };
