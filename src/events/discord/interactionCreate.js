@@ -9,42 +9,6 @@ module.exports = async (client, interaction) => {
     if (interaction.user.bot) return;
     if (interaction.isButton()) {
         switch (interaction.customId) {
-            case 'amongus':
-                await interaction.deferReply({ ephemeral: true });
-                if (interaction.member.roles.cache.has('774593459034128395')) {
-                    await interaction.member.roles.remove('774593459034128395');
-                    await interaction.editReply('Among Us Crewを剥奪しました');
-                }
-                else {
-                    await interaction.member.roles.add('774593459034128395');
-                    await interaction.editReply('Among Us Crewを付与しました');
-                }
-                break;
-            case 'Temporaryannounce':
-                await interaction.deferReply({ ephemeral: true });
-                if (interaction.member.roles.cache.has('780217228649562113')) {
-                    await interaction.member.roles.remove('780217228649562113');
-                    await interaction.editReply('臨時お知らせを剥奪しました');
-                }
-                else {
-                    await interaction.member.roles.add('780217228649562113');
-                    await interaction.editReply('臨時お知らせを付与しました\n10分後自動で剥奪します');
-                    setTimeout(async () => {
-                        await interaction.member.roles.remove('780217228649562113');
-                    }, 600000);
-                }
-                break;
-            case 'announce':
-                await interaction.deferReply({ ephemeral: true });
-                if (interaction.member.roles.cache.has('826994784614219846')) {
-                    await interaction.member.roles.remove('826994784614219846');
-                    await interaction.editReply('お知らせを剥奪しました');
-                }
-                else {
-                    await interaction.member.roles.add('826994784614219846');
-                    await interaction.editReply('お知らせを付与しました');
-                }
-                break;
             case 'inquiry':
                 {
                     await interaction.deferReply({ ephemeral: true });
@@ -100,28 +64,6 @@ module.exports = async (client, interaction) => {
                 await interaction.reply('このお問い合わせをクローズしました');
                 await interaction.channel.setParent('828268142820196372');
                 break;
-            case 'illustration':
-                await interaction.deferReply({ ephemeral: true });
-                if (interaction.member.roles.cache.has('875684910071955508')) {
-                    await interaction.member.roles.remove('875684910071955508');
-                    await interaction.editReply('お絵描きを剥奪しました');
-                }
-                else {
-                    await interaction.member.roles.add('875684910071955508');
-                    await interaction.editReply('お絵描きを付与しました');
-                }
-                break;
-            case 'work_voice':
-                await interaction.deferReply({ ephemeral: true });
-                if (interaction.member.roles.cache.has('969526525647020052')) {
-                    await interaction.member.roles.remove('969526525647020052');
-                    await interaction.editReply('作業通話を剥奪しました');
-                }
-                else {
-                    await interaction.member.roles.add('969526525647020052');
-                    await interaction.editReply('作業通話を付与しました');
-                }
-                break;
             case 'study':
                 await interaction.deferReply({ ephemeral: true });
                 if (interaction.member.roles.cache.has('972467400941379625')) {
@@ -147,6 +89,87 @@ module.exports = async (client, interaction) => {
             default:
                 break;
         }
+    }
+    else if (interaction.isSelectMenu() && interaction.customId === 'role_panel') {
+        const result = [];
+        await interaction.deferReply({ ephemeral: true });
+        for (const role of interaction.values) {
+            if (role === 'among_us') {
+                if (interaction.member.roles.cache.has('774593459034128395')) {
+                    await interaction.member.roles.remove('774593459034128395');
+                    result.push('AmongUs Crewを剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('774593459034128395');
+                    result.push('AmongUs Crewを付与しました');
+                }
+            }
+            else if (role === 'temp_announce') {
+                if (interaction.member.roles.cache.has('780217228649562113')) {
+                    await interaction.member.roles.remove('780217228649562113');
+                    result.push('臨時お知らせを剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('780217228649562113');
+                    result.push('臨時お知らせを付与しました\n10分後自動で剥奪します');
+                    setTimeout(async () => {
+                        await interaction.member.roles.remove('780217228649562113');
+                    }, 600000);
+                }
+            }
+            else if (role === 'mention_announce') {
+                if (interaction.member.roles.cache.has('826994784614219846')) {
+                    await interaction.member.roles.remove('826994784614219846');
+                    result.push('お知らせを剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('826994784614219846');
+                    result.push('お知らせを付与しました');
+                }
+            }
+            else if (role === 'illustrator') {
+                if (interaction.member.roles.cache.has('875684910071955508')) {
+                    await interaction.member.roles.remove('875684910071955508');
+                    result.push('お絵描きを剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('875684910071955508');
+                    result.push('お絵描きを付与しました');
+                }
+            }
+            else if (role === 'work_call') {
+                if (interaction.member.roles.cache.has('969526525647020052')) {
+                    await interaction.member.roles.remove('969526525647020052');
+                    result.push('作業通話を剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('969526525647020052');
+                    result.push('作業通話を付与しました');
+                }
+            }
+            else if (role === 'study_member') {
+                if (interaction.member.roles.cache.has('972467400941379625')) {
+                    await interaction.member.roles.remove('972467400941379625');
+                    result.push('学ぶ者を剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('972467400941379625');
+                    result.push('学ぶ者を付与しました');
+                }
+            }
+            else if (role === 'ghost_investigator') {
+                if (interaction.member.roles.cache.has('977401797935251486')) {
+                    await interaction.member.roles.remove('977401797935251486');
+                    result.push('幽霊調査員を剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('977401797935251486');
+                    result.push('幽霊調査員を付与しました');
+                }
+            }
+        }
+
+        await interaction.followUp(result.join('\n'));
     }
     else if (interaction.type === InteractionType.ModalSubmit) {
         if (interaction.customId === 'report') {
