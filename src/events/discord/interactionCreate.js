@@ -93,6 +93,7 @@ module.exports = async (client, interaction) => {
     else if (interaction.isSelectMenu() && interaction.customId === 'role_panel') {
         const result = [];
         await interaction.deferReply({ ephemeral: true });
+        if (interaction.values.length < 1) return await interaction.followUp('付与も剥奪も行いませんでした');
         for (const role of interaction.values) {
             if (role === 'among_us') {
                 if (interaction.member.roles.cache.has('774593459034128395')) {

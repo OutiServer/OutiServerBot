@@ -1,4 +1,4 @@
-const { ActivityType } = require('discord.js');
+const { ActivityType, EmbedBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
 
 /**
  *
@@ -9,7 +9,6 @@ module.exports = async (client) => {
   client.user.setActivity({ name: '再起動しました', type: ActivityType.Playing });
   client.logger.info(`Logged in as ${client.user.tag}`);
 
-  /*
   const msg = await client.channels.cache.get('774594290679545886').messages.fetch('1008311079383863336');
   msg.edit({
     embeds: [
@@ -22,6 +21,7 @@ module.exports = async (client) => {
         .addComponents(
           new SelectMenuBuilder()
             .setCustomId('role_panel')
+            .setMinValues(0)
             .setMaxValues(7)
             .addOptions([
               { label: 'AmongUs Crew', value: 'among_us' },
@@ -35,5 +35,4 @@ module.exports = async (client) => {
         ),
     ],
   });
-  */
 };
