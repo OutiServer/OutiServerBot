@@ -73,7 +73,7 @@ module.exports = async (client, message) => {
         if (!err) {
           for (const d in data.extended_entities) {
             if (data.extended_entities[d][0].type === 'video') {
-              message.reply(data.extended_entities[d][0].video_info.variants[0].url);
+              message.reply(data.extended_entities[d][0].video_info.variants[0].url).catch();
             }
           }
         }
