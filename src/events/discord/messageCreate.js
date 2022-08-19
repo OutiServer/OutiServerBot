@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { default: axios } = require('axios');
+const url = require('url');
 
 /**
  * @param {import('../../Bot')} client
@@ -63,6 +64,18 @@ module.exports = async (client, message) => {
   else if (message.channel.id === '714404103224164423') {
     if (message.attachments.size > 0 || message.content.match(new RegExp('https://')) || message.content.match(new RegExp('http://'))) {
       await message.react('👮');
+    }
+  }
+  else if (message.channelId === '1009760907028607056') {
+    if (message.content.match(new RegExp('https://twitter.com'))) {
+      const tweetId = url.parse(message.content).pathname.split('/')[3];
+      client.twitter.get('statuses/show', { id: tweetId, include_entities: true }, function (err, data) {
+        if (!err) {
+          for (const d in data.extended_entities) {
+            message.reply(data.extended_entities[d][0].video_info.variants[0].url);
+          }
+        }
+      });
     }
   }
 

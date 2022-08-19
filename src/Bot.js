@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, Collection, Partials } = require('discord.js'
 const { getLogger, configure } = require('log4js');
 const Database = require('./database/Database');
 const { DiscordTogether } = require('discord-together');
+const Twitter = require('twitter');
 
 class Bot extends Client {
     constructor() {
@@ -54,6 +55,13 @@ class Bot extends Client {
         this.logger = getLogger('OutiServerBot');
 
         this.discordTogether = new DiscordTogether(this);
+
+        this.twitter = new Twitter({
+            consumer_key: process.env.TWITTER_KET,
+            consumer_secret: process.env.TWITTER_SECRET,
+            access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+            access_token_secret: process.env.TWITTER_ACCESS_SECRET,
+        });
     }
 }
 
