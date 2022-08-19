@@ -72,7 +72,9 @@ module.exports = async (client, message) => {
       client.twitter.get('statuses/show', { id: tweetId, include_entities: true }, function (err, data) {
         if (!err) {
           for (const d in data.extended_entities) {
-            message.reply(data.extended_entities[d][0].video_info.variants[0].url);
+            if (data.extended_entities[d][0].type === 'video') {
+              message.reply(data.extended_entities[d][0].video_info.variants[0].url);
+            }
           }
         }
       });
