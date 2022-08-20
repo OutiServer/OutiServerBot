@@ -13,6 +13,9 @@ class Database {
         this.sql.prepare('CREATE TABLE IF NOT EXISTS slots (channel_id TEXT PRIMARY KEY, type INTEGER NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_slots_id ON slots (channel_id);').run();
 
+        this.sql.prepare('CREATE TABLE IF NOT EXISTS emoji_uses (emoji_id TEXT PRIMARY KEY, count INTEGER NOT NULL);').run();
+        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_emoji_uses_id ON emoji_uses (emoji_id);').run();
+
         this.sql.pragma('synchronous = 1');
         this.sql.pragma('journal_mode = wal');
     }
@@ -114,6 +117,37 @@ class Database {
         if (!this.getSlot(channelId)) return;
 
         this.sql.prepare('DELETE FROM slots WHERE channel_id = ?;').run(channelId);
+    }
+
+    /**
+     *
+     * @param {string} emojiId
+     * @returns {{ emoji_id: string, count: number } | undefined}
+     */
+    getEmojiUseCount(emojiId) {
+        return this.sql.prepare('SELECT * FROM emoji_uses WHERE emoji_id = ?;').get(emojiId);
+    }
+
+    /**
+     *
+     * @returns {Array<{ emoji_id: string, count: number }>}
+     */
+    getAllEmojiUseCount() {
+        return this.sql.prepare('SELECT * FROM emoji_uses ORDER BY count DESC LIMIT 10;').all();
+    }
+
+    /**
+     *
+     * @param {string} emojiId
+     * @param {number} count
+     */
+    addEmojiUseCount(emojiId, count) {
+        if (!this.getEmojiUseCount(emojiId)) {
+            this.sql.prepare('INSERT INTO emoji_uses VALUES (?, ?);').run(emojiId, count);
+        }
+        else {
+            this.sql.prepare('UPDATE emoji_uses SET count = count + ? WHERE emoji_id = ?;').run(count, emojiId);
+        }
     }
 }
 

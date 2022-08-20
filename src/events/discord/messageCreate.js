@@ -81,6 +81,15 @@ module.exports = async (client, message) => {
     }
   }
 
+  const EMOJI_PATTERN = /((?<!\\)<:[^:]+:(\d+)>)/gmu;
+  const emojis = message.content.match(EMOJI_PATTERN);
+  if (emojis) {
+    for (const emoji of emojis) {
+      const emojiId = emoji.substring(2, emoji.length).split(':')[1].split('>')[0];
+      client.database.addEmojiUseCount(emojiId, 1);
+    }
+  }
+
   const URL_PATTERN = /http(?:s)?:\/\/(?:.*)?discord(?:app)?\.com\/channels\/(?:\d{17,19})\/(?<channelId>\d{17,19})\/(?<messageId>\d{17,19})/g;
   let result;
   while ((result = URL_PATTERN.exec(message.content)) !== null) {
