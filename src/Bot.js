@@ -16,6 +16,7 @@ class Bot extends Client {
                 GatewayIntentBits.GuildMessageReactions,
                 GatewayIntentBits.GuildEmojisAndStickers,
                 GatewayIntentBits.MessageContent,
+                GatewayIntentBits.GuildBans,
             ],
             partials: [
                 Partials.Message,
