@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, InteractionType, ChannelType, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, InteractionType, ChannelType, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 
 /**
  * @param {import('../../Bot')} client
@@ -20,19 +20,19 @@ module.exports = async (client, interaction) => {
                         permissionOverwrites: [
                             {
                                 id: '706452606918066237',
-                                deny: ['VIEW_CHANNEL'],
+                                deny: [PermissionFlagsBits.ViewChannel],
                             },
                             {
                                 id: interaction.user.id,
-                                allow: ['VIEW_CHANNEL'],
+                                allow: [PermissionFlagsBits.ViewChannel],
                             },
                             {
                                 id: '771015602180587571',
-                                allow: ['VIEW_CHANNEL'],
+                                allow: [PermissionFlagsBits.ViewChannel],
                             },
                             {
                                 id: '822852335322923060',
-                                allow: ['VIEW_CHANNEL'],
+                                allow: [PermissionFlagsBits.ViewChannel],
                             },
                         ],
                     });
