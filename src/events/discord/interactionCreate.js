@@ -194,6 +194,6 @@ module.exports = async (client, interaction) => {
 
         if (cmd.info.deferReply) await interaction.deferReply();
 
-        // cmd.run(client, interaction);
+        cmd.run(client, interaction);
     }
 };
