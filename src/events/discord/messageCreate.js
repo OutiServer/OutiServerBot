@@ -116,4 +116,9 @@ module.exports = async (client, message) => {
       else client.speakers.get(message.guildId).addSpearkQueue(message.content, message.id, speaker.speaker_id);
     }
   }
+
+  const date = new Date();
+  if (!client.database.getStudy(message.author.id, date.getFullYear(), date.getMonth() + 1, date.getDate())) {
+    client.database.addStudy(message.author.id, date.getFullYear(), date.getMonth() + 1, date.getDate());
+  }
 };

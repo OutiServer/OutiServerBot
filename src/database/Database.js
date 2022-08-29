@@ -13,6 +13,9 @@ class Database {
         this.sql.prepare('CREATE TABLE IF NOT EXISTS emoji_uses (emoji_id TEXT PRIMARY KEY, count INTEGER NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_emoji_uses_id ON emoji_uses (emoji_id);').run();
 
+        this.sql.prepare('CREATE TABLE IF NOT EXISTS study_times (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, year INTEGER NOT NULL, month INTEGER NOT NULL, day INTEGER NOT NULL, time INTEGER NOT NULL);').run();
+        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_study_times_id ON study_times (id);').run();
+
         this.sql.pragma('synchronous = 1');
         this.sql.pragma('journal_mode = wal');
     }
@@ -115,6 +118,54 @@ class Database {
         else {
             this.sql.prepare('UPDATE emoji_uses SET count = count + ? WHERE emoji_id = ?;').run(count, emojiId);
         }
+    }
+
+    /**
+     *
+     * @param {string} userId
+     * @param {number} year
+     * @param {number} month
+     * @param {number} day
+     * @returns {{ id: string, user_id: string, year: number, month: number, day: number, time: number } | undefined}
+     */
+    getStudy(userId, year, month, day) {
+        return this.sql.prepare('SELECT * FROM study_times WHERE user_id = ? AND year = ? AND month = ? AND day = ?;').get(userId, year, month, day);
+    }
+
+    /**
+     *
+     * @param {string} userId
+     * @param {number} year
+     * @param {number} month
+     * @param {number} day
+     */
+    addStudy(userId, year, month, day) {
+        if (this.getStudy(userId, year, month, day)) return;
+        this.sql.prepare('INSERT INTO study_times VALUES (?, ?, ?, ?, ?, ?);').run(`${userId}-${year}-${month}-${day}`, userId, year, month, day, 0);
+    }
+
+    /**
+     *
+     * @param {string} userId
+     * @param {number} year
+     * @param {number} month
+     * @param {number} day
+     * @param {number} time
+     */
+    addStudyTime(userId, year, month, day, time) {
+        if (!this.getStudy(userId, year, month, day)) return;
+        this.sql.prepare('UPDATE study_times SET time = time + ? WHERE user_id = ? AND year = ? AND month = ? AND day = ?;').run(time, userId, year, month, day);
+    }
+
+    /**
+     *
+     * @param {string} userId
+     * @param {number} year
+     * @param {number} month
+     * @returns {Array<{ id: string, user_id: string, year: number, month: number, day: number, time: number }>}
+     */
+    getStudyMonth(userId, year, month) {
+        return this.sql.prepare('SELECT * FROM study_times WHERE user_id = ? AND year = ? AND month = ? ORDER BY day ASC;').all(userId, year, month);
     }
 }
 

@@ -49,7 +49,11 @@ module.exports = async (client, oldMember, newMember) => {
       await client.channels.cache.get('972852368620261416').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を開始しました！`);
     }
     else if (newMember.channelId === null) {
-      await client.channels.cache.get('972852368620261416').send(`${oldMember.member.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${ms(Date.now() - client.study_times.get(oldMember.member.id))}でした`);
+      if (!client.study_times.get(oldMember.member.id)) return;
+      const result = ms(Date.now() - client.study_times.get(oldMember.member.id));
+      await client.channels.cache.get('972852368620261416').send(`${oldMember.member.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${result.replace('h', '時間').replace('m', '分').replace('s', '秒')}でした`);
+      const date = new Date();
+      client.database.addStudyTime(oldMember.member.id, date.getFullYear(), date.getMonth() + 1, date.getDate(), Math.floor((Date.now() - client.study_times.get(oldMember.member.id)) / 60000));
       client.study_times.delete(oldMember.member.id);
     }
     else if (newMember.channelId !== oldMember.channelId && oldMember.channel?.parentId !== '972467676951752734') {
@@ -57,7 +61,11 @@ module.exports = async (client, oldMember, newMember) => {
       await client.channels.cache.get('972852368620261416').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を開始しました！`);
     }
     else if (newMember.channelId !== oldMember.channelId && oldMember.channel?.parentId === '972467676951752734') {
-      await client.channels.cache.get('972852368620261416').send(`${oldMember.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${ms(Date.now() - client.study_times.get(oldMember.member.id))}でした`);
+      if (!client.study_times.get(oldMember.member.id)) return;
+      const result = ms(Date.now() - client.study_times.get(oldMember.member.id));
+      await client.channels.cache.get('972852368620261416').send(`${oldMember.member.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${result.replace('h', '時間').replace('m', '分').replace('s', '秒')}でした`);
+      const date = new Date();
+      client.database.addStudyTime(oldMember.member.id, date.getFullYear(), date.getMonth() + 1, date.getDate(), Math.floor((Date.now() - client.study_times.get(oldMember.member.id)) / 60000));
       client.study_times.delete(oldMember.member.id);
     }
   }
