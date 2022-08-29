@@ -13,7 +13,8 @@ module.exports = {
         .setDescription('勉強時間を追加')
         .addIntegerOption(option => option
             .setName('time')
-            .setDescription('勉強時間を分単位で追加する')),
+            .setDescription('勉強時間を分単位で追加する')
+            .setRequired(true)),
 
     /**
      * @param {import('../../Bot')} client
