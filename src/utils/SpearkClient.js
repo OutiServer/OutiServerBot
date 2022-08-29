@@ -69,7 +69,13 @@ class SpeakerClient {
             this.client.channels.cache.get(channelId).send('読み上げを終了しました');
         }
 
-        rmSync(`dat/voices/${this.guildId}`, { recursive: true });
+        // たまにエラー出るので
+        try {
+            rmSync(`dat/voices/${this.guildId}`, { recursive: true });
+        }
+        // eslint-disable-next-line no-empty
+        catch (e) {
+        }
     }
 
     /**
