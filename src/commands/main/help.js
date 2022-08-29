@@ -29,7 +29,7 @@ module.exports = {
           .setTitle(`${client.user.tag} helpページ`)
           .addFields([
             { name: 'main', value: client.commands.filter(x => x.info.category == 'main').map((x) => '`' + x.info.name + '`').join(', ') },
-            { name: 'casino', value: client.commands.filter(x => x.info.category == 'casino').map((x) => '`' + x.info.name + '`').join(', ') },
+            { name: 'study', value: client.commands.filter(x => x.info.category == 'study').map((x) => '`' + x.info.name + '`').join(', ') },
           ])
           .setTimestamp(),
       );
@@ -37,6 +37,12 @@ module.exports = {
         new EmbedBuilder()
           .setTitle('main')
           .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
+          .setTimestamp(),
+      );
+      embeds.push(
+        new EmbedBuilder()
+          .setTitle('study')
+          .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'study').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
           .setTimestamp(),
       );
 

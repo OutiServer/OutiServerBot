@@ -195,5 +195,10 @@ module.exports = async (client, interaction) => {
         if (cmd.info.deferReply) await interaction.deferReply();
 
         cmd.run(client, interaction);
+
+        const date = new Date();
+        if (!client.database.getStudy(interaction.user.id, date.getFullYear(), date.getMonth() + 1, date.getDate())) {
+            client.database.addStudy(interaction.user.id, date.getFullYear(), date.getMonth() + 1, date.getDate());
+        }
     }
 };
