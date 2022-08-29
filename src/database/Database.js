@@ -10,9 +10,6 @@ class Database {
         this.sql.prepare('CREATE TABLE IF NOT EXISTS speakers (userid TEXT PRIMARY KEY, speaker_id INTEGER NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_speakers_id ON speakers (userid);').run();
 
-        this.sql.prepare('CREATE TABLE IF NOT EXISTS slots (channel_id TEXT PRIMARY KEY, type INTEGER NOT NULL);').run();
-        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_slots_id ON slots (channel_id);').run();
-
         this.sql.prepare('CREATE TABLE IF NOT EXISTS emoji_uses (emoji_id TEXT PRIMARY KEY, count INTEGER NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_emoji_uses_id ON emoji_uses (emoji_id);').run();
 
@@ -87,36 +84,6 @@ class Database {
         else {
             this.sql.prepare('UPDATE speakers SET speaker_id = ? WHERE userid = ?;').run(speakerId, userid);
         }
-    }
-
-    /**
-     *
-     * @param {string} channelId
-     * @returns {{ channel_id: string, type: number } | undefined}
-     */
-    getSlot(channelId) {
-        return this.sql.prepare('SELECT * FROM slots WHERE channel_id = ?;').get(channelId);
-    }
-
-    /**
-     *
-     * @param {string} channelId
-     * @param {number} type
-     */
-    addSlot(channelId, type) {
-        if (this.getSlot(channelId)) return;
-
-        this.sql.prepare('INSERT INTO slots VALUES (?, ?);').run(channelId, type);
-    }
-
-    /**
-     *
-     * @param {string} channelId
-     */
-    deleteSlot(channelId) {
-        if (!this.getSlot(channelId)) return;
-
-        this.sql.prepare('DELETE FROM slots WHERE channel_id = ?;').run(channelId);
     }
 
     /**

@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, MessageType } = require('discord.js');
 const { default: axios } = require('axios');
 const url = require('url');
 
@@ -12,7 +12,7 @@ module.exports = async (client, message) => {
     const translationText = await axios.get(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`);
     await message.reply(translationText.data);
   }
-  else if (message.type === 'GUILD_MEMBER_JOIN' && message.guildId === '706452606918066237') {
+  else if (message.type === MessageType.UserJoin && message.guildId === '706452606918066237') {
     client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\nまずは<#872501771254263829>を読みましょう。`);
   }
 
@@ -25,9 +25,6 @@ module.exports = async (client, message) => {
   else if (message.channel.id === '950611526274941018') {
     await message.react('👍');
     await message.react('👎');
-  }
-  else if (message.channel.id === '914386198489874433') {
-    await message.react('⚙️');
   }
   else if (message.channel.id === '964715827842670612') {
     await message.react('👍');
