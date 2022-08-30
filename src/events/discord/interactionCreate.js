@@ -66,7 +66,14 @@ module.exports = async (client, interaction) => {
                 break;
             case 'mention_announce':
                 await interaction.deferReply({ ephemeral: true });
-                await interaction.followUp('ロールが未設定');
+                if (interaction.member.roles.cache.has('1014190639539306538')) {
+                    await interaction.member.roles.remove('1014190639539306538');
+                    await interaction.followUp('お知らせを剥奪しました');
+                }
+                else {
+                    await interaction.member.roles.add('1014190639539306538');
+                    await interaction.followUp('お知らせを付与しました');
+                }
                 break;
             default:
                 break;
