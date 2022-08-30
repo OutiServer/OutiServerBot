@@ -64,33 +64,15 @@ module.exports = async (client, interaction) => {
                 await interaction.reply('このお問い合わせをクローズしました');
                 await interaction.channel.setParent('828268142820196372');
                 break;
-            case 'study':
+            case 'mention_announce':
                 await interaction.deferReply({ ephemeral: true });
-                if (interaction.member.roles.cache.has('972467400941379625')) {
-                    await interaction.member.roles.remove('972467400941379625');
-                    await interaction.editReply('学ぶ者を剥奪しました');
-                }
-                else {
-                    await interaction.member.roles.add('972467400941379625');
-                    await interaction.editReply('学ぶ者を付与しました');
-                }
-                break;
-            case 'ghost_investigator':
-                await interaction.deferReply({ ephemeral: true });
-                if (interaction.member.roles.cache.has('977401797935251486')) {
-                    await interaction.member.roles.remove('977401797935251486');
-                    await interaction.editReply('幽霊調査員を剥奪しました');
-                }
-                else {
-                    await interaction.member.roles.add('977401797935251486');
-                    await interaction.editReply('幽霊調査員を付与しました');
-                }
+                await interaction.followUp('ロールが未設定');
                 break;
             default:
                 break;
         }
     }
-    else if (interaction.isSelectMenu() && interaction.customId === 'role_panel' && interaction.guildId === '706452606918066237') {
+    else if (interaction.isSelectMenu() && interaction.customId === 'role_panel') {
         const result = [];
         await interaction.deferReply({ ephemeral: true });
         if (interaction.values.length < 1) return await interaction.followUp('付与も剥奪も行いませんでした');

@@ -14,24 +14,15 @@ module.exports = async (client) => {
     embeds: [
       new EmbedBuilder()
         .setTitle('ロール付与・剥奪')
-        .setDescription('ロールがついている状態でボタンを押すと剥奪\nロールがついてない状態でボタンを押すと付与されます\n臨時お知らせは付与から10分経つと自動的に剥奪されます'),
+        .setDescription('ロールがついている状態でボタンを押すと剥奪\nロールがついてない状態でボタンを押すと付与されます'),
     ],
     components: [
       new ActionRowBuilder()
         .addComponents(
-          new SelectMenuBuilder()
-            .setCustomId('role_panel')
-            .setMinValues(0)
-            .setMaxValues(7)
-            .addOptions([
-              { label: 'AmongUs Crew', value: 'among_us' },
-              { label: '臨時お知らせ', value: 'temp_announce' },
-              { label: 'お知らせ', value: 'mention_announce' },
-              { label: 'お絵描き', value: 'illustrator' },
-              { label: '作業通話', value: 'work_call' },
-              { label: '学ぶ者', value: 'study_member' },
-              { label: '幽霊調査員', value: 'ghost_investigator' },
-            ]),
+          new ButtonBuilder()
+            .setCustomId('mention_announce')
+            .setStyle(ButtonStyle.Primary)
+            .setLabel('お知らせ'),
         ),
     ],
   });
