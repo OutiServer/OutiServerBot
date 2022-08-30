@@ -90,7 +90,7 @@ module.exports = async (client, interaction) => {
                 break;
         }
     }
-    else if (interaction.isSelectMenu() && interaction.customId === 'role_panel') {
+    else if (interaction.isSelectMenu() && interaction.customId === 'role_panel' && interaction.guildId === '706452606918066237') {
         const result = [];
         await interaction.deferReply({ ephemeral: true });
         if (interaction.values.length < 1) return await interaction.followUp('付与も剥奪も行いませんでした');
