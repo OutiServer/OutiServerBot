@@ -2,4 +2,4 @@
 
 おうち鯖専属Bot
 
-[DiscordServer](https://discord.gg/NQsGYKUDTV)
+[DiscordServer](https://discord.gg/4SfWpZntMe)
