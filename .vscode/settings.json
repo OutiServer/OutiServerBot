@@ -3,6 +3,7 @@
     "bufferutil",
     "discordjs",
     "erlpack",
+    "findthread",
     "minecraft",
     "outiserver",
     "outiserverbot",
