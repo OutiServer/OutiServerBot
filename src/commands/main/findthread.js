@@ -5,7 +5,7 @@ module.exports = {
         name: 'findthread',
         description: 'スレッドを検索する',
         category: 'main',
-        deferReply: true,
+        deferReply: false,
     },
 
     data: new SlashCommandBuilder()
