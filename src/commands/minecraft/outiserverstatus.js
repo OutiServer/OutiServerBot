@@ -1,16 +1,18 @@
+const { EmbedBuilder } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const util = require('minecraft-server-util');
 
 module.exports = {
     info: {
         name: 'outiserverstatus',
-        description: 'おうちサーバーの状態を表示するコマンド',
-        category: 'minecraft',
+        description: 'おうち鯖のMinecraftサーバー状態を表示',
+        category: 'main',
         deferReply: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('outiserverstatus')
-        .setDescription('おうちサーバーの状態を表示する'),
+        .setDescription('おうち鯖のMinecraftサーバー状態を表示'),
 
     /**
      * @param {import('../../Bot')} client
@@ -18,40 +20,39 @@ module.exports = {
      */
 
     run: async function (client, interaction) {
-        await interaction.followUp('このコマンドは現在使用できません');
+        if (interaction.guildId !== '877587515677237258' && interaction.guildId !== '872880984205430834') return await interaction.followUp('このコマンドはこのサーバーでは使用できません');
 
-        /*
-        statusBedrock('outiserver.com', 19132, { timeout: 5000 })
-            .then(async (result) => {
-                await interaction.followUp({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle('🏠おうちサーバーの現在の状態🏠')
-                            .addFields([
-                                { name: 'IPアドレス', value: 'outiserver.com', inline: true },
-                                { name: 'ポート', value: result.srvRecord?.port.toString() ?? '19132', inline: true },
-                                { name: 'ーバーのバージョン', value: result.version.name, inline: true },
-                                { name: 'IPアドレス', value: 'outiserver.com', inline: true },
-                                { name: 'デフォルトゲームモード', value: result.gameMod, inline: true },
-                                { name: '現在参加中のメンバー', value: `${result.players.online}/${result.players.max}人`, inline: true },
-                            ])
-                            .setImage('https://media.discordapp.net/attachments/818411667015991297/826376437769568286/outisabakoiyo.png')
+        const msg = await interaction.followUp('サーバー状態を取得中です、お待ちください...');
 
-                    ],
-                });
-            })
-            .catch(async (e) => {
-                console.log(e);
-                await interaction.followUp({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle('🏠おうちサーバーの現在の状態🏠')
-                            .setDescription('おうちサーバーは現在落ちてます')
-                            .setImage('https://media.discordapp.net/attachments/818411667015991297/818411777569325066/setumeisitekudasai.jpg')
+        try {
+            const status = await util.statusBedrock('126.75.152.179', 19132, { timeout: 5000 });
 
-                    ],
-                });
+            msg.edit({
+                content: 'ステータス取得に成功しました',
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle('おうちサーバーの状態')
+                        .addFields([
+                            { name: 'プレイヤー数', value: `${status.players.online}/${status.players.max}` },
+                            { name: 'IP', value: '126.75.152.179' },
+                            { name: 'Port', value: status.portIPv4 ? status.portIPv4.toString() : '不明' },
+                            { name: 'Version', value: status.version.name },
+                        ])
+                        .setImage('https://media.discordapp.net/attachments/906452841890205756/954540727898099732/setumeisitekudasai.jpeg'),
+                ],
             });
-        */
+        }
+        catch (e) {
+            console.error(e);
+            msg.edit({
+                content: 'ステータス取得に失敗しました',
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle('おうちサーバーの状態')
+                        .setDescription('おうちサーバーは現在落ちています')
+                        .setImage('https://media.discordapp.net/attachments/906452841890205756/954540727898099732/setumeisitekudasai.jpeg'),
+                ],
+            });
+        }
     },
 };
