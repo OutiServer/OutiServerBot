@@ -38,7 +38,7 @@ module.exports = {
                             { name: 'Port', value: status.portIPv4 ? status.portIPv4.toString() : '不明' },
                             { name: 'Version', value: status.version.name },
                         ])
-                        .setImage('https://media.discordapp.net/attachments/906452841890205756/954540727898099732/setumeisitekudasai.jpeg'),
+                        .setImage('https://media.discordapp.net/attachments/906452841890205756/954540860224184341/outisabakoiyo.jpeg'),
                 ],
             });
         }
