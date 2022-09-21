@@ -25,7 +25,7 @@ module.exports = {
         const msg = await interaction.followUp('サーバー状態を取得中です、お待ちください...');
 
         try {
-            const status = await util.statusBedrock('126.75.152.179', 50000, { timeout: 5000 });
+            const status = await util.statusBedrock('126.21.60.218', 50000, { timeout: 5000 });
 
             msg.edit({
                 content: 'ステータス取得に成功しました',
