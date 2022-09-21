@@ -35,7 +35,7 @@ module.exports = {
                         .addFields([
                             { name: 'プレイヤー数', value: `${status.players.online}/${status.players.max}` },
                             { name: 'IP', value: '126.75.152.179' },
-                            { name: 'Port', value: status.portIPv4 ? status.portIPv4.toString() : '不明' },
+                            { name: 'Port', value: '50000' },
                             { name: 'Version', value: status.version.name },
                         ])
                         .setImage('https://media.discordapp.net/attachments/906452841890205756/954540860224184341/outisabakoiyo.jpeg'),
