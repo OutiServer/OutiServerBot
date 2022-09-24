@@ -34,7 +34,7 @@ module.exports = {
                         .setTitle('おうちサーバーの状態')
                         .addFields([
                             { name: 'プレイヤー数', value: `${status.players.online}/${status.players.max}` },
-                            { name: 'IP', value: '126.75.152.179' },
+                            { name: 'IP', value: '126.21.60.218' },
                             { name: 'Port', value: '50000' },
                             { name: 'Version', value: status.version.name },
                         ])
