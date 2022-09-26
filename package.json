@@ -34,7 +34,7 @@
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "@discordjs/rest": "^1.1.0",
+    "@discordjs/rest": "^1.2.0",
     "discord-api-types": "^0.37.10",
     "eslint": "^8.23.1"
   }
