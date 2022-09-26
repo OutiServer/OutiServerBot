@@ -98,7 +98,6 @@ module.exports = async (client, message) => {
         new EmbedBuilder()
           .setTitle(`${msg.author.username}のメッセージを展開します`)
           .setDescription(msg.cleanContent)
-
           .setTimestamp(),
       ],
     });
