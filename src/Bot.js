@@ -17,6 +17,7 @@ class Bot extends Client {
                 GatewayIntentBits.GuildEmojisAndStickers,
                 GatewayIntentBits.MessageContent,
                 GatewayIntentBits.GuildBans,
+                GatewayIntentBits.GuildInvites,
             ],
             partials: [
                 Partials.Message,
@@ -52,6 +53,8 @@ class Bot extends Client {
         this.speakers = new Collection();
 
         this.study_times = new Collection();
+
+        this.invites = {};
 
         this.logger = getLogger('OutiServerBot');
 

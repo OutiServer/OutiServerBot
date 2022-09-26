@@ -43,7 +43,6 @@ module.exports = {
             });
         }
         catch (e) {
-            console.error(e);
             msg.edit({
                 content: 'ステータス取得に失敗しました',
                 embeds: [

@@ -1,4 +1,4 @@
-const { ActivityType } = require('discord.js');
+const { ActivityType, Collection } = require('discord.js');
 
 /**
  *
@@ -8,6 +8,15 @@ module.exports = async (client) => {
   client.user.setStatus('online');
   client.user.setActivity({ name: '/help おうち鯖', type: ActivityType.Playing });
   client.logger.info(`Logged in as ${client.user.tag}`);
+
+  client.guilds.cache.forEach(async guild => {
+    if (guild.id !== '706452606918066237') return;
+    await guild.invites.fetch();
+    client.invites[guild.id] = new Collection();
+    guild.invites.cache.forEach(invite => {
+      client.invites[guild.id].set(invite.code, { code: invite.code, uses: invite.uses });
+    });
+  });
 
   // 通常鯖の
   /*
