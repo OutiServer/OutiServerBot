@@ -155,6 +155,21 @@ class SpeakerClient {
 
     /**
      *
+     * @param {string} uuid
+     * @param {string} surface
+     * @param {string} pronunciation
+     * @param {number} accentType
+     *
+     * @returns {number}
+     */
+    static async updateWord(uuid, surface, pronunciation, accentType) {
+        const result = await rpc.put(`user_dict_word/${uuid}?surface=${encodeURI(surface)}&pronunciation=${encodeURI(pronunciation)}&accent_type=${accentType}`);
+
+        return result.status;
+    }
+
+    /**
+     *
      * @param {string} wordUUID
      *
      * @returns {number}

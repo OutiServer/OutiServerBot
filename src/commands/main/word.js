@@ -30,6 +30,26 @@ module.exports = {
                 .setRequired(true)),
         )
         .addSubcommand(subCommand => subCommand
+            .setName('update')
+            .setDescription('辞書をアップデートする')
+            .addStringOption(option => option
+                .setName('uuid')
+                .setDescription('単語のUUID')
+                .setRequired(true))
+            .addStringOption(option => option
+                .setName('surface')
+                .setDescription('読み上げる単語')
+                .setRequired(true))
+            .addStringOption(option => option
+                .setName('pronunciation')
+                .setDescription('カタカナでの読み方')
+                .setRequired(true))
+            .addIntegerOption(option => option
+                .setName('accent_type')
+                .setDescription('アクセント値(音が下がる場所を指す)')
+                .setRequired(true)),
+        )
+        .addSubcommand(subCommand => subCommand
             .setName('remove')
             .setDescription('辞書から削除する')
             .addStringOption(option => option
@@ -78,9 +98,42 @@ module.exports = {
                     }
                 }
                 break;
+            case 'update':
+                {
+                    const uuid = interaction.options.getString('uuid', false);
+                    if ((await SpeakerClient.wordList()).filter(word => word.key === uuid).length < 1) return await interaction.followUp('そのUUIDは登録されていません');
+
+                    const pronunciation = interaction.options.getString('pronunciation', true);
+                    // eslint-disable-next-line no-irregular-whitespace
+                    if (pronunciation.match(/^[ァ-ヶー　]*$/) === null) {
+                        await interaction.followUp('オプション、pronunciationは全角カタカナである必要があります');
+                    }
+                    else {
+                        const statusCode = await SpeakerClient.updateWord(interaction.options.getString('uuid', true), interaction.options.getString('surface', true), pronunciation, interaction.options.getInteger('accent_type', true));
+                        if (statusCode === 204) {
+                            await interaction.followUp({
+                                embeds: [
+                                    new EmbedBuilder()
+                                        .setTitle('単語登録を上書きしました')
+                                        .addFields([
+                                            { name: 'UUID', value: interaction.options.getString('uuid', true) },
+                                            { name: '読み上げ単語', value: interaction.options.getString('surface', true) },
+                                            { name: '読み上げ方', value: interaction.options.getString('pronunciation', true) },
+                                            { name: 'アクセント値(音が下がる場所を指す)', value: interaction.options.getInteger('accent_type', true).toString() },
+                                        ]),
+
+                                ],
+                            });
+                        }
+                        else {
+                            await interaction.followUp(`単語の登録に失敗しました、HTTPStatusCode: ${statusCode}`);
+                        }
+                    }
+                }
+                break;
             case 'remove':
                 {
-                    const uuid = interaction.options.getString('uuid', true);
+                    const uuid = interaction.options.getString('uuid', false);
                     if ((await SpeakerClient.wordList()).filter(word => word.key === uuid).length < 1) return await interaction.followUp('そのUUIDは登録されていません');
 
                     const statusCode = await SpeakerClient.removeWord(uuid);
@@ -129,7 +182,7 @@ module.exports = {
                                 new ButtonBuilder()
                                     .setCustomId('stop')
                                     .setLabel('⏹️')
-                                    .setStyle('DANGER'),
+                                    .setStyle(ButtonStyle.Danger),
                             ],
                         );
 
