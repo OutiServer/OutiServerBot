@@ -1,4 +1,4 @@
-const { EmbedBuilder, MessageType } = require('discord.js');
+const { EmbedBuilder, MessageType, AttachmentBuilder } = require('discord.js');
 const { default: axios } = require('axios');
 const url = require('url');
 
@@ -11,6 +11,13 @@ module.exports = async (client, message) => {
   if (message.channelId === '786343076389847040' && message.author.id !== client.user.id) {
     const translationText = await axios.get(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec?text=${encodeURIComponent(message.content)}&source=en&target=ja`);
     await message.reply(translationText.data);
+  }
+  else if (message.channelId === '1024474203312881684' && message.author.id !== client.user.id && message.attachments.size > 0) {
+    (await client.channels.cache.get('1024257455036829706').messages.fetch('1024475376858177681')).edit({
+      files: [
+        new AttachmentBuilder(message.attachments.first().url),
+      ],
+    });
   }
   else if (message.type === MessageType.UserJoin && message.guildId === '706452606918066237') {
     client.channels.cache.get('706459931351711775').send(`${message.author}さん、ようこそおうち鯖へ！\nまずは<#872501771254263829>を読みましょう。`);
