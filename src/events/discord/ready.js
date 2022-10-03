@@ -18,6 +18,8 @@ module.exports = async (client) => {
     });
   });
 
+  client.wordCache = client.database.getAllWord();
+
   // 通常鯖の
   /*
   const msg = await client.channels.cache.get('774594290679545886').messages.fetch('1008311079383863336');
