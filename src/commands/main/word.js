@@ -8,6 +8,7 @@ module.exports = {
         usage: '',
         aliases: [],
         category: 'main',
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()
