@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     info: {
@@ -74,11 +73,11 @@ module.exports = {
 
                     await interaction.followUp({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle('単語の登録を行いました')
                                 .addField('単語', wordIndex, true)
                                 .addField('読み方', wordRead, true)
-                                .setColor('RANDOM'),
+                                .setColor('Random'),
                         ],
                     });
                 }
@@ -105,7 +104,7 @@ module.exports = {
                     let page = 1;
                     for (let i = 0; i < words.length; i += 10) {
                         embeds.push(
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(`単語帳 ${page++}ページ目`)
                                 .setDescription(
                                     `${words
@@ -115,7 +114,7 @@ module.exports = {
                                         )
                                         .join('\n\n')}`,
                                 )
-                                .setColor('RANDOM'),
+                                .setColor('Random'),
                         );
                     }
 
@@ -125,21 +124,21 @@ module.exports = {
                         });
                     }
 
-                    const buttons = new MessageActionRow()
+                    const buttons = new ActionRowBuilder()
                         .addComponents([
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setCustomId('left')
                                 .setLabel('◀️')
-                                .setStyle('PRIMARY')
+                                .setStyle(ButtonStyle.Primary)
                                 .setDisabled(),
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setCustomId('right')
                                 .setLabel('▶️')
-                                .setStyle('PRIMARY'),
-                            new MessageButton()
+                                .setStyle(ButtonStyle.Primary),
+                            new ButtonBuilder()
                                 .setCustomId('stop')
                                 .setLabel('⏹️')
-                                .setStyle('DANGER'),
+                                .setStyle(ButtonStyle.Danger),
                         ]);
 
                     const message = await interaction.followUp({
@@ -153,7 +152,7 @@ module.exports = {
                     const filter = (i) => i.user.id === interaction.user.id;
                     const collector = message.createMessageComponentCollector({
                         filter: filter,
-                        componentType: 'BUTTON',
+                        componentType: ComponentType.Button,
                     });
                     collector.on('collect', async (i) => {
                         if (i.customId === 'left') {

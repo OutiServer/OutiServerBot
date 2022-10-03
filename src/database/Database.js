@@ -192,7 +192,7 @@ class Database {
     addWord(word, replaceWord) {
         if (this.getWord(word)) return this.updateWord(word, replaceWord);
 
-        this.sql.prepare('INSERT INTO words VALUES (?, ?);').run(word, replaceWord);
+        this.sql.prepare('INSERT INTO words (word, replace_word) VALUES (?, ?);').run(word, replaceWord);
     }
 
     /**
