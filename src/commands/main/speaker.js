@@ -58,13 +58,21 @@ module.exports = {
                 new ActionRowBuilder()
                     .addComponents(
                         new SelectMenuBuilder()
-                            .setCustomId('speaker')
-                            .addOptions(speakerSelect),
+                            .setCustomId('speaker_1')
+                            .setPlaceholder('読み上げキャラ選択')
+                            .addOptions(speakerSelect.slice(0, 25)),
+                    ),
+                new ActionRowBuilder()
+                    .addComponents(
+                        new SelectMenuBuilder()
+                            .setCustomId('speaker_2')
+                            .setPlaceholder('読み上げキャラ選択')
+                            .addOptions(speakerSelect.slice(25)),
                     ),
             ],
         });
 
-        const filter = (i) => (i.customId === 'speaker') && i.user.id === interaction.user.id;
+        const filter = (i) => (i.customId === 'speaker_1' || i.customId === 'speaker_2') && i.user.id === interaction.user.id;
         /** @type {import('discord.js').SelectMenuInteraction} */
         const response = await msg.awaitMessageComponent({ filter, componentType: ComponentType.SelectMenu, max: 1, time: 60000 });
         // eslint-disable-next-line no-shadow

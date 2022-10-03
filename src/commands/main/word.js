@@ -75,8 +75,10 @@ module.exports = {
                         embeds: [
                             new EmbedBuilder()
                                 .setTitle('単語の登録を行いました')
-                                .addField('単語', wordIndex, true)
-                                .addField('読み方', wordRead, true)
+                                .addFields([
+                                    { name: '単語', value: wordIndex, inline: true },
+                                    { name: '読み方', value: wordRead, inline: true },
+                                ])
                                 .setColor('Random'),
                         ],
                     });
@@ -110,7 +112,7 @@ module.exports = {
                                     `${words
                                         .slice(i, i + 10)
                                         .map(
-                                            (word) => `単語: ${word.index_word}\n読み: ${word.read}`,
+                                            (word) => `単語: ${word.word}\n読み: ${word.replace_word}`,
                                         )
                                         .join('\n\n')}`,
                                 )
