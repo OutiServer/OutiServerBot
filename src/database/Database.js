@@ -16,6 +16,9 @@ class Database {
         this.sql.prepare('CREATE TABLE IF NOT EXISTS study_times (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, year INTEGER NOT NULL, month INTEGER NOT NULL, day INTEGER NOT NULL, time INTEGER NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_study_times_id ON study_times (id);').run();
 
+        this.sql.prepare('CREATE TABLE IF NOT EXISTS words (id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT NOT NULL, replace_word TEXT NOT NULL);').run();
+        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_words_id ON words (id);').run();
+
         this.sql.pragma('synchronous = 1');
         this.sql.pragma('journal_mode = wal');
     }
@@ -166,6 +169,51 @@ class Database {
      */
     getStudyMonth(userId, year, month) {
         return this.sql.prepare('SELECT * FROM study_times WHERE user_id = ? AND year = ? AND month = ? ORDER BY day ASC;').all(userId, year, month);
+    }
+
+    /**
+     *
+     * @param {string} word
+     * @returns {{ id: number, word: string, replace_word: string }}
+     */
+    getWord(word) {
+        return this.sql.prepare('SELECT * FROM words WHERE word = ?;').get(word);
+    }
+
+    getAllWord() {
+        return this.sql.prepare('SELECT * FROM words;').all();
+    }
+
+    /**
+     *
+     * @param {string} word
+     * @param {string} replaceWord
+     */
+    addWord(word, replaceWord) {
+        if (this.getWord(word)) return this.updateWord(word, replaceWord);
+
+        this.sql.prepare('INSERT INTO words VALUES (?, ?);').run(word, replaceWord);
+    }
+
+    /**
+     *
+     * @param {string} word
+     * @param {string} replaceWord
+     */
+    updateWord(word, replaceWord) {
+        if (!this.getWord(word)) return this.addWord(word, replaceWord);
+
+        this.sql.prepare('UPDATE words SET replace_word = ? WHERE word = ?;').run(replaceWord, word);
+    }
+
+    /**
+     *
+     * @param {string} word
+     */
+    deleteWord(word) {
+        if (!this.getWord(word)) return;
+
+        this.sql.prepare('DELETE FROM words WHERE index_word = ?;').run(word);
     }
 }
 
