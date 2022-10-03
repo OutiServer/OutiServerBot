@@ -13,6 +13,9 @@ class SpeakerClient {
      * @param {import('@discordjs/voice').DiscordGatewayAdapterCreator} voiceAdapterCreator
      */
     constructor(client, guildId, textChannelId, voiceChannelId, voiceAdapterCreator) {
+        /**
+         * @type {import('../Bot')}
+         */
         this.client = client;
 
         /**
@@ -102,6 +105,12 @@ class SpeakerClient {
             .replace(/<@!?.*?>/g, 'メンション省略')
             .replace(/<#.*?>/g, 'メンション省略')
             .replace(/<@&.*?>/g, 'メンション省略');
+
+        // 辞書
+        for (const word of this.client.wordCache) {
+            text = text.replace(new RegExp(word.word, 'gi'), word.replace_word);
+        }
+
         text = romajiConv(text).toHiragana();
 
         const audioQuery = await rpc.post(`audio_query?text=${encodeURI(text)}&speaker=${speakerId}`);

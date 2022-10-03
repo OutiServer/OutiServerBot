@@ -1,65 +1,45 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const SpeakerClient = require('../../utils/SpearkClient');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
     info: {
         name: 'word',
         description: '読み上げ辞書操作',
+        usage: '',
+        aliases: [],
         category: 'main',
-        deferReply: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('word')
         .setDescription('読み上げ辞書操作')
-        .addSubcommand(subCommand => subCommand
-            .setName('add')
-            .setDescription('辞書に追加する')
-            .addStringOption(option => option
-                .setName('surface')
-                .setDescription('読み上げる単語')
-                .setRequired(true))
-            .addStringOption(option => option
-                .setName('pronunciation')
-                .setDescription('カタカナでの読み方')
-                .setRequired(true))
-            .addIntegerOption(option => option
-                .setName('accent_type')
-                .setDescription('アクセント値(音が下がる場所を指す)')
-                .setRequired(true)),
+        .addSubcommand((subCommand) =>
+            subCommand
+                .setName('add')
+                .setDescription('辞書に追加する')
+                .addStringOption((option) =>
+                    option
+                        .setName('index')
+                        .setDescription('読み上げる単語')
+                        .setRequired(true),
+                )
+                .addStringOption((option) =>
+                    option.setName('read').setDescription('読み').setRequired(true),
+                ),
         )
-        .addSubcommand(subCommand => subCommand
-            .setName('update')
-            .setDescription('辞書をアップデートする')
-            .addStringOption(option => option
-                .setName('uuid')
-                .setDescription('単語のUUID')
-                .setRequired(true))
-            .addStringOption(option => option
-                .setName('surface')
-                .setDescription('読み上げる単語')
-                .setRequired(true))
-            .addStringOption(option => option
-                .setName('pronunciation')
-                .setDescription('カタカナでの読み方')
-                .setRequired(true))
-            .addIntegerOption(option => option
-                .setName('accent_type')
-                .setDescription('アクセント値(音が下がる場所を指す)')
-                .setRequired(true)),
+        .addSubcommand((subCommand) =>
+            subCommand
+                .setName('remove')
+                .setDescription('辞書から削除する')
+                .addStringOption((option) =>
+                    option
+                        .setName('index')
+                        .setDescription('削除する単語')
+                        .setRequired(true),
+                ),
         )
-        .addSubcommand(subCommand => subCommand
-            .setName('remove')
-            .setDescription('辞書から削除する')
-            .addStringOption(option => option
-                .setName('uuid')
-                .setDescription('削除する単語のUUID')
-                .setRequired(true)),
-        )
-        .addSubcommand(subCommand => subCommand
-            .setName('list')
-            .setDescription('読み上げ登録されている単語集'),
+        .addSubcommand((subCommand) =>
+            subCommand.setName('list').setDescription('読み上げ登録されている単語集'),
         ),
 
     /**
@@ -71,93 +51,70 @@ module.exports = {
         switch (interaction.options.getSubcommand(true)) {
             case 'add':
                 {
-                    const pronunciation = interaction.options.getString('pronunciation', true);
-                    // eslint-disable-next-line no-irregular-whitespace
-                    if (pronunciation.match(/^[ァ-ヶー　]*$/) === null) {
-                        await interaction.followUp('オプション、pronunciationは全角カタカナである必要があります');
+                    const wordIndex = interaction.options
+                        .getString('index', true)
+                        .toLocaleLowerCase();
+                    const wordRead = interaction.options
+                        .getString('read', true)
+                        .toLocaleLowerCase();
+                    if (client.database.getWord(wordIndex)) {
+                        client.wordCache.find(
+                            (word) => word.word === wordIndex,
+                        ).replace_word = wordRead;
+                        client.database.updateWord(wordIndex, wordRead);
                     }
                     else {
-                        const statusCode = await SpeakerClient.addWord(interaction.options.getString('surface', true), pronunciation, interaction.options.getInteger('accent_type', true));
-                        if (statusCode === 200) {
-                            await interaction.followUp({
-                                embeds: [
-                                    new EmbedBuilder()
-                                        .setTitle('単語を登録しました')
-                                        .addFields([
-                                            { name: '読み上げ単語', value: interaction.options.getString('surface', true) },
-                                            { name: '読み上げ方', value: interaction.options.getString('pronunciation', true) },
-                                            { name: 'アクセント値(音が下がる場所を指す)', value: interaction.options.getInteger('accent_type', true).toString() },
-                                        ]),
-
-                                ],
-                            });
-                        }
-                        else {
-                            await interaction.followUp(`単語の登録に失敗しました、HTTPStatusCode: ${statusCode}`);
-                        }
+                        client.wordCache.push({
+                            word_index: wordIndex,
+                            read: wordRead,
+                        });
+                        client.database.addWord(wordIndex, wordRead);
                     }
+
+                    await interaction.followUp({
+                        embeds: [
+                            new MessageEmbed()
+                                .setTitle('単語の登録を行いました')
+                                .addField('単語', wordIndex, true)
+                                .addField('読み方', wordRead, true)
+                                .setColor('RANDOM'),
+                        ],
+                    });
                 }
                 break;
-            case 'update':
-                {
-                    const uuid = interaction.options.getString('uuid', false);
-                    if ((await SpeakerClient.wordList()).filter(word => word.key === uuid).length < 1) return await interaction.followUp('そのUUIDは登録されていません');
 
-                    const pronunciation = interaction.options.getString('pronunciation', true);
-                    // eslint-disable-next-line no-irregular-whitespace
-                    if (pronunciation.match(/^[ァ-ヶー　]*$/) === null) {
-                        await interaction.followUp('オプション、pronunciationは全角カタカナである必要があります');
-                    }
-                    else {
-                        const statusCode = await SpeakerClient.updateWord(interaction.options.getString('uuid', true), interaction.options.getString('surface', true), pronunciation, interaction.options.getInteger('accent_type', true));
-                        if (statusCode === 204) {
-                            await interaction.followUp({
-                                embeds: [
-                                    new EmbedBuilder()
-                                        .setTitle('単語登録を上書きしました')
-                                        .addFields([
-                                            { name: 'UUID', value: interaction.options.getString('uuid', true) },
-                                            { name: '読み上げ単語', value: interaction.options.getString('surface', true) },
-                                            { name: '読み上げ方', value: interaction.options.getString('pronunciation', true) },
-                                            { name: 'アクセント値(音が下がる場所を指す)', value: interaction.options.getInteger('accent_type', true).toString() },
-                                        ]),
-
-                                ],
-                            });
-                        }
-                        else {
-                            await interaction.followUp(`単語の登録に失敗しました、HTTPStatusCode: ${statusCode}`);
-                        }
-                    }
-                }
-                break;
             case 'remove':
                 {
-                    const uuid = interaction.options.getString('uuid', false);
-                    if ((await SpeakerClient.wordList()).filter(word => word.key === uuid).length < 1) return await interaction.followUp('そのUUIDは登録されていません');
-
-                    const statusCode = await SpeakerClient.removeWord(uuid);
-                    if (statusCode === 204) {
-                        await interaction.followUp('単語を削除しました');
+                    const wordIndex = interaction.options.getString('index', true);
+                    if (!client.database.getWord(wordIndex)) {
+                        await interaction.followUp('その単語は登録されていません');
                     }
                     else {
-                        await interaction.followUp(`単語の削除に失敗しました、HTTPStatusCode: ${statusCode}`);
+                        client.database.deleteWord(wordIndex);
+                        client.wordCache = client.wordCache.filter((word) => word.word !== wordIndex);
+                        await interaction.followUp(`${wordIndex}を単語から削除しました`);
                     }
                 }
                 break;
+
             case 'list':
                 {
-                    const words = await SpeakerClient.wordList();
-                    if (words.length < 1) return interaction.followUp('現在登録されている単語はありません');
-
+                    const words = client.database.getAllWord();
                     const embeds = [];
                     let page = 1;
                     for (let i = 0; i < words.length; i += 10) {
                         embeds.push(
-                            new EmbedBuilder()
+                            new MessageEmbed()
                                 .setTitle(`単語帳 ${page++}ページ目`)
-                                .setDescription(`${words.slice(i, i + 10).map(word => `UUID: ${word.key}\n単語: ${word.value.surface}\n読み: ${word.value.pronunciation}\nアクセント値(音が下がる場所を指す): ${word.value.accent_type}`).join('\n\n')}`),
-
+                                .setDescription(
+                                    `${words
+                                        .slice(i, i + 10)
+                                        .map(
+                                            (word) => `単語: ${word.index_word}\n読み: ${word.read}`,
+                                        )
+                                        .join('\n\n')}`,
+                                )
+                                .setColor('RANDOM'),
                         );
                     }
 
@@ -167,24 +124,22 @@ module.exports = {
                         });
                     }
 
-                    const buttons = new ActionRowBuilder()
-                        .addComponents(
-                            [
-                                new ButtonBuilder()
-                                    .setCustomId('left')
-                                    .setLabel('◀️')
-                                    .setStyle(ButtonStyle.Primary)
-                                    .setDisabled(),
-                                new ButtonBuilder()
-                                    .setCustomId('right')
-                                    .setLabel('▶️')
-                                    .setStyle(ButtonStyle.Primary),
-                                new ButtonBuilder()
-                                    .setCustomId('stop')
-                                    .setLabel('⏹️')
-                                    .setStyle(ButtonStyle.Danger),
-                            ],
-                        );
+                    const buttons = new MessageActionRow()
+                        .addComponents([
+                            new MessageButton()
+                                .setCustomId('left')
+                                .setLabel('◀️')
+                                .setStyle('PRIMARY')
+                                .setDisabled(),
+                            new MessageButton()
+                                .setCustomId('right')
+                                .setLabel('▶️')
+                                .setStyle('PRIMARY'),
+                            new MessageButton()
+                                .setCustomId('stop')
+                                .setLabel('⏹️')
+                                .setStyle('DANGER'),
+                        ]);
 
                     const message = await interaction.followUp({
                         embeds: [embeds[0]],
@@ -193,21 +148,23 @@ module.exports = {
                     });
 
                     let select = 0;
+
                     const filter = (i) => i.user.id === interaction.user.id;
-                    const collector = message.createMessageComponentCollector({ filter: filter, componentType: ComponentType.Button });
-                    collector.on('collect', async i => {
+                    const collector = message.createMessageComponentCollector({
+                        filter: filter,
+                        componentType: 'BUTTON',
+                    });
+                    collector.on('collect', async (i) => {
                         if (i.customId === 'left') {
                             select--;
                             buttons.components[1].setDisabled(false);
                             if (select < 1) {
                                 buttons.components[0].setDisabled();
                             }
-                            await i.update(
-                                {
-                                    embeds: [embeds[select]],
-                                    components: [buttons],
-                                },
-                            );
+                            await i.update({
+                                embeds: [embeds[select]],
+                                components: [buttons],
+                            });
                         }
                         else if (i.customId === 'right') {
                             select++;
@@ -215,28 +172,25 @@ module.exports = {
                             if (select >= embeds.length - 1) {
                                 buttons.components[1].setDisabled();
                             }
-                            await i.update(
-                                {
-                                    embeds: [embeds[select]],
-                                    components: [buttons],
-                                },
-                            );
+                            await i.update({
+                                embeds: [embeds[select]],
+                                components: [buttons],
+                            });
                         }
                         else if (i.customId === 'stop') {
                             buttons.components[0].setDisabled();
                             buttons.components[1].setDisabled();
                             buttons.components[2].setDisabled();
-                            await i.update(
-                                {
-                                    embeds: [embeds[select]],
-                                    components: [buttons],
-                                },
-                            );
+                            await i.update({
+                                embeds: [embeds[select]],
+                                components: [buttons],
+                            });
                             collector.stop();
                         }
                     });
                 }
                 break;
+
             default:
                 break;
         }

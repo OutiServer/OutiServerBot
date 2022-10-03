@@ -8,8 +8,15 @@ const { EmbedBuilder, SnowflakeUtil } = require('discord.js');
 module.exports = async (client) => {
     const time = new Date();
     if (time.getMinutes() === 0) {
+        const charas = [
+            { name: 'ずんだもん', id: 3 },
+            { name: '四国めたん', id: 2 },
+            { name: '春日部つむぎ', id: 8 },
+        ];
         client.speakers.forEach(async speaker => {
-            await speaker.addSpearkQueue(`ずんだもんが${time.getHours()}時をお知らせします`, SnowflakeUtil.generate(), 3);
+            const rand = Math.floor(Math.random() * charas.length);
+            const chara = charas[rand];
+            await speaker.addSpearkQueue(`${chara.name}が${time.getHours()}時をお知らせします`, SnowflakeUtil.generate(), chara.id);
         });
     }
 

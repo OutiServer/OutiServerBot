@@ -66,6 +66,11 @@ class Bot extends Client {
             access_token_key: process.env.TWITTER_ACCESS_TOKEN,
             access_token_secret: process.env.TWITTER_ACCESS_SECRET,
         });
+
+        /**
+         * @type {{ word: string, replace_word: string }[]}
+         */
+        this.wordCache = [];
     }
 }
 
