@@ -65,8 +65,8 @@ module.exports = {
                     }
                     else {
                         client.wordCache.push({
-                            word_index: wordIndex,
-                            read: wordRead,
+                            word: wordIndex,
+                            replace_word: wordRead,
                         });
                         client.database.addWord(wordIndex, wordRead);
                     }
