@@ -37,6 +37,6 @@
   "devDependencies": {
     "@discordjs/rest": "^1.2.0",
     "discord-api-types": "^0.37.14",
-    "eslint": "^8.24.0"
+    "eslint": "^8.25.0"
   }
 }
