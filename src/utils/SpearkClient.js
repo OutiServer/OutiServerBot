@@ -139,6 +139,10 @@ class SpeakerClient {
         this.connection.subscribe(this.player);
     }
 
+    skip() {
+        this.player.stop();
+    }
+
     /**
      *
      * @returns {Promise<Array<{ name: string, speaker_uuid: string, styles: Array<{ id: number, name: string }> }>>}
