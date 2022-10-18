@@ -192,7 +192,7 @@ class Database {
     addWord(word, replaceWord) {
         if (this.getWord(word)) return this.updateWord(word, replaceWord);
 
-        this.sql.prepare('INSERT INTO words VALUES (?, ?);').run(word, replaceWord);
+        this.sql.prepare('INSERT INTO words (word, replace_word) VALUES (?, ?);').run(word, replaceWord);
     }
 
     /**
@@ -213,7 +213,7 @@ class Database {
     deleteWord(word) {
         if (!this.getWord(word)) return;
 
-        this.sql.prepare('DELETE FROM words WHERE index_word = ?;').run(word);
+        this.sql.prepare('DELETE FROM words WHERE word = ?;').run(word);
     }
 }
 

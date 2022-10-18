@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     info: {
@@ -8,6 +7,7 @@ module.exports = {
         usage: '',
         aliases: [],
         category: 'main',
+        deferReply: true,
     },
 
     data: new SlashCommandBuilder()
@@ -65,19 +65,21 @@ module.exports = {
                     }
                     else {
                         client.wordCache.push({
-                            word_index: wordIndex,
-                            read: wordRead,
+                            word: wordIndex,
+                            replace_word: wordRead,
                         });
                         client.database.addWord(wordIndex, wordRead);
                     }
 
                     await interaction.followUp({
                         embeds: [
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle('単語の登録を行いました')
-                                .addField('単語', wordIndex, true)
-                                .addField('読み方', wordRead, true)
-                                .setColor('RANDOM'),
+                                .addFields([
+                                    { name: '単語', value: wordIndex, inline: true },
+                                    { name: '読み方', value: wordRead, inline: true },
+                                ])
+                                .setColor('Random'),
                         ],
                     });
                 }
@@ -104,17 +106,17 @@ module.exports = {
                     let page = 1;
                     for (let i = 0; i < words.length; i += 10) {
                         embeds.push(
-                            new MessageEmbed()
+                            new EmbedBuilder()
                                 .setTitle(`単語帳 ${page++}ページ目`)
                                 .setDescription(
                                     `${words
                                         .slice(i, i + 10)
                                         .map(
-                                            (word) => `単語: ${word.index_word}\n読み: ${word.read}`,
+                                            (word) => `単語: ${word.word}\n読み: ${word.replace_word}`,
                                         )
                                         .join('\n\n')}`,
                                 )
-                                .setColor('RANDOM'),
+                                .setColor('Random'),
                         );
                     }
 
@@ -124,21 +126,21 @@ module.exports = {
                         });
                     }
 
-                    const buttons = new MessageActionRow()
+                    const buttons = new ActionRowBuilder()
                         .addComponents([
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setCustomId('left')
                                 .setLabel('◀️')
-                                .setStyle('PRIMARY')
+                                .setStyle(ButtonStyle.Primary)
                                 .setDisabled(),
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setCustomId('right')
                                 .setLabel('▶️')
-                                .setStyle('PRIMARY'),
-                            new MessageButton()
+                                .setStyle(ButtonStyle.Primary),
+                            new ButtonBuilder()
                                 .setCustomId('stop')
                                 .setLabel('⏹️')
-                                .setStyle('DANGER'),
+                                .setStyle(ButtonStyle.Danger),
                         ]);
 
                     const message = await interaction.followUp({
@@ -152,7 +154,7 @@ module.exports = {
                     const filter = (i) => i.user.id === interaction.user.id;
                     const collector = message.createMessageComponentCollector({
                         filter: filter,
-                        componentType: 'BUTTON',
+                        componentType: ComponentType.Button,
                     });
                     collector.on('collect', async (i) => {
                         if (i.customId === 'left') {

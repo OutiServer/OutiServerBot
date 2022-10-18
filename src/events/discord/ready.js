@@ -9,6 +9,17 @@ module.exports = async (client) => {
   client.user.setActivity({ name: '/help おうち鯖', type: ActivityType.Playing });
   client.logger.info(`Logged in as ${client.user.tag}`);
 
+  client.guilds.cache.forEach(async guild => {
+    if (guild.id !== '706452606918066237') return;
+    await guild.invites.fetch();
+    client.invites[guild.id] = new Collection();
+    guild.invites.cache.forEach(invite => {
+      client.invites[guild.id].set(invite.code, { code: invite.code, uses: invite.uses });
+    });
+  });
+
+  client.wordCache = client.database.getAllWord();
+
   // 通常鯖の
   /*
   const msg = await client.channels.cache.get('774594290679545886').messages.fetch('1008311079383863336');
