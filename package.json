@@ -1,6 +1,6 @@
 {
   "name": "outiserverbot",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "engines": {
     "node": "16.16.0"
   },
@@ -19,7 +19,8 @@
     "@koozaki/romaji-conv": "^2.0.18",
     "axios": "^1.1.3",
     "better-sqlite3": "^7.6.2",
-    "bufferutil": "^4.0.7",
+    "bufferutil": "^4.0.6",
+    "canvacord": "^5.4.8",
     "discord-together": "^1.3.31",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",

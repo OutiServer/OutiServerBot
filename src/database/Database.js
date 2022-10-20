@@ -19,6 +19,9 @@ class Database {
         this.sql.prepare('CREATE TABLE IF NOT EXISTS words (id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT NOT NULL, replace_word TEXT NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_words_id ON words (id);').run();
 
+        this.sql.prepare('CREATE TABLE IF NOT EXISTS levels (user_id INTEGER PRIMARY KEY AUTOINCREMENT, xp INTEGER NOT NULL, level INTEGER NOT NULL);').run();
+        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_levels_id ON levels (user_id);').run();
+
         this.sql.pragma('synchronous = 1');
         this.sql.pragma('journal_mode = wal');
     }
@@ -214,6 +217,29 @@ class Database {
         if (!this.getWord(word)) return;
 
         this.sql.prepare('DELETE FROM words WHERE word = ?;').run(word);
+    }
+
+    /**
+     *
+     * @param {string} userId
+     * @returns {{ user_id: string, xp: number, level: number } | undefined}
+     */
+    getLevel(userId) {
+        return this.sql.prepare('SELECT * FROM levels WHERE user_id = ?;').get(userId);
+    }
+
+    /**
+     *
+     * @param {string} userId
+     * @param {number} xp
+     */
+    addLevelXP(userId, xp, level) {
+        if (!this.getLevel(userId)) {
+            this.sql.prepare('INSERT INTO levels VALUES (?, ?, ?);').run(userId, xp, 1);
+        }
+        else {
+            this.sql.prepare('UPDATE levels SET xp = xp + ?, level = level + ? WHERE user_id = ?;').run(xp, level, userId);
+        }
     }
 }
 
