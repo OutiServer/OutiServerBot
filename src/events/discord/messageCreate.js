@@ -25,6 +25,23 @@ module.exports = async (client, message) => {
 
   if (!message.guild || message.system || message.author.bot) return;
 
+  let userLevel = client.database.getLevel(message.author.id);
+  if (!userLevel) {
+    client.database.addLevelXP(message.author.id, 0, 1);
+    userLevel = client.database.getLevel(message.author.id);
+  }
+  let xp = Math.floor(Math.random() * 16) + 15;
+  let level = 0;
+  userLevel.xp += xp;
+
+  // LevelUP
+  if (userLevel.level * 55 <= userLevel.xp) {
+    xp = userLevel.xp -= userLevel.level * 55;
+    level = 1;
+    // message.channel.send(`${message.author.tag}のレベルが${userLevel.level + 1}にあがりました！`);
+  }
+  client.database.addLevelXP(message.author.id, xp, level);
+
   if (message.channel.id === '706469264638345227') {
     await message.react('👍');
     await message.react('👎');
