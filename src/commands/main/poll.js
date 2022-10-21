@@ -7,6 +7,7 @@ module.exports = {
     description: '投票を作る',
     category: 'main',
     deferReply: true,
+    ephemeral: false,
   },
 
   data: new SlashCommandBuilder()
@@ -161,7 +162,8 @@ module.exports = {
         .setName('select_20')
         .setDescription('選択項目20')
         .setRequired(false);
-    }),
+    })
+    .setDMPermission(false),
 
   /**
      * @param {import('../../Bot')} client

@@ -7,6 +7,7 @@ module.exports = {
     description: 'コマンドの詳細を表示します',
     category: 'main',
     deferReply: true,
+    ephemeral: true,
   },
 
   data: new SlashCommandBuilder()
@@ -15,7 +16,8 @@ module.exports = {
     .addStringOption(option => option
       .setName('commandname')
       .setDescription('helpを表示するコマンド名')
-      .setRequired(false)),
+      .setRequired(false))
+    .setDMPermission(false),
 
   /**
      * @param {import('../../Bot')} client

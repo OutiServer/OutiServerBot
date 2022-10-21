@@ -7,11 +7,13 @@ module.exports = {
         description: '絵文字使用リスト',
         category: 'main',
         deferReply: true,
+        ephemeral: false,
     },
 
     data: new SlashCommandBuilder()
         .setName('emoji')
-        .setDescription('絵文字使用リスト'),
+        .setDescription('絵文字使用リスト')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

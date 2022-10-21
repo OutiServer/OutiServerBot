@@ -7,11 +7,13 @@ module.exports = {
         description: 'BotのPing値とメモリ使用率を表示',
         category: 'main',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription('BotのPing値とメモリ使用率を表示'),
+        .setDescription('BotのPing値とメモリ使用率を表示')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

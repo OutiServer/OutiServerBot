@@ -7,6 +7,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, InteractionType, ChannelT
 
 module.exports = async (client, interaction) => {
     if (interaction.user.bot) return;
+
     if (interaction.isButton()) {
         switch (interaction.customId) {
             case 'inquiry':
@@ -148,21 +149,6 @@ module.exports = async (client, interaction) => {
                 break;
         }
     }
-    else if (interaction.type === InteractionType.ModalSubmit) {
-        if (interaction.customId === 'report') {
-            await client.users.cache.get(process.env.OWNERID).send({
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle(`${interaction.user.tag}からのReport`)
-                        .addFields([
-                            { name: 'タイトル', value: interaction.fields.getTextInputValue('report_title') },
-                            { name: '内容', value: interaction.fields.getTextInputValue('report_content') },
-                        ]),
-                ],
-            });
-            await interaction.reply('送信しました、開発者からDMでの返信があるかもしれないのでDM解放しておいてください。');
-        }
-    }
     else if (interaction.type === InteractionType.ApplicationCommand) {
         const cmd = client.commands.get(interaction.commandName);
         if (!cmd) return await interaction.reply('Error: コマンドデータが見つかりませんでした');
@@ -172,10 +158,5 @@ module.exports = async (client, interaction) => {
         else if (cmd.info.deferReply) await interaction.deferReply();
 
         cmd.run(client, interaction);
-
-        const date = new Date();
-        if (!client.database.getStudy(interaction.user.id, date.getFullYear(), date.getMonth() + 1, date.getDate())) {
-            client.database.addStudy(interaction.user.id, date.getFullYear(), date.getMonth() + 1, date.getDate());
-        }
     }
 };

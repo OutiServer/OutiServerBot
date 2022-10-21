@@ -4,10 +4,9 @@ module.exports = {
     info: {
         name: 'word',
         description: '読み上げ辞書操作',
-        usage: '',
-        aliases: [],
         category: 'main',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
@@ -40,7 +39,8 @@ module.exports = {
         )
         .addSubcommand((subCommand) =>
             subCommand.setName('list').setDescription('読み上げ登録されている単語集'),
-        ),
+        )
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

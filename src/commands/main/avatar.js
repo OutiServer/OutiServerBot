@@ -7,6 +7,7 @@ module.exports = {
         description: 'ユーザーのアバター画像を表示',
         category: 'main',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
@@ -17,7 +18,8 @@ module.exports = {
                 .setName('user')
                 .setDescription('アバターを表示するユーザー')
                 .setRequired(false);
-        }),
+        })
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

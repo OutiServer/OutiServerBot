@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     info: {
@@ -6,11 +6,14 @@ module.exports = {
         description: '全員をミュートする',
         category: 'admin',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('allmute')
-        .setDescription('全員をミュートする'),
+        .setDescription('全員をミュートする')
+        .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers)
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

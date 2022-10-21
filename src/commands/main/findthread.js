@@ -16,7 +16,8 @@ module.exports = {
             .setName('threadname')
             .setDescription('検索するスレッド名')
             .setRequired(true),
-        ),
+        )
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

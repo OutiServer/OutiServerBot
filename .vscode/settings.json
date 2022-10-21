@@ -2,6 +2,7 @@
   "cSpell.words": [
     "bufferutil",
     "discordjs",
+    "Dynmap",
     "erlpack",
     "findthread",
     "minecraft",
@@ -9,6 +10,7 @@
     "outiserverbot",
     "outiserverstatus",
     "setbackimage",
+    "Speark",
     "VOICEVOX"
   ]
 }

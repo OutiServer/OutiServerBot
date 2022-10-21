@@ -7,11 +7,13 @@ module.exports = {
         description: '読み上げを開始',
         category: 'main',
         deferReply: true,
+        ephemeral: false,
     },
 
     data: new SlashCommandBuilder()
         .setName('join')
-        .setDescription('読み上げを開始する'),
+        .setDescription('読み上げを開始する')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

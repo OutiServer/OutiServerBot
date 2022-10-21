@@ -8,11 +8,13 @@ module.exports = {
         description: 'おうち鯖のMinecraftサーバー状態を表示',
         category: 'main',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('outiserverstatus')
-        .setDescription('おうち鯖のMinecraftサーバー状態を表示'),
+        .setDescription('おうち鯖のMinecraftサーバー状態を表示')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

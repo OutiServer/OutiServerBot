@@ -3,14 +3,16 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     info: {
         name: 'close',
-        description: 'お問合せ・スレッドクローズ',
+        description: 'お問い合わせ',
         category: 'main',
         deferReply: true,
+        ephemeral: false,
     },
 
     data: new SlashCommandBuilder()
         .setName('close')
-        .setDescription('お問合せ・スレッドクローズ'),
+        .setDescription('お問い合わせクローズ')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

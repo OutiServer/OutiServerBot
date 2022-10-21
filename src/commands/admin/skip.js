@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     info: {
@@ -6,11 +7,14 @@ module.exports = {
         description: '再生中の読み上げをスキップする',
         category: 'admin',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('skip')
-        .setDescription('再生中の読み上げをスキップする'),
+        .setDescription('再生中の読み上げをスキップする')
+        .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers | PermissionFlagsBits.DeafenMembers | PermissionFlagsBits.MoveMembers)
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

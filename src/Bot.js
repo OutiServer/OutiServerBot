@@ -41,7 +41,7 @@ class Bot extends Client {
         });
 
         /**
-         * @type {import('discord.js').Collection<string, { info: { name: string, description: string, usage: string, category: string, deferReply: boolean }, data: import('@discordjs/builders').SlashCommandBuilder, run: function(Bot, import('discord.js').CommandInteraction, string[]): Promise<void> }}
+         * @type {import('discord.js').Collection<string, { info: { name: string, description: string, category: string, deferReply: boolean, ephemeral: boolean }, data: import('@discordjs/builders').SlashCommandBuilder, run: function(Bot, import('discord.js').CommandInteraction, string[]): Promise<void> }}
          */
         this.commands = new Collection();
 

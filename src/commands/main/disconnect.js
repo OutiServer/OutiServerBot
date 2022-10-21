@@ -6,11 +6,13 @@ module.exports = {
         description: '読み上げを終了する',
         category: 'main',
         deferReply: true,
+        ephemeral: false,
     },
 
     data: new SlashCommandBuilder()
         .setName('disconnect')
-        .setDescription('読み上げを終了する'),
+        .setDescription('読み上げを終了する')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

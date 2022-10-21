@@ -8,11 +8,13 @@ module.exports = {
         description: '読み上げるキャラクターを設定する',
         category: 'main',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('speaker')
-        .setDescription('読み上げるキャラクターを設定する'),
+        .setDescription('読み上げるキャラクターを設定する')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

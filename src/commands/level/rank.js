@@ -9,11 +9,13 @@ module.exports = {
         description: '自分のレベルとXPを確認する',
         category: 'level',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
         .setName('rank')
-        .setDescription('自分のレベルとXPを確認する'),
+        .setDescription('自分のレベルとXPを確認する')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

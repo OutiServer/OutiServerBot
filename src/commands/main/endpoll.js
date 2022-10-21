@@ -7,6 +7,7 @@ module.exports = {
         description: '投票集計コマンド',
         category: 'main',
         deferReply: true,
+        ephemeral: false,
     },
 
     data: new SlashCommandBuilder()
@@ -17,7 +18,8 @@ module.exports = {
                 .setName('id')
                 .setDescription('投票ID')
                 .setRequired(true);
-        }),
+        })
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

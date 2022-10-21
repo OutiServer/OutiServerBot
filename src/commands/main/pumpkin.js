@@ -12,7 +12,8 @@ module.exports = {
 
     data: new SlashCommandBuilder()
         .setName('pumpkin')
-        .setDescription('カボチャ'),
+        .setDescription('カボチャ')
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

@@ -8,6 +8,7 @@ module.exports = {
         description: 'Rank画像を設定する',
         category: 'level',
         deferReply: true,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
@@ -16,7 +17,8 @@ module.exports = {
         .addAttachmentOption(option => option
             .setName('image')
             .setDescription('Rankの背景画像')
-            .setRequired(false)),
+            .setRequired(false))
+        .setDMPermission(false),
 
     /**
      * @param {import('../../Bot')} client

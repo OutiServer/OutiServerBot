@@ -1,5 +1,4 @@
 const { SnowflakeUtil } = require('discord.js');
-const ms = require('ms');
 
 /**
  * @param {import('../../Bot')} client
@@ -41,32 +40,6 @@ module.exports = async (client, oldMember, newMember) => {
       await client.channels.cache.get('706458716320432198').send(`${newMember.member.user.tag}が${oldMember.channel.name}から${newMember.channel.name}に移動しました`);
       if (speaker && speaker.voiceChannelId === newMember.channelId) await speaker.addSpearkQueue(`${oldMember.member.user.username}が参加しました`, SnowflakeUtil.generate());
       else if (speaker && speaker.voiceChannelId === oldMember.channelId) await speaker.addSpearkQueue(`${oldMember.member.user.username}が退出しました`, SnowflakeUtil.generate());
-    }
-  }
-  else if (oldMember.channel?.parentId === '972467676951752734' || newMember.channel?.parentId === '972467676951752734') {
-    if (oldMember.channelId === null) {
-      client.study_times.set(newMember.member.id, Date.now());
-      await client.channels.cache.get('972852368620261416').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を開始しました！`);
-    }
-    else if (newMember.channelId === null) {
-      if (!client.study_times.get(oldMember.member.id)) return;
-      const result = ms(Date.now() - client.study_times.get(oldMember.member.id));
-      await client.channels.cache.get('972852368620261416').send(`${oldMember.member.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${result.replace('h', '時間').replace('m', '分').replace('s', '秒')}でした`);
-      const date = new Date();
-      client.database.addStudyTime(oldMember.member.id, date.getFullYear(), date.getMonth() + 1, date.getDate(), Math.floor((Date.now() - client.study_times.get(oldMember.member.id)) / 60000));
-      client.study_times.delete(oldMember.member.id);
-    }
-    else if (newMember.channelId !== oldMember.channelId && oldMember.channel?.parentId !== '972467676951752734') {
-      client.study_times.set(newMember.member.id, Date.now());
-      await client.channels.cache.get('972852368620261416').send(`${newMember.member.user.tag}さんが${newMember.channel.name}で学習を開始しました！`);
-    }
-    else if (newMember.channelId !== oldMember.channelId && oldMember.channel?.parentId === '972467676951752734') {
-      if (!client.study_times.get(oldMember.member.id)) return;
-      const result = ms(Date.now() - client.study_times.get(oldMember.member.id));
-      await client.channels.cache.get('972852368620261416').send(`${oldMember.member.user.tag}さんが${oldMember.channel.name}で学習を終えました、今回の学習時間は${result.replace('h', '時間').replace('m', '分').replace('s', '秒')}でした`);
-      const date = new Date();
-      client.database.addStudyTime(oldMember.member.id, date.getFullYear(), date.getMonth() + 1, date.getDate(), Math.floor((Date.now() - client.study_times.get(oldMember.member.id)) / 60000));
-      client.study_times.delete(oldMember.member.id);
     }
   }
 };
