@@ -181,13 +181,14 @@ class Database {
      *
      * @param {string} userId
      * @param {number} xp
+     * @param {number} level
      */
-    addLevelXP(userId, xp, level) {
+    setLevelXP(userId, xp, level) {
         if (!this.getLevel(userId)) {
             this.sql.prepare('INSERT INTO levels VALUES (?, ?, ?);').run(userId, xp, 1);
         }
         else {
-            this.sql.prepare('UPDATE levels SET xp = xp + ?, level = level + ? WHERE user_id = ?;').run(xp, level, userId);
+            this.sql.prepare('UPDATE levels SET xp = ?, level = ? WHERE user_id = ?;').run(xp, level, userId);
         }
     }
 }
