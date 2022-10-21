@@ -36,17 +36,15 @@ module.exports = async (client, message) => {
     client.database.addLevelXP(message.author.id, 0, 1);
     userLevel = client.database.getLevel(message.author.id);
   }
-  let xp = Math.floor(Math.random() * 16) + 15;
-  let level = 0;
-  userLevel.xp += xp;
+  userLevel.xp += Math.floor(Math.random() * 16) + 15;
 
   // LevelUP
   if (userLevel.level * 55 <= userLevel.xp) {
-    xp = userLevel.xp -= userLevel.level * 55;
-    level = 1;
-    message.channel.send(`${message.author.tag}のレベルが${userLevel.level + 1}にあがりました！`);
+    userLevel.xp -= userLevel.level * 55;
+    userLevel.level++;
+    // message.channel.send(`${message.author.tag}のレベルが${userLevel.level + 1}にあがりました！`);
   }
-  client.database.addLevelXP(message.author.id, xp, level);
+  client.database.addLevelXP(message.author.id, userLevel.xp, userLevel.level);
 
   // リアクション
   if (message.channelId === '706469264638345227' || message.channelId === '950611526274941018' || message.channelId === '964715827842670612') {
