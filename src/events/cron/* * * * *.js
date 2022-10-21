@@ -12,11 +12,17 @@ module.exports = async (client) => {
             { name: 'ずんだもん', id: 3 },
             { name: '四国めたん', id: 2 },
             { name: '春日部つむぎ', id: 8 },
+            { name: 'ひろゆき', id: -1 },
         ];
         client.speakers.forEach(async speaker => {
             const rand = Math.floor(Math.random() * charas.length);
             const chara = charas[rand];
-            await speaker.addSpearkQueue(`${chara.name}が${time.getHours()}時をお知らせします`, SnowflakeUtil.generate(), chara.id);
+            if (chara.id === -1) {
+                await speaker.playFile(`dat/hiroyuki_voice/hiroyuki_${time.getHours()}時.wav`);
+            }
+            else {
+                await speaker.addSpearkQueue(`${chara.name}が${time.getHours()}時をお知らせします`, SnowflakeUtil.generate(), chara.id);
+            }
         });
     }
 
