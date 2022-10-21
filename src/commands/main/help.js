@@ -37,7 +37,7 @@ module.exports = {
       embeds.push(
         new EmbedBuilder()
           .setTitle('main')
-          .setDescription(`${codeBlock(client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
+          .setDescription(`音声合成クレジット\nVoiced by https://CoeFont.cloud\n\n${codeBlock(client.commands.filter(x => x.info.category == 'main').map((x) => `/${x.info.name}: ${x.info.description}`).join('\n'))}`)
           .setTimestamp(),
       );
 
