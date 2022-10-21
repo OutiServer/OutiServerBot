@@ -46,7 +46,7 @@ module.exports = async (client, message) => {
     userLevel.level++;
     // message.channel.send(`${message.author.tag}のレベルが${userLevel.level + 1}にあがりました！`);
   }
-  client.database.addLevelXP(message.author.id, userLevel.xp, userLevel.level, userLevel.all_xp);
+  client.database.setLevelXP(message.author.id, userLevel.xp, userLevel.level, userLevel.all_xp);
 
   // リアクション
   if (message.channelId === '706469264638345227' || message.channelId === '950611526274941018' || message.channelId === '964715827842670612') {
