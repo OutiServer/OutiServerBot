@@ -33,7 +33,7 @@ module.exports = async (client, message) => {
   // Leveling
   let userLevel = client.database.getLevel(message.author.id);
   if (!userLevel) {
-    client.database.addLevelXP(message.author.id, 0, 1);
+    client.database.setLevelXP(message.author.id, 0, 1);
     userLevel = client.database.getLevel(message.author.id);
   }
   const xp = Math.floor(Math.random() * 16) + 15;
