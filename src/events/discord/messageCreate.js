@@ -44,7 +44,7 @@ module.exports = async (client, message) => {
   if (userLevel.level * 55 <= userLevel.xp) {
     xp = userLevel.xp -= userLevel.level * 55;
     level = 1;
-    // message.channel.send(`${message.author.tag}のレベルが${userLevel.level + 1}にあがりました！`);
+    message.channel.send(`${message.author.tag}のレベルが${userLevel.level + 1}にあがりました！`);
   }
   client.database.addLevelXP(message.author.id, xp, level);
 
