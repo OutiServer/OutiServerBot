@@ -1,8 +1,9 @@
-const { mkdirSync, existsSync, writeFileSync, rmSync } = require('fs');
+const { mkdirSync, existsSync, writeFileSync, rmSync, copyFileSync } = require('fs');
 const axios = require('axios');
 const rpc = axios.create({ baseURL: process.env.VOICEVOXAPI_URL, proxy: false });
 const { joinVoiceChannel, createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const romajiConv = require('@koozaki/romaji-conv');
+const { SnowflakeUtil } = require('discord.js');
 
 class SpeakerClient {
     /**
@@ -125,6 +126,25 @@ class SpeakerClient {
         writeFileSync(`dat/voices/${this.guildId}/${messageId}.wav`, new Buffer.from(synthesis.data), 'binary');
 
         this.speakQueue.push(messageId);
+        if (this.player.state.status === AudioPlayerStatus.Idle) {
+            this.play();
+        }
+    }
+
+    async playFile(filePath) {
+        if (!this.connection) return;
+
+        if (!existsSync('dat/voices')) {
+            mkdirSync('dat/voices');
+        }
+
+        if (!existsSync(`dat/voices/${this.guildId}`)) {
+            mkdirSync(`dat/voices/${this.guildId}`);
+        }
+
+        const id = SnowflakeUtil.generate();
+        copyFileSync(filePath, `dat/voices/${this.guildId}/${id}.wav`);
+        this.speakQueue.push(id);
         if (this.player.state.status === AudioPlayerStatus.Idle) {
             this.play();
         }
