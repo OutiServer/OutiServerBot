@@ -16,7 +16,7 @@ class Database {
         this.sql.prepare('CREATE TABLE IF NOT EXISTS words (id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT NOT NULL, replace_word TEXT NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_words_id ON words (id);').run();
 
-        this.sql.prepare('CREATE TABLE IF NOT EXISTS levels (user_id INTEGER PRIMARY KEY AUTOINCREMENT, xp INTEGER NOT NULL, level INTEGER NOT NULL);').run();
+        this.sql.prepare('CREATE TABLE IF NOT EXISTS levels (user_id TEXT PRIMARY KEY, xp INTEGER NOT NULL, level INTEGER NOT NULL, all_xp INTEGER NOT NULL);').run();
         this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_levels_id ON levels (user_id);').run();
 
         this.sql.pragma('synchronous = 1');
@@ -171,7 +171,7 @@ class Database {
     /**
      *
      * @param {string} userId
-     * @returns {{ user_id: string, xp: number, level: number } | undefined}
+     * @returns {{ user_id: string, xp: number, level: number, all_xp: number } | undefined}
      */
     getLevel(userId) {
         return this.sql.prepare('SELECT * FROM levels WHERE user_id = ?;').get(userId);
@@ -182,14 +182,23 @@ class Database {
      * @param {string} userId
      * @param {number} xp
      * @param {number} level
+     * @param {number} allXP
      */
-    setLevelXP(userId, xp, level) {
+    setLevelXP(userId, xp, level, allXP) {
         if (!this.getLevel(userId)) {
-            this.sql.prepare('INSERT INTO levels VALUES (?, ?, ?);').run(userId, xp, 1);
+            this.sql.prepare('INSERT INTO levels VALUES (?, ?, ?, ?);').run(userId, xp, 1, xp);
         }
         else {
-            this.sql.prepare('UPDATE levels SET xp = ?, level = ? WHERE user_id = ?;').run(xp, level, userId);
+            this.sql.prepare('UPDATE levels SET xp = ?, level = ?, all_xp = ? WHERE user_id = ?;').run(xp, level, allXP, userId);
         }
+    }
+
+    /**
+     *
+     * @returns {Array<{ user_id: string, xp: number, level: number, all_xp: number }>}
+     */
+    getLevelTop() {
+        return this.sql.prepare('SELECT * FROM levels ORDER BY all_xp LIMIT 10;').all();
     }
 }
 
