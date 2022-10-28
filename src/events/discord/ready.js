@@ -9,7 +9,7 @@ module.exports = async (client) => {
   client.user.setActivity({ name: '/help おうち鯖', type: ActivityType.Playing });
   client.logger.info(`Logged in as ${client.user.tag}`);
 
-  client.wordCache = client.database.getAllWord();
+  client.wordCache = await client.database.getAllWord();
 
   // 通常鯖の
   /*

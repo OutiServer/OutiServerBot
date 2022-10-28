@@ -31,10 +31,10 @@ module.exports = async (client, message) => {
   if (!message.guild || message.system || message.author.bot) return;
 
   // Leveling
-  let userLevel = client.database.getLevel(message.author.id);
+  let userLevel = await client.database.getLevel(message.author.id);
   if (!userLevel) {
-    client.database.setLevelXP(message.author.id, 0, 1);
-    userLevel = client.database.getLevel(message.author.id);
+    await client.database.setLevelXP(message.author.id, 0, 1);
+    userLevel = await client.database.getLevel(message.author.id);
   }
   const xp = Math.floor(Math.random() * 16) + 15;
   userLevel.xp += xp;
@@ -46,7 +46,7 @@ module.exports = async (client, message) => {
     userLevel.level++;
     // message.channel.send(`${message.author.tag}のレベルが${userLevel.level + 1}にあがりました！`);
   }
-  client.database.setLevelXP(message.author.id, userLevel.xp, userLevel.level, userLevel.all_xp);
+  await client.database.setLevelXP(message.author.id, userLevel.xp, userLevel.level, userLevel.all_xp);
 
   // リアクション
   if (message.channelId === '706469264638345227' || message.channelId === '950611526274941018' || message.channelId === '964715827842670612') {
@@ -96,14 +96,14 @@ module.exports = async (client, message) => {
   if (emojis) {
     for (const emoji of emojis) {
       const emojiId = emoji.substring(2, emoji.length).split(':')[1].split('>')[0];
-      client.database.addEmojiUseCount(emojiId, 1);
+      await client.database.addEmojiUseCount(emojiId, 1);
     }
   }
 
-  let speaker = client.database.getSpeaker(message.author.id);
+  let speaker = await client.database.getSpeaker(message.author.id);
   if (!speaker) {
-    client.database.setSpeaker(message.author.id, 2);
-    speaker = client.database.getSpeaker(message.author.id);
+    await client.database.setSpeaker(message.author.id, 2);
+    speaker = await client.database.getSpeaker(message.author.id);
   }
 
   if (client.speakers.get(message.guildId)) {

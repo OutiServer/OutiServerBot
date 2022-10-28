@@ -181,7 +181,7 @@ module.exports = {
 
     const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹'];
     emojis.slice(0, selects.length).forEach(async emoji => await msg.react(emoji));
-    const pollId = client.database.addPoll(interaction.user.id, interaction.channelId, msg.id, ((interaction.options.getInteger('days') * 86400000) + (interaction.options.getInteger('hours') * 3600000) + (interaction.options.getInteger('minutes') * 60000) + (interaction.options.getInteger('seconds') * 1000)) > 0 ? endTime : null);
+    const pollId = await client.database.addPoll(interaction.user.id, interaction.channelId, msg.id, ((interaction.options.getInteger('days') * 86400000) + (interaction.options.getInteger('hours') * 3600000) + (interaction.options.getInteger('minutes') * 60000) + (interaction.options.getInteger('seconds') * 1000)) > 0 ? endTime : null);
 
     interaction.editReply({
       content: `${interaction.user.tag}が作成した投票です`,

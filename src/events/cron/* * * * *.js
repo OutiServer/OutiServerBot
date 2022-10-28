@@ -26,11 +26,11 @@ module.exports = async (client) => {
         });
     }
 
-    client.database.getEndAllPoll(Date.now())
+    (await client.database.getEndAllPoll(Date.now()))
         .forEach(async poll => {
-            const channel = client.channels.cache.get(poll.channelid);
+            const channel = client.channels.cache.get(poll.channel_id);
             if (!channel) {
-                client.database.removePoll(poll.id);
+                await client.database.removePoll(poll.id);
                 return;
             }
 
@@ -39,10 +39,10 @@ module.exports = async (client) => {
              */
             let msg = null;
             try {
-                msg = await channel.messages.fetch(poll.messageid);
+                msg = await channel.messages.fetch(poll.message_id);
             }
             catch {
-                client.database.removePoll(poll.id);
+                await client.database.removePoll(poll.id);
                 return;
             }
 
@@ -58,17 +58,17 @@ module.exports = async (client) => {
             try {
                 msg.reactions.removeAll();
                 await channel.send({
-                    content: `${userMention(poll.userid)} 投票が終了しました`,
+                    content: `${userMention(poll.user_id)} 投票が終了しました`,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle(`${msg.embeds[0].title}の投票結果`)
                             .setDescription(result)
-                            .setURL(`https://discord.com/channels/${channel.guildId}/${poll.channelid}/${poll.messageid}`)
+                            .setURL(`https://discord.com/channels/${channel.guildId}/${poll.channel_id}/${poll.message_id}`)
                             .setTimestamp(),
                     ],
                 });
 
-                client.database.removePoll(poll.id);
+                await client.database.removePoll(poll.id);
             }
             // eslint-disable-next-line no-empty
             catch (e) {

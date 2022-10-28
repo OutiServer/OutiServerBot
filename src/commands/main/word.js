@@ -57,18 +57,18 @@ module.exports = {
                     const wordRead = interaction.options
                         .getString('read', true)
                         .toLocaleLowerCase();
-                    if (client.database.getWord(wordIndex)) {
+                    if ((await client.database.getWord(wordIndex))) {
                         client.wordCache.find(
                             (word) => word.word === wordIndex,
                         ).replace_word = wordRead;
-                        client.database.updateWord(wordIndex, wordRead);
+                        await client.database.updateWord(wordIndex, wordRead);
                     }
                     else {
                         client.wordCache.push({
                             word: wordIndex,
                             replace_word: wordRead,
                         });
-                        client.database.addWord(wordIndex, wordRead);
+                        await client.database.addWord(wordIndex, wordRead);
                     }
 
                     await interaction.followUp({
@@ -88,11 +88,11 @@ module.exports = {
             case 'remove':
                 {
                     const wordIndex = interaction.options.getString('index', true);
-                    if (!client.database.getWord(wordIndex)) {
+                    if (!(await client.database.getWord(wordIndex))) {
                         await interaction.followUp('その単語は登録されていません');
                     }
                     else {
-                        client.database.deleteWord(wordIndex);
+                        await client.database.deleteWord(wordIndex);
                         client.wordCache = client.wordCache.filter((word) => word.word !== wordIndex);
                         await interaction.followUp(`${wordIndex}を単語から削除しました`);
                     }
@@ -101,7 +101,7 @@ module.exports = {
 
             case 'list':
                 {
-                    const words = client.database.getAllWord();
+                    const words = await client.database.getAllWord();
                     const embeds = [];
                     let page = 1;
                     for (let i = 0; i < words.length; i += 10) {

@@ -81,7 +81,7 @@ module.exports = {
         const speaker = speakers.find(speaker => speaker.styles.find(speakerStyle => speakerStyle.id === Number(response.values[0])));
         // eslint-disable-next-line no-shadow
         const speakerStyle = speaker.styles.find(speakerStyle => speakerStyle.id === Number(response.values[0]));
-        client.database.setSpeaker(interaction.user.id, speakerStyle.id);
+        await client.database.setSpeaker(interaction.user.id, speakerStyle.id);
         response.update({
             content: `読み上げキャラクターを${speaker.name} ${speakerStyle.name}にセット`,
             embeds: [],

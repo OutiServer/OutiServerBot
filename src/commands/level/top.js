@@ -19,7 +19,7 @@ module.exports = {
      * @param {import('discord.js').CommandInteraction} interaction
      */
     run: async function (client, interaction) {
-        const top = client.database.getLevelTop();
+        const top = await client.database.getLevelTop();
         const embed = new EmbedBuilder()
             .setTitle('おうち鯖レベルランキングTOP10');
         for (const data of top) {

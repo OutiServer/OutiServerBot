@@ -1,39 +1,33 @@
-const SQLite = require('better-sqlite3');
+const { Sequelize, DataTypes, Op } = require('sequelize');
+const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME, process.env.MYSQL_PASSWORD, {
+    host: process.env.MYSQL_HOST,
+    port: process.env.MYSQL_PORT,
+    dialect: 'mysql',
+});
+const EmojiUses = require('./models/EmojiUses')(sequelize, DataTypes);
+const Polls = require('./models/Polls')(sequelize, DataTypes);
+const Speakers = require('./models/Speakers')(sequelize, DataTypes);
+const Words = require('./models/Words')(sequelize, DataTypes);
+const Levels = require('./models/Levels')(sequelize, DataTypes);
 
 class Database {
-    constructor() {
-        this.sql = new SQLite('outiserver.db');
-
-        this.sql.prepare('CREATE TABLE IF NOT EXISTS polls (id INTEGER PRIMARY KEY AUTOINCREMENT, userid TEXT NOT NULL, channelid TEXT NOT NULL, messageid TEXT NOT NULL, endtime INTEGER);').run();
-        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_polls_id ON polls (id);').run();
-
-        this.sql.prepare('CREATE TABLE IF NOT EXISTS speakers (userid TEXT PRIMARY KEY, speaker_id INTEGER NOT NULL);').run();
-        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_speakers_id ON speakers (userid);').run();
-
-        this.sql.prepare('CREATE TABLE IF NOT EXISTS emoji_uses (emoji_id TEXT PRIMARY KEY, count INTEGER NOT NULL);').run();
-        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_emoji_uses_id ON emoji_uses (emoji_id);').run();
-
-        this.sql.prepare('CREATE TABLE IF NOT EXISTS words (id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT NOT NULL, replace_word TEXT NOT NULL);').run();
-        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_words_id ON words (id);').run();
-
-        this.sql.prepare('CREATE TABLE IF NOT EXISTS levels (user_id TEXT PRIMARY KEY, xp INTEGER NOT NULL, level INTEGER NOT NULL, all_xp INTEGER NOT NULL);').run();
-        this.sql.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_levels_id ON levels (user_id);').run();
-
-        this.sql.pragma('synchronous = 1');
-        this.sql.pragma('journal_mode = wal');
-    }
-
-    close() {
-        this.sql.close();
+    async close() {
+        await sequelize.close();
     }
 
     /**
      *
      * @param {number} time
-     * @returns {Array<{ id: number, userid: string, channelid: string, messageid: string, endtime: number | null }>}
+     * @returns {Array<{ id: number, user_id: string, channel_id: string, message_id: string, end_time: number | null }>}
      */
-    getEndAllPoll(time) {
-        return this.sql.prepare('SELECT * FROM polls WHERE endtime <= ?;').all(time);
+    async getEndAllPoll(time) {
+        return await Polls.findAll({
+            where: {
+                end_time: {
+                    [Op.lte]: time,
+                },
+            },
+        });
     }
 
     /**
@@ -45,37 +39,36 @@ class Database {
      *
      * @returns {number}
      */
-    addPoll(userId, channelId, messageId, endTime = null) {
-        this.sql.prepare('INSERT INTO polls (userid, channelid, messageid, endtime) VALUES (?, ?, ?, ?);').run(userId, channelId, messageId, endTime);
-
-        return this.sql.prepare('SELECT * FROM sqlite_sequence WHERE name = ?;').get('polls').seq;
+    async addPoll(userId, channelId, messageId, endTime = null) {
+        const data = await Polls.create({ user_id: userId, channel_id: channelId, message_id: messageId, end_time: endTime });
+        return data.id;
     }
 
     /**
      *
      * @param {number} id
      *
-     * @returns {{ id: number, userid: string, channelid: string, messageid: string, endtime: number | null } | undefined}
+     * @returns {{ id: number, user_id: string, channel_id: string, message_id: string, endtime: number | null } | null}
      */
-    getPoll(id) {
-        return this.sql.prepare('SELECT * FROM polls WHERE id = ?;').get(id);
+    async getPoll(id) {
+        return await Polls.findOne({ where: { id: id } });
     }
 
     /**
      *
      * @param {number} id
      */
-    removePoll(id) {
-        this.sql.prepare('DELETE FROM polls WHERE id = ?;').run(id);
+    async removePoll(id) {
+        await Polls.destroy({ where: { id: id } });
     }
 
     /**
      *
      * @param {string} userId
-     * @returns {{ userid: string, speaker_id: number }}
+     * @returns {{ user_id: string, speaker_id: number } | null}
      */
-    getSpeaker(userId) {
-        return this.sql.prepare('SELECT * FROM speakers WHERE userid = ?').get(userId);
+    async getSpeaker(userId) {
+        return await Speakers.findOne({ where: { user_id: userId } });
     }
 
     /**
@@ -83,30 +76,35 @@ class Database {
      * @param {string} userid
      * @param {number} speakerId
      */
-    setSpeaker(userid, speakerId) {
-        if (!this.getSpeaker(userid)) {
-            this.sql.prepare('INSERT INTO speakers VALUES (?, ?);').run(userid, speakerId);
+    async setSpeaker(userId, speakerId) {
+        if (!(await this.getSpeaker(userId))) {
+            await Speakers.create({ user_id: userId, speaker_id: speakerId });
         }
         else {
-            this.sql.prepare('UPDATE speakers SET speaker_id = ? WHERE userid = ?;').run(speakerId, userid);
+            await Speakers.update({ speaker_id: speakerId }, { where: { user_id: userId } });
         }
     }
 
     /**
      *
      * @param {string} emojiId
-     * @returns {{ emoji_id: string, count: number } | undefined}
+     * @returns {{ emoji_id: string, count: number } | null}
      */
-    getEmojiUseCount(emojiId) {
-        return this.sql.prepare('SELECT * FROM emoji_uses WHERE emoji_id = ?;').get(emojiId);
+    async getEmojiUseCount(emojiId) {
+        return await EmojiUses.findOne({ where: { emoji_id: emojiId } });
     }
 
     /**
      *
      * @returns {Array<{ emoji_id: string, count: number }>}
      */
-    getAllEmojiUseCount() {
-        return this.sql.prepare('SELECT * FROM emoji_uses ORDER BY count DESC LIMIT 10;').all();
+    async getAllEmojiUseCount() {
+        return await EmojiUses.findAll({
+            order: [
+                ['count', 'DESC'],
+            ],
+            limit: 10,
+        });
     }
 
     /**
@@ -114,12 +112,13 @@ class Database {
      * @param {string} emojiId
      * @param {number} count
      */
-    addEmojiUseCount(emojiId, count) {
-        if (!this.getEmojiUseCount(emojiId)) {
-            this.sql.prepare('INSERT INTO emoji_uses VALUES (?, ?);').run(emojiId, count);
+    async addEmojiUseCount(emojiId, count) {
+        if (!(await this.getEmojiUseCount(emojiId))) {
+            await EmojiUses.create({ emoji_id: emojiId, count: count });
         }
         else {
-            this.sql.prepare('UPDATE emoji_uses SET count = count + ? WHERE emoji_id = ?;').run(count, emojiId);
+            const data = await this.getEmojiUseCount(emojiId);
+            await EmojiUses.update({ count: data.count + count }, { where: { emoji_id: emojiId } });
         }
     }
 
@@ -128,12 +127,15 @@ class Database {
      * @param {string} word
      * @returns {{ id: number, word: string, replace_word: string }}
      */
-    getWord(word) {
-        return this.sql.prepare('SELECT * FROM words WHERE word = ?;').get(word);
+    async getWord(word) {
+        return await Words.findOne({ where: { word: word } });
     }
 
-    getAllWord() {
-        return this.sql.prepare('SELECT * FROM words;').all();
+    /**
+     * @returns {Array<{ id: number, word: string, replace_word: string }>}
+     */
+    async getAllWord() {
+        return await Words.findAll();
     }
 
     /**
@@ -141,10 +143,10 @@ class Database {
      * @param {string} word
      * @param {string} replaceWord
      */
-    addWord(word, replaceWord) {
-        if (this.getWord(word)) return this.updateWord(word, replaceWord);
+    async addWord(word, replaceWord) {
+        if ((await this.getWord(word))) return await this.updateWord(word, replaceWord);
 
-        this.sql.prepare('INSERT INTO words (word, replace_word) VALUES (?, ?);').run(word, replaceWord);
+        await Words.create({ word: word, replace_word: replaceWord });
     }
 
     /**
@@ -152,29 +154,29 @@ class Database {
      * @param {string} word
      * @param {string} replaceWord
      */
-    updateWord(word, replaceWord) {
-        if (!this.getWord(word)) return this.addWord(word, replaceWord);
+    async updateWord(word, replaceWord) {
+        if (!(await this.getWord(word))) return await this.addWord(word, replaceWord);
 
-        this.sql.prepare('UPDATE words SET replace_word = ? WHERE word = ?;').run(replaceWord, word);
+        await Words.update({ replace_word: replaceWord }, { where: { word: word } });
     }
 
     /**
      *
      * @param {string} word
      */
-    deleteWord(word) {
-        if (!this.getWord(word)) return;
+    async deleteWord(word) {
+        if (!(await this.getWord(word))) return;
 
-        this.sql.prepare('DELETE FROM words WHERE word = ?;').run(word);
+        await Words.destroy({ where: { word: word } });
     }
 
     /**
      *
      * @param {string} userId
-     * @returns {{ user_id: string, xp: number, level: number, all_xp: number } | undefined}
+     * @returns {{ user_id: string, xp: number, level: number, all_xp: number } | null}
      */
-    getLevel(userId) {
-        return this.sql.prepare('SELECT * FROM levels WHERE user_id = ?;').get(userId);
+    async getLevel(userId) {
+        return await Levels.findOne({ where: { user_id: userId } });
     }
 
     /**
@@ -184,12 +186,13 @@ class Database {
      * @param {number} level
      * @param {number} allXP
      */
-    setLevelXP(userId, xp, level, allXP) {
-        if (!this.getLevel(userId)) {
-            this.sql.prepare('INSERT INTO levels VALUES (?, ?, ?, ?);').run(userId, xp, 1, xp);
+    async setLevelXP(userId, xp, level, allXP) {
+        if (!(await this.getLevel(userId))) {
+            await Levels.create({ user_id: userId, xp: xp, level: 1, all_xp: xp });
         }
         else {
-            this.sql.prepare('UPDATE levels SET xp = ?, level = ?, all_xp = ? WHERE user_id = ?;').run(xp, level, allXP, userId);
+            const data = await this.getLevel(userId);
+            await Levels.update({ xp: data.xp + xp, level: data.level + level, all_xp: data.all_xp + allXP }, { where: { user_id: userId } });
         }
     }
 
@@ -197,8 +200,13 @@ class Database {
      *
      * @returns {Array<{ user_id: string, xp: number, level: number, all_xp: number }>}
      */
-    getLevelTop() {
-        return this.sql.prepare('SELECT * FROM levels ORDER BY all_xp LIMIT 10;').all();
+    async getLevelTop() {
+        return await Levels.findAll({
+            order: [
+                ['all_xp', 'DESC'],
+            ],
+            limit: 10,
+        });
     }
 }
 

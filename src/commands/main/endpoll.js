@@ -27,14 +27,14 @@ module.exports = {
      */
 
     run: async function (client, interaction) {
-        const poll = client.database.getPoll(interaction.options.getInteger('id', true));
+        const poll = await client.database.getPoll(interaction.options.getInteger('id', true));
         if (!poll) return await interaction.followUp('投票データが見つからないか、既に終了している投票です');
 
-        if (poll.userid !== interaction.user.id && interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.followUp('この投票を終了する権限がありません');
+        if (poll.user_id !== interaction.user.id && interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.followUp('この投票を終了する権限がありません');
 
-        const channel = client.channels.cache.get(poll.channelid);
+        const channel = client.channels.cache.get(poll.channel_id);
         if (!channel) {
-            client.database.removePoll(poll.id);
+            await client.database.removePoll(poll.id);
             return await interaction.followUp('投票のチャンネルが削除されたか、Botがアクセスできません');
         }
 
@@ -43,10 +43,10 @@ module.exports = {
          */
         let msg = null;
         try {
-            msg = await channel.messages.fetch(poll.messageid);
+            msg = await channel.messages.fetch(poll.message_id);
         }
         catch {
-            client.database.removePoll(poll.id);
+            await client.database.removePoll(poll.id);
             return await interaction.followUp('投票のメッセージが削除されたか、Botが取得できません');
         }
 
@@ -72,6 +72,6 @@ module.exports = {
             },
         );
 
-        client.database.removePoll(poll.id);
+        await client.database.removePoll(poll.id);
     },
 };

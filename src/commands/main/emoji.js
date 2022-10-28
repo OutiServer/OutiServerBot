@@ -7,7 +7,7 @@ module.exports = {
         description: '絵文字使用リスト',
         category: 'main',
         deferReply: true,
-        ephemeral: false,
+        ephemeral: true,
     },
 
     data: new SlashCommandBuilder()
@@ -25,7 +25,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setTitle('絵文字使用リストTOP10')
-                    .setDescription(client.database.getAllEmojiUseCount().map(emoji => `${formatEmoji(emoji.emoji_id)} ${emoji.count}回`).join('\n')),
+                    .setDescription((await client.database.getAllEmojiUseCount()).map(emoji => `${formatEmoji(emoji.emoji_id)} ${emoji.count}回`).join('\n')),
             ],
         });
     },

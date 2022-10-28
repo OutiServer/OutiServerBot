@@ -23,7 +23,7 @@ module.exports = {
      */
 
     run: async function (client, interaction) {
-        const level = client.database.getLevel(interaction.user.id);
+        const level = await client.database.getLevel(interaction.user.id);
         if (!level) return await interaction.followUp('レベルデータが見つかりませんでした');
 
         if (existsSync(`./dat/images/rank_${interaction.user.id}.png`)) {
