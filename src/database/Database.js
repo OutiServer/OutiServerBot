@@ -191,8 +191,7 @@ class Database {
             await Levels.create({ user_id: userId, xp: xp, level: 1, all_xp: xp });
         }
         else {
-            const data = await this.getLevel(userId);
-            await Levels.update({ xp: data.xp + xp, level: data.level + level, all_xp: data.all_xp + allXP }, { where: { user_id: userId } });
+            await Levels.update({ xp: xp, level: level, all_xp: allXP }, { where: { user_id: userId } });
         }
     }
 
