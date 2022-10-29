@@ -63,9 +63,14 @@ module.exports = async (client, message) => {
         await message.react(reactions[random]);
       }
       else {
-        await message.react('♥️');
+        // await message.react('♥️');
+        await message.react('🎃');
       }
     }
+  }
+
+  if (Math.random() < 0.01) {
+    await message.react('🎃');
   }
 
   // R-18チャンネル
