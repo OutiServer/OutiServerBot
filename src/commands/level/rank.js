@@ -9,7 +9,7 @@ module.exports = {
         description: '自分のレベルとXPを確認する',
         category: 'level',
         deferReply: true,
-        ephemeral: true,
+        ephemeral: false,
     },
 
     data: new SlashCommandBuilder()
