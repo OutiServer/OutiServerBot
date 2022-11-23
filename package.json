@@ -30,6 +30,7 @@
     "ms": "^2.1.3",
     "mysql2": "^2.3.3",
     "node-cron": "^3.0.2",
+    "node-voicevox-engine": "file:../../node-voicevox-engine",
     "quickchart-js": "^3.1.0",
     "sequelize": "^6.25.3",
     "twitter": "^1.7.1",

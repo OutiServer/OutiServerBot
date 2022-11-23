@@ -4,6 +4,8 @@ const rpc = axios.create({ baseURL: process.env.VOICEVOXAPI_URL, proxy: false })
 const { joinVoiceChannel, createAudioPlayer, AudioPlayerStatus, createAudioResource } = require('@discordjs/voice');
 const romajiConv = require('@koozaki/romaji-conv');
 const { SnowflakeUtil } = require('discord.js');
+const { default: Engine } = require('node-voicevox-engine');
+const engine = new Engine(process.env.VOICEVOX_PATH, true);
 
 class SpeakerClient {
     /**
@@ -114,16 +116,10 @@ class SpeakerClient {
 
         text = romajiConv(text).toHiragana();
 
-        const audioQuery = await rpc.post(`audio_query?text=${encodeURI(text)}&speaker=${speakerId}`);
-        const synthesis = await rpc.post(`synthesis?speaker=${speakerId}`, JSON.stringify(audioQuery.data), {
-            responseType: 'arraybuffer',
-            headers: {
-                'accept': 'audio/wav',
-                'Content-Type': 'application/json',
-            },
-        });
+        const query = engine.audio_query(text, speakerId);
+        const wave_buf = engine.synthesis(query, 1);
 
-        writeFileSync(`dat/voices/${this.guildId}/${messageId}.wav`, new Buffer.from(synthesis.data), 'binary');
+        writeFileSync(`dat/voices/${this.guildId}/${messageId}.wav`, wave_buf);
 
         this.speakQueue.push(messageId);
         if (this.player.state.status === AudioPlayerStatus.Idle) {
