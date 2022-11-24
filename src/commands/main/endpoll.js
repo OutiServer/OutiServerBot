@@ -30,7 +30,7 @@ module.exports = {
         const poll = await client.database.getPoll(interaction.options.getInteger('id', true));
         if (!poll) return await interaction.followUp('投票データが見つからないか、既に終了している投票です');
 
-        if (poll.user_id !== interaction.user.id && interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.followUp('この投票を終了する権限がありません');
+        if (poll.user_id !== interaction.user.id && !interaction.member.permissions.has('ADMINISTRATOR')) return await interaction.followUp('この投票を終了する権限がありません');
 
         const channel = client.channels.cache.get(poll.channel_id);
         if (!channel) {
