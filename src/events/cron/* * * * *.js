@@ -97,6 +97,7 @@ module.exports = async (client) => {
         });
     }
     catch (e) {
+        client.logger.error(e);
         await statusMsg.edit({
             content: '',
             embeds: [

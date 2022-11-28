@@ -44,6 +44,7 @@ module.exports = {
             });
         }
         catch (e) {
+            client.logger.error(e);
             msg.edit({
                 content: '',
                 embeds: [
