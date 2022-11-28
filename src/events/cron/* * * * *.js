@@ -87,7 +87,7 @@ module.exports = async (client) => {
                     .setTitle('おうちサーバーの状態')
                     .addFields([
                         { name: 'プレイヤー数', value: `${status.players.online}/${status.players.max}` },
-                        { name: '参加中のプレイヤーリスト', value: status.players.sample.map(p => `${p.name}`).join('\n') },
+                        { name: '参加中のプレイヤーリスト', value: status.players.sample?.map(p => `${p.name}`).join('\n') },
                         { name: 'IP', value: 'outiserver.com' },
                         { name: 'Port', value: 'Java Edition: 25565\nBedrock Edition: 50001' },
                         { name: 'Version', value: status.version.name },
