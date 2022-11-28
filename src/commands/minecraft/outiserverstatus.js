@@ -8,7 +8,7 @@ module.exports = {
         description: 'おうち鯖のMinecraftサーバー状態を表示',
         category: 'main',
         deferReply: true,
-        ephemeral: true,
+        ephemeral: false,
     },
 
     data: new SlashCommandBuilder()
@@ -28,12 +28,13 @@ module.exports = {
             const status = await util.status('outiserver.com', 25565, { timeout: 5000, enableSRV: true });
 
             msg.edit({
-                content: 'ステータス取得に成功しました',
+                content: '',
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('おうちサーバーの状態')
                         .addFields([
-                            { name: 'プレイヤー数', value: `${status.players.online}/${status.players.max}\n\n参加中のプレイヤーリスト\n${status.players.sample.map(p => `${p.name}(${p.id})`).join('\n')}` },
+                            { name: 'プレイヤー数', value: `${status.players.online}/${status.players.max}\n\n参加中のプレイヤーリスト\n${status.players.sample.map(p => `${p.name}`).join('\n')}` },
+                            { name: '参加中のプレイヤーリスト', value: status.players.sample.map(p => `${p.name}`).join('\n') },
                             { name: 'IP', value: 'outiserver.com' },
                             { name: 'Port', value: 'Java Edition: 25565\nBedrock Edition: 50001' },
                             { name: 'Version', value: status.version.name },
@@ -44,7 +45,7 @@ module.exports = {
         }
         catch (e) {
             msg.edit({
-                content: 'ステータス取得に失敗しました',
+                content: '',
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('おうちサーバーの状態')
