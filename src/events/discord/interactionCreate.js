@@ -86,10 +86,10 @@ module.exports = async (client, interaction) => {
                 break;
             case 'close':
                 await interaction.reply('このお問い合わせをクローズしました');
-                if (interaction.guildId === '706452606918066237' && interaction.channel.parentId !== '821684794056245258') {
+                if (interaction.guildId === '706452606918066237' && interaction.channel.parentId === '821684794056245258') {
                     await interaction.channel.setParent('828268142820196372');
                 }
-                else if (interaction.guildId === '1014096503389814844' && interaction.channel.parentId !== '1053292420793647226') {
+                else if (interaction.guildId === '1014096503389814844' && interaction.channel.parentId === '1053292420793647226') {
                     await interaction.channel.setParent('1053293176233926677');
                 }
                 break;
