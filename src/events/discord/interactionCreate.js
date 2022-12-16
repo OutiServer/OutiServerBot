@@ -13,30 +13,55 @@ module.exports = async (client, interaction) => {
             case 'inquiry':
                 {
                     await interaction.deferReply({ ephemeral: true });
-                    const channel = await client.guilds.cache.get('706452606918066237').channels.create({
-                        name: `${interaction.user.tag}-お問い合わせ`,
-                        type: ChannelType.GuildText,
-                        parent: '821684794056245258',
-                        topic: `${interaction.user}さんのお問い合わせチャンネル`,
-                        permissionOverwrites: [
-                            {
-                                id: '706452606918066237',
-                                deny: [PermissionFlagsBits.ViewChannel],
-                            },
-                            {
-                                id: interaction.user.id,
-                                allow: [PermissionFlagsBits.ViewChannel],
-                            },
-                            {
-                                id: '771015602180587571',
-                                allow: [PermissionFlagsBits.ViewChannel],
-                            },
-                            {
-                                id: '822852335322923060',
-                                allow: [PermissionFlagsBits.ViewChannel],
-                            },
-                        ],
-                    });
+                    let channel;
+                    if (interaction.guildId === '706452606918066237') {
+                        channel = await client.guilds.cache.get('706452606918066237').channels.create({
+                            name: `${interaction.user.tag}-お問い合わせ`,
+                            type: ChannelType.GuildText,
+                            parent: '821684794056245258',
+                            topic: `${interaction.user}さんのお問い合わせチャンネル`,
+                            permissionOverwrites: [
+                                {
+                                    id: '706452606918066237',
+                                    deny: [PermissionFlagsBits.ViewChannel],
+                                },
+                                {
+                                    id: interaction.user.id,
+                                    allow: [PermissionFlagsBits.ViewChannel],
+                                },
+                                {
+                                    id: '771015602180587571',
+                                    allow: [PermissionFlagsBits.ViewChannel],
+                                },
+                                {
+                                    id: '822852335322923060',
+                                    allow: [PermissionFlagsBits.ViewChannel],
+                                },
+                            ],
+                        });
+                    }
+                    else if (interaction.guildId === '1014096503389814844') {
+                        channel = await client.guilds.cache.get('1014096503389814844').channels.create({
+                            name: `${interaction.user.tag}-お問い合わせ`,
+                            type: ChannelType.GuildText,
+                            parent: '1053292420793647226',
+                            topic: `${interaction.user}さんのお問い合わせチャンネル`,
+                            permissionOverwrites: [
+                                {
+                                    id: '1014096503389814844',
+                                    deny: [PermissionFlagsBits.ViewChannel],
+                                },
+                                {
+                                    id: interaction.user.id,
+                                    allow: [PermissionFlagsBits.ViewChannel],
+                                },
+                                {
+                                    id: '1014098796449378424',
+                                    allow: [PermissionFlagsBits.ViewChannel],
+                                },
+                            ],
+                        });
+                    }
 
                     await interaction.editReply(`お問い合わせチャンネルを作成しました ${channel}`);
                     const msg = await channel.send({
@@ -44,7 +69,6 @@ module.exports = async (client, interaction) => {
                         embeds: [
                             new EmbedBuilder()
                                 .setDescription('こちらのチャンネルでお問い合わせ内容の記載をお願いします\n解決した場合は `/close` でお問い合わせを閉じることができます')
-
                                 .setTimestamp(),
                         ],
                         components: [
@@ -61,9 +85,13 @@ module.exports = async (client, interaction) => {
                 }
                 break;
             case 'close':
-                if (interaction.channel.parentId !== '821684794056245258') return;
                 await interaction.reply('このお問い合わせをクローズしました');
-                await interaction.channel.setParent('828268142820196372');
+                if (interaction.guildId === '706452606918066237' && interaction.channel.parentId !== '821684794056245258') {
+                    await interaction.channel.setParent('828268142820196372');
+                }
+                else if (interaction.guildId === '1014096503389814844' && interaction.channel.parentId !== '1053292420793647226') {
+                    await interaction.channel.setParent('1053293176233926677');
+                }
                 break;
             case 'mention_announce':
                 await interaction.deferReply({ ephemeral: true });
