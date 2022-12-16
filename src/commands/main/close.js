@@ -20,8 +20,13 @@ module.exports = {
      */
 
     run: async function (client, interaction) {
-        if (interaction.channel.parentId !== '821684794056245258') return await interaction.followUp('このコマンドはお問い合わせカテゴリーのみ使用できます');
-        await interaction.followUp('このお問い合わせをクローズしました');
-        await interaction.channel.setParent('828268142820196372');
+        if (interaction.channel.parentId !== '821684794056245258' && interaction.channel.parentId !== '1053292420793647226') return await interaction.followUp('このコマンドはお問い合わせカテゴリーでのみ使用できます');
+        await interaction.reply('このお問い合わせをクローズしました');
+        if (interaction.guildId === '706452606918066237') {
+            await interaction.channel.setParent('828268142820196372');
+        }
+        else if (interaction.guildId === '1014096503389814844') {
+            await interaction.channel.setParent('1053293176233926677');
+        }
     },
 };
