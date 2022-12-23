@@ -25,5 +25,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
     }, {
+        indexes: [
+            {
+                unique: true,
+                fields: ['id'],
+            },
+        ],
     });
 };
