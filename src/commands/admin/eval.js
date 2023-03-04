@@ -26,8 +26,8 @@ module.exports = {
     run: async function (client, interaction) {
         if (!interaction.user.id !== "714455926970777602") return await interaction.followUp('このコマンドはKen_Cirしか実行できません');
       
-        const user = interaction.options.getUser('code', true);
-        const data = eval(args.join(' ').replace(/```/g, ''))
+        const code = interaction.options.getString('code', true);
+        const data = eval(code.join(' ').replace(/```/g, ''))
         
         await interaction.followUp(`${data}`);
     },
