@@ -31,7 +31,7 @@
     "mysql2": "^2.3.3",
     "node-cron": "^3.0.2",
     "quickchart-js": "^3.1.1",
-    "sequelize": "^6.28.0",
+    "sequelize": "^6.29.2",
     "twitter": "^1.7.1",
     "uuid": "^9.0.0",
     "zlib-sync": "^0.1.7"
